@@ -1,0 +1,99 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+  /* Prevents unwanted horizontal scroll */
+  font-size: 16px;
+  /* Standardize base resolution */
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: none;
+  /* Hide default cursor */
+}
+
+/* Modern Chrome Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FF9B50;
+  /* Theme accent on hover */
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Custom Cursor Styles */
+.custom-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #FF9B50;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+  transform: translate(-50%, -50%);
+}
+
+.custom-cursor-dot {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background-color: #FF9B50;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transition: transform 0.05s ease, width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+  transform: translate(-50%, -50%);
+}
+
+/* Cursor hover states */
+.custom-cursor.hover {
+  width: 50px;
+  height: 50px;
+  border-color: #8B7E74;
+}
+
+.custom-cursor-dot.hover {
+  width: 10px;
+  height: 10px;
+  background-color: #8B7E74;
+}
+
+/* Hide default cursor on all elements */
+a,
+button,
+[role="button"],
+input,
+textarea,
+select,
+canvas,
+video,
+img,
+div,
+* {
+  cursor: none !important;
+}

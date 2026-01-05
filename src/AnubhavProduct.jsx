@@ -1,0 +1,1423 @@
+import React, { Suspense, useRef, useState, useEffect } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Stage, useGLTF, Environment } from '@react-three/drei';
+import * as THREE from 'three';
+import Guidelines from './Guidelines';
+
+
+
+// 3D Model Component - loads the GLB file with dynamic path
+function ChairModel({ modelPath }) {
+    const { scene } = useGLTF(modelPath);
+    return <primitive object={scene} scale={30} position={[0, +0.2, 0]} rotation={[0, Math.PI * 0.15, 0]} />;
+}
+
+// Fallback component for Suspense
+function LoadingFallback() {
+    return (
+        <mesh>
+            <boxGeometry args={[1, 1, 1]} />
+            <meshStandardMaterial color="#5F634F" wireframe />
+        </mesh>
+    );
+}
+
+// Video Gallery Component
+function VideoGallery({ videos, isDarkTheme }) {
+    if (!videos || videos.length === 0) return null;
+
+    return (
+        <section style={{
+            padding: '5rem 5%',
+            backgroundColor: isDarkTheme ? '#1A1A1A' : '#fff'
+        }}>
+            <h2 style={{
+                fontSize: '2.5rem',
+                fontWeight: 900,
+                letterSpacing: '-1px',
+                marginBottom: '3rem',
+                textAlign: 'center',
+                color: '#FF9B50'
+            }}>
+                Video Gallery
+            </h2>
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+                gap: '2rem',
+                maxWidth: '1400px',
+                margin: '0 auto'
+            }}>
+                {videos.map((video) => (
+                    <div key={video.id} style={{
+                        borderRadius: '8px',
+                        overflow: 'hidden',
+                        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                        backgroundColor: isDarkTheme ? '#262626' : '#fff'
+                    }}>
+                        <video
+                            controls
+                            style={{
+                                width: '100%',
+                                display: 'block',
+                                backgroundColor: '#000'
+                            }}
+                            poster={video.thumbnail ? `/assets/videos/${video.thumbnail}` : undefined}
+                        >
+                            <source src={`/assets/videos/${video.filename}`} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                        <div style={{
+                            padding: '1.5rem',
+                            backgroundColor: isDarkTheme ? '#262626' : '#ffffff',
+                            color: isDarkTheme ? '#fff' : '#000'
+                        }}>
+                            <h3 style={{
+                                fontSize: '1.2rem',
+                                fontWeight: 700,
+                                marginBottom: '0.5rem'
+                            }}>
+                                {video.title}
+                            </h3>
+                            {video.description && (
+                                <p style={{
+                                    fontSize: '0.9rem',
+                                    opacity: 0.7,
+                                    lineHeight: '1.5'
+                                }}>
+                                    {video.description}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+    );
+}
+
+// Photo Gallery Component
+function PhotoGallery({ photos, isDarkTheme }) {
+    if (!photos || photos.length === 0) return null;
+
+    return (
+        <section style={{
+            padding: '5rem 5%',
+            backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff'
+        }}>
+            <h2 style={{
+                fontSize: '2.5rem',
+                fontWeight: 900,
+                letterSpacing: '-1px',
+                marginBottom: '3rem',
+                textAlign: 'center',
+                color: '#FF9B50'
+            }}>
+                Photo Gallery
+            </h2>
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                gap: '1.5rem',
+                maxWidth: '1400px',
+                margin: '0 auto'
+            }}>
+                {photos.map((photo) => (
+                    <div key={photo.id} style={{
+                        borderRadius: '8px',
+                        overflow: 'hidden',
+                        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                        cursor: 'pointer',
+                        position: 'relative',
+                        paddingBottom: '100%', // 1:1 aspect ratio
+                        backgroundColor: '#fff'
+                    }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'scale(1.03)';
+                            e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.15)';
+                            const overlay = e.currentTarget.querySelector('.photo-overlay');
+                            if (overlay) overlay.style.opacity = '1';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'scale(1)';
+                            e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+                            const overlay = e.currentTarget.querySelector('.photo-overlay');
+                            if (overlay) overlay.style.opacity = '0';
+                        }}>
+                        <img
+                            src={`/assets/photos/${photo.filename}`}
+                            alt={photo.title}
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover'
+                            }}
+                        />
+                        <div
+                            className="photo-overlay"
+                            style={{
+                                position: 'absolute',
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                padding: '1rem',
+                                background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
+                                color: '#fff',
+                                opacity: 0,
+                                transition: 'opacity 0.3s ease'
+                            }}>
+                            <h3 style={{
+                                fontSize: '1rem',
+                                fontWeight: 700
+                            }}>
+                                {photo.title}
+                            </h3>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+    );
+}
+
+// Bento Grid Component for Features
+function BentoGrid({ isDarkTheme }) {
+    const features = [
+        {
+            id: 1,
+            title: "7D Labs Experiment",
+            description: "Experience curriculum-based 7D lab experiments with Melzo Anubhav's virtual reality-powered labs like never before. Students can safely conduct physics experiments, chemical reactions, biological dissections, and engineering simulations in an immersive environment. Designed for schools, universities, and training centers, these lifelike 7D simulations bring science to life. From exploring Newton's Laws to dissecting virtual organisms, every experience is hands-on and engaging. With motion effects, real-time interaction, and stunning visuals, Melzo Anubhav overcomes the limitations of traditional labs.",
+            // icon: "🔬",
+            gradient: "linear-gradient(135deg, #5F634F 0%, #4a4d3f 100%)",
+            glowColor: "rgba(95, 99, 79, 0.3)",
+            size: "large" // Takes 2 columns and 2 rows
+        },
+        {
+            id: 2,
+            title: "VR Built-In",
+            description: "Melzo Anubhav brings education to life through immersive Virtual Reality, allowing users to explore high-quality 3D simulations, lifelike virtual labs, and interactive content with unmatched clarity and depth. Students, educators, and professionals can experience hands-on training ,conduct virtual experiments, and engage in immersive storytelling—making complex concepts easier to grasp. With support for advanced VR headsets such as Meta Quest 2 and Meta Quest 3s, the experience is smooth, intuitive, and engaging. Melzo Anubhav redefines education by extending learning beyond books and screens into a truly experiential and impactful journey.",
+            // icon: "🥽",
+            gradient: "linear-gradient(135deg, #8B7E74 0%, #6d6157 100%)",
+            glowColor: "rgba(139, 126, 116, 0.3)",
+            size: "large"
+        },
+        {
+            id: 3,
+            title: "Virtual Tours",
+            description: "Step into history and exploration like never before with Melzo Anubhav's interactive virtual tours. Experience the Apollo 11 Moon Landing, dive into an underwater adventure, witness African wildlife, and explore the beauty of Italy—all from your seat. Powered by 7D virtual reality and immersive effects, Melzo Anubhav lets you feel the atmosphere of historical events and walk through global landmarks as if you were truly there. Perfect for students, educators, and history enthusiasts, these realistic simulations make learning engaging and unforgettable. Melzo Anubhav turns history into an experience because the best way to learn it is to live it.",
+            // icon: "🌍",
+            gradient: "linear-gradient(135deg, #A0937D 0%, #857a68 100%)",
+            glowColor: "rgba(160, 147, 125, 0.3)",
+            size: "large"
+        },
+        {
+            id: 4,
+            title: "Immersive Ease",
+            description: "Melzo Anubhav is thoughtfully designed to deliver both immersive education and superior comfort. The chair features premium cushioning made with high-quality, leather-like materials that offer a soft, supportive, and durable seating experience. This carefully chosen upholstery provides a smooth finish and luxurious feel, ensuring users remain comfortable during extended interactive sessions. Its easy-to-clean and wear-resistant surface makes it ideal for continuous use in educational environments such as schools, labs, and training centers.",
+            // icon: "💺",
+            gradient: "linear-gradient(135deg, #6B7C59 0%, #556347 100%)",
+            glowColor: "rgba(107, 124, 89, 0.3)",
+            size: "large" // Takes 2 columns, 1 row
+        }
+    ];
+
+    return (
+        <section style={{
+            padding: '5rem 5%',
+            backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff',
+            position: 'relative',
+            overflow: 'hidden'
+        }}>
+            {/* Animated background elements */}
+            <div style={{
+                position: 'absolute',
+                top: '10%',
+                right: '5%',
+                width: '300px',
+                height: '300px',
+                background: 'radial-gradient(circle, rgba(95, 99, 79, 0.08) 0%, transparent 70%)',
+                borderRadius: '50%',
+                animation: 'float 6s ease-in-out infinite',
+                pointerEvents: 'none'
+            }} />
+            <div style={{
+                position: 'absolute',
+                bottom: '10%',
+                left: '5%',
+                width: '250px',
+                height: '250px',
+                background: 'radial-gradient(circle, rgba(160, 147, 125, 0.08) 0%, transparent 70%)',
+                borderRadius: '50%',
+                animation: 'float 8s ease-in-out infinite',
+                animationDelay: '2s',
+                pointerEvents: 'none'
+            }} />
+
+            <div style={{
+                maxWidth: '1400px',
+                margin: '0 auto',
+                position: 'relative',
+                zIndex: 1
+            }}>
+                <div style={{
+                    textAlign: 'center',
+                    marginBottom: '4rem'
+                }}>
+                    <h2 style={{
+                        fontSize: 'clamp(2rem, 4vw, 3rem)',
+                        fontWeight: 900,
+                        letterSpacing: '-2px',
+                        marginBottom: '1rem',
+                        color: '#FF9B50'
+                    }}>
+                        Core Offerings & Features
+                    </h2>
+                    <p style={{
+                        fontSize: '1.4rem',
+                        opacity: 0.7,
+                        maxWidth: '600px',
+                        margin: '0 auto',
+                        lineHeight: '1.6'
+                    }}>
+                        Discover the future of immersive education with cutting-edge VR technology
+                    </p>
+                </div>
+
+                {/* Enhanced Bento Grid Layout */}
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(4, 1fr)',
+                    gap: '1.5rem',
+                    gridAutoRows: '200px'
+                }}>
+                    {features.map((feature, index) => (
+                        <div
+                            key={feature.id}
+                            style={{
+                                background: isDarkTheme ? '#262626' : '#ffffff',
+                                borderRadius: '16px',
+                                padding: '2.5rem',
+                                color: isDarkTheme ? '#FFF' : '#2D2D2D',
+                                position: 'relative',
+                                overflow: 'hidden',
+                                gridColumn: feature.size === 'large' ? 'span 2' : feature.size === 'wide' ? 'span 2' : 'span 2',
+                                gridRow: feature.size === 'large' ? 'span 2' : 'span 1',
+                                transition: 'all 0.3s ease',
+                                cursor: 'pointer',
+                                boxShadow: isDarkTheme ? '0 4px 20px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.08)',
+                                border: isDarkTheme ? '1px solid #333' : '1px solid rgba(0,0,0,0.05)'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-8px)';
+                                e.currentTarget.style.boxShadow = '0 12px 40px rgba(255, 155, 80, 0.25)';
+                                e.currentTarget.style.borderColor = '#FF9B50';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+                                e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
+                            }}
+                        >
+                            {/* Orange accent bar on left */}
+                            <div style={{
+                                position: 'absolute',
+                                left: 0,
+                                top: 0,
+                                bottom: 0,
+                                width: '4px',
+                                background: '#FF9B50',
+                                opacity: 0,
+                                transition: 'opacity 0.3s ease'
+                            }} className="accent-bar" />
+
+                            {/* Content */}
+                            <div style={{
+                                position: 'relative',
+                                zIndex: 1,
+                                height: '100%',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'space-between'
+                            }}>
+                                <div>
+                                    <h3 style={{
+                                        fontSize: feature.size === 'large' ? '2rem' : '1.5rem',
+                                        fontWeight: 700,
+                                        marginBottom: '1rem',
+                                        letterSpacing: '-0.5px',
+                                        color: isDarkTheme ? '#FFF' : '#000'
+                                    }}>
+                                        {feature.title}
+                                    </h3>
+                                </div>
+                                <p style={{
+                                    fontSize: feature.size === 'large' ? '1rem' : '0.95rem',
+                                    lineHeight: '1.7',
+                                    opacity: 0.8,
+                                    color: isDarkTheme ? '#EAEAEA' : '#2D2D2D'
+                                }}>
+                                    {feature.description}
+                                </p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Add CSS animations */}
+            <style>{`
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(30px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                @keyframes float {
+                    0%, 100% {
+                        transform: translateY(0px);
+                    }
+                    50% {
+                        transform: translateY(-20px);
+                    }
+                }
+
+                @keyframes rotate {
+                    from {
+                        transform: rotate(0deg);
+                    }
+                    to {
+                        transform: rotate(360deg);
+                    }
+                }
+
+                @keyframes shimmer {
+                    0% {
+                        left: -100%;
+                    }
+                    100% {
+                        left: 100%;
+                    }
+                }
+
+                @keyframes bounce {
+                    0%, 100% {
+                        transform: translateY(0);
+                    }
+                    50% {
+                        transform: translateY(-10px);
+                    }
+                }
+
+                @keyframes blobMorph {
+                    0%, 100% {
+                        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+                        transform: translate(-50%, -50%) rotate(0deg);
+                    }
+                    25% {
+                        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+                        transform: translate(-50%, -50%) rotate(90deg);
+                    }
+                    50% {
+                        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+                        transform: translate(-50%, -50%) rotate(180deg);
+                    }
+                    75% {
+                        border-radius: 70% 30% 40% 60% / 40% 70% 50% 30%;
+                        transform: translate(-50%, -50%) rotate(270deg);
+                    }
+                }
+
+                /* Responsive adjustments */
+                @media (max-width: 1024px) {
+                    .bento-grid {
+                        grid-template-columns: repeat(2, 1fr) !important;
+                    }
+                }
+
+                @media (max-width: 640px) {
+                    .bento-grid {
+                        grid-template-columns: 1fr !important;
+                    }
+                }
+            `}</style>
+        </section>
+    );
+}
+
+export default function AnubhavProduct({ onNavigate, isDarkTheme }) {
+    const [mediaContent, setMediaContent] = useState({ videos: [], photos: [] });
+
+    // 3D Model Carousel State
+    const [currentModelIndex, setCurrentModelIndex] = useState(0);
+
+    // Array of 3D model paths - Add your model paths here
+    const chairModels = [
+        { path: "/assets/recliner_chair.glb", name: "Model 1" },
+        { path: "/assets/recliner_chair.glb", name: "Model 2" },
+        { path: "/assets/recliner_chair.glb", name: "Model 3" }
+        // Add more models as needed
+    ];
+
+    // Automatically load media from folders - no config file needed!
+    useEffect(() => {
+        fetch('/api/media')
+            .then(response => response.json())
+            .then(data => setMediaContent(data))
+            .catch(error => console.log('Error loading media:', error));
+    }, []);
+
+    // Carousel navigation functions
+    const nextModel = () => {
+        setCurrentModelIndex((prev) => (prev + 1) % chairModels.length);
+    };
+
+    const prevModel = () => {
+        setCurrentModelIndex((prev) => (prev - 1 + chairModels.length) % chairModels.length);
+    };
+
+
+    return (
+        <div style={{ backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff', minHeight: '100vh', color: isDarkTheme ? '#FFFFFF' : '#2D2D2D', fontFamily: 'Inter, sans-serif' }}>
+
+            {/* Back to Products Button and Logo */}
+            <div style={{
+                padding: '2rem 5%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+            }}>
+                <button
+                    onClick={() => onNavigate && onNavigate('products')}
+                    style={{
+                        background: '#FF9B50',
+                        color: '#fff',
+                        border: 'none',
+                        padding: '0.8rem 2rem',
+                        borderRadius: '30px',
+                        fontWeight: 600,
+                        fontSize: '0.95rem',
+                        letterSpacing: '0.5px',
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer',
+                        boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.target.style.transform = 'translateY(-2px)';
+                        e.target.style.boxShadow = '0 6px 20px rgba(255, 155, 80, 0.5)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.target.style.transform = 'translateY(0)';
+                        e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
+                    }}>
+                    ← Back to Products
+                </button>
+
+                {/* Product Logo - Right Side */}
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '1rem'
+                }}>
+                    <h1 style={{
+                        fontWeight: 700,
+                        letterSpacing: '-1px',
+                        fontSize: '2rem',
+                        margin: 0
+                    }}>
+                        Melzo <span style={{ color: '#FF9B50' }}>Anubhav</span>
+                    </h1>
+                </div>
+            </div>
+
+            <main style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                minHeight: '80vh',
+                alignItems: 'center',
+                padding: '0 5%',
+                gap: '3rem'
+            }}>
+
+                {/* Left Side: Content */}
+                <section style={{ maxWidth: '550px' }}>
+
+                    <h1 style={{
+                        fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                        lineHeight: '1.1',
+                        marginBottom: '1.5rem',
+                        fontWeight: 900,
+                        letterSpacing: '-2px',
+                        color: isDarkTheme ? '#FFFFFF' : '#000'
+                    }}>
+
+                        India's <span style={{ color: '#FF9B50' }}>First</span> Interactive 7D Lab
+                    </h1>
+
+                    <hr style={{
+                        border: 'none',
+                        borderTop: '2px solid #FF9B50',
+                        opacity: 0.75,
+                        width: '100%'
+                    }} />
+                    <p style={{
+                        fontSize: '1.2rem',
+                        opacity: 0.8,
+                        marginTop: '2.0rem',
+                        lineHeight: '1.6'
+                    }}>
+                        Experience the future of education
+                    </p>
+                    <div style={{
+                        marginTop: '2rem',
+                        display: 'flex',
+                        gap: '1rem',
+                        flexWrap: 'wrap'
+                    }}>
+                        <button style={{
+                            background: '#FF9B50',
+                            color: '#fff',
+                            border: 'none',
+                            padding: '1.0rem 2.0rem',
+                            cursor: 'pointer',
+                            borderRadius: '30px',
+                            transition: 'all 0.3s ease',
+                            fontWeight: 600,
+                            letterSpacing: '0.5px',
+                            boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
+                        }}
+                            onMouseEnter={(e) => {
+                                e.target.style.transform = 'translateY(-2px)';
+                                e.target.style.boxShadow = '0 6px 20px rgba(255, 155, 80, 0.5)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.transform = 'translateY(0)';
+                                e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
+                            }}>
+                            Book A Demo
+                        </button>
+                        <button
+                            onClick={() => onNavigate && onNavigate('guidelines')}
+                            style={{
+                                background: 'transparent',
+                                color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
+                                border: isDarkTheme ? '2px solid #FFFFFF' : '2px solid #2D2D2D',
+                                padding: '1.0rem 2.0rem',
+                                cursor: 'pointer',
+                                borderRadius: '30px',
+                                transition: 'all 0.3s ease',
+                                fontWeight: 600,
+                                letterSpacing: '0.5px'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.target.style.background = '#2D2D2D';
+                                e.target.style.color = '#fff';
+                                e.target.style.transform = 'translateY(-2px)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.background = 'transparent';
+                                e.target.style.color = '#2D2D2D';
+                                e.target.style.transform = 'translateY(0)';
+                            }}>
+                            View Guidelines
+                        </button>
+                    </div>
+                    <div style={{
+                        marginTop: '2rem',
+                        display: 'flex',
+                        gap: '3rem',
+                        fontSize: '0.85rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '1px',
+                        opacity: 0.6
+                    }}>
+                        {/* <div>
+                            <div style={{ fontWeight: 700, fontSize: '1.5rem', opacity: 1, color: '#5F634F' }}>360°</div>
+                            <div>Rotation</div>
+                        </div> */}
+                        {/* <div>
+                            <div style={{ fontWeight: 700, fontSize: '1.5rem', opacity: 1, color: '#5F634F' }}>3D</div>
+                            <div>View</div>
+                        </div> */}
+                    </div>
+                </section>
+
+                {/* Right Side: 3D Viewer with Carousel */}
+                <section style={{
+                    height: '70vh',
+                    minHeight: '500px',
+                    position: 'relative'
+                }}>
+
+                    <div style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: '8px',
+                        overflow: 'hidden',
+                        position: 'relative',
+                        zIndex: 1
+                    }}>
+                        <Canvas
+                            camera={{ position: [2, 1, 4.5], fov: 55 }}
+                            dpr={[1, 2]}
+                            style={{ cursor: 'grab' }}
+                        >
+                            <Suspense fallback={<LoadingFallback />}>
+                                <ambientLight intensity={0.5} />
+                                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
+                                <pointLight position={[-10, -10, -10]} intensity={0.5} />
+                                <Environment preset="city" />
+                                <ChairModel key={currentModelIndex} modelPath={chairModels[currentModelIndex].path} />
+                                <OrbitControls
+                                    makeDefault
+                                    autoRotate
+                                    autoRotateSpeed={0.5}
+                                    enableZoom={false}
+                                    minPolarAngle={Math.PI / 4}
+                                    maxPolarAngle={Math.PI / 1.5}
+                                />
+                            </Suspense>
+                        </Canvas>
+
+                        {/* Carousel Navigation Buttons */}
+                        <button
+                            onClick={prevModel}
+                            style={{
+                                position: 'absolute',
+                                left: '20px',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                background: 'rgba(255, 155, 80, 0.9)',
+                                color: '#fff',
+                                border: 'none',
+                                width: '50px',
+                                height: '50px',
+                                borderRadius: '50%',
+                                cursor: 'pointer',
+                                fontSize: '1.5rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                transition: 'all 0.3s ease',
+                                boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                                zIndex: 10
+                            }}
+                            onMouseEnter={(e) => {
+                                e.target.style.background = '#FF9B50';
+                                e.target.style.transform = 'translateY(-50%) scale(1.1)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.background = 'rgba(255, 155, 80, 0.9)';
+                                e.target.style.transform = 'translateY(-50%) scale(1)';
+                            }}>
+                            ‹
+                        </button>
+
+                        <button
+                            onClick={nextModel}
+                            style={{
+                                position: 'absolute',
+                                right: '20px',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                background: 'rgba(255, 155, 80, 0.9)',
+                                color: '#fff',
+                                border: 'none',
+                                width: '50px',
+                                height: '50px',
+                                borderRadius: '50%',
+                                cursor: 'pointer',
+                                fontSize: '1.5rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                transition: 'all 0.3s ease',
+                                boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                                zIndex: 10
+                            }}
+                            onMouseEnter={(e) => {
+                                e.target.style.background = '#FF9B50';
+                                e.target.style.transform = 'translateY(-50%) scale(1.1)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.background = 'rgba(255, 155, 80, 0.9)';
+                                e.target.style.transform = 'translateY(-50%) scale(1)';
+                            }}>
+                            ›
+                        </button>
+
+                        {/* Model Indicator Dots */}
+                        <div style={{
+                            position: 'absolute',
+                            bottom: '20px',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            display: 'flex',
+                            gap: '10px',
+                            zIndex: 10
+                        }}>
+                            {chairModels.map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setCurrentModelIndex(index)}
+                                    style={{
+                                        width: currentModelIndex === index ? '30px' : '10px',
+                                        height: '10px',
+                                        borderRadius: '5px',
+                                        border: 'none',
+                                        background: currentModelIndex === index ? '#FF9B50' : 'rgba(255, 255, 255, 0.5)',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.3s ease',
+                                        boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        if (currentModelIndex !== index) {
+                                            e.target.style.background = 'rgba(255, 155, 80, 0.7)';
+                                        }
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        if (currentModelIndex !== index) {
+                                            e.target.style.background = 'rgba(255, 255, 255, 0.5)';
+                                        }
+                                    }}
+                                />
+                            ))}
+                        </div>
+                    </div>
+
+                    <p style={{
+                        textAlign: 'center',
+                        fontSize: '0.85rem',
+                        marginTop: '1rem',
+                        letterSpacing: '2px',
+                        textTransform: 'uppercase'
+                    }}>
+                        ← Color Option →
+                    </p>
+                </section>
+
+            </main>
+
+
+            {/* Modern Feature Section */}
+            <section style={{
+                padding: '5rem 5%',
+                backgroundColor: isDarkTheme ? '#1A1A1A' : '#fff'
+            }}>
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+                    gap: '4rem',
+                    maxWidth: '1200px',
+                    margin: '4rem auto',
+                    padding: '0 2rem'
+                }}>
+                    {/* Feature Block 1: 7D Labs Experiment */}
+                    <div style={{
+                        padding: '2rem 0',
+                        borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',
+                        transition: 'all 0.4s ease',
+                        cursor: 'default'
+                    }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.borderTopColor = '#FF9B50';
+                            e.currentTarget.style.transform = 'translateX(10px)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
+                            e.currentTarget.style.transform = 'translateX(0)';
+                        }}>
+                        <h2 style={{
+                            fontSize: '1.75rem',
+                            fontWeight: 900,
+                            letterSpacing: '-1px',
+                            color: isDarkTheme ? '#FFF' : '#000000',
+                            marginBottom: '1.5rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '1rem'
+                        }}>
+                            <span style={{ color: '#FF9B50' }}>/</span>
+                            7D Labs Experiment
+                        </h2>
+
+                        <p style={{
+                            fontSize: '0.95rem',
+                            lineHeight: '1.8',
+                            color: isDarkTheme ? '#AAA' : '#666',
+                            maxWidth: '500px'
+                        }}>
+                            Experience curriculum-based 7D lab experiments with Melzo Anubhav's virtual reality-powered labs. Students can conduct physics experiments, chemical reactions, biological dissections, and engineering simulations in an immersive environment. Designed for schools, universities, and training centers, these lifelike 7D simulations bring science to life. From exploring Newton's Laws to dissecting virtual organisms, every experience is hands-on and engaging.
+                        </p>
+                    </div>
+
+                    {/* Feature Block 2: VR Built-In */}
+                    <div style={{
+                        padding: '2rem 0',
+                        borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',
+                        transition: 'all 0.4s ease',
+                        cursor: 'default'
+                    }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.borderTopColor = '#FF9B50';
+                            e.currentTarget.style.transform = 'translateX(10px)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
+                            e.currentTarget.style.transform = 'translateX(0)';
+                        }}>
+                        <h2 style={{
+                            fontSize: '1.75rem',
+                            fontWeight: 900,
+                            letterSpacing: '-1px',
+                            color: isDarkTheme ? '#FFF' : '#000000',
+                            marginBottom: '1.5rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '1rem'
+                        }}>
+                            <span style={{ color: '#FF9B50' }}>/</span>
+                            VR Built-In
+                        </h2>
+
+                        <p style={{
+                            fontSize: '0.95rem',
+                            lineHeight: '1.8',
+                            color: isDarkTheme ? '#AAA' : '#666',
+                            maxWidth: '500px'
+                        }}>
+                            Melzo Anubhav brings education to life through immersive Virtual Reality, allowing users to explore high-quality 3D simulations, lifelike virtual labs, and interactive content with unmatched clarity and depth. Students, educators, and professionals can experience hands-on training, conduct virtual experiments, and engage in immersive storytelling—making complex concepts easier to grasp. With support for advanced VR headsets such as Meta Quest 2 and Meta Quest 3s, the experience is smooth, intuitive, and engaging.
+                        </p>
+                    </div>
+
+                    {/* Feature Block 3: Virtual Tours */}
+                    <div style={{
+                        padding: '2rem 0',
+                        borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',
+                        transition: 'all 0.4s ease',
+                        cursor: 'default'
+                    }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.borderTopColor = '#FF9B50';
+                            e.currentTarget.style.transform = 'translateX(10px)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
+                            e.currentTarget.style.transform = 'translateX(0)';
+                        }}>
+                        <h2 style={{
+                            fontSize: '1.75rem',
+                            fontWeight: 900,
+                            letterSpacing: '-1px',
+                            color: isDarkTheme ? '#FFF' : '#000000',
+                            marginBottom: '1.5rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '1rem'
+                        }}>
+                            <span style={{ color: '#FF9B50' }}>/</span>
+                            Virtual Tours
+                        </h2>
+
+                        <p style={{
+                            fontSize: '0.95rem',
+                            lineHeight: '1.8',
+                            color: isDarkTheme ? '#AAA' : '#666',
+                            maxWidth: '500px'
+                        }}>
+                            Step into history and exploration like never before with Melzo Anubhav's interactive virtual tours. Experience the Apollo 11 Moon Landing, dive into an underwater adventure, witness African wildlife, and explore the beauty of Italy—all from your seat. Powered by 7D virtual reality and immersive effects, Melzo Anubhav lets you feel the atmosphere of historical events and walk through global landmarks as if you were truly there. Perfect for students, educators, and history enthusiasts.
+                        </p>
+                    </div>
+
+                    {/* Feature Block 4: Immersive Ease */}
+                    <div style={{
+                        padding: '2rem 0',
+                        borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',
+                        transition: 'all 0.4s ease',
+                        cursor: 'default'
+                    }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.borderTopColor = '#FF9B50';
+                            e.currentTarget.style.transform = 'translateX(10px)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
+                            e.currentTarget.style.transform = 'translateX(0)';
+                        }}>
+                        <h2 style={{
+                            fontSize: '1.75rem',
+                            fontWeight: 900,
+                            letterSpacing: '-1px',
+                            color: isDarkTheme ? '#FFF' : '#000000',
+                            marginBottom: '1.5rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '1rem'
+                        }}>
+                            <span style={{ color: '#FF9B50' }}>/</span>
+                            Immersive Ease
+                        </h2>
+
+                        <p style={{
+                            fontSize: '0.95rem',
+                            lineHeight: '1.8',
+                            color: isDarkTheme ? '#AAA' : '#666',
+                            maxWidth: '500px'
+                        }}>
+                            Melzo Anubhav is thoughtfully designed to deliver both immersive education and superior comfort. The chair features premium cushioning made with high-quality, leather-like materials that offer a soft, supportive, and durable seating experience. This carefully chosen upholstery provides a smooth finish and luxurious feel, ensuring users remain comfortable during extended interactive sessions. Its easy-to-clean and wear-resistant surface makes it ideal for continuous use in educational environments.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Statistics Section */}
+            <section style={{
+                padding: '5rem 5%',
+                backgroundColor: isDarkTheme ? '#1A1A1A' : '#fff',
+                position: 'relative',
+                overflow: 'hidden'
+            }}>
+                {/* Background decoration */}
+                <div style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '600px',
+                    height: '600px',
+                    background: 'radial-gradient(circle, rgba(95, 99, 79, 0.03) 0%, transparent 70%)',
+                    borderRadius: '50%',
+                    pointerEvents: 'none'
+                }} />
+
+                <div style={{
+                    maxWidth: '1400px',
+                    margin: '0 auto',
+                    position: 'relative',
+                    zIndex: 1
+                }}>
+                    <div style={{
+                        textAlign: 'center',
+                        marginBottom: '4rem'
+                    }}>
+                        <h2 style={{
+                            fontSize: 'clamp(2rem, 4vw, 2.8rem)',
+                            fontWeight: 900,
+                            letterSpacing: '-1px',
+                            marginBottom: '1rem',
+                            color: '#FF9B50'
+                        }}>
+                            Proven Impact & Recognition
+                        </h2>
+                        <p style={{
+                            fontSize: '1.1rem',
+                            opacity: 0.7,
+                            maxWidth: '600px',
+                            margin: '0 auto'
+                        }}>
+                            Our commitment to excellence is reflected in our achievements and the success of our users
+                        </p>
+                    </div>
+
+                    {/* Stats Grid */}
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                        gap: '3rem',
+                        maxWidth: '1000px',
+                        margin: '0 auto'
+                    }}>
+                        {/* Stat 1: Publications */}
+                        <div style={{
+                            textAlign: 'center',
+                            padding: '3rem 2rem',
+                            borderRadius: '16px',
+                            backgroundColor: isDarkTheme ? '#262626' : '#ffffff',
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+                            border: '2px solid transparent', // Added to prevent layout shift
+                            transition: 'all 0.4s ease',
+                            cursor: 'pointer',
+                            position: 'relative',
+                            overflow: 'hidden'
+                        }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-10px)';
+                                e.currentTarget.style.borderColor = '#FF9B50'; // Turn border orange
+                                e.currentTarget.style.boxShadow = '0 12px 40px rgba(255, 155, 80, 0.25)'; // Orange shadow
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.borderColor = 'transparent'; // Reset border
+                                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.06)'; // Reset shadow
+                            }}>
+
+                            {/* Decorative corner accent */}
+                            <div style={{
+                                position: 'absolute',
+                                top: 0,
+                                right: 0,
+                                width: '80px',
+                                height: '80px',
+                                background: 'radial-gradient(circle at top right, rgba(255, 155, 80, 0.1) 0%, transparent 70%)',
+                                pointerEvents: 'none'
+                            }} />
+
+                            <div style={{
+                                fontSize: '0.85rem',
+                                textTransform: 'uppercase',
+                                letterSpacing: '2px',
+                                fontWeight: 600,
+                                opacity: 0.6,
+                                marginBottom: '1rem'
+                            }}>
+                                COVERED IN
+                            </div>
+                            <div style={{
+                                fontSize: 'clamp(3.5rem, 8vw, 5rem)',
+                                fontWeight: 900,
+                                color: '#FF9B50',
+                                letterSpacing: '-3px',
+                                marginBottom: '0.5rem',
+                                lineHeight: '1'
+                            }}>
+                                13+
+                            </div>
+                            <div style={{
+                                fontSize: '1.1rem',
+                                fontWeight: 600,
+                                color: isDarkTheme ? '#E0E0E0' : '#2D2D2D',
+                                lineHeight: '1.4'
+                            }}>
+                                Renowned Publications
+                            </div>
+                        </div>
+
+                        {/* Stat 2: Learning Retention */}
+                        <div style={{
+                            textAlign: 'center',
+                            padding: '3rem 2rem',
+                            borderRadius: '16px',
+                            backgroundColor: '#ffffff',
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+                            border: '2px solid transparent', // Added to prevent layout shift
+                            transition: 'all 0.4s ease',
+                            cursor: 'pointer',
+                            position: 'relative',
+                            overflow: 'hidden'
+                        }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-10px)';
+                                e.currentTarget.style.borderColor = '#FF9B50'; // Turn border orange
+                                e.currentTarget.style.boxShadow = '0 12px 40px rgba(255, 155, 80, 0.25)'; // Orange shadow
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.borderColor = 'transparent'; // Reset border
+                                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.06)'; // Reset shadow
+                            }}>
+
+                            <div style={{
+                                position: 'absolute',
+                                top: 0,
+                                right: 0,
+                                width: '80px',
+                                height: '80px',
+                                background: 'radial-gradient(circle at top right, rgba(255, 155, 80, 0.1) 0%, transparent 70%)',
+                                pointerEvents: 'none'
+                            }} />
+
+                            <div style={{
+                                fontSize: '0.85rem',
+                                textTransform: 'uppercase',
+                                letterSpacing: '2px',
+                                fontWeight: 600,
+                                opacity: 0.6,
+                                marginBottom: '1rem'
+                            }}>
+                                UPTO
+                            </div>
+                            <div style={{
+                                fontSize: 'clamp(3.5rem, 8vw, 5rem)',
+                                fontWeight: 900,
+                                color: '#FF9B50',
+                                letterSpacing: '-3px',
+                                marginBottom: '0.5rem',
+                                lineHeight: '1'
+                            }}>
+                                75%
+                            </div>
+                            <div style={{
+                                fontSize: '1.1rem',
+                                fontWeight: 600,
+                                color: isDarkTheme ? '#E0E0E0' : '#2D2D2D',
+                                lineHeight: '1.4'
+                            }}>
+                                Increased Learning Retention
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Video Gallery Section */}
+            <VideoGallery videos={mediaContent.videos} isDarkTheme={isDarkTheme} />
+
+            {/* Photo Gallery Section */}
+            <PhotoGallery photos={mediaContent.photos} isDarkTheme={isDarkTheme} />
+
+            {/* Contact Us Section */}
+            <section style={{
+                padding: '5rem 5%',
+                backgroundColor: isDarkTheme ? '#1A1A1A' : '#fff',
+                position: 'relative',
+                overflow: 'hidden'
+            }}>
+                {/* Background decoration */}
+                <div style={{
+                    position: 'absolute',
+                    top: '0',
+                    right: '0',
+                    width: '400px',
+                    height: '400px',
+                    background: 'radial-gradient(circle, rgba(95, 99, 79, 0.08) 0%, transparent 70%)',
+                    borderRadius: '50%',
+                    pointerEvents: 'none'
+                }} />
+
+                <div style={{
+                    maxWidth: '1400px',
+                    margin: '0 auto',
+                    position: 'relative',
+                    zIndex: 1
+                }}>
+                    <h2 style={{
+                        fontSize: '2.5rem',
+                        fontWeight: 900,
+                        letterSpacing: '-1px',
+                        marginBottom: '1rem',
+                        textAlign: 'center',
+                        color: '#FF9B50'
+                    }}>
+                        Get In Touch
+                    </h2>
+                    <p style={{
+                        textAlign: 'center',
+                        fontSize: '1.1rem',
+                        opacity: 0.7,
+                        marginBottom: '4rem',
+                        maxWidth: '600px',
+                        margin: '0 auto 4rem auto'
+                    }}>
+                        Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+                    </p>
+
+                    {/* Contact Information Cards */}
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                        gap: '2rem',
+                        marginBottom: '2rem'
+                    }}>
+                        {/* Address Card */}
+                        <div style={{
+                            backgroundColor: isDarkTheme ? '#262626' : '#ffffff',
+                            padding: '2.5rem',
+                            borderRadius: '12px',
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                            transition: 'all 0.3s ease',
+                            flexDirection: 'column',
+                            cursor: 'pointer'
+                        }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-8px)';
+                                e.currentTarget.style.border = '2px solid #FF9B50';
+                                e.currentTarget.style.boxShadow = '0 12px 30px rgba(255, 155, 80, 0.2)'; // Tinted shadow
+                                e.currentTarget.style.backgroundColor = '#FFF9F5'; // Very light tint of #FF9B50
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.border = '';
+                                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+                                e.currentTarget.style.backgroundColor = isDarkTheme ? '#262626' : '#ffffff';
+                            }}>
+                            <div style={{
+                                width: '60px',
+                                height: '60px',
+                                borderRadius: '50%',
+                                backgroundColor: '#FF9B50',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                marginBottom: '1.5rem',
+                            }}>
+                                <img
+                                    src="/assets/location-pin.svg"
+                                    alt="Location"
+                                    style={{
+                                        width: '30px',
+                                        height: '30px',
+
+                                    }}
+                                />
+                            </div>
+                            <h3 style={{
+                                fontSize: '1.3rem',
+                                fontWeight: 700,
+                                marginBottom: '0.8rem'
+                            }}>
+                                Visit Us
+                            </h3>
+                            <p style={{
+                                fontSize: '1rem',
+                                lineHeight: '1.6',
+                                opacity: 0.8
+                            }}>
+                                DEMO<br />
+                                DEMO<br />
+                                DEMO
+                            </p>
+                        </div>
+
+                        {/* Phone Card */}
+                        <div style={{
+                            backgroundColor: isDarkTheme ? '#262626' : '#ffffff',
+                            padding: '2.5rem',
+                            borderRadius: '12px',
+                            // Added a subtle border using your color 
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                            transition: 'all 0.3s ease',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '1rem'
+                        }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-8px)';
+                                e.currentTarget.style.border = '2px solid #FF9B50';
+                                e.currentTarget.style.boxShadow = '0 12px 30px rgba(255, 155, 80, 0.2)'; // Tinted shadow
+                                e.currentTarget.style.backgroundColor = '#FFF9F5'; // Very light tint of #FF9B50
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.border = '';
+                                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+                                e.currentTarget.style.backgroundColor = isDarkTheme ? '#262626' : '#ffffff';
+                            }}>
+                            <div style={{
+                                width: '60px',
+                                height: '60px',
+                                borderRadius: '50%',
+                                backgroundColor: '#FF9B50',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                marginBottom: '1.5rem',
+                            }}>
+                                <img
+                                    src="/assets/phone-icon.svg"
+                                    alt="Phone"
+                                    style={{ width: '30px', height: '30px' }}
+                                />
+                            </div>
+                            <h3 style={{
+                                fontSize: '1.3rem',
+                                fontWeight: 700,
+                                marginBottom: '0.8rem'
+                            }}>
+                                Call Us
+                            </h3>
+                            <p style={{
+                                fontSize: '1rem',
+                                lineHeight: '1.6',
+                                opacity: 0.8
+                            }}>
+                                +91 XXXXX XXXXX<br />
+                                +91 XXXXX XXXXX<br />
+                                Mon-Fri: 9:00 AM - 6:00 PM
+                            </p>
+                        </div>
+
+                        {/* Email Card */}
+                        <div style={{
+                            backgroundColor: isDarkTheme ? '#262626' : '#ffffff',
+                            padding: '2.5rem',
+                            borderRadius: '12px',
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                            transition: 'all 0.3s ease',
+                            cursor: 'pointer'
+                        }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.transform = 'translateY(-8px)';
+                                e.currentTarget.style.border = '2px solid #FF9B50';
+                                e.currentTarget.style.boxShadow = '0 12px 30px rgba(255, 155, 80, 0.2)'; // Tinted shadow
+                                e.currentTarget.style.backgroundColor = '#FFF9F5'; // Very light tint of #FF9B50
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.border = '';
+                                e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+                                e.currentTarget.style.backgroundColor = isDarkTheme ? '#262626' : '#ffffff';
+                            }}>
+                            <div style={{
+                                width: '60px',
+                                height: '60px',
+                                borderRadius: '50%',
+                                backgroundColor: '#FF9B50',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                marginBottom: '1.5rem',
+                            }}>
+                                <img
+                                    src="/assets/mail-icon.svg"
+                                    alt="Email Icon"
+                                    style={{
+                                        width: '28px',
+                                        height: '28px',
+
+                                    }}
+                                />
+                            </div>
+                            <h3 style={{
+                                fontSize: '1.3rem',
+                                fontWeight: 700,
+                                marginBottom: '0.8rem'
+                            }}>
+                                Email Us
+                            </h3>
+                            <p style={{
+                                fontSize: '1rem',
+                                lineHeight: '1.6',
+                                opacity: 0.8
+                            }}>
+                                demo@gmail.com<br />
+                                demo@gmail.com<br />
+                                demo@gmail.com
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Social Media Section */}
+                    <div style={{
+                        textAlign: 'center',
+
+                        borderTop: '1px solid #FF9B50'
+                    }}>
+                    </div>
+                </div>
+            </section>
+        </div>
+    );
+}
+
