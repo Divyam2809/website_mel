@@ -82,50 +82,37 @@ export default function Industries({ onNavigate, isDarkTheme }) {
                     gap: '2rem'
                 }}>
                     {industries.map((industry, index) => {
-                        const bgImage = {
-                            'education': '/images/education-bg.jpg',
-                            'csr': '/images/csr-bg.jpg'
-                        }[industry.id];
-                        const hasBg = !!bgImage;
+                        // Smooth white to orange gradient
+                        const cardGradient = 'linear-gradient(135deg, #FFFFFF 0%, #FFF5F0 30%, #FFDCC8 60%, #FF9B50 100%)';
 
                         return (
                             <div key={industry.id} style={{
-                                background: hasBg
-                                    ? `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8)), url(${bgImage})`
-                                    : (isDarkTheme ? '#262626' : '#ffffff'),
+                                background: cardGradient,
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
-                                borderRadius: '24px',
-                                padding: '2.5rem',
-                                border: hasBg ? 'none' : '1px solid rgba(0,0,0,0.05)',
-                                transition: 'all 0.4s ease',
+                                borderRadius: '28px',
+                                padding: '3rem',
+                                border: '2px solid rgba(255, 255, 255, 0.2)',
+                                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                                 cursor: 'pointer',
                                 display: 'flex',
                                 flexDirection: 'column',
+                                gap: '0',
+                                alignItems: 'stretch',
                                 position: 'relative',
                                 overflow: 'hidden',
                                 gridColumn: industry.size === 'large' ? 'span 2' : 'span 1',
-                                boxShadow: hasBg ? '0 20px 40px rgba(0,0,0,0.2)' : 'none'
+                                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1) inset'
                             }}
                                 onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-8px) scale(1.05)';
-                                    e.currentTarget.style.zIndex = '2';
-                                    if (!hasBg) {
-                                        e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.1)';
-                                        e.currentTarget.style.borderColor = '#FF9B50';
-                                    } else {
-                                        e.currentTarget.style.boxShadow = '0 30px 60px rgba(0,0,0,0.4)';
-                                    }
+                                    e.currentTarget.style.transform = 'translateY(-15px) scale(1.08)';
+                                    e.currentTarget.style.zIndex = '10';
+                                    e.currentTarget.style.boxShadow = '0 30px 80px rgba(0, 0, 0, 0.25), 0 0 0 2px rgba(255, 255, 255, 0.3) inset, 0 0 40px rgba(255, 255, 255, 0.2)';
                                 }}
                                 onMouseLeave={(e) => {
                                     e.currentTarget.style.transform = 'translateY(0) scale(1)';
                                     e.currentTarget.style.zIndex = '1';
-                                    if (!hasBg) {
-                                        e.currentTarget.style.boxShadow = 'none';
-                                        e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
-                                    } else {
-                                        e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.2)';
-                                    }
+                                    e.currentTarget.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1) inset';
                                 }}
                             >
                                 {industry.icon && (
@@ -146,20 +133,23 @@ export default function Industries({ onNavigate, isDarkTheme }) {
                                 )}
 
                                 <h2 style={{
-                                    fontSize: '1.8rem',
-                                    fontWeight: 800,
+                                    fontSize: '2rem',
+                                    fontWeight: 900,
                                     marginBottom: '1rem',
-                                    color: hasBg ? '#FFFFFF' : (isDarkTheme ? '#FFFFFF' : '#2D2D2D')
+                                    color: '#2D2D2D',
+                                    textShadow: '0 1px 2px rgba(255, 255, 255, 0.5)',
+                                    letterSpacing: '-0.5px'
                                 }}>
                                     {industry.title}
                                 </h2>
 
                                 <p style={{
-                                    fontSize: '1.05rem',
-                                    lineHeight: '1.6',
-                                    color: hasBg ? '#EAEAEA' : (isDarkTheme ? '#EAEAEA' : '#555'),
+                                    fontSize: '1.1rem',
+                                    lineHeight: '1.7',
+                                    color: '#4A4A4A',
                                     marginBottom: '2rem',
-                                    flex: 1
+                                    flex: 1,
+                                    textShadow: 'none'
                                 }}>
                                     {industry.description}
                                 </p>
@@ -171,13 +161,15 @@ export default function Industries({ onNavigate, isDarkTheme }) {
                                 }}>
                                     {industry.tags.map(tag => (
                                         <span key={tag} style={{
-                                            fontSize: '0.85rem',
-                                            padding: '0.4rem 1rem',
-                                            borderRadius: '20px',
-                                            background: hasBg ? 'rgba(255,255,255,0.25)' : (isDarkTheme ? 'rgba(255,255,255,0.05)' : '#F5F5F5'),
-                                            color: hasBg ? '#FFF' : (isDarkTheme ? '#AAA' : '#666'),
-                                            fontWeight: 600,
-                                            backdropFilter: hasBg ? 'blur(10px)' : 'none'
+                                            fontSize: '0.9rem',
+                                            padding: '0.5rem 1.2rem',
+                                            borderRadius: '25px',
+                                            background: 'rgba(45, 45, 45, 0.08)',
+                                            color: '#2D2D2D',
+                                            fontWeight: 700,
+                                            backdropFilter: 'blur(10px)',
+                                            border: '1px solid rgba(45, 45, 45, 0.15)',
+                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
                                         }}>
                                             {tag}
                                         </span>
