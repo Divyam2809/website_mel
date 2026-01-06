@@ -20,28 +20,28 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo }) {
                 { name: 'E-Learning Solutions', icon: '📚', description: 'Interactive digital learning platforms for schools.', link: 'vrelearning' },
                 { name: 'ERP Solutions', icon: '📊', description: 'Comprehensive management systems for institutions.', link: 'vrerp' },
                 { name: 'VR in Industrial Training (MELA)', icon: '🏭', description: 'Vocational training simulations for industry skills.', link: 'vrindustrial' },
-                { name: 'Animal Surgery Simulation', icon: '🐾', description: 'Risk-free veterinary surgical training in VR.', link: 'product-animal-surgery' }
+                { name: 'Animal Surgery Simulation', icon: '🐾', description: 'Risk-free veterinary surgical training in VR.', link: 'vranimalsurgery' }
             ]
         },
         {
             title: "Industrial & Enterprise",
             id: "industrial",
             items: [
-                { name: 'VR in Udyog', icon: '🏗️', description: 'Virtual prototyping and industrial process simulation.', link: 'product-vr-udyog' },
-                { name: 'VR in Real Estate', icon: '🏘️', description: 'Immersive property tours and architectural visualization.', link: 'product-vr-real-estate' },
-                { name: 'VR in Hospitality', icon: '🏨', description: 'Virtual walkthroughs for hotels and resorts.', link: 'product-vr-hospitality' },
-                { name: 'VR Exhibition Solutions', icon: '🎪', description: 'Virtual trade shows and interactive exhibitions.', link: 'product-vr-exhibition' },
-                { name: 'VR in Kala', icon: '🎨', description: 'Preserving and exploring art and culture in VR.', link: 'product-vr-kala' }
+                { name: 'VR in Udyog', icon: '🏗️', description: 'Virtual prototyping and industrial process simulation.', link: 'vrudyog' },
+                { name: 'VR in Real Estate', icon: '🏘️', description: 'Immersive property tours and architectural visualization.', link: 'vrrealestate' },
+                { name: 'VR in Hospitality', icon: '🏨', description: 'Virtual walkthroughs for hotels and resorts.', link: 'vrhospitality' },
+                { name: 'VR Exhibition Solutions', icon: '🎪', description: 'Virtual trade shows and interactive exhibitions.', link: 'vrexhibition' },
+                { name: 'VR in Kala', icon: '🎨', description: 'Preserving and exploring art and culture in VR.', link: 'vrkala' }
             ]
         },
         {
             title: "Defence Simulation",
             id: "defense",
             items: [
-                { name: 'VR Crime Scene Simulation', icon: '🕵️', description: 'Forensic training and crime scene analysis tools.', link: 'product-vr-crime-scene' },
-                { name: 'Drone Simulator', icon: '🚁', description: 'Professional drone flight training and scenarios.', link: 'product-drone-simulator' },
-                { name: 'Aircraft Simulator', icon: '✈️', description: 'Flight simulation for pilot training and practice.', link: 'product-aircraft-simulator' },
-                { name: 'VR in Defence', icon: '🛡️', description: 'Tactical combat training and mission simulations.', link: 'product-vr-defence' }
+                { name: 'VR Crime Scene Simulation', icon: '🕵️', description: 'Forensic training and crime scene analysis tools.', link: 'vrcrimescene' },
+                { name: 'Drone Simulator', icon: '🚁', description: 'Professional drone flight training and scenarios.', link: 'dronesimulator' },
+                { name: 'Aircraft Simulator', icon: '✈️', description: 'Flight simulation for pilot training and practice.', link: 'aircraftsimulator' },
+                { name: 'VR in Defence', icon: '🛡️', description: 'Tactical combat training and mission simulations.', link: 'vrdefence' }
             ]
         },
         {
@@ -57,7 +57,7 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo }) {
             title: "Emerging Applications",
             id: "emerging",
             items: [
-                { name: 'Live Stream Simulation', icon: '📡', description: 'Virtual production and broadcasting simulations.', link: 'product-live-stream-simulation' },
+                { name: 'Live Stream Simulation', icon: '📡', description: 'Virtual production and broadcasting simulations.', link: 'vrlivestream' },
                 { name: 'Others / Custom', icon: '✨', description: 'Custom VR solutions for unique requirements.', link: 'product-custom-solutions' }
             ]
         }
