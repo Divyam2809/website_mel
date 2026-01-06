@@ -264,6 +264,21 @@ export default function App() {
                                 >About Us</span>
 
                                 <button
+                                    onClick={() => setIsDemoOpen(true)}
+                                    style={{
+                                        background: '#FF9B50',
+                                        color: '#fff',
+                                        border: 'none',
+                                        padding: '0.8rem 1.8rem',
+                                        cursor: 'pointer',
+                                        borderRadius: '30px',
+                                        fontWeight: 600,
+                                        fontSize: '0.9rem'
+                                    }}>
+                                    Book Demo
+                                </button>
+
+                                <button
                                     onClick={() => setIsDarkTheme(!isDarkTheme)}
                                     style={{
                                         background: 'transparent',
@@ -279,21 +294,6 @@ export default function App() {
                                     }}
                                 >
                                     {isDarkTheme ? '☀️' : '🌙'}
-                                </button>
-
-                                <button
-                                    onClick={() => setIsDemoOpen(true)}
-                                    style={{
-                                        background: '#FF9B50',
-                                        color: '#fff',
-                                        border: 'none',
-                                        padding: '0.8rem 1.8rem',
-                                        cursor: 'pointer',
-                                        borderRadius: '30px',
-                                        fontWeight: 600,
-                                        fontSize: '0.9rem'
-                                    }}>
-                                    Book Demo
                                 </button>
                             </div>
 

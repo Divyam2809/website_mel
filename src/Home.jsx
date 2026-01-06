@@ -1095,10 +1095,18 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
         {
             id: 'simulation-defense',
             icon: '�️',
-            title: 'Simulation & Defense',
+            title: 'Defence Simulation',
             tagline: 'Mission-Critical Training',
             description: 'Advanced simulation systems for defense training, tactical operations, emergency response, and high-stakes scenario preparation.',
             features: ['Tactical Training', 'Emergency Response', 'Scenario Planning']
+        },
+        {
+            id: 'tourism',
+            icon: '🚀',
+            title: 'Tourism',
+            tagline: 'Innovation & Future Tech',
+            description: 'Exploring new frontiers in VR technology including healthcare simulations, architectural visualization, tourism, and next-generation applications.',
+            features: ['Healthcare VR', 'Architecture', 'Future Ready']
         },
         {
             id: 'emerging-applications',
