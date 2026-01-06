@@ -8,59 +8,57 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo }) {
             title: "Hardware Solutions",
             id: "hardware",
             items: [
-                { name: '5D Chair (VR)', icon: '💺', description: 'Immersive motion seat with 5 degrees of freedom.' },
-                { name: '7D Chair (VR)', icon: '🎮', description: 'Advanced motion feedback with environmental effects.', link: 'anubhav' },
-                { name: '9D Chair (VR)', icon: '🚀', description: 'Ultimate VR experience with 360-degree rotation.' },
-                { name: '5D / 7D / 9D VR Hardware', icon: '⚙️', description: 'Complete range of motion simulation hardware.' },
-                { name: 'VR Lab (Complete Hardware Setup)', icon: '🧪', description: 'Turnkey VR lab solution with headsets and PCs.' }
+                { name: '5D /7D Chair (VR)', icon: '/images/vr-chair.png', isImage: true, description: 'Immersive motion seat with 5 & 7 degrees of freedom.', link: 'anubhav' },
+                { name: '9D Chair (VR)', icon: '🚀', description: 'Ultimate VR experience with 360-degree rotation.', link: 'product-9d-chair' },
+                { name: 'VR Lab (Complete Hardware Setup)', icon: '🧪', description: 'Turnkey VR lab solution with headsets and PCs.', link: 'product-vr-lab' }
             ]
         },
         {
             title: "Education & Training",
             id: "education",
             items: [
-                { name: 'E-Learning Solutions', icon: '📚', description: 'Interactive digital learning platforms for schools.' },
-                { name: 'ERP Solutions', icon: '📊', description: 'Comprehensive management systems for institutions.' },
-                { name: 'VR in Industrial Training (MELA)', icon: '🏭', description: 'Vocational training simulations for industry skills.' },
-                { name: 'Animal Surgery Simulation', icon: '🐾', description: 'Risk-free veterinary surgical training in VR.' }
+                { name: 'E-Learning Solutions', icon: '📚', description: 'Interactive digital learning platforms for schools.', link: 'product-e-learning' },
+                { name: 'ERP Solutions', icon: '📊', description: 'Comprehensive management systems for institutions.', link: 'product-erp-solutions' },
+                { name: 'VR in Industrial Training (MELA)', icon: '🏭', description: 'Vocational training simulations for industry skills.', link: 'product-industrial-training' },
+                { name: 'Animal Surgery Simulation', icon: '🐾', description: 'Risk-free veterinary surgical training in VR.', link: 'product-animal-surgery' }
             ]
         },
         {
             title: "Industrial & Enterprise",
             id: "industrial",
             items: [
-                { name: 'VR in Udyog', icon: '🏗️', description: 'Virtual prototyping and industrial process simulation.' },
-                { name: 'VR in Real Estate', icon: '🏘️', description: 'Immersive property tours and architectural visualization.' },
-                { name: 'VR in Hospitality', icon: '🏨', description: 'Virtual walkthroughs for hotels and resorts.' },
-                { name: 'VR Exhibition Solutions', icon: '🎪', description: 'Virtual trade shows and interactive exhibitions.' },
-                { name: 'VR in Kala', icon: '🎨', description: 'Preserving and exploring art and culture in VR.' }
+                { name: 'VR in Udyog', icon: '🏗️', description: 'Virtual prototyping and industrial process simulation.', link: 'product-vr-udyog' },
+                { name: 'VR in Real Estate', icon: '🏘️', description: 'Immersive property tours and architectural visualization.', link: 'product-vr-real-estate' },
+                { name: 'VR in Hospitality', icon: '🏨', description: 'Virtual walkthroughs for hotels and resorts.', link: 'product-vr-hospitality' },
+                { name: 'VR Exhibition Solutions', icon: '🎪', description: 'Virtual trade shows and interactive exhibitions.', link: 'product-vr-exhibition' },
+                { name: 'VR in Kala', icon: '🎨', description: 'Preserving and exploring art and culture in VR.', link: 'product-vr-kala' }
             ]
         },
         {
             title: "Defence Simulation",
             id: "defense",
             items: [
-                { name: 'VR Crime Scene Simulation', icon: '🕵️', description: 'Forensic training and crime scene analysis tools.' },
-                { name: 'Drone Simulator', icon: '🚁', description: 'Professional drone flight training and scenarios.' },
-                { name: 'Aircraft Simulator', icon: '✈️', description: 'Flight simulation for pilot training and practice.' },
-                { name: 'VR in Defence', icon: '🛡️', description: 'Tactical combat training and mission simulations.' }
+                { name: 'VR Crime Scene Simulation', icon: '🕵️', description: 'Forensic training and crime scene analysis tools.', link: 'product-vr-crime-scene' },
+                { name: 'Drone Simulator', icon: '🚁', description: 'Professional drone flight training and scenarios.', link: 'product-drone-simulator' },
+                { name: 'Aircraft Simulator', icon: '✈️', description: 'Flight simulation for pilot training and practice.', link: 'product-aircraft-simulator' },
+                { name: 'VR in Defence', icon: '🛡️', description: 'Tactical combat training and mission simulations.', link: 'product-vr-defence' }
             ]
         },
         {
             title: "Tourism",
             id: "tourism",
             items: [
-                { name: 'VR in Tourism', icon: '🏝️', description: 'Virtual travel experiences to global destinations.' },
-                { name: 'Virtual Heritage Tours', icon: '🏛️', description: 'Explore historical sites and monuments virtually.' },
-                { name: '360° City Guides', icon: '🗺️', description: 'Immersive city exploration for travelers.' }
+                { name: 'VR in Tourism', icon: '🏝️', description: 'Virtual travel experiences to global destinations.', link: 'product-vr-tourism' },
+                { name: 'Virtual Heritage Tours', icon: '🏛️', description: 'Explore historical sites and monuments virtually.', link: 'product-virtual-heritage' },
+                { name: '360° City Guides', icon: '🗺️', description: 'Immersive city exploration for travelers.', link: 'product-city-guides' }
             ]
         },
         {
             title: "Emerging Applications",
             id: "emerging",
             items: [
-                { name: 'Live Stream Simulation', icon: '📡', description: 'Virtual production and broadcasting simulations.' },
-                { name: 'Others / Custom', icon: '✨', description: 'Custom VR solutions for unique requirements.' }
+                { name: 'Live Stream Simulation', icon: '📡', description: 'Virtual production and broadcasting simulations.', link: 'product-live-stream-simulation' },
+                { name: 'Others / Custom', icon: '✨', description: 'Custom VR solutions for unique requirements.', link: 'product-custom-solutions' }
             ]
         }
     ];
@@ -72,7 +70,7 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo }) {
 
             {/* Hero Section */}
             <section style={{
-                paddingTop: '6rem',
+                paddingTop: '120px',
                 paddingBottom: '3rem',
                 paddingLeft: '5%',
                 paddingRight: '5%',
@@ -227,9 +225,22 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo }) {
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 fontSize: '2.5rem',
-                                flexShrink: 0
+                                flexShrink: 0,
+                                overflow: 'hidden'
                             }}>
-                                {item.icon}
+                                {item.isImage ? (
+                                    <img
+                                        src={item.icon}
+                                        alt={item.name}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover'
+                                        }}
+                                    />
+                                ) : (
+                                    item.icon
+                                )}
                             </div>
 
                             {/* Text Content */}

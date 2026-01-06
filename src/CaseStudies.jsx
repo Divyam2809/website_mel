@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function CaseStudies({ onNavigate, isDarkTheme }) {
     return (
-        <div style={{ backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff', minHeight: '100vh', padding: '6rem 5%', color: isDarkTheme ? '#FFFFFF' : '#2D2D2D', fontFamily: 'Inter, sans-serif' }}>
+        <div style={{ backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff', minHeight: '100vh', padding: '120px 5%', color: isDarkTheme ? '#FFFFFF' : '#2D2D2D', fontFamily: 'Inter, sans-serif' }}>
             <h1 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '1rem', color: '#FF9B50' }}>Case Studies</h1>
             <p style={{ fontSize: '1.2rem', opacity: 0.8, marginBottom: '3rem' }}>See how our partners are transforming their operations with Melzo.</p>
 

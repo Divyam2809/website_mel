@@ -41,7 +41,7 @@ export default function Industries({ onNavigate, isDarkTheme }) {
 
             {/* Hero Section */}
             <section style={{
-                paddingTop: '6rem',
+                paddingTop: '120px',
                 paddingBottom: '4rem',
                 paddingLeft: '5%',
                 paddingRight: '5%',

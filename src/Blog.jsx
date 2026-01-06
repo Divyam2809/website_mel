@@ -8,7 +8,7 @@ export default function Blog({ onNavigate, isDarkTheme }) {
     ];
 
     return (
-        <div style={{ backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff', minHeight: '100vh', padding: '6rem 5%', color: isDarkTheme ? '#FFFFFF' : '#2D2D2D', fontFamily: 'Inter, sans-serif' }}>
+        <div style={{ backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff', minHeight: '100vh', padding: '120px 5%', color: isDarkTheme ? '#FFFFFF' : '#2D2D2D', fontFamily: 'Inter, sans-serif' }}>
             <h1 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '2rem', color: '#FF9B50' }}>Melzo Blog</h1>
             <div style={{ display: 'grid', gap: '2rem' }}>
                 {posts.map((post, index) => (

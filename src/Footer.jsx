@@ -11,9 +11,8 @@ export default function Footer({ isDarkTheme, onNavigate }) {
         { label: 'About Us', id: 'about' },
         { label: 'Case Study', id: 'casestudies' },
         { label: 'Blog', id: 'blog' },
-        { label: 'Event', id: null },
+        // { label: 'Event', id: null },
         { label: 'Melzo in News', id: null },
-        { label: 'Melzo on Meta', id: null }
     ];
 
     return (
@@ -177,9 +176,32 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                             Our Offerings
                         </h4>
                         <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0' }}>
-                            <li style={{ marginBottom: '0.8rem' }}>
-                                <a href="#" style={{ color: subTextColor, textDecoration: 'none', fontSize: '0.9rem' }} onMouseEnter={e => e.target.style.color = '#FF9B50'} onMouseLeave={e => e.target.style.color = subTextColor}>Demo</a>
-                            </li>
+                            {[
+                                'Hardware Solutions',
+                                'Education & Training',
+                                'Industrial & Enterprise',
+                                'Defence Simulation',
+                                'Tourism',
+                                'Emerging Applications'
+                            ].map((item, index) => (
+                                <li key={index} style={{ marginBottom: '0.8rem' }}>
+                                    <a href="#"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            if (onNavigate) onNavigate('products');
+                                        }}
+                                        style={{
+                                            color: subTextColor,
+                                            textDecoration: 'none',
+                                            fontSize: '0.9rem',
+                                            transition: 'color 0.2s ease'
+                                        }}
+                                        onMouseEnter={(e) => e.target.style.color = '#FF9B50'}
+                                        onMouseLeave={(e) => e.target.style.color = subTextColor}>
+                                        {item}
+                                    </a>
+                                </li>
+                            ))}
                         </ul>
 
                         <h4 style={{

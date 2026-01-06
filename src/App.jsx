@@ -10,6 +10,7 @@ const CaseStudies = React.lazy(() => import('./CaseStudies'));
 const FAQs = React.lazy(() => import('./FAQs'));
 const About = React.lazy(() => import('./About'));
 const Guidelines = React.lazy(() => import('./Guidelines'));
+const GenericProduct = React.lazy(() => import('./GenericProduct'));
 
 import Footer from './Footer';
 import BookDemo from './BookDemo';
@@ -105,7 +106,7 @@ export default function App() {
             <div style={{ backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff', minHeight: '100vh', color: isDarkTheme ? '#FFFFFF' : '#2D2D2D', fontFamily: 'Inter, sans-serif', transition: 'all 0.3s ease' }}>
 
                 {/* Navigation Bar - Shows only on main pages */}
-                {['home', 'products', 'industries', 'blog', 'casestudies', 'faqs', 'about'].includes(currentPage) && (
+                {(['home', 'products', 'anubhav', 'industries', 'blog', 'casestudies', 'faqs', 'about'].includes(currentPage) || currentPage.startsWith('product-')) && (
                     <>
                         {/* CSS for Responsive Nav */}
                         <style>{`
@@ -370,13 +371,14 @@ export default function App() {
                 <Suspense fallback={<PageLoader />}>
                     {currentPage === 'home' && <Home onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} onBookDemo={() => setIsDemoOpen(true)} />}
                     {currentPage === 'products' && <Products onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} onBookDemo={() => setIsDemoOpen(true)} />}
-                    {currentPage === 'anubhav' && <AnubhavProduct onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} />}
+                    {currentPage === 'anubhav' && <AnubhavProduct onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} onBookDemo={() => setIsDemoOpen(true)} />}
                     {currentPage === 'industries' && <Industries onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} />}
                     {currentPage === 'blog' && <Blog onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} />}
                     {currentPage === 'casestudies' && <CaseStudies onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} />}
                     {currentPage === 'faqs' && <FAQs onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} />}
                     {currentPage === 'about' && <About onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} />}
                     {currentPage === 'guidelines' && <Guidelines onNavigate={setCurrentPage} />}
+                    {currentPage.startsWith('product-') && <GenericProduct productId={currentPage.replace('product-', '')} onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} onBookDemo={() => setIsDemoOpen(true)} />}
                 </Suspense>
 
                 {/* Common Footer for all pages */}

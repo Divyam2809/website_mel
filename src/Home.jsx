@@ -1074,7 +1074,7 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
             title: 'Hardware Solutions',
             tagline: 'Cutting-Edge VR Equipment',
             description: 'Premium VR headsets, motion chairs, haptic devices, and complete hardware setups for immersive experiences across education and entertainment.',
-            features: ['VR Headsets', 'Motion Chairs', 'Haptic Devices']
+
         },
         {
             id: 'education-training',
@@ -1083,7 +1083,7 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
             title: 'Education & Training',
             tagline: 'Transform Learning Experiences',
             description: 'Comprehensive VR solutions for K-10 to higher education, including curriculum-aligned labs, interactive experiments, and skill development programs.',
-            features: ['Curriculum-Aligned', 'Interactive Labs', 'Skill Development']
+
         },
         {
             id: 'industrial-enterprise',
@@ -1092,7 +1092,7 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
             title: 'Industrial & Enterprise Solutions',
             tagline: 'Professional Training at Scale',
             description: 'Enterprise-grade VR training systems for industrial operations, safety protocols, employee onboarding, and professional skill enhancement.',
-            features: ['Safety Training', 'Employee Onboarding', 'Process Simulation']
+
         },
         {
             id: 'simulation-defense',
@@ -1101,7 +1101,7 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
             title: 'Defence Simulation',
             tagline: 'Mission-Critical Training',
             description: 'Advanced simulation systems for defense training, tactical operations, emergency response, and high-stakes scenario preparation.',
-            features: ['Tactical Training', 'Emergency Response', 'Scenario Planning']
+
         },
         {
             id: 'tourism',
@@ -1110,7 +1110,7 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
             title: 'Tourism',
             tagline: 'Innovation & Future Tech',
             description: 'Exploring new frontiers in VR technology including healthcare simulations, architectural visualization, tourism, and next-generation applications.',
-            features: ['Healthcare VR', 'Architecture', 'Future Ready']
+
         },
         {
             id: 'emerging-applications',
@@ -1119,7 +1119,7 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
             title: 'Emerging Applications',
             tagline: 'Innovation & Future Tech',
             description: 'Exploring new frontiers in VR technology including healthcare simulations, architectural visualization, tourism, and next-generation applications.',
-            features: ['Healthcare VR', 'Architecture', 'Future Ready']
+
         }
     ];
 
@@ -1245,7 +1245,7 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
                                 marginBottom: '2rem',
                                 animation: currentSlide === index ? 'fadeInUp 0.6s ease-out 0.4s both' : 'none'
                             }}>
-                                {product.features.map((feature, idx) => (
+                                {product.features && product.features.map((feature, idx) => (
                                     <span
                                         key={idx}
                                         style={{
