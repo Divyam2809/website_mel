@@ -11,6 +11,11 @@ const FAQs = React.lazy(() => import('./FAQs'));
 const About = React.lazy(() => import('./About'));
 const Guidelines = React.lazy(() => import('./Guidelines'));
 const GenericProduct = React.lazy(() => import('./GenericProduct'));
+const NineDChair = React.lazy(() => import('./NineDChair'));
+const VRLab = React.lazy(() => import('./VRLab'));
+const VRElearning = React.lazy(() => import('./VRElearning'));
+const VRERP = React.lazy(() => import('./VRERP'));
+const VRIndustrial = React.lazy(() => import('./VRIndustrial'));
 
 import Footer from './Footer';
 import BookDemo from './BookDemo';
@@ -106,7 +111,7 @@ export default function App() {
             <div style={{ backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff', minHeight: '100vh', color: isDarkTheme ? '#FFFFFF' : '#2D2D2D', fontFamily: 'Inter, sans-serif', transition: 'all 0.3s ease' }}>
 
                 {/* Navigation Bar - Shows only on main pages */}
-                {(['home', 'products', 'anubhav', 'industries', 'blog', 'casestudies', 'faqs', 'about'].includes(currentPage) || currentPage.startsWith('product-')) && (
+                {(['home', 'products', 'anubhav', 'industries', 'blog', 'casestudies', 'faqs', 'about', 'ninedchair', 'vrlab', 'vrelearning', 'vrerp', 'vrindustrial'].includes(currentPage) || currentPage.startsWith('product-')) && (
                     <>
                         {/* CSS for Responsive Nav */}
                         <style>{`
@@ -379,6 +384,11 @@ export default function App() {
                     {currentPage === 'about' && <About onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} />}
                     {currentPage === 'guidelines' && <Guidelines onNavigate={setCurrentPage} />}
                     {currentPage.startsWith('product-') && <GenericProduct productId={currentPage.replace('product-', '')} onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} onBookDemo={() => setIsDemoOpen(true)} />}
+                    {currentPage === 'ninedchair' && <NineDChair onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} onBookDemo={() => setIsDemoOpen(true)} />}
+                    {currentPage === 'vrlab' && <VRLab onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} onBookDemo={() => setIsDemoOpen(true)} />}
+                    {currentPage === 'vrelearning' && <VRElearning onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} onBookDemo={() => setIsDemoOpen(true)} />}
+                    {currentPage === 'vrerp' && <VRERP onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} onBookDemo={() => setIsDemoOpen(true)} />}
+                    {currentPage === 'vrindustrial' && <VRIndustrial onNavigate={setCurrentPage} isDarkTheme={isDarkTheme} onBookDemo={() => setIsDemoOpen(true)} />}
                 </Suspense>
 
                 {/* Common Footer for all pages */}

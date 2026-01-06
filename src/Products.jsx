@@ -9,17 +9,17 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo }) {
             id: "hardware",
             items: [
                 { name: '5D /7D Chair (VR)', icon: '/images/vr-chair.png', isImage: true, description: 'Immersive motion seat with 5 & 7 degrees of freedom.', link: 'anubhav' },
-                { name: '9D Chair (VR)', icon: '🚀', description: 'Ultimate VR experience with 360-degree rotation.', link: 'product-9d-chair' },
-                { name: 'VR Lab (Complete Hardware Setup)', icon: '🧪', description: 'Turnkey VR lab solution with headsets and PCs.', link: 'product-vr-lab' }
+                { name: '9D Chair (VR)', icon: '🚀', description: 'Ultimate VR experience with 360-degree rotation.', link: 'ninedchair' },
+                { name: 'VR Lab (Complete Hardware Setup)', icon: '🧪', description: 'Turnkey VR lab solution with headsets and PCs.', link: 'vrlab' }
             ]
         },
         {
             title: "Education & Training",
             id: "education",
             items: [
-                { name: 'E-Learning Solutions', icon: '📚', description: 'Interactive digital learning platforms for schools.', link: 'product-e-learning' },
-                { name: 'ERP Solutions', icon: '📊', description: 'Comprehensive management systems for institutions.', link: 'product-erp-solutions' },
-                { name: 'VR in Industrial Training (MELA)', icon: '🏭', description: 'Vocational training simulations for industry skills.', link: 'product-industrial-training' },
+                { name: 'E-Learning Solutions', icon: '📚', description: 'Interactive digital learning platforms for schools.', link: 'vrelearning' },
+                { name: 'ERP Solutions', icon: '📊', description: 'Comprehensive management systems for institutions.', link: 'vrerp' },
+                { name: 'VR in Industrial Training (MELA)', icon: '🏭', description: 'Vocational training simulations for industry skills.', link: 'vrindustrial' },
                 { name: 'Animal Surgery Simulation', icon: '🐾', description: 'Risk-free veterinary surgical training in VR.', link: 'product-animal-surgery' }
             ]
         },
