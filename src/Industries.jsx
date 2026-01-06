@@ -91,12 +91,12 @@ export default function Industries({ onNavigate, isDarkTheme }) {
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                                 borderRadius: '28px',
-                                padding: '3rem',
+                                padding: '0',
                                 border: '2px solid rgba(255, 255, 255, 0.2)',
                                 transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
                                 cursor: 'pointer',
                                 display: 'flex',
-                                flexDirection: 'column',
+                                flexDirection: 'row',
                                 gap: '0',
                                 alignItems: 'stretch',
                                 position: 'relative',
@@ -115,66 +115,154 @@ export default function Industries({ onNavigate, isDarkTheme }) {
                                     e.currentTarget.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1) inset';
                                 }}
                             >
-                                {industry.icon && (
-                                    <div style={{
-                                        width: '60px',
-                                        height: '60px',
-                                        background: hasBg ? '#FF9B50' : (isDarkTheme ? 'rgba(255, 155, 80, 0.15)' : '#FFF3E0'),
-                                        borderRadius: '16px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
+                                {/* Content wrapper for Education card */}
+                                <div style={{
+                                    flex: '1 1 99%',
+                                    padding: '2.5rem',
+                                    display: 'flex',
+                                    flexDirection: 'column'
+                                }}>
+                                    {industry.icon && (
+                                        <div style={{
+                                            width: '60px',
+                                            height: '60px',
+                                            background: hasBg ? '#FF9B50' : (isDarkTheme ? 'rgba(255, 155, 80, 0.15)' : '#FFF3E0'),
+                                            borderRadius: '16px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            fontSize: '2rem',
+                                            marginBottom: '0.75rem',
+                                            color: hasBg ? '#FFF' : 'inherit'
+                                        }}>
+                                            {industry.icon}
+                                        </div>
+                                    )}
+
+                                    <h2 style={{
                                         fontSize: '2rem',
-                                        marginBottom: '1.5rem',
-                                        color: hasBg ? '#FFF' : 'inherit'
+                                        fontWeight: 900,
+                                        marginBottom: '0.5rem',
+                                        color: '#2D2D2D',
+                                        textShadow: '0 1px 2px rgba(255, 255, 255, 0.5)',
+                                        letterSpacing: '-0.5px'
                                     }}>
-                                        {industry.icon}
+                                        {industry.title}
+                                    </h2>
+
+                                    <p style={{
+                                        fontSize: '1.1rem',
+                                        lineHeight: '1.7',
+                                        color: '#4A4A4A',
+                                        marginBottom: '1.5rem',
+                                        flex: 1,
+                                        textShadow: 'none'
+                                    }}>
+                                        {industry.description}
+                                    </p>
+
+                                    <div style={{
+                                        display: 'flex',
+                                        gap: '0.8rem',
+                                        flexWrap: 'wrap'
+                                    }}>
+                                        {industry.tags.map(tag => (
+                                            <span key={tag} style={{
+                                                fontSize: '0.9rem',
+                                                padding: '0.5rem 1.2rem',
+                                                borderRadius: '25px',
+                                                background: 'rgba(45, 45, 45, 0.08)',
+                                                color: '#2D2D2D',
+                                                fontWeight: 700,
+                                                backdropFilter: 'blur(10px)',
+                                                border: '1px solid rgba(45, 45, 45, 0.15)',
+                                                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
+                                            }}>
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Image for Education card - right side full height */}
+                                {industry.id === 'education' && (
+                                    <div style={{
+                                        flex: '1 1 40%',
+                                        display: 'flex',
+                                        alignItems: 'stretch'
+                                    }}>
+                                        <img
+                                            src="/images/education-img.png"
+                                            alt="VR Education Classroom"
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover',
+                                                borderRadius: '0 28px 28px 0'
+                                            }}
+                                        />
                                     </div>
                                 )}
 
-                                <h2 style={{
-                                    fontSize: '2rem',
-                                    fontWeight: 900,
-                                    marginBottom: '1rem',
-                                    color: '#2D2D2D',
-                                    textShadow: '0 1px 2px rgba(255, 255, 255, 0.5)',
-                                    letterSpacing: '-0.5px'
-                                }}>
-                                    {industry.title}
-                                </h2>
+                                {/* Image for Defence card - right side full height */}
+                                {industry.id === 'defence' && (
+                                    <div style={{
+                                        flex: '1 1 40%',
+                                        display: 'flex',
+                                        alignItems: 'stretch'
+                                    }}>
+                                        <img
+                                            src="/images/defence-img.png"
+                                            alt="Industry & Defence"
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover',
+                                                borderRadius: '0 28px 28px 0'
+                                            }}
+                                        />
+                                    </div>
+                                )}
 
-                                <p style={{
-                                    fontSize: '1.1rem',
-                                    lineHeight: '1.7',
-                                    color: '#4A4A4A',
-                                    marginBottom: '2rem',
-                                    flex: 1,
-                                    textShadow: 'none'
-                                }}>
-                                    {industry.description}
-                                </p>
+                                {/* Image for Government card - right side full height */}
+                                {industry.id === 'government' && (
+                                    <div style={{
+                                        flex: '1 1 40%',
+                                        display: 'flex',
+                                        alignItems: 'stretch'
+                                    }}>
+                                        <img
+                                            src="/images/government-img.png"
+                                            alt="Government & Public Sector"
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover',
+                                                borderRadius: '0 28px 28px 0'
+                                            }}
+                                        />
+                                    </div>
+                                )}
 
-                                <div style={{
-                                    display: 'flex',
-                                    gap: '0.8rem',
-                                    flexWrap: 'wrap'
-                                }}>
-                                    {industry.tags.map(tag => (
-                                        <span key={tag} style={{
-                                            fontSize: '0.9rem',
-                                            padding: '0.5rem 1.2rem',
-                                            borderRadius: '25px',
-                                            background: 'rgba(45, 45, 45, 0.08)',
-                                            color: '#2D2D2D',
-                                            fontWeight: 700,
-                                            backdropFilter: 'blur(10px)',
-                                            border: '1px solid rgba(45, 45, 45, 0.15)',
-                                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
-                                        }}>
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
+                                {/* Image for CSR card - right side full height */}
+                                {industry.id === 'csr' && (
+                                    <div style={{
+                                        flex: '1 1 40%',
+                                        display: 'flex',
+                                        alignItems: 'stretch'
+                                    }}>
+                                        <img
+                                            src="/images/csr-img.jpg"
+                                            alt="CSR & Foundations"
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover',
+                                                borderRadius: '0 28px 28px 0'
+                                            }}
+                                        />
+                                    </div>
+                                )}
                             </div>
                         );
                     })}
