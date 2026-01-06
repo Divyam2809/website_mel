@@ -1078,7 +1078,8 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
         },
         {
             id: 'education-training',
-            icon: '🎓',
+            icon: '/images/stu-vr.png',
+            isImage: true,
             title: 'Education & Training',
             tagline: 'Transform Learning Experiences',
             description: 'Comprehensive VR solutions for K-10 to higher education, including curriculum-aligned labs, interactive experiments, and skill development programs.',
@@ -1086,7 +1087,8 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
         },
         {
             id: 'industrial-enterprise',
-            icon: '🏭',
+            icon: '/images/indus.png',
+            isImage: true,
             title: 'Industrial & Enterprise Solutions',
             tagline: 'Professional Training at Scale',
             description: 'Enterprise-grade VR training systems for industrial operations, safety protocols, employee onboarding, and professional skill enhancement.',
@@ -1094,7 +1096,8 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
         },
         {
             id: 'simulation-defense',
-            icon: '�️',
+            icon: '/images/defence1.png',
+            isImage: true,
             title: 'Defence Simulation',
             tagline: 'Mission-Critical Training',
             description: 'Advanced simulation systems for defense training, tactical operations, emergency response, and high-stakes scenario preparation.',
@@ -1102,7 +1105,8 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
         },
         {
             id: 'tourism',
-            icon: '🚀',
+            icon: '/images/tour.png',
+            isImage: true,
             title: 'Tourism',
             tagline: 'Innovation & Future Tech',
             description: 'Exploring new frontiers in VR technology including healthcare simulations, architectural visualization, tourism, and next-generation applications.',
@@ -1110,7 +1114,8 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
         },
         {
             id: 'emerging-applications',
-            icon: '🚀',
+            icon: '/images/add.png',
+            isImage: true,
             title: 'Emerging Applications',
             tagline: 'Innovation & Future Tech',
             description: 'Exploring new frontiers in VR technology including healthcare simulations, architectural visualization, tourism, and next-generation applications.',
@@ -1175,7 +1180,7 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
                             {/* Icon */}
                             <div style={{
                                 fontSize: product.isImage ? 'inherit' : '5rem',
-                                marginBottom: '2rem',
+                                marginBottom: '0',
                                 animation: currentSlide === index ? 'fadeInScale 0.6s ease-out' : 'none',
                                 display: 'flex',
                                 justifyContent: 'center',
@@ -1186,9 +1191,9 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
                                         src={product.icon}
                                         alt={product.title}
                                         style={{
-                                            width: '200px',
+                                            width: '320px',
                                             height: '200px',
-                                            objectFit: 'cover '
+                                            objectFit: 'contain'
                                         }}
                                     />
                                 ) : (
