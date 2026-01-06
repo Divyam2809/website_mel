@@ -1087,7 +1087,7 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
         },
         {
             id: 'industrial-enterprise',
-            icon: '/images/indus1.png',
+            icon: '/images/indus.png',
             isImage: true,
             title: 'Industrial & Enterprise Solutions',
             tagline: 'Professional Training at Scale',
@@ -1105,7 +1105,8 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
         },
         {
             id: 'tourism',
-            icon: '🚀',
+            icon: '/images/tour.png',
+            isImage: true,
             title: 'Tourism',
             tagline: 'Innovation & Future Tech',
             description: 'Exploring new frontiers in VR technology including healthcare simulations, architectural visualization, tourism, and next-generation applications.',
@@ -1113,7 +1114,8 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
         },
         {
             id: 'emerging-applications',
-            icon: '🚀',
+            icon: '/images/add.png',
+            isImage: true,
             title: 'Emerging Applications',
             tagline: 'Innovation & Future Tech',
             description: 'Exploring new frontiers in VR technology including healthcare simulations, architectural visualization, tourism, and next-generation applications.',
@@ -1178,7 +1180,7 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
                             {/* Icon */}
                             <div style={{
                                 fontSize: product.isImage ? 'inherit' : '5rem',
-                                marginBottom: '2rem',
+                                marginBottom: '0',
                                 animation: currentSlide === index ? 'fadeInScale 0.6s ease-out' : 'none',
                                 display: 'flex',
                                 justifyContent: 'center',
@@ -1189,8 +1191,8 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
                                         src={product.icon}
                                         alt={product.title}
                                         style={{
-                                            width: '220px',
-                                            height: '220px',
+                                            width: '320px',
+                                            height: '200px',
                                             objectFit: 'contain'
                                         }}
                                     />
