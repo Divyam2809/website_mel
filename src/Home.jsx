@@ -1078,7 +1078,8 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
         },
         {
             id: 'education-training',
-            icon: '🎓',
+            icon: '/images/stu-vr.png',
+            isImage: true,
             title: 'Education & Training',
             tagline: 'Transform Learning Experiences',
             description: 'Comprehensive VR solutions for K-10 to higher education, including curriculum-aligned labs, interactive experiments, and skill development programs.',
@@ -1086,7 +1087,8 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
         },
         {
             id: 'industrial-enterprise',
-            icon: '🏭',
+            icon: '/images/indus1.png',
+            isImage: true,
             title: 'Industrial & Enterprise Solutions',
             tagline: 'Professional Training at Scale',
             description: 'Enterprise-grade VR training systems for industrial operations, safety protocols, employee onboarding, and professional skill enhancement.',
@@ -1094,7 +1096,8 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
         },
         {
             id: 'simulation-defense',
-            icon: '�️',
+            icon: '/images/defence1.png',
+            isImage: true,
             title: 'Defence Simulation',
             tagline: 'Mission-Critical Training',
             description: 'Advanced simulation systems for defense training, tactical operations, emergency response, and high-stakes scenario preparation.',
@@ -1186,9 +1189,9 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
                                         src={product.icon}
                                         alt={product.title}
                                         style={{
-                                            width: '200px',
-                                            height: '200px',
-                                            objectFit: 'cover '
+                                            width: '220px',
+                                            height: '220px',
+                                            objectFit: 'contain'
                                         }}
                                     />
                                 ) : (
