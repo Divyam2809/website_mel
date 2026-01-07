@@ -1,4 +1,3 @@
-# Dependencies
 node_modules/
 /.pnp
 .pnp.js
@@ -107,3 +106,7 @@ dist
 # *.mp4
 # *.webm
 # *.mov
+
+# Agent Artifacts
+artifacts/
+.gemini/
