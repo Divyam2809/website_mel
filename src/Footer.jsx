@@ -204,10 +204,6 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                             ))}
                         </ul>
 
-                    </div>
-
-                    {/* Contact Us Section - New Column */}
-                    <div>
                         <h4 style={{
                             fontSize: '1rem',
                             fontWeight: 700,
@@ -216,16 +212,22 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                         }}>
                             Contact Us
                         </h4>
-                        <div style={{ color: subTextColor, fontSize: '0.9rem', lineHeight: '1.6' }}>
-                            <div style={{ marginBottom: '1rem' }}>
-                                <strong style={{ color: textColor }}>Phone Number -</strong><br />
-                                +91 - 9687588818 / 9687488818
-                            </div>
-                            <div>
-                                <strong style={{ color: textColor }}>Registered Office Address -</strong><br />
-                                Ship Maitri House, Bhatar Char Rasta, opp. Shiv Dham Temple, Surat, Gujarat 395017
-                            </div>
-                        </div>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                            {['Become Partner', 'Become Distributor', 'Career', 'Contact Us'].map((item, index) => (
+                                <li key={index} style={{ marginBottom: '0.8rem' }}>
+                                    <a href="#" style={{
+                                        color: subTextColor,
+                                        textDecoration: 'none',
+                                        fontSize: '0.9rem',
+                                        transition: 'color 0.2s ease'
+                                    }}
+                                        onMouseEnter={(e) => e.target.style.color = '#FF9B50'}
+                                        onMouseLeave={(e) => e.target.style.color = subTextColor}>
+                                        {item}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 </div>
 
@@ -245,6 +247,6 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                     </p>
                 </div>
             </div>
-        </footer >
+        </footer>
     );
 }

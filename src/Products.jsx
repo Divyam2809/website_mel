@@ -9,8 +9,8 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo }) {
             id: "hardware",
             items: [
                 { name: '5D /7D Chair (VR)', icon: '/images/vr-chair.png', isImage: true, description: 'Immersive motion seat with 5 & 7 degrees of freedom.', link: 'anubhav' },
-                { name: '9D Chair (VR)', icon: '🚀', description: 'Ultimate VR experience with 360-degree rotation.', link: 'ninedchair' },
-                { name: 'VR Lab (Complete Hardware Setup)', icon: '🧪', description: 'Turnkey VR lab solution with headsets and PCs.', link: 'vrlab' }
+                { name: '9D Chair (VR)', icon: '🚀', description: 'Ultimate VR experience with 360-degree rotation.', link: 'product-9d-chair' },
+                { name: 'VR Lab (Complete Hardware Setup)', icon: '🧪', description: 'Turnkey VR lab solution with headsets and PCs.', link: 'product-vr-lab' }
             ]
         },
         {

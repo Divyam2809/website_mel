@@ -122,7 +122,7 @@ export default function App() {
             <div style={{ backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff', minHeight: '100vh', color: isDarkTheme ? '#FFFFFF' : '#2D2D2D', fontFamily: 'Inter, sans-serif', transition: 'all 0.3s ease' }}>
 
                 {/* Navigation Bar - Shows only on main pages */}
-                {(['home', 'products', 'anubhav', 'industries', 'blog', 'casestudies', 'faqs', 'about', 'ninedchair', 'vrlab', 'vrelearning', 'vrerp', 'vrindustrial', 'vranimalsurgery', 'vrudyog', 'vrrealestate', 'vrhospitality', 'vrexhibition', 'vrkala', 'vrcrimescene', 'dronesimulator', 'aircraftsimulator', 'vrdefence', 'vrlivestream'].includes(currentPage) || currentPage.startsWith('product-')) && (
+                {(['home', 'products', 'anubhav', 'industries', 'blog', 'casestudies', 'faqs', 'about'].includes(currentPage) || currentPage.startsWith('product-')) && (
                     <>
                         {/* CSS for Responsive Nav */}
                         <style>{`
