@@ -12,7 +12,7 @@ export default function Footer({ isDarkTheme, onNavigate }) {
         { label: 'Case Study', id: 'casestudies' },
         { label: 'Blog', id: 'blog' },
         // { label: 'Event', id: null },
-        { label: 'Melzo in News', id: null },
+        { label: 'Melzo in News', id: 'melzonews' },
     ];
 
     return (
@@ -31,23 +31,37 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                 {/* Main Footer Content */}
                 <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                    gap: '3rem',
+                    gridTemplateColumns: 'minmax(280px, 1.5fr) 1fr 0.8fr 1.2fr 1.2fr',
+                    gap: '2rem',
                     marginBottom: '3rem'
                 }}>
+                    {/* Responsive override embedded style */}
+                    <style>{`
+                        @media (max-width: 1024px) {
+                            div[style*="minmax(280px, 1.5fr)"] {
+                                grid-template-columns: 1fr 1fr !important;
+                            }
+                        }
+                        @media (max-width: 600px) {
+                            div[style*="minmax(280px, 1.5fr)"] {
+                                grid-template-columns: 1fr !important;
+                            }
+                        }
+                    `}</style>
                     {/* ... (Left Side kept same via context, but I need to be careful with replace_file) ... */}
                     {/* Actually, I will just replace the top part and component definition to destructure onNavigate */}
                     {/* And then replace the specific Explore list */}
 
                     <div style={{ minWidth: '250px' }}>
-                        <h3 style={{
-                            fontSize: '1.8rem',
-                            fontWeight: 800,
-                            marginBottom: '1rem',
-                            color: '#FF9B50'
-                        }}>
-                            Melzo
-                        </h3>
+                        <img
+                            src="/assets/Melzo_Logo.svg"
+                            alt="Melzo"
+                            style={{
+                                height: '50px',
+                                marginBottom: '1rem',
+                                display: 'block'
+                            }}
+                        />
                         <p style={{
                             fontSize: '0.9rem',
                             lineHeight: '1.6',
@@ -56,7 +70,8 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                             maxWidth: '350px'
                         }}>
                             *DUMMY TEXT ISO 0001 2015 certified company*<br />
-                            Melzo Anubhav offers a fun and easy way for your child to grasp science. Featuring world-class content that helps them understand even the toughest concepts.
+                            Melzo is an Indian EdTech company delivering immersive digital learning solutions for schools and institutions. Through ERP systems, VR labs, and interactive learning platforms, Melzo helps educators simplify operations and enhance student understanding using modern technology.
+
                         </p>
                         <div style={{
                             display: 'flex',
@@ -171,11 +186,15 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                             fontSize: '1rem',
                             fontWeight: 700,
                             marginBottom: '1.2rem',
-                            color: textColor
+                            color: textColor,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem'
                         }}>
                             Our Offerings
+
                         </h4>
-                        <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0' }}>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                             {[
                                 'Hardware Solutions',
                                 'Education & Training',
@@ -203,31 +222,23 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                                 </li>
                             ))}
                         </ul>
+                    </div>
 
-                        <h4 style={{
-                            fontSize: '1rem',
-                            fontWeight: 700,
-                            marginBottom: '1.2rem',
-                            color: textColor
-                        }}>
-                            Contact Us
-                        </h4>
-                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                            {['Become Partner', 'Become Distributor', 'Career', 'Contact Us'].map((item, index) => (
-                                <li key={index} style={{ marginBottom: '0.8rem' }}>
-                                    <a href="#" style={{
-                                        color: subTextColor,
-                                        textDecoration: 'none',
-                                        fontSize: '0.9rem',
-                                        transition: 'color 0.2s ease'
-                                    }}
-                                        onMouseEnter={(e) => e.target.style.color = '#FF9B50'}
-                                        onMouseLeave={(e) => e.target.style.color = subTextColor}>
-                                        {item}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
+                    {/* Contact Us */}
+                    <div>
+                        <h4 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '1.2rem', color: textColor }}>Contact Us</h4>
+
+                        <div style={{ marginBottom: '1rem' }}>
+                            <strong style={{ display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem', color: textColor }}>Phone Number -</strong>
+                            <span style={{ color: subTextColor, fontSize: '0.9rem' }}>+91 - 9687588818 / 9687488818</span>
+                        </div>
+
+                        <div>
+                            <strong style={{ display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem', color: textColor }}>Registered Office Address -</strong>
+                            <span style={{ color: subTextColor, fontSize: '0.9rem', lineHeight: '1.5', display: 'block' }}>
+                                Ship Maitri House, Bhatar Char Rasta, opp. Shiv Dham Temple, Surat, Gujarat 395017
+                            </span>
+                        </div>
                     </div>
                 </div>
 

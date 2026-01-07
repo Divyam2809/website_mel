@@ -1,229 +1,241 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Home({ onNavigate, isDarkTheme, onBookDemo }) {
+import AppNav from './AppNav';
+
+export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     return (
-        <div style={{ minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
+        <>
+            <AppNav
+                onNavigate={onNavigate}
+                isDarkTheme={isDarkTheme}
+                onToggleTheme={onToggleTheme}
+                onBookDemo={onBookDemo}
+                currentPage="home"
+            />
+            <div style={{ minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
 
-            {/* Hero Section */}
-            <section style={{
-                padding: '9rem 5%',
-                background: 'linear-gradient(135deg, rgba(255, 155, 80, 0.05) 0%, transparent 100%)',
-                position: 'relative',
-                overflow: 'hidden'
-            }}>
-                {/* Background Image */}
-                <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    width: '100%',
-                    backgroundImage: 'url(/images/classroom-hero.jpg)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    opacity: 0.5,
-                    zIndex: 0
-                }} />
-
-                {/* Gradient Overlay for better text readability */}
-                <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.65) 50%), rgba(37, 34, 34, 0.5) 0%',
-                    zIndex: 0
-                }} />
-
-                {/* Animated background elements */}
-                <div style={{
-                    position: 'absolute',
-                    top: '10%',
-                    right: '10%',
-                    width: '400px',
-                    height: '400px',
-                    background: 'radial-gradient(circle, rgba(255, 155, 80, 0.1) 0%, transparent 70%)',
-                    borderRadius: '50%',
-                    animation: 'float 8s ease-in-out infinite',
-                    pointerEvents: 'none',
-                    zIndex: 0
-                }} />
-
-                <div style={{
-                    maxWidth: '1400px',
-                    margin: '0 auto',
-                    textAlign: 'center',
+                {/* Hero Section */}
+                <section style={{
+                    padding: '9rem 5%',
+                    background: 'linear-gradient(135deg, rgba(255, 155, 80, 0.05) 0%, transparent 100%)',
                     position: 'relative',
-                    zIndex: 1
+                    overflow: 'hidden'
                 }}>
-                    <h1 style={{
-                        fontSize: 'clamp(3rem, 6vw, 4rem)',
-                        fontWeight: 900,
-                        letterSpacing: '-2px',
-                        marginBottom: '1.5rem',
-                        lineHeight: '1.1'
-                    }}>
-                        Virtual Reality Labs That Transform <br></br>
-                        <span style={{ color: '#ff770eff', fontSize: '3rem', letterSpacing: '2px' }}>Learning, Training, and Experience</span>
-                        {/* Welcome to <span style={{ color: '#ff770eff' }}>Melzo</span> */}
-                    </h1>
-                    <p style={{
-                        fontSize: 'clamp(1.2rem, 2vw, 1.2rem)',
-                        opacity: 0.8,
-                        maxWidth: '800px',
-                        margin: '0 auto 3rem',
-                        lineHeight: '1.6'
-                    }}>
-                        {/* Pioneering the Future of Immersive Education & Interactive Learning Solutions */}
-                        Curriculum-aligned VR Labs, simulators, and immersive training systems for schools, institutions, industries, and government programs across India.
-
-                    </p>
+                    {/* Background Image */}
                     <div style={{
-                        display: 'flex',
-                        gap: '1.5rem',
-                        justifyContent: 'center',
-                        flexWrap: 'wrap'
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        width: '100%',
+                        backgroundImage: 'url(/images/classroom-hero.jpg)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        opacity: 0.5,
+                        zIndex: 0
+                    }} />
+
+                    {/* Gradient Overlay for better text readability */}
+                    <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background: isDarkTheme
+                            ? 'linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.95) 100%)'
+                            : 'linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.95) 100%)',
+                        zIndex: 0
+                    }} />
+
+                    {/* Animated background elements */}
+                    <div style={{
+                        position: 'absolute',
+                        top: '10%',
+                        right: '10%',
+                        width: '400px',
+                        height: '400px',
+                        background: 'radial-gradient(circle, rgba(255, 155, 80, 0.1) 0%, transparent 70%)',
+                        borderRadius: '50%',
+                        animation: 'float 8s ease-in-out infinite',
+                        pointerEvents: 'none',
+                        zIndex: 0
+                    }} />
+
+                    <div style={{
+                        maxWidth: '1400px',
+                        margin: '0 auto',
+                        textAlign: 'center',
+                        position: 'relative',
+                        zIndex: 1
                     }}>
-                        <button
-                            onClick={() => onNavigate && onNavigate('products')}
-                            style={{
-                                background: '#FF9B50',
-                                color: '#fff',
-                                border: 'none',
+                        <h1 style={{
+                            fontSize: 'clamp(3rem, 6vw, 4rem)',
+                            fontWeight: 900,
+                            letterSpacing: '-2px',
+                            marginBottom: '1.5rem',
+                            lineHeight: '1.1'
+                        }}>
+                            Virtual Reality Labs That Transform <br></br>
+                            <span style={{ color: '#ff770eff', fontSize: '3rem', letterSpacing: '2px' }}>Learning, Training, and Experience</span>
+                            {/* Welcome to <span style={{ color: '#ff770eff' }}>Melzo</span> */}
+                        </h1>
+                        <p style={{
+                            fontSize: 'clamp(1.2rem, 2vw, 1.2rem)',
+                            opacity: 0.8,
+                            maxWidth: '800px',
+                            margin: '0 auto 3rem',
+                            lineHeight: '1.6'
+                        }}>
+                            {/* Pioneering the Future of Immersive Education & Interactive Learning Solutions */}
+                            Curriculum-aligned VR Labs, simulators, and immersive training systems for schools, institutions, industries, and government programs across India.
+
+                        </p>
+                        <div style={{
+                            display: 'flex',
+                            gap: '1.5rem',
+                            justifyContent: 'center',
+                            flexWrap: 'wrap'
+                        }}>
+                            <button
+                                onClick={() => onNavigate && onNavigate('products')}
+                                style={{
+                                    background: '#FF9B50',
+                                    color: '#fff',
+                                    border: 'none',
+                                    padding: '1.2rem 3rem',
+                                    cursor: 'pointer',
+                                    borderRadius: '30px',
+                                    transition: 'all 0.3s ease',
+                                    fontWeight: 600,
+                                    fontSize: '1.1rem',
+                                    letterSpacing: '0.5px',
+                                    boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.transform = 'translateY(-3px)';
+                                    e.target.style.boxShadow = '0 8px 25px rgba(255, 155, 80, 0.5)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
+                                }}>
+                                Explore Our Products
+                            </button>
+                            <button style={{
+                                background: 'transparent',
+                                color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
+                                border: isDarkTheme ? '2px solid #FFFFFF' : '2px solid #2D2D2D',
                                 padding: '1.2rem 3rem',
                                 cursor: 'pointer',
                                 borderRadius: '30px',
                                 transition: 'all 0.3s ease',
                                 fontWeight: 600,
                                 fontSize: '1.1rem',
-                                letterSpacing: '0.5px',
-                                boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
+                                letterSpacing: '0.5px'
                             }}
-                            onMouseEnter={(e) => {
-                                e.target.style.transform = 'translateY(-3px)';
-                                e.target.style.boxShadow = '0 8px 25px rgba(255, 155, 80, 0.5)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.target.style.transform = 'translateY(0)';
-                                e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                            }}>
-                            Explore Our Products
-                        </button>
-                        <button style={{
-                            background: 'transparent',
-                            color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
-                            border: isDarkTheme ? '2px solid #FFFFFF' : '2px solid #2D2D2D',
-                            padding: '1.2rem 3rem',
-                            cursor: 'pointer',
-                            borderRadius: '30px',
-                            transition: 'all 0.3s ease',
-                            fontWeight: 600,
-                            fontSize: '1.1rem',
-                            letterSpacing: '0.5px'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.target.style.background = '#2D2D2D';
-                                e.target.style.color = '#fff';
-                                e.target.style.transform = 'translateY(-3px)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.target.style.background = 'transparent';
-                                e.target.style.color = isDarkTheme ? '#FFFFFF' : '#2D2D2D';
-                                e.target.style.transform = 'translateY(0)';
-                            }}>
-                            Contact Us
-                        </button>
+                                onMouseEnter={(e) => {
+                                    e.target.style.background = '#2D2D2D';
+                                    e.target.style.color = '#fff';
+                                    e.target.style.transform = 'translateY(-3px)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.background = 'transparent';
+                                    e.target.style.color = isDarkTheme ? '#FFFFFF' : '#2D2D2D';
+                                    e.target.style.transform = 'translateY(0)';
+                                }}>
+                                Contact Us
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <style>{`
+                    <style>{`
                     @keyframes float {
                         0%, 100% { transform: translateY(0px); }
                         50% { transform: translateY(-30px); }
                     }
                 `}</style>
-            </section>
+                </section>
 
-            {/* Data Strip */}
-            <section style={{
-                backgroundColor: '#1a1a1a',
-                padding: '1.5rem 0',
-                overflow: 'hidden',
-                position: 'relative',
+                {/* Data Strip */}
+                <section style={{
+                    backgroundColor: '#1a1a1a',
+                    padding: '1.5rem 0',
+                    overflow: 'hidden',
+                    position: 'relative',
 
-            }}>
-                <div style={{
-                    display: 'flex',
-                    animation: 'scroll 30s linear infinite',
-                    whiteSpace: 'nowrap'
                 }}>
-                    {/* Duplicate content for seamless loop */}
-                    {[1, 2, 3].map((_, index) => (
-                        <div key={index} style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '3rem',
-                            paddingRight: '3rem'
-                        }}>
-                            <span style={{
-                                color: '#ffffff',
-                                fontSize: '0.9rem',
-                                fontWeight: 600,
-                                letterSpacing: '2px',
-                                fontFamily: 'Inter, sans-serif'
-                            }}>USED BY 120+ INSTITUTIONS ACROSS INDIA</span>
-                            <span style={{
-                                color: '#FF9B50',
-                                fontSize: '0.5rem'
-                            }}>●</span>
-                            <span style={{
-                                color: '#ffffff',
-                                fontSize: '0.9rem',
-                                fontWeight: 600,
-                                letterSpacing: '2px',
-                                fontFamily: 'Inter, sans-serif'
-                            }}>COVERS K-10 TO HIGHER EDUCATION & INDUSTRIAL TRAINING</span>
-                            <span style={{
-                                color: '#FF9B50',
-                                fontSize: '0.5rem'
-                            }}>●</span>
-                            <span style={{
-                                color: '#ffffff',
-                                fontSize: '0.9rem',
-                                fontWeight: 600,
-                                letterSpacing: '2px',
-                                fontFamily: 'Inter, sans-serif'
-                            }}>1,200+ STUDENTS IMPACTED PER LAB ANNUALLY</span>
-                            <span style={{
-                                color: '#FF9B50',
-                                fontSize: '0.5rem'
-                            }}>●</span>
-                            <span style={{
-                                color: '#ffffff',
-                                fontSize: '0.9rem',
-                                fontWeight: 600,
-                                letterSpacing: '2px',
-                                fontFamily: 'Inter, sans-serif'
-                            }}>WORKS WITH CSR, GOVERNMENT & PRIVATE INSTITUTIONS</span>
-                            <span style={{
-                                color: '#FF9B50',
-                                fontSize: '0.5rem'
-                            }}>●</span>
-                        </div>
-                    ))}
-                </div>
-                <style>{`
+                    <div style={{
+                        display: 'flex',
+                        animation: 'scroll 30s linear infinite',
+                        whiteSpace: 'nowrap'
+                    }}>
+                        {/* Duplicate content for seamless loop */}
+                        {[1, 2, 3].map((_, index) => (
+                            <div key={index} style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '3rem',
+                                paddingRight: '3rem'
+                            }}>
+                                <span style={{
+                                    color: '#ffffff',
+                                    fontSize: '0.9rem',
+                                    fontWeight: 600,
+                                    letterSpacing: '2px',
+                                    fontFamily: 'Inter, sans-serif'
+                                }}>USED BY 120+ INSTITUTIONS ACROSS INDIA</span>
+                                <span style={{
+                                    color: '#FF9B50',
+                                    fontSize: '0.5rem'
+                                }}>●</span>
+                                <span style={{
+                                    color: '#ffffff',
+                                    fontSize: '0.9rem',
+                                    fontWeight: 600,
+                                    letterSpacing: '2px',
+                                    fontFamily: 'Inter, sans-serif'
+                                }}>COVERS K-10 TO HIGHER EDUCATION & INDUSTRIAL TRAINING</span>
+                                <span style={{
+                                    color: '#FF9B50',
+                                    fontSize: '0.5rem'
+                                }}>●</span>
+                                <span style={{
+                                    color: '#ffffff',
+                                    fontSize: '0.9rem',
+                                    fontWeight: 600,
+                                    letterSpacing: '2px',
+                                    fontFamily: 'Inter, sans-serif'
+                                }}>1,200+ STUDENTS IMPACTED PER LAB ANNUALLY</span>
+                                <span style={{
+                                    color: '#FF9B50',
+                                    fontSize: '0.5rem'
+                                }}>●</span>
+                                <span style={{
+                                    color: '#ffffff',
+                                    fontSize: '0.9rem',
+                                    fontWeight: 600,
+                                    letterSpacing: '2px',
+                                    fontFamily: 'Inter, sans-serif'
+                                }}>WORKS WITH CSR, GOVERNMENT & PRIVATE INSTITUTIONS</span>
+                                <span style={{
+                                    color: '#FF9B50',
+                                    fontSize: '0.5rem'
+                                }}>●</span>
+                            </div>
+                        ))}
+                    </div>
+                    <style>{`
                     @keyframes scroll {
                         0% { transform: translateX(0); }
                         100% { transform: translateX(-33.333%); }
                     }
                 `}</style>
-            </section>
+                </section>
 
-            {/* About Section */}
-            {/* <section style={{
+                {/* About Section */}
+                {/* <section style={{
                 padding: '5rem 5%',
                 backgroundColor: '#ffffff'
             }}>
@@ -257,807 +269,808 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo }) {
                 </div>
             </section> */}
 
-            {/* Products Preview Section - Carousel */}
-            <section style={{
-                padding: '5rem 5%',
-                position: 'relative',
-                overflow: 'hidden',
-                background: isDarkTheme
-                    ? 'linear-gradient(135deg, #1A1A1A 0%, #111111 100%)'
-                    : 'linear-gradient(135deg, #FFF5EC 0%, #FFFFFF 100%)' // Very subtle orange tint
-            }}>
-                {/* Grid Overlay */}
-                <div style={{
-                    position: 'absolute',
-                    top: 0, left: 0, right: 0, bottom: 0,
-                    backgroundImage: isDarkTheme
-                        ? 'linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)'
-                        : 'linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px)',
-                    backgroundSize: '40px 40px',
-                    zIndex: 0,
-                    pointerEvents: 'none'
-                }} />
-
-                <div style={{
-                    maxWidth: '1400px',
-                    margin: '0 auto'
+                {/* Products Preview Section - Carousel */}
+                <section style={{
+                    padding: '5rem 5%',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    background: isDarkTheme
+                        ? 'linear-gradient(135deg, #1A1A1A 0%, #111111 100%)'
+                        : 'linear-gradient(135deg, #FFF5EC 0%, #FFFFFF 100%)' // Very subtle orange tint
                 }}>
-                    <h2 style={{
-                        fontSize: 'clamp(2rem, 4vw, 3rem)',
-                        fontWeight: 900,
-                        letterSpacing: '-2px',
-                        marginBottom: '4rem',
-                        textAlign: 'center',
-                        color: '#FF9B50'
-                    }}>
-                        Our Products
-                    </h2>
+                    {/* Grid Overlay */}
+                    <div style={{
+                        position: 'absolute',
+                        top: 0, left: 0, right: 0, bottom: 0,
+                        backgroundImage: isDarkTheme
+                            ? 'linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)'
+                            : 'linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px)',
+                        backgroundSize: '40px 40px',
+                        zIndex: 0,
+                        pointerEvents: 'none'
+                    }} />
 
-                    <ProductCarousel onNavigate={onNavigate} isDarkTheme={isDarkTheme} />
-                </div>
-            </section>
-
-            {/* Why VR Works Section */}
-            <section style={{
-                padding: '5rem 5%',
-                borderTop: '1px solid rgba(0,0,0,0.05)'
-            }}>
-                <div style={{
-                    maxWidth: '1000px',
-                    margin: '0 auto',
-                    textAlign: 'center'
-                }}>
-                    <h2 style={{
-                        fontSize: 'clamp(2rem, 4vw, 2.8rem)',
-                        fontWeight: 900,
-                        letterSpacing: '-1.5px',
-                        marginBottom: '2rem',
-                        color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
-                        lineHeight: '1.2'
-                    }}>
-                        Why Virtual Reality Works in <span style={{ color: '#FF9B50' }}>Classrooms & Training</span>
-                    </h2>
-                    <p style={{
-                        fontSize: '1.2rem',
-                        lineHeight: '1.9',
-                        color: isDarkTheme ? '#EAEAEA' : '#2D2D2D',
-                        opacity: 0.85,
-                        marginBottom: '2.5rem',
-                        maxWidth: '900px',
+                    <div style={{
+                        maxWidth: '1400px',
                         margin: '0 auto'
                     }}>
-                        Virtual Reality enables learners to <strong style={{ color: '#FF9B50' }}>see, interact, and practice</strong> instead of only reading or listening. Melzo VR Labs are designed to support <strong>CBSE, ICSE, State Boards</strong>, vocational training, and enterprise skill development.
-                    </p>
+                        <h2 style={{
+                            fontSize: 'clamp(2rem, 4vw, 3rem)',
+                            fontWeight: 900,
+                            letterSpacing: '-2px',
+                            marginBottom: '4rem',
+                            textAlign: 'center',
+                            color: '#FF9B50'
+                        }}>
+                            Our Products
+                        </h2>
 
-                    {/* Supported Boards/Systems */}
-                    <div style={{
-                        display: 'flex',
-                        gap: '1rem',
-                        justifyContent: 'center',
-                        flexWrap: 'wrap',
-                        marginTop: '2.5rem'
-                    }}>
-                        {['CBSE', 'ICSE', 'State Boards', 'Vocational Training', 'Enterprise'].map((board, idx) => (
-                            <span
-                                key={idx}
-                                style={{
-                                    padding: '0.7rem 1.5rem',
-                                    background: 'linear-gradient(135deg, rgba(255, 155, 80, 0.1) 0%, rgba(255, 155, 80, 0.05) 100%)',
-                                    color: '#FF9B50',
-                                    borderRadius: '25px',
-                                    fontSize: '0.95rem',
-                                    fontWeight: 700,
-                                    border: '2px solid rgba(255, 155, 80, 0.2)',
-                                    transition: 'all 0.3s ease'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.target.style.background = '#FF9B50';
-                                    e.target.style.color = '#fff';
-                                    e.target.style.transform = 'translateY(-3px)';
-                                    e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.target.style.background = 'linear-gradient(135deg, rgba(255, 155, 80, 0.1) 0%, rgba(255, 155, 80, 0.05) 100%)';
-                                    e.target.style.color = '#FF9B50';
-                                    e.target.style.transform = 'translateY(0)';
-                                    e.target.style.boxShadow = 'none';
-                                }}
-                            >
-                                {board}
-                            </span>
-                        ))}
+                        <ProductCarousel onNavigate={onNavigate} isDarkTheme={isDarkTheme} />
                     </div>
-                </div>
-            </section>
+                </section>
 
-            {/* Case Study Highlights Section */}
-            <section style={{
-                padding: '5rem 5%'
-            }}>
-                <div style={{
-                    maxWidth: '1200px',
-                    margin: '0 auto'
+                {/* Why VR Works Section */}
+                <section style={{
+                    padding: '5rem 5%',
+                    borderTop: '1px solid rgba(0,0,0,0.05)'
                 }}>
-                    <h2 style={{
-                        fontSize: 'clamp(2rem, 4vw, 3rem)',
-                        fontWeight: 900,
-                        letterSpacing: '-2px',
-                        marginBottom: '1rem',
-                        textAlign: 'center',
-                        color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
-                    }}>
-                        Case Study <span style={{ color: '#FF9B50' }}>Highlights</span>
-                    </h2>
-                    <p style={{
-                        fontSize: '1.1rem',
-                        textAlign: 'center',
-                        opacity: 0.7,
-                        marginBottom: '4rem',
-                        color: isDarkTheme ? '#EAEAEA' : '#2D2D2D'
-                    }}>
-                        Real-world impact across education and training institutions
-                    </p>
-
-                    {/* Case Study Cards */}
                     <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                        gap: '2rem',
-                        marginBottom: '3rem'
-                    }}>
-                        {/* Case Study 1 */}
-                        <div style={{
-                            background: isDarkTheme ? '#262626' : '#ffffff',
-                            padding: '2rem',
-                            borderRadius: '12px',
-                            border: '1px solid rgba(0,0,0,0.05)',
-                            transition: 'all 0.3s ease',
-                            cursor: 'pointer'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'translateY(-5px)';
-                                e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
-                                e.currentTarget.style.borderColor = '#FF9B50';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'translateY(0)';
-                                e.currentTarget.style.boxShadow = 'none';
-                                e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
-                            }}
-                        >
-                            <div style={{
-                                width: '50px',
-                                height: '50px',
-                                background: 'linear-gradient(135deg, rgba(255, 155, 80, 0.2) 0%, rgba(255, 155, 80, 0.1) 100%)',
-                                borderRadius: '10px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: '1.5rem',
-                                marginBottom: '1.5rem'
-                            }}>
-                                📈
-                            </div>
-                            <h3 style={{
-                                fontSize: '1.3rem',
-                                fontWeight: 700,
-                                marginBottom: '0.5rem',
-                                color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
-                            }}>
-                                Surat CBSE School
-                            </h3>
-                            <p style={{
-                                fontSize: '1.05rem',
-                                lineHeight: '1.6',
-                                color: '#FF9B50',
-                                fontWeight: 600
-                            }}>
-                                15% rise in admissions
-                            </p>
-                        </div>
-
-                        {/* Case Study 2 */}
-                        <div style={{
-                            background: isDarkTheme ? '#262626' : '#ffffff',
-                            padding: '2rem',
-                            borderRadius: '12px',
-                            border: '1px solid rgba(0,0,0,0.05)',
-                            transition: 'all 0.3s ease',
-                            cursor: 'pointer'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'translateY(-5px)';
-                                e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
-                                e.currentTarget.style.borderColor = '#FF9B50';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'translateY(0)';
-                                e.currentTarget.style.boxShadow = 'none';
-                                e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
-                            }}
-                        >
-                            <div style={{
-                                width: '50px',
-                                height: '50px',
-                                background: 'linear-gradient(135deg, rgba(255, 155, 80, 0.2) 0%, rgba(255, 155, 80, 0.1) 100%)',
-                                borderRadius: '10px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: '1.5rem',
-                                marginBottom: '1.5rem'
-                            }}>
-                                🧪
-                            </div>
-                            <h3 style={{
-                                fontSize: '1.3rem',
-                                fontWeight: 700,
-                                marginBottom: '0.5rem',
-                                color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
-                            }}>
-                                Ahmedabad Govt School
-                            </h3>
-                            <p style={{
-                                fontSize: '1.05rem',
-                                lineHeight: '1.6',
-                                color: '#FF9B50',
-                                fontWeight: 600
-                            }}>
-                                Improved science comprehension
-                            </p>
-                        </div>
-
-                        {/* Case Study 3 */}
-                        <div style={{
-                            background: isDarkTheme ? '#262626' : '#ffffff',
-                            padding: '2rem',
-                            borderRadius: '12px',
-                            border: '1px solid rgba(0,0,0,0.05)',
-                            transition: 'all 0.3s ease',
-                            cursor: 'pointer'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'translateY(-5px)';
-                                e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
-                                e.currentTarget.style.borderColor = '#FF9B50';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'translateY(0)';
-                                e.currentTarget.style.boxShadow = 'none';
-                                e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
-                            }}
-                        >
-                            <div style={{
-                                width: '50px',
-                                height: '50px',
-                                background: 'linear-gradient(135deg, rgba(255, 155, 80, 0.2) 0%, rgba(255, 155, 80, 0.1) 100%)',
-                                borderRadius: '10px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: '1.5rem',
-                                marginBottom: '1.5rem'
-                            }}>
-                                🤝
-                            </div>
-                            <h3 style={{
-                                fontSize: '1.3rem',
-                                fontWeight: 700,
-                                marginBottom: '0.5rem',
-                                color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
-                            }}>
-                                CSR Program (Gujarat)
-                            </h3>
-                            <p style={{
-                                fontSize: '1.05rem',
-                                lineHeight: '1.6',
-                                color: '#FF9B50',
-                                fontWeight: 600
-                            }}>
-                                1,200 students/year impact
-                            </p>
-                        </div>
-
-                        {/* Case Study 4 */}
-                        <div style={{
-                            background: isDarkTheme ? '#262626' : '#ffffff',
-                            padding: '2rem',
-                            borderRadius: '12px',
-                            border: '1px solid rgba(0,0,0,0.05)',
-                            transition: 'all 0.3s ease',
-                            cursor: 'pointer'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'translateY(-5px)';
-                                e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
-                                e.currentTarget.style.borderColor = '#FF9B50';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'translateY(0)';
-                                e.currentTarget.style.boxShadow = 'none';
-                                e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
-                            }}
-                        >
-                            <div style={{
-                                width: '50px',
-                                height: '50px',
-                                background: 'linear-gradient(135deg, rgba(255, 155, 80, 0.2) 0%, rgba(255, 155, 80, 0.1) 100%)',
-                                borderRadius: '10px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: '1.5rem',
-                                marginBottom: '1.5rem'
-                            }}>
-                                🛡️
-                            </div>
-                            <h3 style={{
-                                fontSize: '1.3rem',
-                                fontWeight: 700,
-                                marginBottom: '0.5rem',
-                                color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
-                            }}>
-                                Polytechnic Institute
-                            </h3>
-                            <p style={{
-                                fontSize: '1.05rem',
-                                lineHeight: '1.6',
-                                color: '#FF9B50',
-                                fontWeight: 600
-                            }}>
-                                Safer industrial training
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* CTA Button */}
-                    <div style={{
+                        maxWidth: '1000px',
+                        margin: '0 auto',
                         textAlign: 'center'
                     }}>
+                        <h2 style={{
+                            fontSize: 'clamp(2rem, 4vw, 2.8rem)',
+                            fontWeight: 900,
+                            letterSpacing: '-1.5px',
+                            marginBottom: '2rem',
+                            color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
+                            lineHeight: '1.2'
+                        }}>
+                            Why Virtual Reality Works in <span style={{ color: '#FF9B50' }}>Classrooms & Training</span>
+                        </h2>
+                        <p style={{
+                            fontSize: '1.2rem',
+                            lineHeight: '1.9',
+                            color: isDarkTheme ? '#EAEAEA' : '#2D2D2D',
+                            opacity: 0.85,
+                            marginBottom: '2.5rem',
+                            maxWidth: '900px',
+                            margin: '0 auto'
+                        }}>
+                            Virtual Reality enables learners to <strong style={{ color: '#FF9B50' }}>see, interact, and practice</strong> instead of only reading or listening. Melzo VR Labs are designed to support <strong>CBSE, ICSE, State Boards</strong>, vocational training, and enterprise skill development.
+                        </p>
+
+                        {/* Supported Boards/Systems */}
+                        <div style={{
+                            display: 'flex',
+                            gap: '1rem',
+                            justifyContent: 'center',
+                            flexWrap: 'wrap',
+                            marginTop: '2.5rem'
+                        }}>
+                            {['CBSE', 'ICSE', 'State Boards', 'Vocational Training', 'Enterprise'].map((board, idx) => (
+                                <span
+                                    key={idx}
+                                    style={{
+                                        padding: '0.7rem 1.5rem',
+                                        background: 'linear-gradient(135deg, rgba(255, 155, 80, 0.1) 0%, rgba(255, 155, 80, 0.05) 100%)',
+                                        color: '#FF9B50',
+                                        borderRadius: '25px',
+                                        fontSize: '0.95rem',
+                                        fontWeight: 700,
+                                        border: '2px solid rgba(255, 155, 80, 0.2)',
+                                        transition: 'all 0.3s ease'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.target.style.background = '#FF9B50';
+                                        e.target.style.color = '#fff';
+                                        e.target.style.transform = 'translateY(-3px)';
+                                        e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.target.style.background = 'linear-gradient(135deg, rgba(255, 155, 80, 0.1) 0%, rgba(255, 155, 80, 0.05) 100%)';
+                                        e.target.style.color = '#FF9B50';
+                                        e.target.style.transform = 'translateY(0)';
+                                        e.target.style.boxShadow = 'none';
+                                    }}
+                                >
+                                    {board}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Case Study Highlights Section */}
+                <section style={{
+                    padding: '5rem 5%'
+                }}>
+                    <div style={{
+                        maxWidth: '1200px',
+                        margin: '0 auto'
+                    }}>
+                        <h2 style={{
+                            fontSize: 'clamp(2rem, 4vw, 3rem)',
+                            fontWeight: 900,
+                            letterSpacing: '-2px',
+                            marginBottom: '1rem',
+                            textAlign: 'center',
+                            color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
+                        }}>
+                            Case Study <span style={{ color: '#FF9B50' }}>Highlights</span>
+                        </h2>
+                        <p style={{
+                            fontSize: '1.1rem',
+                            textAlign: 'center',
+                            opacity: 0.7,
+                            marginBottom: '4rem',
+                            color: isDarkTheme ? '#EAEAEA' : '#2D2D2D'
+                        }}>
+                            Real-world impact across education and training institutions
+                        </p>
+
+                        {/* Case Study Cards */}
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                            gap: '2rem',
+                            marginBottom: '3rem'
+                        }}>
+                            {/* Case Study 1 */}
+                            <div style={{
+                                background: isDarkTheme ? '#262626' : '#ffffff',
+                                padding: '2rem',
+                                borderRadius: '12px',
+                                border: '1px solid rgba(0,0,0,0.05)',
+                                transition: 'all 0.3s ease',
+                                cursor: 'pointer'
+                            }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-5px)';
+                                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
+                                    e.currentTarget.style.borderColor = '#FF9B50';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                    e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
+                                }}
+                            >
+                                <div style={{
+                                    width: '50px',
+                                    height: '50px',
+                                    background: 'linear-gradient(135deg, rgba(255, 155, 80, 0.2) 0%, rgba(255, 155, 80, 0.1) 100%)',
+                                    borderRadius: '10px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    fontSize: '1.5rem',
+                                    marginBottom: '1.5rem'
+                                }}>
+                                    📈
+                                </div>
+                                <h3 style={{
+                                    fontSize: '1.3rem',
+                                    fontWeight: 700,
+                                    marginBottom: '0.5rem',
+                                    color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
+                                }}>
+                                    Surat CBSE School
+                                </h3>
+                                <p style={{
+                                    fontSize: '1.05rem',
+                                    lineHeight: '1.6',
+                                    color: '#FF9B50',
+                                    fontWeight: 600
+                                }}>
+                                    15% rise in admissions
+                                </p>
+                            </div>
+
+                            {/* Case Study 2 */}
+                            <div style={{
+                                background: isDarkTheme ? '#262626' : '#ffffff',
+                                padding: '2rem',
+                                borderRadius: '12px',
+                                border: '1px solid rgba(0,0,0,0.05)',
+                                transition: 'all 0.3s ease',
+                                cursor: 'pointer'
+                            }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-5px)';
+                                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
+                                    e.currentTarget.style.borderColor = '#FF9B50';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                    e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
+                                }}
+                            >
+                                <div style={{
+                                    width: '50px',
+                                    height: '50px',
+                                    background: 'linear-gradient(135deg, rgba(255, 155, 80, 0.2) 0%, rgba(255, 155, 80, 0.1) 100%)',
+                                    borderRadius: '10px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    fontSize: '1.5rem',
+                                    marginBottom: '1.5rem'
+                                }}>
+                                    🧪
+                                </div>
+                                <h3 style={{
+                                    fontSize: '1.3rem',
+                                    fontWeight: 700,
+                                    marginBottom: '0.5rem',
+                                    color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
+                                }}>
+                                    Ahmedabad Govt School
+                                </h3>
+                                <p style={{
+                                    fontSize: '1.05rem',
+                                    lineHeight: '1.6',
+                                    color: '#FF9B50',
+                                    fontWeight: 600
+                                }}>
+                                    Improved science comprehension
+                                </p>
+                            </div>
+
+                            {/* Case Study 3 */}
+                            <div style={{
+                                background: isDarkTheme ? '#262626' : '#ffffff',
+                                padding: '2rem',
+                                borderRadius: '12px',
+                                border: '1px solid rgba(0,0,0,0.05)',
+                                transition: 'all 0.3s ease',
+                                cursor: 'pointer'
+                            }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-5px)';
+                                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
+                                    e.currentTarget.style.borderColor = '#FF9B50';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                    e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
+                                }}
+                            >
+                                <div style={{
+                                    width: '50px',
+                                    height: '50px',
+                                    background: 'linear-gradient(135deg, rgba(255, 155, 80, 0.2) 0%, rgba(255, 155, 80, 0.1) 100%)',
+                                    borderRadius: '10px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    fontSize: '1.5rem',
+                                    marginBottom: '1.5rem'
+                                }}>
+                                    🤝
+                                </div>
+                                <h3 style={{
+                                    fontSize: '1.3rem',
+                                    fontWeight: 700,
+                                    marginBottom: '0.5rem',
+                                    color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
+                                }}>
+                                    CSR Program (Gujarat)
+                                </h3>
+                                <p style={{
+                                    fontSize: '1.05rem',
+                                    lineHeight: '1.6',
+                                    color: '#FF9B50',
+                                    fontWeight: 600
+                                }}>
+                                    1,200 students/year impact
+                                </p>
+                            </div>
+
+                            {/* Case Study 4 */}
+                            <div style={{
+                                background: isDarkTheme ? '#262626' : '#ffffff',
+                                padding: '2rem',
+                                borderRadius: '12px',
+                                border: '1px solid rgba(0,0,0,0.05)',
+                                transition: 'all 0.3s ease',
+                                cursor: 'pointer'
+                            }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-5px)';
+                                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
+                                    e.currentTarget.style.borderColor = '#FF9B50';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                    e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
+                                }}
+                            >
+                                <div style={{
+                                    width: '50px',
+                                    height: '50px',
+                                    background: 'linear-gradient(135deg, rgba(255, 155, 80, 0.2) 0%, rgba(255, 155, 80, 0.1) 100%)',
+                                    borderRadius: '10px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    fontSize: '1.5rem',
+                                    marginBottom: '1.5rem'
+                                }}>
+                                    🛡️
+                                </div>
+                                <h3 style={{
+                                    fontSize: '1.3rem',
+                                    fontWeight: 700,
+                                    marginBottom: '0.5rem',
+                                    color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
+                                }}>
+                                    Polytechnic Institute
+                                </h3>
+                                <p style={{
+                                    fontSize: '1.05rem',
+                                    lineHeight: '1.6',
+                                    color: '#FF9B50',
+                                    fontWeight: 600
+                                }}>
+                                    Safer industrial training
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* CTA Button */}
+                        <div style={{
+                            textAlign: 'center'
+                        }}>
+                            <button style={{
+                                background: '#FF9B50',
+                                color: '#fff',
+                                border: 'none',
+                                padding: '1rem 2.5rem',
+                                cursor: 'pointer',
+                                borderRadius: '30px',
+                                transition: 'all 0.3s ease',
+                                fontWeight: 600,
+                                fontSize: '1rem',
+                                letterSpacing: '0.5px',
+                                boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
+                            }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.transform = 'translateY(-3px)';
+                                    e.target.style.boxShadow = '0 8px 25px rgba(255, 155, 80, 0.5)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
+                                }}
+                            >
+                                View All Case Studies →
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+
+                {/* Testimonials Section */}
+                <section style={{
+                    padding: '5rem 5%'
+                }}>
+                    <div style={{
+                        maxWidth: '1200px',
+                        margin: '0 auto'
+                    }}>
+                        <h2 style={{
+                            fontSize: 'clamp(2rem, 4vw, 3rem)',
+                            fontWeight: 900,
+                            letterSpacing: '-2px',
+                            marginBottom: '1rem',
+                            textAlign: 'center',
+                            color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
+                        }}>
+                            What Our <span style={{ color: '#FF9B50' }}>Clients Say</span>
+                        </h2>
+                        <p style={{
+                            fontSize: '1.1rem',
+                            textAlign: 'center',
+                            opacity: 0.7,
+                            marginBottom: '4rem',
+                            color: isDarkTheme ? '#EAEAEA' : '#2D2D2D'
+                        }}>
+                            Trusted by educators, trainers, and industry leaders
+                        </p>
+
+                        {/* Testimonial Cards */}
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                            gap: '2rem'
+                        }}>
+                            {/* Testimonial 1 */}
+                            <div style={{
+                                background: isDarkTheme ? '#262626' : '#ffffff',
+                                padding: '2.5rem',
+                                borderRadius: '12px',
+                                border: '1px solid rgba(0,0,0,0.05)',
+                                transition: 'all 0.3s ease',
+                                position: 'relative'
+                            }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-5px)';
+                                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
+                                    e.currentTarget.style.borderColor = '#FF9B50';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                    e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
+                                }}
+                            >
+                                {/* Quote Icon */}
+                                <div style={{
+                                    fontSize: '3rem',
+                                    color: '#FF9B50',
+                                    opacity: 0.2,
+                                    lineHeight: 1,
+                                    marginBottom: '1rem'
+                                }}>
+                                    "
+                                </div>
+
+                                {/* Quote Text */}
+                                <p style={{
+                                    fontSize: '1.05rem',
+                                    lineHeight: '1.7',
+                                    color: isDarkTheme ? '#EAEAEA' : '#2D2D2D',
+                                    marginBottom: '1.5rem',
+                                    fontStyle: 'italic'
+                                }}>
+                                    Students understand complex concepts faster with Melzo VR Labs.
+                                </p>
+
+                                {/* Author */}
+                                <div style={{
+                                    borderTop: '2px solid rgba(255, 155, 80, 0.2)',
+                                    paddingTop: '1rem'
+                                }}>
+                                    <p style={{
+                                        fontSize: '0.95rem',
+                                        fontWeight: 700,
+                                        color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
+                                        marginBottom: '0.25rem'
+                                    }}>
+                                        Principal
+                                    </p>
+                                    <p style={{
+                                        fontSize: '0.9rem',
+                                        color: '#FF9B50',
+                                        fontWeight: 600
+                                    }}>
+                                        CBSE School, Surat
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Testimonial 2 */}
+                            <div style={{
+                                background: isDarkTheme ? '#262626' : '#ffffff',
+                                padding: '2.5rem',
+                                borderRadius: '12px',
+                                border: '1px solid rgba(0,0,0,0.05)',
+                                transition: 'all 0.3s ease',
+                                position: 'relative'
+                            }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-5px)';
+                                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
+                                    e.currentTarget.style.borderColor = '#FF9B50';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                    e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
+                                }}
+                            >
+                                {/* Quote Icon */}
+                                <div style={{
+                                    fontSize: '3rem',
+                                    color: '#FF9B50',
+                                    opacity: 0.2,
+                                    lineHeight: 1,
+                                    marginBottom: '1rem'
+                                }}>
+                                    "
+                                </div>
+
+                                {/* Quote Text */}
+                                <p style={{
+                                    fontSize: '1.05rem',
+                                    lineHeight: '1.7',
+                                    color: isDarkTheme ? '#EAEAEA' : '#2D2D2D',
+                                    marginBottom: '1.5rem',
+                                    fontStyle: 'italic'
+                                }}>
+                                    Our CSR education project achieved measurable learning outcomes.
+                                </p>
+
+                                {/* Author */}
+                                <div style={{
+                                    borderTop: '2px solid rgba(255, 155, 80, 0.2)',
+                                    paddingTop: '1rem'
+                                }}>
+                                    <p style={{
+                                        fontSize: '0.95rem',
+                                        fontWeight: 700,
+                                        color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
+                                        marginBottom: '0.25rem'
+                                    }}>
+                                        CSR Head
+                                    </p>
+                                    <p style={{
+                                        fontSize: '0.9rem',
+                                        color: '#FF9B50',
+                                        fontWeight: 600
+                                    }}>
+                                        Manufacturing Group
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Testimonial 3 */}
+                            <div style={{
+                                background: isDarkTheme ? '#262626' : '#ffffff',
+                                padding: '2.5rem',
+                                borderRadius: '12px',
+                                border: '1px solid rgba(0,0,0,0.05)',
+                                transition: 'all 0.3s ease',
+                                position: 'relative'
+                            }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-5px)';
+                                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
+                                    e.currentTarget.style.borderColor = '#FF9B50';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                    e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
+                                }}
+                            >
+                                {/* Quote Icon */}
+                                <div style={{
+                                    fontSize: '3rem',
+                                    color: '#FF9B50',
+                                    opacity: 0.2,
+                                    lineHeight: 1,
+                                    marginBottom: '1rem'
+                                }}>
+                                    "
+                                </div>
+
+                                {/* Quote Text */}
+                                <p style={{
+                                    fontSize: '1.05rem',
+                                    lineHeight: '1.7',
+                                    color: isDarkTheme ? '#EAEAEA' : '#2D2D2D',
+                                    marginBottom: '1.5rem',
+                                    fontStyle: 'italic'
+                                }}>
+                                    VR crime scene training improved accuracy and confidence.
+                                </p>
+
+                                {/* Author */}
+                                <div style={{
+                                    borderTop: '2px solid rgba(255, 155, 80, 0.2)',
+                                    paddingTop: '1rem'
+                                }}>
+                                    <p style={{
+                                        fontSize: '0.95rem',
+                                        fontWeight: 700,
+                                        color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
+                                        marginBottom: '0.25rem'
+                                    }}>
+                                        Police Training Officer
+                                    </p>
+                                    <p style={{
+                                        fontSize: '0.9rem',
+                                        color: '#FF9B50',
+                                        fontWeight: 600
+                                    }}>
+                                        Law Enforcement
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Testimonial 4 */}
+                            <div style={{
+                                background: isDarkTheme ? '#262626' : '#ffffff',
+                                padding: '2.5rem',
+                                borderRadius: '12px',
+                                border: '1px solid rgba(0,0,0,0.05)',
+                                transition: 'all 0.3s ease',
+                                position: 'relative'
+                            }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-5px)';
+                                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
+                                    e.currentTarget.style.borderColor = '#FF9B50';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                    e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
+                                }}
+                            >
+                                {/* Quote Icon */}
+                                <div style={{
+                                    fontSize: '3rem',
+                                    color: '#FF9B50',
+                                    opacity: 0.2,
+                                    lineHeight: 1,
+                                    marginBottom: '1rem'
+                                }}>
+                                    "
+                                </div>
+
+                                {/* Quote Text */}
+                                <p style={{
+                                    fontSize: '1.05rem',
+                                    lineHeight: '1.7',
+                                    color: isDarkTheme ? '#EAEAEA' : '#2D2D2D',
+                                    marginBottom: '1.5rem',
+                                    fontStyle: 'italic'
+                                }}>
+                                    Industrial VR reduced on-floor accidents during training.
+                                </p>
+
+                                {/* Author */}
+                                <div style={{
+                                    borderTop: '2px solid rgba(255, 155, 80, 0.2)',
+                                    paddingTop: '1rem'
+                                }}>
+                                    <p style={{
+                                        fontSize: '0.95rem',
+                                        fontWeight: 700,
+                                        color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
+                                        marginBottom: '0.25rem'
+                                    }}>
+                                        HR Manager
+                                    </p>
+                                    <p style={{
+                                        fontSize: '0.9rem',
+                                        color: '#FF9B50',
+                                        fontWeight: 600
+                                    }}>
+                                        Manufacturing Unit
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                {/* Stats Section */}
+                <section style={{
+                    padding: '5rem 5%'
+                }}>
+                    <div style={{
+                        maxWidth: '1200px',
+                        margin: '0 auto',
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                        gap: '3rem',
+                        textAlign: 'center'
+                    }}>
+                        <div>
+                            <div style={{
+                                fontSize: 'clamp(2.5rem, 4vw, 4rem)',
+                                fontWeight: 900,
+                                color: '#FF9B50',
+                                marginBottom: '0.5rem'
+                            }}>
+                                <CountUpAnimation end={100} suffix="+" duration={2000} />
+                            </div>
+                            <div style={{
+                                fontSize: '1.1rem',
+                                opacity: 0.7,
+                                fontWeight: 500
+                            }}>Institutions Served</div>
+                        </div>
+                        <div>
+                            <div style={{
+                                fontSize: 'clamp(2.5rem, 4vw, 4rem)',
+                                fontWeight: 900,
+                                color: '#FF9B50',
+                                marginBottom: '0.5rem'
+                            }}>
+                                <CountUpAnimation end={75} suffix="%" duration={2000} />
+                            </div>
+                            <div style={{
+                                fontSize: '1.1rem',
+                                opacity: 0.7,
+                                fontWeight: 500
+                            }}>Increased Learning Retention</div>
+                        </div>
+                        <div>
+                            <div style={{
+                                fontSize: 'clamp(2.5rem, 4vw, 4rem)',
+                                fontWeight: 900,
+                                color: '#FF9B50',
+                                marginBottom: '0.5rem'
+                            }}>
+                                <CountUpAnimation end={50} suffix="K+" duration={2000} />
+                            </div>
+                            <div style={{
+                                fontSize: '1.1rem',
+                                opacity: 0.7,
+                                fontWeight: 500
+                            }}>Students Impacted</div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* CTA Section */}
+                <section style={{
+                    padding: '5rem 5%',
+                    background: 'linear-gradient(45deg, #FF9B50 0%, #ffffffff 100%)',
+                    color: '#000',
+                    textAlign: 'center'
+                }}>
+                    <div style={{
+                        maxWidth: '800px',
+                        margin: '0 auto'
+                    }}>
+                        <h2 style={{
+                            fontSize: 'clamp(2rem, 4vw, 3rem)',
+                            fontWeight: 900,
+                            letterSpacing: '-2px',
+                            marginBottom: '1.5rem'
+                        }}>
+                            Ready to Transform Education?
+                        </h2>
+                        <p style={{
+                            fontSize: '1.2rem',
+                            marginBottom: '2.5rem',
+                            opacity: 0.95,
+                            lineHeight: '1.6'
+                        }}>
+                            Join hundreds of institutions already revolutionizing learning with Melzo's innovative solutions.
+                        </p>
                         <button style={{
-                            background: '#FF9B50',
-                            color: '#fff',
+                            background: '#fff',
+                            color: '#FF9B50',
                             border: 'none',
-                            padding: '1rem 2.5rem',
+                            padding: '1.2rem 3rem',
                             cursor: 'pointer',
                             borderRadius: '30px',
                             transition: 'all 0.3s ease',
-                            fontWeight: 600,
-                            fontSize: '1rem',
+                            fontWeight: 700,
+                            fontSize: '1.1rem',
                             letterSpacing: '0.5px',
-                            boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.2)'
                         }}
+                            onClick={() => onBookDemo && onBookDemo()}
                             onMouseEnter={(e) => {
                                 e.target.style.transform = 'translateY(-3px)';
-                                e.target.style.boxShadow = '0 8px 25px rgba(255, 155, 80, 0.5)';
+                                e.target.style.boxShadow = '0 8px 30px rgba(0,0,0,0.3)';
                             }}
                             onMouseLeave={(e) => {
                                 e.target.style.transform = 'translateY(0)';
-                                e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                            }}
-                        >
-                            View All Case Studies →
+                                e.target.style.boxShadow = '0 4px 20px rgba(0,0,0,0.2)';
+                            }}>
+                            Book A Demo Today
                         </button>
                     </div>
-                </div>
-            </section>
-
-
-            {/* Testimonials Section */}
-            <section style={{
-                padding: '5rem 5%'
-            }}>
-                <div style={{
-                    maxWidth: '1200px',
-                    margin: '0 auto'
-                }}>
-                    <h2 style={{
-                        fontSize: 'clamp(2rem, 4vw, 3rem)',
-                        fontWeight: 900,
-                        letterSpacing: '-2px',
-                        marginBottom: '1rem',
-                        textAlign: 'center',
-                        color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
-                    }}>
-                        What Our <span style={{ color: '#FF9B50' }}>Clients Say</span>
-                    </h2>
-                    <p style={{
-                        fontSize: '1.1rem',
-                        textAlign: 'center',
-                        opacity: 0.7,
-                        marginBottom: '4rem',
-                        color: isDarkTheme ? '#EAEAEA' : '#2D2D2D'
-                    }}>
-                        Trusted by educators, trainers, and industry leaders
-                    </p>
-
-                    {/* Testimonial Cards */}
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                        gap: '2rem'
-                    }}>
-                        {/* Testimonial 1 */}
-                        <div style={{
-                            background: isDarkTheme ? '#262626' : '#ffffff',
-                            padding: '2.5rem',
-                            borderRadius: '12px',
-                            border: '1px solid rgba(0,0,0,0.05)',
-                            transition: 'all 0.3s ease',
-                            position: 'relative'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'translateY(-5px)';
-                                e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
-                                e.currentTarget.style.borderColor = '#FF9B50';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'translateY(0)';
-                                e.currentTarget.style.boxShadow = 'none';
-                                e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
-                            }}
-                        >
-                            {/* Quote Icon */}
-                            <div style={{
-                                fontSize: '3rem',
-                                color: '#FF9B50',
-                                opacity: 0.2,
-                                lineHeight: 1,
-                                marginBottom: '1rem'
-                            }}>
-                                "
-                            </div>
-
-                            {/* Quote Text */}
-                            <p style={{
-                                fontSize: '1.05rem',
-                                lineHeight: '1.7',
-                                color: isDarkTheme ? '#EAEAEA' : '#2D2D2D',
-                                marginBottom: '1.5rem',
-                                fontStyle: 'italic'
-                            }}>
-                                Students understand complex concepts faster with Melzo VR Labs.
-                            </p>
-
-                            {/* Author */}
-                            <div style={{
-                                borderTop: '2px solid rgba(255, 155, 80, 0.2)',
-                                paddingTop: '1rem'
-                            }}>
-                                <p style={{
-                                    fontSize: '0.95rem',
-                                    fontWeight: 700,
-                                    color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
-                                    marginBottom: '0.25rem'
-                                }}>
-                                    Principal
-                                </p>
-                                <p style={{
-                                    fontSize: '0.9rem',
-                                    color: '#FF9B50',
-                                    fontWeight: 600
-                                }}>
-                                    CBSE School, Surat
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Testimonial 2 */}
-                        <div style={{
-                            background: isDarkTheme ? '#262626' : '#ffffff',
-                            padding: '2.5rem',
-                            borderRadius: '12px',
-                            border: '1px solid rgba(0,0,0,0.05)',
-                            transition: 'all 0.3s ease',
-                            position: 'relative'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'translateY(-5px)';
-                                e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
-                                e.currentTarget.style.borderColor = '#FF9B50';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'translateY(0)';
-                                e.currentTarget.style.boxShadow = 'none';
-                                e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
-                            }}
-                        >
-                            {/* Quote Icon */}
-                            <div style={{
-                                fontSize: '3rem',
-                                color: '#FF9B50',
-                                opacity: 0.2,
-                                lineHeight: 1,
-                                marginBottom: '1rem'
-                            }}>
-                                "
-                            </div>
-
-                            {/* Quote Text */}
-                            <p style={{
-                                fontSize: '1.05rem',
-                                lineHeight: '1.7',
-                                color: isDarkTheme ? '#EAEAEA' : '#2D2D2D',
-                                marginBottom: '1.5rem',
-                                fontStyle: 'italic'
-                            }}>
-                                Our CSR education project achieved measurable learning outcomes.
-                            </p>
-
-                            {/* Author */}
-                            <div style={{
-                                borderTop: '2px solid rgba(255, 155, 80, 0.2)',
-                                paddingTop: '1rem'
-                            }}>
-                                <p style={{
-                                    fontSize: '0.95rem',
-                                    fontWeight: 700,
-                                    color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
-                                    marginBottom: '0.25rem'
-                                }}>
-                                    CSR Head
-                                </p>
-                                <p style={{
-                                    fontSize: '0.9rem',
-                                    color: '#FF9B50',
-                                    fontWeight: 600
-                                }}>
-                                    Manufacturing Group
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Testimonial 3 */}
-                        <div style={{
-                            background: isDarkTheme ? '#262626' : '#ffffff',
-                            padding: '2.5rem',
-                            borderRadius: '12px',
-                            border: '1px solid rgba(0,0,0,0.05)',
-                            transition: 'all 0.3s ease',
-                            position: 'relative'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'translateY(-5px)';
-                                e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
-                                e.currentTarget.style.borderColor = '#FF9B50';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'translateY(0)';
-                                e.currentTarget.style.boxShadow = 'none';
-                                e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
-                            }}
-                        >
-                            {/* Quote Icon */}
-                            <div style={{
-                                fontSize: '3rem',
-                                color: '#FF9B50',
-                                opacity: 0.2,
-                                lineHeight: 1,
-                                marginBottom: '1rem'
-                            }}>
-                                "
-                            </div>
-
-                            {/* Quote Text */}
-                            <p style={{
-                                fontSize: '1.05rem',
-                                lineHeight: '1.7',
-                                color: isDarkTheme ? '#EAEAEA' : '#2D2D2D',
-                                marginBottom: '1.5rem',
-                                fontStyle: 'italic'
-                            }}>
-                                VR crime scene training improved accuracy and confidence.
-                            </p>
-
-                            {/* Author */}
-                            <div style={{
-                                borderTop: '2px solid rgba(255, 155, 80, 0.2)',
-                                paddingTop: '1rem'
-                            }}>
-                                <p style={{
-                                    fontSize: '0.95rem',
-                                    fontWeight: 700,
-                                    color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
-                                    marginBottom: '0.25rem'
-                                }}>
-                                    Police Training Officer
-                                </p>
-                                <p style={{
-                                    fontSize: '0.9rem',
-                                    color: '#FF9B50',
-                                    fontWeight: 600
-                                }}>
-                                    Law Enforcement
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Testimonial 4 */}
-                        <div style={{
-                            background: isDarkTheme ? '#262626' : '#ffffff',
-                            padding: '2.5rem',
-                            borderRadius: '12px',
-                            border: '1px solid rgba(0,0,0,0.05)',
-                            transition: 'all 0.3s ease',
-                            position: 'relative'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'translateY(-5px)';
-                                e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
-                                e.currentTarget.style.borderColor = '#FF9B50';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'translateY(0)';
-                                e.currentTarget.style.boxShadow = 'none';
-                                e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
-                            }}
-                        >
-                            {/* Quote Icon */}
-                            <div style={{
-                                fontSize: '3rem',
-                                color: '#FF9B50',
-                                opacity: 0.2,
-                                lineHeight: 1,
-                                marginBottom: '1rem'
-                            }}>
-                                "
-                            </div>
-
-                            {/* Quote Text */}
-                            <p style={{
-                                fontSize: '1.05rem',
-                                lineHeight: '1.7',
-                                color: isDarkTheme ? '#EAEAEA' : '#2D2D2D',
-                                marginBottom: '1.5rem',
-                                fontStyle: 'italic'
-                            }}>
-                                Industrial VR reduced on-floor accidents during training.
-                            </p>
-
-                            {/* Author */}
-                            <div style={{
-                                borderTop: '2px solid rgba(255, 155, 80, 0.2)',
-                                paddingTop: '1rem'
-                            }}>
-                                <p style={{
-                                    fontSize: '0.95rem',
-                                    fontWeight: 700,
-                                    color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
-                                    marginBottom: '0.25rem'
-                                }}>
-                                    HR Manager
-                                </p>
-                                <p style={{
-                                    fontSize: '0.9rem',
-                                    color: '#FF9B50',
-                                    fontWeight: 600
-                                }}>
-                                    Manufacturing Unit
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-            {/* Stats Section */}
-            <section style={{
-                padding: '5rem 5%'
-            }}>
-                <div style={{
-                    maxWidth: '1200px',
-                    margin: '0 auto',
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                    gap: '3rem',
-                    textAlign: 'center'
-                }}>
-                    <div>
-                        <div style={{
-                            fontSize: 'clamp(2.5rem, 4vw, 4rem)',
-                            fontWeight: 900,
-                            color: '#FF9B50',
-                            marginBottom: '0.5rem'
-                        }}>
-                            <CountUpAnimation end={100} suffix="+" duration={2000} />
-                        </div>
-                        <div style={{
-                            fontSize: '1.1rem',
-                            opacity: 0.7,
-                            fontWeight: 500
-                        }}>Institutions Served</div>
-                    </div>
-                    <div>
-                        <div style={{
-                            fontSize: 'clamp(2.5rem, 4vw, 4rem)',
-                            fontWeight: 900,
-                            color: '#FF9B50',
-                            marginBottom: '0.5rem'
-                        }}>
-                            <CountUpAnimation end={75} suffix="%" duration={2000} />
-                        </div>
-                        <div style={{
-                            fontSize: '1.1rem',
-                            opacity: 0.7,
-                            fontWeight: 500
-                        }}>Increased Learning Retention</div>
-                    </div>
-                    <div>
-                        <div style={{
-                            fontSize: 'clamp(2.5rem, 4vw, 4rem)',
-                            fontWeight: 900,
-                            color: '#FF9B50',
-                            marginBottom: '0.5rem'
-                        }}>
-                            <CountUpAnimation end={50} suffix="K+" duration={2000} />
-                        </div>
-                        <div style={{
-                            fontSize: '1.1rem',
-                            opacity: 0.7,
-                            fontWeight: 500
-                        }}>Students Impacted</div>
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section style={{
-                padding: '5rem 5%',
-                background: 'linear-gradient(45deg, #FF9B50 0%, #ffffffff 100%)',
-                color: '#000',
-                textAlign: 'center'
-            }}>
-                <div style={{
-                    maxWidth: '800px',
-                    margin: '0 auto'
-                }}>
-                    <h2 style={{
-                        fontSize: 'clamp(2rem, 4vw, 3rem)',
-                        fontWeight: 900,
-                        letterSpacing: '-2px',
-                        marginBottom: '1.5rem'
-                    }}>
-                        Ready to Transform Education?
-                    </h2>
-                    <p style={{
-                        fontSize: '1.2rem',
-                        marginBottom: '2.5rem',
-                        opacity: 0.95,
-                        lineHeight: '1.6'
-                    }}>
-                        Join hundreds of institutions already revolutionizing learning with Melzo's innovative solutions.
-                    </p>
-                    <button style={{
-                        background: '#fff',
-                        color: '#FF9B50',
-                        border: 'none',
-                        padding: '1.2rem 3rem',
-                        cursor: 'pointer',
-                        borderRadius: '30px',
-                        transition: 'all 0.3s ease',
-                        fontWeight: 700,
-                        fontSize: '1.1rem',
-                        letterSpacing: '0.5px',
-                        boxShadow: '0 4px 20px rgba(0,0,0,0.2)'
-                    }}
-                        onClick={() => onBookDemo && onBookDemo()}
-                        onMouseEnter={(e) => {
-                            e.target.style.transform = 'translateY(-3px)';
-                            e.target.style.boxShadow = '0 8px 30px rgba(0,0,0,0.3)';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.target.style.transform = 'translateY(0)';
-                            e.target.style.boxShadow = '0 4px 20px rgba(0,0,0,0.2)';
-                        }}>
-                        Book A Demo Today
-                    </button>
-                </div>
-            </section>
+                </section>
 
 
 
-        </div>
+            </div>
+        </>
     );
 }
 
@@ -1068,58 +1081,60 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
 
     const products = [
         {
-            id: 'hardware-solutions',
+            id: 'products', // Maps to Products page
             icon: '/images/vr-chair.png',
             isImage: true,
             title: 'Hardware Solutions',
             tagline: 'Cutting-Edge VR Equipment',
             description: 'Premium VR headsets, motion chairs, haptic devices, and complete hardware setups for immersive experiences across education and entertainment.',
-
         },
         {
-            id: 'education-training',
+            id: 'products', // Maps to Products page
+            icon: '/images/software_solutions.png',
+            isImage: true,
+            title: 'Software Solutions',
+            tagline: 'Cutting-Edge VR Solution',
+            description: 'An all-in-one immersive software ecosystem that synchronizes spatial computing, kinetic telemetry, and haptic feedback to power high-fidelity simulation and interactive storytelling across any platform.',
+        },
+        {
+            id: 'products', // Maps to Products page
             icon: '/images/stu-vr.png',
             isImage: true,
             title: 'Education & Training',
             tagline: 'Transform Learning Experiences',
             description: 'Comprehensive VR solutions for K-10 to higher education, including curriculum-aligned labs, interactive experiments, and skill development programs.',
-
         },
         {
-            id: 'industrial-enterprise',
+            id: 'products', // Maps to Products page
             icon: '/images/indus.png',
             isImage: true,
             title: 'Industrial & Enterprise Solutions',
             tagline: 'Professional Training at Scale',
             description: 'Enterprise-grade VR training systems for industrial operations, safety protocols, employee onboarding, and professional skill enhancement.',
-
         },
         {
-            id: 'simulation-defense',
+            id: 'products', // Maps to Products page
             icon: '/images/defence1.png',
             isImage: true,
             title: 'Defence Simulation',
             tagline: 'Mission-Critical Training',
             description: 'Advanced simulation systems for defense training, tactical operations, emergency response, and high-stakes scenario preparation.',
-
         },
         {
-            id: 'tourism',
+            id: 'products', // Maps to Products page
             icon: '/images/tour.png',
             isImage: true,
             title: 'Tourism',
             tagline: 'Innovation & Future Tech',
             description: 'Exploring new frontiers in VR technology including healthcare simulations, architectural visualization, tourism, and next-generation applications.',
-
         },
         {
-            id: 'emerging-applications',
+            id: 'products', // Maps to Products page
             icon: '/images/add.png',
             isImage: true,
             title: 'Emerging Applications',
             tagline: 'Innovation & Future Tech',
             description: 'Exploring new frontiers in VR technology including healthcare simulations, architectural visualization, tourism, and next-generation applications.',
-
         }
     ];
 
@@ -1192,7 +1207,7 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
                                         alt={product.title}
                                         style={{
                                             width: '320px',
-                                            height: '200px',
+                                            height: '190px',
                                             objectFit: 'contain'
                                         }}
                                     />
@@ -1205,7 +1220,7 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
                             <h3 style={{
                                 fontSize: 'clamp(2rem, 3vw, 2.5rem)',
                                 fontWeight: 800,
-                                marginBottom: '0.5rem',
+                                marginBottom: '0.2rem',
                                 color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
                                 animation: currentSlide === index ? 'fadeInUp 0.6s ease-out 0.1s both' : 'none'
                             }}>
