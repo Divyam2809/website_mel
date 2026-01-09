@@ -1,36 +1,37 @@
 import React, { useState, useRef, useEffect, Suspense } from 'react';
 
 // Lazy Load Pages for Performance Optimization
-const Home = React.lazy(() => import('./Home'));
-const Products = React.lazy(() => import('./Products'));
-const AnubhavProduct = React.lazy(() => import('./AnubhavProduct'));
-const Industries = React.lazy(() => import('./Industries'));
+const Home = React.lazy(() => import('./pages/Home'));
+const Products = React.lazy(() => import('./pages/Products'));
+const AnubhavProduct = React.lazy(() => import('./pages/AnubhavProduct'));
+const Industries = React.lazy(() => import('./pages/Industries'));
 const Blog = React.lazy(() => import('./Blog'));
 const CaseStudies = React.lazy(() => import('./CaseStudies'));
 const FAQs = React.lazy(() => import('./FAQs'));
-const About = React.lazy(() => import('./About'));
+const About = React.lazy(() => import('./pages/About'));
 const Guidelines = React.lazy(() => import('./Guidelines'));
 const GenericProduct = React.lazy(() => import('./GenericProduct'));
-const NineDChair = React.lazy(() => import('./NineDChair'));
-const VRLab = React.lazy(() => import('./VRLab'));
-const VRElearning = React.lazy(() => import('./VRElearning'));
-const VRERP = React.lazy(() => import('./VRERP'));
-const VRIndustrial = React.lazy(() => import('./VRIndustrial'));
-const VRAnimalSurgery = React.lazy(() => import('./VRAnimalSurgery'));
-const VRUdyog = React.lazy(() => import('./VRUdyog'));
-const VRRealEstate = React.lazy(() => import('./VRRealEstate'));
-const VRHospitality = React.lazy(() => import('./VRHospitality'));
-const VRExhibition = React.lazy(() => import('./VRExhibition'));
-const VRKala = React.lazy(() => import('./VRKala'));
-const VRCrimeScene = React.lazy(() => import('./VRCrimeScene'));
-const DroneSimulator = React.lazy(() => import('./DroneSimulator'));
-const AircraftSimulator = React.lazy(() => import('./AircraftSimulator'));
-const VRDefence = React.lazy(() => import('./VRDefence'));
-const VRLiveStream = React.lazy(() => import('./VRLiveStream'));
+const NineDChair = React.lazy(() => import('./pages/NineDChair'));
+const FiveDChair = React.lazy(() => import('./pages/FiveDChair'));
+const VRLab = React.lazy(() => import('./pages/VRLab'));
+const VRElearning = React.lazy(() => import('./pages/VRElearning'));
+const VRERP = React.lazy(() => import('./pages/VRERP'));
+const VRIndustrial = React.lazy(() => import('./pages/VRIndustrial'));
+const VRAnimalSurgery = React.lazy(() => import('./pages/VRAnimalSurgery'));
+const VRUdyog = React.lazy(() => import('./pages/VRUdyog'));
+const VRRealEstate = React.lazy(() => import('./pages/VRRealEstate'));
+const VRHospitality = React.lazy(() => import('./pages/VRHospitality'));
+const VRExhibition = React.lazy(() => import('./pages/VRExhibition'));
+const VRKala = React.lazy(() => import('./pages/VRKala'));
+const VRCrimeScene = React.lazy(() => import('./pages/VRCrimeScene'));
+const DroneSimulator = React.lazy(() => import('./pages/DroneSimulator'));
+const AircraftSimulator = React.lazy(() => import('./pages/AircraftSimulator'));
+const VRDefence = React.lazy(() => import('./pages/VRDefence'));
+const VRLiveStream = React.lazy(() => import('./pages/VRLiveStream'));
 const MelzoNews = React.lazy(() => import('./MelzoNews'));
 
-import Footer from './Footer';
-import BookDemo from './BookDemo';
+import Footer from './components/Footer';
+import BookDemo from './components/BookDemo';
 
 import { Routes, Route, useNavigate, useLocation, Navigate, useParams } from 'react-router-dom';
 
@@ -179,6 +180,7 @@ export default function App() {
 
                         {/* Individual Product Pages */}
                         <Route path="/ninedchair" element={<NineDChair {...commonProps} />} />
+                        <Route path="/fivedchair" element={<FiveDChair {...commonProps} />} />
                         <Route path="/vrlab" element={<VRLab {...commonProps} />} />
                         <Route path="/vrelearning" element={<VRElearning {...commonProps} />} />
                         <Route path="/vrerp" element={<VRERP {...commonProps} />} />

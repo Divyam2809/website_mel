@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import AppNav from './AppNav';
+import AppNav from './components/AppNav';
 
 export default function FAQs({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const faqs = [

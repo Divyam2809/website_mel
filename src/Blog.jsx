@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AppNav from './AppNav';
+import AppNav from './components/AppNav';
 
 export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const posts = [

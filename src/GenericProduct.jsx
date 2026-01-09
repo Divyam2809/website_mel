@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { productsData } from './productsData';
+import { productsData } from './data/productsData';
 
 // Video Gallery Component (Internal)
 function VideoGallery({ videos, isDarkTheme }) {
@@ -59,7 +59,7 @@ function VideoGallery({ videos, isDarkTheme }) {
     );
 }
 
-import AppNav from './AppNav';
+import AppNav from './components/AppNav';
 
 export default function GenericProduct({ productId, onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const product = productsData[productId] || {};

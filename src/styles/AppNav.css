@@ -1,0 +1,340 @@
+/* Navigation Styles for App.jsx */
+
+/* Theme-aware navigation */
+.app-nav-container {
+    padding: 0.8rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.app-nav-container.theme-dark {
+    background-color: rgba(38, 38, 38, 0.7);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+}
+
+.app-nav-container.theme-light {
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+}
+
+.app-nav-logo {
+    height: 45px;
+    cursor: pointer;
+    z-index: 1002;
+    position: relative;
+}
+
+/* Desktop Navigation Links */
+.app-desktop-nav {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.app-nav-link {
+    cursor: pointer;
+    transition: color 0.3s;
+    font-weight: 500;
+}
+
+.app-nav-link.active {
+    color: #FF9B50 !important;
+    font-weight: 600;
+}
+
+.app-nav-link.theme-dark {
+    color: #FFFFFF;
+}
+
+.app-nav-link.theme-light {
+    color: #2D2D2D;
+}
+
+.app-nav-link:hover {
+    color: #FF9B50;
+}
+
+/* Resources Dropdown */
+.app-resources-dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.app-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-top: 1rem;
+    z-index: 1000;
+}
+
+.app-dropdown-content {
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding: 0.5rem;
+    min-width: 160px;
+}
+
+.app-dropdown-content.theme-dark {
+    background: #262626;
+    border: 1px solid #333;
+}
+
+.app-dropdown-content.theme-light {
+    background: #ffffff;
+    border: 1px solid #eee;
+}
+
+.app-dropdown-item {
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.app-dropdown-item.theme-dark {
+    color: #fff;
+}
+
+.app-dropdown-item.theme-light {
+    color: #333;
+}
+
+.app-dropdown-item:hover.theme-dark {
+    background: rgba(255, 155, 80, 0.1);
+}
+
+.app-dropdown-item:hover.theme-light {
+    background: rgba(255, 155, 80, 0.08);
+}
+
+/* Theme Toggle Button */
+.app-theme-toggle {
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.app-theme-toggle.theme-dark {
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+}
+
+.app-theme-toggle.theme-light {
+    background: rgba(0, 0, 0, 0.05);
+    color: #2D2D2D;
+}
+
+.app-theme-toggle:hover {
+    transform: scale(1.05);
+}
+
+/* Book Demo Button */
+.app-book-demo-btn {
+    padding: 0.8rem 1.8rem;
+    background: linear-gradient(135deg, #FF9B50 0%, #FF7A30 100%);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 15px rgba(255, 155, 80, 0.3);
+    transition: all 0.3s ease;
+}
+
+.app-book-demo-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 155, 80, 0.4);
+}
+
+/* Mobile Hamburger */
+.app-mobile-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 1002;
+    position: relative;
+}
+
+.app-hamburger-line {
+    width: 28px;
+    height: 3px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.app-hamburger-line.theme-dark {
+    background: #FFFFFF;
+}
+
+.app-hamburger-line.theme-light {
+    background: #2D2D2D;
+}
+
+.app-hamburger-line.open:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.app-hamburger-line.open:nth-child(2) {
+    opacity: 0;
+}
+
+.app-hamburger-line.open:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px);
+}
+
+/* Mobile Menu */
+.app-mobile-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    height: 100vh;
+    padding: 6rem 2rem 2rem;
+    z-index: 1001;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+}
+
+.app-mobile-menu.open {
+    transform: translateX(0);
+}
+
+.app-mobile-menu.theme-dark {
+    background: #262626;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.app-mobile-menu.theme-light {
+    background: #ffffff;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.app-mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.app-mobile-nav-link {
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.app-mobile-nav-link.active {
+    color: #FF9B50;
+    font-weight: 600;
+}
+
+.app-mobile-nav-link.theme-dark {
+    color: #FFFFFF;
+}
+
+.app-mobile-nav-link.theme-light {
+    color: #2D2D2D;
+}
+
+.app-mobile-resources-section {
+    margin-top: 1rem;
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.app-mobile-resource-link {
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.app-mobile-resource-link.theme-dark {
+    color: #AAAAAA;
+}
+
+.app-mobile-resource-link.theme-light {
+    color: #666666;
+}
+
+.app-mobile-resource-link:hover {
+    color: #FF9B50;
+}
+
+.app-mobile-menu-buttons {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Page Loader */
+.app-page-loader {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FF9B50;
+}
+
+.app-page-loader.theme-dark {
+    background: #1A1A1A;
+}
+
+.app-page-loader.theme-light {
+    background: #ffffff;
+}
+
+.app-page-loader-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .app-desktop-nav {
+        display: none !important;
+    }
+
+    .app-mobile-hamburger {
+        display: flex !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .app-nav-container {
+        padding: 1rem 4%;
+    }
+
+    .app-nav-logo {
+        height: 45px;
+    }
+
+    .app-mobile-menu {
+        width: 100%;
+    }
+}

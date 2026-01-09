@@ -1,0 +1,281 @@
+/* BookDemo.css - Book Demo Modal Styles */
+
+/* Modal Overlay */
+.book-demo-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    padding: 1rem;
+    backdrop-filter: blur(5px);
+}
+
+/* Modal Container */
+.book-demo-modal {
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    animation: slideUp 0.3s ease;
+}
+
+.book-demo-modal.theme-dark {
+    background: linear-gradient(135deg, #1A1A1A 0%, #262626 100%);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.book-demo-modal.theme-light {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F8F8F8 100%);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+/* Close Button */
+.book-demo-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(255, 155, 80, 0.1);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #FF9B50;
+    transition: all 0.3s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-demo-close:hover {
+    background: #FF9B50;
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+/* Modal Content */
+.book-demo-content {
+    padding: 3rem 2.5rem;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+/* Header */
+.book-demo-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.book-demo-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin-bottom: 0.5rem;
+    color: #FF9B50;
+}
+
+.book-demo-subtitle {
+    font-size: 1.05rem;
+    opacity: 0.8;
+    line-height: 1.6;
+}
+
+/* Form */
+.book-demo-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.book-demo-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.book-demo-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+.book-demo-input,
+.book-demo-textarea,
+.book-demo-select {
+    padding: 0.9rem 1.2rem;
+    border-radius: 12px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.book-demo-input.theme-dark,
+.book-demo-textarea.theme-dark,
+.book-demo-select.theme-dark {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+}
+
+.book-demo-input.theme-light,
+.book-demo-textarea.theme-light,
+.book-demo-select.theme-light {
+    background: #ffffff;
+    color: #2D2D2D;
+}
+
+.book-demo-input:focus,
+.book-demo-textarea:focus,
+.book-demo-select:focus {
+    outline: none;
+    border-color: #FF9B50;
+    box-shadow: 0 0 0 3px rgba(255, 155, 80, 0.1);
+}
+
+.book-demo-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Checkbox */
+.book-demo-checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+}
+
+.book-demo-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #FF9B50;
+}
+
+.book-demo-checkbox-label {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.book-demo-checkbox-label a {
+    color: #FF9B50;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.book-demo-checkbox-label a:hover {
+    text-decoration: underline;
+}
+
+/* Submit Button */
+.book-demo-submit {
+    background: linear-gradient(135deg, #FF9B50 0%, #FF7A30 100%);
+    color: #fff;
+    border: none;
+    padding: 1.2rem 2rem;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 155, 80, 0.3);
+    margin-top: 0.5rem;
+}
+
+.book-demo-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 155, 80, 0.4);
+}
+
+.book-demo-submit:active {
+    transform: translateY(0);
+}
+
+.book-demo-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Success Message */
+.book-demo-success {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.book-demo-success-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+.book-demo-success-title {
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    color: #FF9B50;
+}
+
+.book-demo-success-text {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.book-demo-success-btn {
+    background: #FF9B50;
+    color: #fff;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.book-demo-success-btn:hover {
+    background: #FF8A3D;
+    transform: translateY(-2px);
+}
+
+/* Animation */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+    .book-demo-content {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .book-demo-title {
+        font-size: 2rem;
+    }
+
+    .book-demo-close {
+        top: 1rem;
+        right: 1rem;
+    }
+}
