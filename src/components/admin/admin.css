@@ -1,0 +1,653 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Brand Colors */
+    --primary: #FF9B50;
+    --primary-gradient: linear-gradient(135deg, #FF9B50 0%, #ff7e21 100%);
+    --primary-hover-gradient: linear-gradient(135deg, #ffab6b 0%, #ff8c33 100%);
+
+    /* Action Colors */
+    --action-edit-bg: #eff6ff;
+    --action-edit-text: #2563eb;
+    --action-delete-bg: #fef2f2;
+    --action-delete-text: #dc2626;
+
+    /* Backgrounds */
+    --bg-main: #f8fafc;
+    --bg-gradient: linear-gradient(135deg, #fffbf7 0%, #fff0e3 100%);
+
+    /* Surface Colors */
+    --surface-white: #ffffff;
+
+    /* Text Colors */
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+
+    /* Borders & Styles */
+    --border-subtle: #e2e8f0;
+    --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+
+    /* Button Shadows */
+    --btn-shadow: 0 4px 12px rgba(255, 155, 80, 0.3);
+    --btn-shadow-hover: 0 8px 20px rgba(255, 155, 80, 0.45);
+
+    /* Spacing & Radius */
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --radius-default: 16px;
+    --radius-pill: 50px;
+}
+
+body {
+    background: var(--bg-gradient) !important;
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif !important;
+    min-height: 100vh;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* --- Layout Container --- */
+.admin-container {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* --- Header Section --- */
+.admin-header {
+    background: var(--surface-white);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-default);
+    padding: 32px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-soft);
+}
+
+.admin-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-header h1::before {
+    content: '';
+    display: flex;
+    width: 6px;
+    height: 28px;
+    background: var(--primary);
+    border-radius: 10px;
+    border-color: #dc2626;
+}
+
+/* --- Outstanding Buttons --- */
+.admin-btn {
+    background: var(--primary-gradient);
+    color: rgb(230, 11, 11);
+    font-weight: 600;
+    padding: 14px 32px;
+    border-radius: var(--radius-pill);
+    border: 1 px solid #de7676;
+    cursor: pointer;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: var(--btn-shadow);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.admin-btn:hover {
+    background: var(--primary-hover-gradient);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--btn-shadow-hover);
+}
+
+.admin-btn:active {
+    transform: translateY(-1px);
+    box-shadow: var(--btn-shadow);
+}
+
+.admin-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    background: var(--text-secondary);
+}
+
+/* --- Action Buttons (Edit/Delete) --- */
+/* These are now pill-shaped and highly interactive */
+.action-btn {
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-right: 12px;
+    transition: all 0.2s ease-out;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Clean Edit Button */
+.edit-btn {
+    background: rgb(244, 192, 167);
+    color: var(--action-edit-text);
+    border: 2px solid #dde6f8;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.05);
+}
+
+.edit-btn:hover {
+    background: var(--action-edit-text);
+    color: white;
+    border-color: var(--action-edit-text);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* Clean Delete Button */
+.delete-btn {
+    background: rgb(244, 192, 167);
+    color: var(--action-delete-text);
+    border: 2px solid #fee2e2;
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.05);
+}
+
+.delete-btn:hover {
+    background: var(--action-delete-text);
+    color: white;
+    border-color: var(--action-delete-text);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+/* --- Content Cards --- */
+.dashboard-content,
+.login-form,
+.blog-form {
+    background: var(--surface-white) !important;
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px;
+    padding: 40px !important;
+    box-shadow: var(--shadow-card);
+}
+
+/* --- Auth Form (Amazing & Eyecatchy) --- */
+.login-form {
+    max-width: 440px;
+    margin: 10vh auto;
+    text-align: center;
+    padding: 60px 40px !important;
+    background: rgba(255, 255, 255, 0.85);
+    /* Glass effect */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.1),
+        0 10px 20px rgba(255, 155, 80, 0.1);
+    /* Subtle brand tint */
+    animation: slideUpFade 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Shine effect on card top */
+.login-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(to right,
+            transparent,
+            rgba(255, 255, 255, 0.8),
+            transparent);
+    transform: rotate(30deg);
+    animation: shineCard 3s infinite linear;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.login-form h2 {
+    margin-bottom: 40px;
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: var(--primary-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+    position: relative;
+}
+
+.login-form .admin-input {
+    margin-bottom: 24px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #f1f5f9;
+    padding: 18px 24px;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.login-form .admin-input:focus {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    box-shadow: 0 8px 16px rgba(255, 155, 80, 0.15);
+}
+
+.login-form .admin-btn {
+    margin-top: 24px;
+    width: 100%;
+    padding: 18px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ffffff !important;
+    /* Force white text */
+    background: linear-gradient(135deg, #FF9B50 0%, #ff5e00 100%);
+    /* Stronger orange */
+    box-shadow: 0 10px 25px rgba(255, 155, 80, 0.4);
+    border: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border-radius: 50px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.login-form .admin-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: 0.5s;
+    z-index: -1;
+}
+
+.login-form .admin-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(255, 155, 80, 0.5);
+    background: linear-gradient(135deg, #ff8c33 0%, #e04f00 100%);
+}
+
+.login-form .admin-btn:hover::before {
+    left: 100%;
+}
+
+.login-form .admin-btn:active {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 155, 80, 0.3);
+}
+
+/* Animations */
+@keyframes slideUpFade {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes shineCard {
+    0% {
+        transform: translateX(-100%) rotate(30deg);
+    }
+
+    100% {
+        transform: translateX(100%) rotate(30deg);
+    }
+}
+
+/* Dark Mode Adjustments for Login */
+body.dark-mode .login-form {
+    background: rgba(30, 41, 59, 0.85);
+    /* Dark glass */
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .login-form .admin-input {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: #334155;
+    color: white;
+}
+
+body.dark-mode .login-form .admin-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 8px 16px rgba(255, 155, 80, 0.2);
+}
+
+/* --- Tab Navigation --- */
+.dashboard-tabs {
+    display: inline-flex;
+    background: white;
+    padding: 16px;
+    border-radius: 0px;
+    border: 1px solid var(--border-subtle);
+    margin-bottom: 24px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.dashboard-tabs .admin-btn {
+    background: transparent;
+    color: var(--text-secondary);
+    box-shadow: none;
+    padding: 10px 24px;
+    border-radius: 40px;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+.dashboard-tabs .admin-btn.active {
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: 0 4px 10px rgba(255, 155, 80, 0.3);
+    transform: none;
+    /* Keep tabs stable */
+}
+
+.dashboard-tabs .admin-btn:hover:not(.active) {
+    background: #f1f5f9;
+    color: var(--text-primary);
+    transform: none;
+    box-shadow: none;
+}
+
+/* --- Table Styles --- */
+.dashboard-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+    /* Space between rows */
+    margin-top: 10px;
+}
+
+.dashboard-table th {
+    background: #ed995e;
+    color: #130a05;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 16px 24px;
+    /* Tighter standard padding */
+    text-align: left;
+    border: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    /* Prevent header wrapping */
+}
+
+/* Specific Column Formatting */
+.dashboard-table th:nth-child(1),
+.dashboard-table td:nth-child(1) {
+    width: 40%;
+    text-align: center;
+}
+
+/* Title Area - Centered */
+.dashboard-table th:nth-child(2),
+.dashboard-table td:nth-child(2) {
+    width: 80%;
+    text-align: center;
+}
+
+/* Category - Centered */
+.dashboard-table th:nth-child(3),
+.dashboard-table td:nth-child(3) {
+    width: 15%;
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* Status */
+
+/* Title Area */
+.dashboard-table th:nth-child(2),
+.dashboard-table td:nth-child(2) {
+    width: 20%;
+}
+
+/* Category */
+.dashboard-table th:nth-child(3),
+.dashboard-table td:nth-child(3) {
+    width: 15%;
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* Status */
+.dashboard-table th:nth-child(4),
+.dashboard-table td:nth-child(4) {
+    width: 25%;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Actions */
+
+.dashboard-table th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    text-align: center;
+}
+
+.dashboard-table th:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    text-align: center;
+
+}
+
+.dashboard-table tr {
+    transition: transform 0.2s ease;
+}
+
+.dashboard-table tbody tr {
+    /* Exact match to button color #FF9B50 but readable */
+    background: rgba(255, 155, 80, 0.15);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(255, 155, 80, 0.3);
+}
+
+.dashboard-table tbody tr:hover {
+    background: rgba(255, 155, 80, 0.25);
+    /* Deeper orange on hover */
+    transform: scale(1.001);
+    /* Subtle scale */
+    box-shadow: 0 4px 12px rgba(255, 155, 80, 0.15);
+    border-color: #FF9B50;
+}
+
+.dashboard-table td {
+    padding: 16px 24px;
+    /* Consistent padding with Header */
+    border-top: 1px solid rgba(255, 155, 80, 0.1);
+    border-bottom: 1px solid rgba(255, 155, 80, 0.1);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    vertical-align: middle;
+    /* Ensures text is centered vertically */
+}
+
+/* Specific formatting for first and last cells to maintain rounded pill look for rows */
+.dashboard-table td:first-child {
+    border-left: 1px solid rgba(255, 155, 80, 0.3);
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.dashboard-table td:last-child {
+    border-right: 1px solid rgba(255, 155, 80, 0.3);
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    text-align: right;
+    /* Aligns actions to the right properly */
+}
+
+/* --- Form Inputs --- */
+.blog-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.input-label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--text-primary) !important;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admin-input,
+.admin-container select,
+.admin-container textarea {
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid #f1f5f9;
+    border-radius: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    color: var(--text-primary);
+    background: #fcfcfc;
+    transition: all 0.3s;
+    box-sizing: border-box;
+}
+
+.admin-input:focus,
+.admin-container select:focus,
+.admin-container textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(255, 155, 80, 0.15);
+}
+
+/* Upload Area */
+div[style*="border: 1px dashed"] {
+    border: 3px dashed #e2e8f0 !important;
+    background: #f8fafc;
+    border-radius: 20px !important;
+    padding: 40px !important;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+div[style*="border: 1px dashed"]:hover {
+    border-color: var(--primary) !important;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+}
+
+/* Status Badge Styles */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.status-badge.published {
+    background: #dcfce7;
+    /* Soft Green */
+    color: #166534;
+    /* Dark Green Text */
+    border: 1px solid #bbf7d0;
+    box-shadow: 0 2px 4px rgba(22, 101, 52, 0.05);
+}
+
+.status-badge.published:hover {
+    background: #bbf7d0;
+    box-shadow: 0 4px 8px rgba(22, 101, 52, 0.1);
+    transform: translateY(-1px);
+}
+
+.status-badge.draft {
+    background: #f3f4f6;
+    /* Neutral Grey */
+    color: #4b5563;
+    /* Dark Grey Text */
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 4px rgba(75, 85, 99, 0.05);
+}
+
+.status-badge.draft:hover {
+    background: #e5e7eb;
+    color: #1f2937;
+    box-shadow: 0 4px 8px rgba(75, 85, 99, 0.1);
+    transform: translateY(-1px);
+}
+
+/* Override any inline styles if they persist (safety) */
+span[style*="border-radius: 15px"] {
+    display: none;
+    /* Hide old if duplications occur, though we replaced it */
+}
+
+/* Utilities */
+h2 {
+    color: var(--text-primary) !important;
+    margin-top: 0;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+input[type="file"]::before {
+    content: 'Select File';
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    border-radius: 50px;
+    padding: 8px 20px;
+    outline: none;
+    white-space: nowrap;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+input[type="file"]:hover::before {
+    background: #e88b42;
+}
