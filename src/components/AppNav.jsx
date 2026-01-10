@@ -195,7 +195,9 @@ export default function AppNav({ onNavigate, isDarkTheme, onToggleTheme, onBookD
                             justifyContent: 'center',
                             fontSize: '1.2rem',
                             color: isDarkTheme ? '#FFD700' : '#444',
-                            transition: 'all 0.3s'
+                            transition: 'all 0.3s',
+                            padding: 0,
+                            lineHeight: 1
                         }}
                         onMouseEnter={(e) => e.target.style.borderColor = '#FF9B50'}
                         onMouseLeave={(e) => e.target.style.borderColor = isDarkTheme ? '#444' : '#E0E0E0'}

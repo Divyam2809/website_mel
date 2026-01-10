@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Footer({ isDarkTheme, onNavigate }) {
     const navigate = useNavigate();
-    const textColor = '#FFFFFF';
-    const subTextColor = 'rgba(255, 255, 255, 0.85)';
-    const bgColor = '#FF9B50';
-    const borderColor = 'rgba(255, 255, 255, 0.3)';
-    const iconBg = 'rgba(255, 255, 255, 0.2)';
+    const textColor = isDarkTheme ? '#E0E0E0' : '#2D2D2D';
+    const subTextColor = isDarkTheme ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.6)';
+    const bgColor = isDarkTheme ? '#0F0F0F' : '#F5F5F5';
+    const borderColor = isDarkTheme ? 'rgba(231, 143, 36, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+    const iconBg = isDarkTheme ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
 
     const exploreLinks = [
         { label: 'About Us', id: 'about' },
@@ -26,92 +26,8 @@ export default function Footer({ isDarkTheme, onNavigate }) {
             position: 'relative',
             clipPath: 'polygon(0 100px, 50% 0, 100% 100px, 100% 100%, 0 100%)'
         }}>
-            {/* New Success Story Form Section */}
-            <div style={{
-                maxWidth: '800px',
-                margin: '0 auto 5rem auto',
-                textAlign: 'center'
-            }}>
-                <h2 style={{
-                    fontSize: '2.5rem',
-                    fontWeight: 800,
-                    marginBottom: '3rem',
-                    color: textColor
-                }}>
-                    Want to be our next <span style={{ color: '#FF9B50' }}>success story?</span>
-                </h2>
-
-                <form onSubmit={(e) => e.preventDefault()} style={{ maxWidth: '700px', margin: '0 auto' }}>
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: '1fr 1fr',
-                        gap: '2rem 3rem',
-                        marginBottom: '2rem',
-                        textAlign: 'left'
-                    }}>
-                        {['Your Name', 'Email Id', 'Phone No.', 'Company'].map((placeholder, i) => (
-                            <input
-                                key={i}
-                                type={placeholder.includes('Email') ? 'email' : 'text'}
-                                placeholder={placeholder}
-                                style={{
-                                    width: '100%',
-                                    padding: '10px 0',
-                                    background: 'transparent',
-                                    border: 'none',
-                                    borderBottom: `1px solid ${subTextColor}`,
-                                    color: textColor,
-                                    outline: 'none',
-                                    fontSize: '1rem',
-                                    transition: 'border-color 0.3s'
-                                }}
-                                onFocus={(e) => e.target.style.borderBottomColor = '#FF9B50'}
-                                onBlur={(e) => e.target.style.borderBottomColor = subTextColor}
-                            />
-                        ))}
-                    </div>
-                    <div style={{ textAlign: 'left', marginBottom: '3rem' }}>
-                        <input
-                            type="text"
-                            placeholder="Say Hello!"
-                            style={{
-                                width: '100%',
-                                padding: '10px 0',
-                                background: 'transparent',
-                                border: 'none',
-                                borderBottom: `1px solid ${subTextColor}`,
-                                color: textColor,
-                                outline: 'none',
-                                fontSize: '1rem',
-                                transition: 'border-color 0.3s'
-                            }}
-                            onFocus={(e) => e.target.style.borderBottomColor = '#FF9B50'}
-                            onBlur={(e) => e.target.style.borderBottomColor = subTextColor}
-                        />
-                    </div>
-
-                    <button type="submit" style={{
-                        backgroundColor: '#FF9B50',
-                        color: '#fff',
-                        border: 'none',
-                        padding: '12px 35px',
-                        borderRadius: '30px',
-                        fontSize: '1rem',
-                        fontWeight: 600,
-                        cursor: 'pointer',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '10px',
-                        boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)',
-                        transition: 'transform 0.2s'
-                    }}
-                        onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
-                        onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-                    >
-                        Submit <span style={{ fontSize: '1.2rem' }}>→</span>
-                    </button>
-                </form>
-            </div>
+            
+            
 
             <hr style={{ borderColor: borderColor, opacity: 0.2, marginBottom: '4rem', maxWidth: '1400px', margin: '0 auto 4rem auto' }} />
 

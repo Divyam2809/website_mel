@@ -1,9 +1,108 @@
-import React from 'react'
+import React, { useEffect } from 'react';
 import AppNav from './components/AppNav';
 
+const Section = ({ title, children, theme }) => (
+    <section style={{ marginBottom: '4rem' }}>
+        <h2 style={{
+            fontSize: '1.8rem',
+            fontWeight: 800,
+            color: theme.sectionTitle,
+            marginBottom: '1.5rem',
+            borderBottom: `2px solid ${theme.accent}`,
+            display: 'inline-block',
+            paddingBottom: '0.5rem'
+        }}>
+            {title}
+        </h2>
+        <div style={{ paddingLeft: '1rem' }}>
+            {children}
+        </div>
+    </section>
+);
+
+const SubSection = ({ title, children, theme }) => (
+    <div style={{ marginBottom: '2rem' }}>
+        <h3 style={{
+            fontSize: '1.3rem',
+            fontWeight: 700,
+            color: theme.text,
+            marginBottom: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px'
+        }}>
+            <span style={{
+                width: '8px',
+                height: '8px',
+                backgroundColor: theme.accent,
+                borderRadius: '50%',
+                display: 'inline-block'
+            }}></span>
+            {title}
+        </h3>
+        <div style={{ color: theme.text, opacity: 0.9, lineHeight: '1.7' }}>
+            {children}
+        </div>
+    </div>
+);
+
+const CheckList = ({ items, theme }) => (
+    <ul style={{ listStyle: 'none', padding: 0 }}>
+        {items.map((item, index) => (
+            <li key={index} style={{
+                marginBottom: '0.8rem',
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '12px',
+                color: theme.text,
+                opacity: 0.9
+            }}>
+                <span style={{
+                    color: theme.accent,
+                    fontWeight: 'bold',
+                    minWidth: '20px'
+                }}>✓</span>
+                {item}
+            </li>
+        ))}
+    </ul>
+);
+
+const ContactCard = ({ title, info, theme }) => (
+    <div style={{
+        padding: '1.5rem',
+        backgroundColor: theme.cardBg,
+        borderRadius: '12px',
+        border: `1px solid ${theme.border}`,
+        boxShadow: theme.shadow,
+        flex: 1,
+        minWidth: '250px'
+    }}>
+        <h4 style={{ color: theme.accent, marginBottom: '0.5rem', fontSize: '1.1rem' }}>{title}</h4>
+        <p style={{ color: theme.text, fontWeight: 500 }}>{info}</p>
+    </div>
+);
+
 export default function Guidelines({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    const theme = {
+        bg: isDarkTheme ? '#111111' : '#ffffff',
+        text: isDarkTheme ? '#E0E0E0' : '#2D2D2D',
+        cardBg: isDarkTheme ? '#1E1E1E' : '#ffffff',
+        accent: '#FF9B50',
+        sectionTitle: isDarkTheme ? '#FF9B50' : '#5F634F',
+        heroBg: isDarkTheme
+            ? 'linear-gradient(135deg, rgba(255, 155, 80, 0.1) 0%, transparent 100%)'
+            : 'linear-gradient(135deg, rgba(95, 99, 79, 0.08) 0%, transparent 100%)',
+        border: isDarkTheme ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+        shadow: isDarkTheme ? '0 4px 20px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.06)'
+    };
+
     return (
-        <>
+        <div style={{ backgroundColor: theme.bg, minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
             <AppNav
                 onNavigate={onNavigate}
                 isDarkTheme={isDarkTheme}
@@ -11,366 +110,134 @@ export default function Guidelines({ onNavigate, isDarkTheme, onBookDemo, onTogg
                 onBookDemo={onBookDemo}
                 currentPage="guidelines"
             />
-            {/* Back to Home Button - Removed since we have AppNav now, or keep as secondary? keeping as per orig */}
-            <div style={{
-                paddingTop: '100px', // Push down for nav
-                display: 'none' // Actually hide it if AppNav is there? No, AppNav has home.
-            }}></div>
 
-            <div style={{
-                backgroundColor: '#ffffff',
-                minHeight: '100vh',
-                color: '#2D2D2D',
-                fontFamily: 'Inter, sans-serif',
-                paddingTop: '60px'
-            }}>
+            <main style={{ maxWidth: '1000px', margin: '0 auto', padding: '120px 20px 60px' }}>
 
-                {/* Back to Home Button */}
+                {/* Hero / Header */}
                 <div style={{
-                    padding: '2rem 5%',
-                    display: 'flex',
-                    justifyContent: 'flex-start'
-                }}>
-                    <button
-                        onClick={() => onNavigate && onNavigate('anubhav')}
-                        style={{
-                            background: '#FF9B50',
-                            color: '#fff',
-                            border: 'none',
-                            padding: '0.8rem 2rem',
-                            borderRadius: '30px',
-                            fontWeight: 600,
-                            fontSize: '0.95rem',
-                            letterSpacing: '0.5px',
-                            transition: 'all 0.3s ease',
-                            cursor: 'pointer',
-                            boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem'
-                        }}
-                        onMouseEnter={(e) => {
-                            e.target.style.transform = 'translateY(-2px)';
-                            e.target.style.boxShadow = '0 6px 20px rgba(255, 155, 80, 0.5)';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.target.style.transform = 'translateY(0)';
-                            e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                        }}>
-                        ← Back to Home
-                    </button>
-                </div>
-
-                {/* Hero Section */}
-                <section style={{
-                    padding: '4rem 5%',
                     textAlign: 'center',
-                    background: 'linear-gradient(135deg, rgba(95, 99, 79, 0.08) 0%, transparent 100%)'
+                    marginBottom: '4rem',
+                    padding: '3rem 2rem',
+                    background: theme.heroBg,
+                    borderRadius: '20px',
+                    border: `1px solid ${theme.border}`
                 }}>
                     <h1 style={{
-                        fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                        fontSize: '2.5rem',
                         fontWeight: 900,
-                        letterSpacing: '-2px',
+                        color: theme.text,
                         marginBottom: '1rem',
-                        color: '#FF9B50',
-
+                        letterSpacing: '-1px'
                     }}>
-                        User Guidelines & Manual
+                        Product <span style={{ color: theme.accent }}>Guidelines</span>
                     </h1>
                     <p style={{
-                        fontSize: '1.2rem',
-                        opacity: 0.7,
-                        maxWidth: '700px',
+                        fontSize: '1.1rem',
+                        color: theme.text,
+                        opacity: 0.8,
+                        maxWidth: '600px',
                         margin: '0 auto'
                     }}>
-                        Everything you need to know to safely operate and maintain your Melzo Anubhav 7D Interactive Lab
+                        Everything you need to know about setting up, using, and maintaining your Melzo Anubhav Chair.
                     </p>
-                </section>
+                </div>
 
-                {/* Main Content */}
-                <main style={{
-                    maxWidth: '1200px',
-                    margin: '0 auto',
-                    padding: '3rem 5%'
-                }}>
-                    {/* Section 1: Components Overview */}
-                    <Section title="1. Components Overview">
-                        <p style={styles.paragraph}>
-                            The Melzo Anubhav system consists of high-tech hardware designed for full sensory immersion.
-                        </p>
+                {/* 1. Components Overview */}
+                <Section title="1. Components Overview" theme={theme}>
+                    <SubSection title="The Chair" theme={theme}>
+                        <p>The Melzo Anubhav Chair is a 7D/5D motion simulated seat designed for immersive learning. It includes:</p>
+                        <CheckList items={[
+                            "360-degree rotation base",
+                            "Vibration and haptic feedback sensors",
+                            "Integrated joystick controls (if applicable)",
+                            "Safety harness and ergonomic cushioning"
+                        ]} theme={theme} />
+                    </SubSection>
 
-                        <SubSection title="7D Interactive Chair">
-                            <ul style={styles.list}>
-                                <li style={styles.listItem}>
-                                    <strong>Motion Control System:</strong> Powers the physical movement of the unit.
-                                </li>
-                                <li style={styles.listItem}>
-                                    <strong>Sensory Effects:</strong>
-                                    <ul style={styles.nestedList}>
-                                        <li style={styles.listItem}><strong>Vibration Sensor:</strong> For tactile feedback.</li>
-                                        <li style={styles.listItem}><strong>Air Blower:</strong> Provides hot and cold air effects.</li>
-                                        <li style={styles.listItem}><strong>Water Mist System:</strong> Releases fine moisture during specific simulations.</li>
-                                        <li style={styles.listItem}><strong>Fragrance:</strong> Disperses scents to match the environment.</li>
-                                    </ul>
-                                </li>
-                                <li style={styles.listItem}>
-                                    <strong>Movement:</strong> 180-degree bi-directional rotation and recliner functionality.
-                                </li>
-                            </ul>
-                        </SubSection>
+                    <SubSection title="VR Headset" theme={theme}>
+                        <p>Compatible with Meta Quest 2, Quest 3, and other supported VR headsets. The headset provides the visual and audio interface for the simulations.</p>
+                    </SubSection>
 
-                        <SubSection title="VR Headset Kit">
-                            <ul style={styles.list}>
-                                <li style={styles.listItem}><strong>HMD:</strong> Head-mounted Display for high-fidelity visuals.</li>
-                                <li style={styles.listItem}><strong>Controllers:</strong> Two touch controllers for interaction.</li>
-                                <li style={styles.listItem}><strong>Charging:</strong> USB-C charger for power management.</li>
-                            </ul>
-                        </SubSection>
-                    </Section>
+                    <SubSection title="Control Unit" theme={theme}>
+                        <p>The central processing unit that synchronizes the VR content with the varied chair movements.</p>
+                    </SubSection>
+                </Section>
 
-                    {/* Section 2: Safety Precautions */}
-                    <Section title="2. Safety Precautions">
-                        <ul style={styles.list}>
-                            <li style={styles.listItem}>
-                                <strong>Space:</strong> Maintain a clear <strong>3-foot radius</strong> around the chair, free from all obstructions.
-                            </li>
-                            <li style={styles.listItem}>
-                                <strong>Supervision:</strong> Children must be supervised by an adult at all times.
-                            </li>
-                            <li style={styles.listItem}>
-                                <strong>Electrical:</strong> Use a grounded outlet. Check all cables for frays or damage before use. Do not operate in wet or damp environments.
-                            </li>
-                            <li style={styles.listItem}>
-                                <strong>Health:</strong>
-                                <ul style={styles.nestedList}>
-                                    <li style={styles.listItem}>Consult a doctor if you have varicose veins, deep vein thrombosis, or are pregnant.</li>
-                                    <li style={styles.listItem}>Take regular breaks to avoid fatigue.</li>
-                                </ul>
-                            </li>
-                            <li style={styles.listItem}>
-                                <strong>Motion Sickness:</strong> If you feel unwell, remove the headset immediately.
-                            </li>
-                            <li style={styles.listItem}>
-                                <strong>Handling:</strong> Avoid touching moving parts while in operation. Keep food and drinks away from the equipment.
-                            </li>
-                        </ul>
-                    </Section>
+                {/* 2. Setup & Safety */}
+                <Section title="2. Setup & Safety" theme={theme}>
+                    <SubSection title="Space Requirements" theme={theme}>
+                        <p>Ensure you have a clearance of at least <strong>1.5 meters (5 feet)</strong> around the chair to allow for full rotation and safety.</p>
+                    </SubSection>
+                    <SubSection title="Power Connection" theme={theme}>
+                        <p>Connect the chair to a standard 220V power outlet. Use the provided surge protector to prevent electrical damage.</p>
+                    </SubSection>
+                    <SubSection title="Safety Precautions" theme={theme}>
+                        <CheckList items={[
+                            "Always fasten the seatbelt before starting any simulation.",
+                            "Do not stand on the chair or footrest.",
+                            "Keep hands and feet inside the chair boundaries during motion.",
+                            "Not recommended for users with severe motion sickness, heart conditions, or pregnancy."
+                        ]} theme={theme} />
+                    </SubSection>
+                </Section>
 
-                    {/* Section 3: Shifting & Transportation */}
-                    <Section title="3. Shifting & Transportation">
-                        <p style={styles.paragraph}>
-                            To safely move the 5D/7D chair, follow these specific steps:
-                        </p>
-                        <ol style={styles.orderedList}>
-                            <li style={styles.listItem}>
-                                <strong>Unplug Power:</strong> Disconnect from the power supply to prevent electrical hazards.
-                            </li>
-                            <li style={styles.listItem}>
-                                <strong>Empty Water:</strong> Locate the water containers under the side covers and <strong>empty them completely</strong> to prevent spills and reduce weight.
-                            </li>
-                            <li style={styles.listItem}>
-                                <strong>Lifting:</strong> <strong>Do not drag</strong> the chair. Lift it properly from the bottom section only.
-                            </li>
-                            <li style={styles.listItem}>
-                                <strong>Placement:</strong> Place only on a stable, flat surface to maintain integrity.
-                            </li>
+                {/* 3. User Guide */}
+                <Section title="3. User Guide" theme={theme}>
+                    <SubSection title="Starting a Session" theme={theme}>
+                        <ol style={{ paddingLeft: '1.2rem', color: theme.text, lineHeight: '1.8' }}>
+                            <li>Sit comfortably and fasten the seatbelt.</li>
+                            <li>Put on the VR headset and adjust the strap for a clear view.</li>
+                            <li>Use the controller to select your desired module from the library.</li>
+                            <li>The chair will automatically calibrate before starting.</li>
                         </ol>
-                    </Section>
+                    </SubSection>
+                    <SubSection title="During the Experience" theme={theme}>
+                        <p>If you feel uncomfortable at any point, simply close your eyes or remove the headset. The session can be paused using the controller menu button.</p>
+                    </SubSection>
+                </Section>
 
-                    {/* Section 4: VR Headset & Software Usage */}
-                    <Section title="4. VR Headset & Software Usage">
-                        <SubSection title="Basic Navigation">
-                            <ul style={styles.list}>
-                                <li style={styles.listItem}>
-                                    <strong>Exit App:</strong> Press the <strong>Oculus button</strong> on the right controller to access the main menu and quit.
-                                </li>
-                                <li style={styles.listItem}>
-                                    <strong>Settings:</strong> Accessible via the app list to customize the VR experience.
-                                </li>
-                                <li style={styles.listItem}>
-                                    <strong>Connectivity:</strong> Connect to Wi-Fi via the Settings menu for full functionality.
-                                </li>
-                            </ul>
-                        </SubSection>
+                {/* 4. Maintenance */}
+                <Section title="4. Maintenance" theme={theme}>
+                    <SubSection title="Cleaning" theme={theme}>
+                        <p>Wipe the leather surfaces with a clean, damp cloth. Do not use harsh chemicals. Clean the VR headset lenses with the provided microfiber cloth only.</p>
+                    </SubSection>
+                    <SubSection title="Routine Checks" theme={theme}>
+                        <p>Inspect cables and connections weekly to ensure they are secure and undamaged.</p>
+                    </SubSection>
+                </Section>
 
-                        <SubSection title="Advanced Features">
-                            <ul style={styles.list}>
-                                <li style={styles.listItem}>
-                                    <strong>PC Link:</strong> Connect via cable or Wi-Fi (AirLink) using the <strong>Meta Horizon</strong> app on a VR-ready PC.
-                                </li>
-                                <li style={styles.listItem}>
-                                    <strong>Software Updates:</strong> When available, an "Update" button will appear in a pop-up window. Ensure Wi-Fi is connected before starting the update.
-                                </li>
-                            </ul>
-                        </SubSection>
-                    </Section>
+                {/* 5. Support */}
+                <Section title="5. Customer Support" theme={theme}>
+                    <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+                        <ContactCard title="Technical Support" info="+91 1800-123-4567" theme={theme} />
+                        <ContactCard title="Email Us" info="support@melzo.com" theme={theme} />
+                        <ContactCard title="Website" info="www.melzo.com" theme={theme} />
+                    </div>
+                </Section>
 
-                    {/* Section 5: Using the VR Experience */}
-                    <Section title="5. Using the VR Experience">
-                        <ol style={styles.orderedList}>
-                            <li style={styles.listItem}>
-                                <strong>Start:</strong> Launch the app → Select a Standard (Grade) → Choose a Subject (Physics, Chemistry, Biology, etc.).
-                            </li>
-                            <li style={styles.listItem}>
-                                <strong>Explore:</strong> Click <strong>Experience</strong>, then press <strong>Explore</strong> to enter the simulation.
-                            </li>
-                            <li style={styles.listItem}>
-                                <strong>Experiment:</strong> Click <strong>NEXT</strong> to exit the setup and begin the hands-on experiment.
-                            </li>
-                            <li style={styles.listItem}>
-                                <strong>End Test:</strong> Click <strong>Test Off</strong>. Note: The test automatically deactivates after 6 seconds of inactivity.
-                            </li>
-                        </ol>
-                    </Section>
+            </main>
 
-                    {/* Section 6: Support & Assistance */}
-                    <Section title="6. Support & Assistance">
-                        <p style={styles.paragraph}>
-                            If you require technical help or a first-time setup expert, contact the Melzo team:
-                        </p>
-
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                            gap: '2rem',
-                            marginTop: '2rem'
-                        }}>
-                            <ContactCard
-                                icon="📞"
-                                title="Phone"
-                                content="+91 96874 88818"
-                                link="tel:+919687488818"
-                            />
-                            <ContactCard
-                                icon="✉️"
-                                title="Email"
-                                content="contact@melzo.com"
-                                link="mailto:contact@melzo.com"
-                            />
-                            <ContactCard
-                                icon="📍"
-                                title="Address"
-                                content="Ship Maitri House, Bhatar Char Rasta, Surat, Gujarat 395017"
-                            />
-                        </div>
-                    </Section>
-                </main>
-
-                {/* Footer */}
-                <footer style={{
-                    padding: '3rem 5%',
-                    textAlign: 'center',
-                    borderTop: '1px solid rgba(0,0,0,0.1)',
-                    marginTop: '4rem'
-                }}>
-                    <p style={{ opacity: 0.6, fontSize: '0.9rem' }}>
-                        © 2026 Melzo Anubhav. All rights reserved.
-                    </p>
-                </footer>
-            </div>
-        </>
-    );
-}
-
-// Helper Components
-function Section({ title, children }) {
-    return (
-        <section style={{
-            marginBottom: '4rem',
-            padding: '2.5rem',
-            backgroundColor: '#fff',
-            borderRadius: '12px',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.06)'
-        }}>
-            <h2 style={{
-                fontSize: '2rem',
-                fontWeight: 800,
-                marginBottom: '1.5rem',
-                color: '#5F634F',
-                letterSpacing: '-1px'
+            <footer style={{
+                borderTop: `1px solid ${theme.border}`,
+                textAlign: 'center',
+                padding: '2rem',
+                color: theme.text,
+                opacity: 0.7
             }}>
-                {title}
-            </h2>
-            {children}
-        </section>
-    );
-}
-
-function SubSection({ title, children }) {
-    return (
-        <div style={{ marginTop: '2rem', marginBottom: '2rem' }}>
-            <h3 style={{
-                fontSize: '1.4rem',
-                fontWeight: 700,
-                marginBottom: '1rem',
-                color: '#2D2D2D'
-            }}>
-                {title}
-            </h3>
-            {children}
+                <button
+                    onClick={() => onNavigate('home')}
+                    style={{
+                        background: 'none',
+                        border: 'none',
+                        color: theme.accent,
+                        cursor: 'pointer',
+                        fontSize: '1rem',
+                        fontWeight: 600
+                    }}
+                >
+                    &larr; Back to Home
+                </button>
+            </footer>
         </div>
     );
 }
-
-function ContactCard({ icon, title, content, link }) {
-    const card = (
-        <div style={{
-            padding: '2rem',
-            backgroundColor: '#ffffff',
-            borderRadius: '12px',
-            textAlign: 'center',
-            transition: 'all 0.3s ease',
-            cursor: link ? 'pointer' : 'default'
-        }}
-            onMouseEnter={(e) => {
-                if (link) {
-                    e.currentTarget.style.transform = 'translateY(-5px)';
-                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.1)';
-                }
-            }}
-            onMouseLeave={(e) => {
-                if (link) {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = 'none';
-                }
-            }}>
-            <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{icon}</div>
-            <h4 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.5rem' }}>{title}</h4>
-            <p style={{ fontSize: '1rem', opacity: 0.8, lineHeight: '1.5' }}>{content}</p>
-        </div>
-    );
-
-    return link ? <a href={link} style={{ textDecoration: 'none', color: 'inherit' }}>{card}</a> : card;
-}
-
-// Styles
-const styles = {
-    paragraph: {
-        fontSize: '1.1rem',
-        lineHeight: '1.8',
-        marginBottom: '1.5rem',
-        opacity: 0.85
-    },
-    list: {
-        listStyle: 'none',
-        padding: 0,
-        margin: '1rem 0'
-    },
-    orderedList: {
-        paddingLeft: '1.5rem',
-        margin: '1rem 0'
-    },
-    listItem: {
-        fontSize: '1.05rem',
-        lineHeight: '1.8',
-        marginBottom: '1rem',
-        opacity: 0.85,
-        paddingLeft: '1.5rem',
-        position: 'relative'
-    },
-    nestedList: {
-        listStyle: 'none',
-        paddingLeft: '1.5rem',
-        marginTop: '0.5rem'
-    }
-};

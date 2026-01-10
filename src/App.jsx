@@ -110,6 +110,14 @@ export default function App() {
         window.scrollTo(0, 0);
     }, [location.pathname]);
 
+    // PREVENT SCROLL RESTORATION ON REFRESH
+    useEffect(() => {
+        if ('scrollRestoration' in window.history) {
+            window.history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+    }, []);
+
     // Loading Fallback
     const PageLoader = () => (
         <div style={{
@@ -224,6 +232,67 @@ export default function App() {
                 onClose={() => setIsDemoOpen(false)}
                 isDarkTheme={isDarkTheme}
             />
+
+            {/* Scroll To Top Button */}
+            <ScrollToTopButton isDarkTheme={isDarkTheme} />
+        </>
+    );
+}
+
+// Internal ScrollToTop Component
+function ScrollToTopButton({ isDarkTheme }) {
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const toggleVisibility = () => {
+            if (window.pageYOffset > 300) {
+                setIsVisible(true);
+            } else {
+                setIsVisible(false);
+            }
+        };
+
+        window.addEventListener('scroll', toggleVisibility);
+        return () => window.removeEventListener('scroll', toggleVisibility);
+    }, []);
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+
+    return (
+        <>
+            {isVisible && (
+                <button
+                    onClick={scrollToTop}
+                    style={{
+                        position: 'fixed',
+                        bottom: '30px',
+                        right: '30px',
+                        backgroundColor: 'transparent',
+                        color: '#FF9B50',
+                        width: '50px',
+                        height: '50px',
+                        borderRadius: '50%',
+                        border: '2px solid #FF9B50',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '1.5rem',
+                        boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                        zIndex: 1000,
+                        transition: 'transform 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+                    onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                >
+                    ↑
+                </button>
+            )}
         </>
     );
 }

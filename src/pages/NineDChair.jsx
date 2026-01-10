@@ -261,14 +261,14 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
                         <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
                             <span style={{ color: theme.accent, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase' }}>Our Foundation</span>
-                            <h2 style={{ fontSize: '3rem', fontWeight: 900, marginTop: '1rem' }}>Core Pillars of Learning</h2>
+                            <h2 style={{ fontSize: '3rem', fontWeight: 900, marginTop: '1rem' }}>Core Pillars of Simulation</h2>
                         </div>
 
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '4rem' }}>
                             {[
-                                { title: 'Science Experiments', desc: 'Conduct dangerous or expensive experiments in a perfectly safe, virtual environment.', color: '#4ADE80' },
-                                { title: 'Interactive Simulations', desc: 'Complex concepts visualized through manipulatable 3D models and real-time physics.', color: '#60A5FA' },
-                                { title: 'Experiential Learning', desc: 'Learning by doing. Retain 75% more information through active participation.', color: '#F472B6' }
+                                { title: 'Science Experiments', desc: 'Conduct dangerous or expensive experiments in a perfectly safe, virtual environment.', color: '#FF9B50' },
+                                { title: 'Interactive Simulations', desc: 'Complex concepts visualized through manipulatable 3D models and real-time physics.', color: '#FF9B50' },
+                                { title: 'Experiential Learning', desc: 'Learning by doing. Retain 75% more information through active participation.', color: '#FF9B50' }
                             ].map((pillar, idx) => (
                                 <div key={idx} style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
                                     <div style={{
@@ -315,8 +315,8 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             ].map((audience, idx) => (
                                 <div key={idx} style={{
                                     padding: '3rem',
-                                    background: idx === 1 ? theme.accent : theme.cardBg,
-                                    color: idx === 1 ? '#fff' : theme.text,
+                                    background: theme.cardBg,
+                                    color: theme.text,
                                     borderRadius: '30px',
                                     position: 'relative',
                                     overflow: 'hidden'
@@ -331,7 +331,7 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                     <p style={{
                                         fontSize: '1.1rem',
                                         lineHeight: '1.6',
-                                        opacity: idx === 1 ? 1 : 0.7,
+                                        opacity: 0.7,
                                         position: 'relative',
                                         zIndex: 1
                                     }}>{audience.text}</p>
@@ -342,9 +342,9 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                         bottom: '-20px',
                                         right: '-20px',
                                         fontSize: '10rem',
-                                        opacity: 0.1,
+                                        opacity: 0.4,
                                         fontWeight: 900,
-                                        color: idx === 1 ? '#fff' : theme.accent
+                                        color: theme.accent
                                     }}>
                                         {idx + 1}
                                     </div>
@@ -367,19 +367,27 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                         </p>
                         <div style={{
                             display: 'grid',
-                            gridTemplateColumns: '1fr 1fr',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
                             gap: '2rem',
                             textAlign: 'left',
-                            backgroundColor: theme.cardBg,
-                            padding: '3rem',
-                            borderRadius: '24px',
-                            border: theme.border
                         }}>
-                            <div>
+                            <div style={{
+                                backgroundColor: theme.cardBg,
+                                padding: '3rem',
+                                borderRadius: '24px',
+                                border: theme.border,
+                                textAlign: 'center'
+                            }}>
                                 <h4 style={{ color: theme.accent, fontSize: '3rem', fontWeight: 900, marginBottom: '0.5rem' }}>100%</h4>
                                 <p style={{ fontWeight: 600 }}>Student Safety Record</p>
                             </div>
-                            <div>
+                            <div style={{
+                                backgroundColor: theme.cardBg,
+                                padding: '3rem',
+                                borderRadius: '24px',
+                                border: theme.border,
+                                textAlign: 'center'
+                            }}>
                                 <h4 style={{ color: theme.accent, fontSize: '3rem', fontWeight: 900, marginBottom: '0.5rem' }}>2X</h4>
                                 <p style={{ fontWeight: 600 }}>Faster Learning Retention</p>
                             </div>

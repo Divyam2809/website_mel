@@ -429,7 +429,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                         {/* CEO Section - Large Card */}
                         <div className="ceo-section">
                             <div className="ceo-box">
-                                <img src="" className="ceo-img" alt="HARDIK DESAI" />
+                                <img src="/team/hardiksir.jpeg" className="ceo-img" alt="HARDIK DESAI" />
                                 <div className="ceo-info">
                                     <div className="ceo-name-container">
                                         <h3 className="ceo-firstname">HARDIK</h3>
@@ -503,7 +503,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                             font-weight: 900;
                             line-height: 1;
                             margin: 0;
-                            color: #FFFFFF;
+                            color: #000000;
                             letter-spacing: -2px;
                             transition: transform 0.5s ease;
                         }
@@ -513,7 +513,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                             line-height: 1;
                             margin: 0;
                             margin-top: 5px;
-                            color: #FFFFFF;
+                            color: #000000;
                             letter-spacing: -1.5px;
                             opacity: 0.9;
                             transition: transform 0.5s ease;

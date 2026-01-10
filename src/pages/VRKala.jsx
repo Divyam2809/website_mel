@@ -37,7 +37,7 @@ export default function VRKala({ onNavigate, isDarkTheme, onBookDemo, onToggleTh
                             <button onClick={onBookDemo} className="vr-product-btn-primary">
                                 Bring Culture to Life
                             </button>
-                            <button onClick={onBookDemo} className="vr-product-btn-secondary">
+                            <button className="vr-product-btn-secondary">
                                 Request a Curated Demo
                             </button>
                         </div>

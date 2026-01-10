@@ -4,6 +4,7 @@ import { OrbitControls, Stage, useGLTF, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import Guidelines from '../Guidelines';
 import GridBackground from '../components/GridBackground';
+import ExpandableText from '../components/ExpandableText';
 
 
 
@@ -59,16 +60,22 @@ function VideoGallery({ videos, isDarkTheme }) {
                         width: '100%',
                         margin: '0 auto'
                     }}>
+                        {/* Force hide controls with CSS */}
+                        <style>{`
+                            video::-webkit-media-controls { display: none !important; }
+                            video::-webkit-media-controls-enclosure { display: none !important; }
+                        `}</style>
                         <video
-                            controls
                             autoPlay
                             loop
                             muted
                             playsInline
+                            controls={false}
                             style={{
                                 width: '100%',
                                 display: 'block',
-                                backgroundColor: '#000'
+                                backgroundColor: '#000',
+                                pointerEvents: 'none' // Prevent interaction
                             }}
                             poster={video.thumbnail ? `/assets/videos/${video.thumbnail}` : undefined}
                         >
@@ -748,7 +755,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                                 }}
                                 onMouseLeave={(e) => {
                                     e.target.style.background = 'transparent';
-                                    e.target.style.color = '#2D2D2D';
+                                    e.target.style.color = isDarkTheme ? '#FFFFFF' : '#2D2D2D';
                                     e.target.style.transform = 'translateY(0)';
                                 }}>
                                 View Guidelines
@@ -1607,7 +1614,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                                     <div>
                                         <span style={{ fontWeight: 700, color: isDarkTheme ? '#eee' : '#333' }}>7 degree of Immersion: </span>
                                         <span style={{ color: isDarkTheme ? '#aaa' : '#555' }}>
-                                            360° Rotation, Vibration, <span style={{ color: '#FF4D4D', fontWeight: 600 }}>Rocking, Recliner</span>, Mist, Air Blasts, Fragrance
+                                            360° Rotation, Vibration, <span style={{ color: '#FF9B50', fontWeight: 600 }}>Rocking, Recliner</span>, Mist, Air Blasts, Fragrance
                                         </span>
                                     </div>
                                     {[
@@ -1627,222 +1634,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                     </div>
                 </section>
 
-                {/* Media Coverage & Recognition Section */}
-                <section style={{
-                    padding: '5rem 5%',
-                    backgroundColor: isDarkTheme ? '#0F0F0F' : '#F8F8F8',
-                    borderTop: isDarkTheme ? '1px solid #262626' : '1px solid #E5E5E5',
-                    borderBottom: isDarkTheme ? '1px solid #262626' : '1px solid #E5E5E5',
-                    position: 'relative',
-                    overflow: 'hidden'
-                }}>
-                    {/* Background decoration */}
-                    <div style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: '800px',
-                        height: '800px',
-                        background: 'radial-gradient(circle, rgba(255, 155, 80, 0.03) 0%, transparent 70%)',
-                        borderRadius: '50%',
-                        pointerEvents: 'none'
-                    }} />
-
-                    <div style={{
-                        maxWidth: '1400px',
-                        margin: '0 auto',
-                        position: 'relative',
-                        zIndex: 1
-                    }}>
-                        <div style={{
-                            textAlign: 'center',
-                            marginBottom: '5rem'
-                        }}>
-                            <h2 style={{
-                                fontSize: 'clamp(2rem, 4vw, 2.8rem)',
-                                fontWeight: 900,
-                                letterSpacing: '-1px',
-                                marginBottom: '1rem',
-                                color: '#FF9B50'
-                            }}>
-                                Media Coverage
-                            </h2>
-
-
-                        </div>
-
-                        {/* News Articles Grid */}
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-                            gap: '2rem'
-                        }}>
-                            {allArticles.slice(0, visibleArticles).map((article, index) => (
-                                <div
-                                    key={index}
-                                    style={{
-                                        backgroundColor: isDarkTheme ? '#1A1A1A' : '#FFFFFF',
-                                        borderRadius: '12px',
-                                        overflow: 'hidden',
-                                        boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-                                        transition: 'all 0.3s ease',
-                                        cursor: 'pointer',
-                                        border: isDarkTheme ? '1px solid #262626' : '1px solid #E5E5E5'
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.transform = 'translateY(-8px)';
-                                        e.currentTarget.style.boxShadow = '0 12px 30px rgba(255, 155, 80, 0.2)';
-                                        e.currentTarget.style.borderColor = '#FF9B50';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.transform = 'translateY(0)';
-                                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
-                                        e.currentTarget.style.borderColor = isDarkTheme ? '#262626' : '#E5E5E5';
-                                    }}
-                                >
-                                    {/* Article Image */}
-                                    <div style={{
-                                        width: '100%',
-                                        height: '200px',
-                                        backgroundColor: isDarkTheme ? '#262626' : '#F5F5F5',
-                                        position: 'relative',
-                                        overflow: 'hidden'
-                                    }}>
-                                        {/* Placeholder for image */}
-                                        <div style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            background: 'linear-gradient(135deg, rgba(255, 155, 80, 0.1) 0%, rgba(255, 155, 80, 0.05) 100%)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            fontSize: '3rem'
-                                        }}>
-                                            📰
-                                        </div>
-
-                                        {/* Publication Badge */}
-                                        <div style={{
-                                            position: 'absolute',
-                                            top: '12px',
-                                            left: '12px',
-                                            backgroundColor: article.publicationColor,
-                                            color: '#FFFFFF',
-                                            padding: '0.4rem 0.8rem',
-                                            borderRadius: '6px',
-                                            fontSize: '0.75rem',
-                                            fontWeight: 700,
-                                            textTransform: 'uppercase',
-                                            letterSpacing: '0.5px'
-                                        }}>
-                                            {article.publication}
-                                        </div>
-                                    </div>
-
-                                    {/* Article Content */}
-                                    <div style={{
-                                        padding: '1.5rem'
-                                    }}>
-                                        {/* Date */}
-                                        <div style={{
-                                            fontSize: '0.85rem',
-                                            color: isDarkTheme ? '#AAA' : '#666',
-                                            marginBottom: '0.8rem',
-                                            fontWeight: 500
-                                        }}>
-                                            {article.date}
-                                        </div>
-
-                                        {/* Title */}
-                                        <h3 style={{
-                                            fontSize: '1.2rem',
-                                            fontWeight: 700,
-                                            lineHeight: '1.4',
-                                            marginBottom: '0.8rem',
-                                            color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
-                                            minHeight: '3.4rem'
-                                        }}>
-                                            {article.title}
-                                        </h3>
-
-                                        {/* Description */}
-                                        <p style={{
-                                            fontSize: '0.95rem',
-                                            lineHeight: '1.6',
-                                            color: isDarkTheme ? '#AAA' : '#666',
-                                            marginBottom: '1.2rem',
-                                            minHeight: '4.8rem'
-                                        }}>
-                                            {article.description}
-                                        </p>
-
-                                        {/* Read More Link */}
-                                        <a
-                                            href={article.link}
-                                            style={{
-                                                color: '#FF9B50',
-                                                fontSize: '0.9rem',
-                                                fontWeight: 600,
-                                                textDecoration: 'none',
-                                                display: 'inline-flex',
-                                                alignItems: 'center',
-                                                gap: '0.5rem',
-                                                transition: 'all 0.3s ease'
-                                            }}
-                                            onMouseEnter={(e) => {
-                                                e.currentTarget.style.gap = '0.8rem';
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                e.currentTarget.style.gap = '0.5rem';
-                                            }}
-                                        >
-                                            Read Full Article
-                                            <span style={{ fontSize: '1.2rem' }}>→</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* More Articles Button */}
-                        {visibleArticles < allArticles.length && (
-                            <div style={{
-                                textAlign: 'center',
-                                marginTop: '3rem'
-                            }}>
-                                <button
-                                    onClick={() => setVisibleArticles(prev => prev + 3)}
-                                    style={{
-                                        background: 'transparent',
-                                        color: '#FF9B50',
-                                        border: '2px solid #FF9B50',
-                                        padding: '0.8rem 2rem',
-                                        borderRadius: '30px',
-                                        fontWeight: 700,
-                                        fontSize: '1rem',
-                                        cursor: 'pointer',
-                                        display: 'inline-flex',
-                                        alignItems: 'center',
-                                        gap: '0.5rem',
-                                        transition: 'all 0.3s ease'
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.target.style.background = '#FF9B50';
-                                        e.target.style.color = '#fff';
-                                        e.target.style.gap = '0.8rem';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.target.style.background = 'transparent';
-                                        e.target.style.color = '#FF9B50';
-                                        e.target.style.gap = '0.5rem';
-                                    }}>
-                                    More Articles <span style={{ fontSize: '1.2rem' }}>→</span>
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                </section>
+                
             </div >
         </>
     );
