@@ -33,12 +33,17 @@ export default function VRHospitality({ onNavigate, isDarkTheme, onBookDemo, onT
                     <p className="vr-product-section-subtitle">Comprehensive hospitality training solutions</p>
                     <div className="vr-product-feature-grid">
                         {[
-                            { title: 'Guest Service Scenarios', desc: 'Practice handling difficult guests, special requests, and high-pressure situations in a safe environment.', icon: '🏨' },
-                            { title: 'Multi-Language Support', desc: 'Train staff to serve international guests with real-time language practice and cultural awareness modules.', icon: '🌐' },
-                            { title: 'Emergency Protocols', desc: 'Simulate fire drills, medical emergencies, and security situations to ensure staff readiness.', icon: '🚨' }
+                            { title: 'Guest Service Scenarios', desc: 'Practice handling difficult guests, special requests, and high-pressure situations in a safe environment.', number: '01' },
+                            { title: 'Multi-Language Support', desc: 'Train staff to serve international guests with real-time language practice and cultural awareness modules.', number: '02' },
+                            { title: 'Emergency Protocols', desc: 'Simulate fire drills, medical emergencies, and security situations to ensure staff readiness.', number: '03' }
                         ].map((feature, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div className="vr-product-feature-icon">{feature.icon}</div>
+                                <div className="vr-product-feature-icon" style={{
+                                    fontSize: '2rem',
+                                    fontWeight: '900',
+                                    color: '#FF9B50',
+                                    fontFamily: 'monospace'
+                                }}>{feature.number}</div>
                                 <h3 className="vr-product-feature-title">{feature.title}</h3>
                                 <p className="vr-product-feature-desc">{feature.desc}</p>
                             </div>

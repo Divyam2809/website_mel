@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Footer({ isDarkTheme, onNavigate }) {
+    const navigate = useNavigate();
     const textColor = isDarkTheme ? '#E0E0E0' : '#2D2D2D';
     const subTextColor = isDarkTheme ? '#AAA' : '#666';
     const bgColor = isDarkTheme ? '#0F0F0F' : '#F5F5F5';
@@ -16,7 +18,7 @@ export default function Footer({ isDarkTheme, onNavigate }) {
     ];
 
     return (
-        <footer style={{
+        <footer id="footer-contact" style={{
             backgroundColor: bgColor,
             padding: '4rem 5% 2rem',
             marginTop: '0',
@@ -197,6 +199,7 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                             {[
                                 'Hardware Solutions',
+                                'Software Solutions',
                                 'Education & Training',
                                 'Industrial & Enterprise',
                                 'Defence Simulation',
@@ -207,7 +210,7 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                                     <a href="#"
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            if (onNavigate) onNavigate('products');
+                                            navigate('/products', { state: { category: item } });
                                         }}
                                         style={{
                                             color: subTextColor,

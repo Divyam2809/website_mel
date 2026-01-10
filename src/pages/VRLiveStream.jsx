@@ -65,22 +65,27 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                             {
                                 title: 'Low-Latency 360° Broadcasting',
                                 desc: 'Technology that allows viewers to look around the virtual environment in real-time without lag.',
-                                icon: '📡'
+                                number: '01'
                             },
                             {
                                 title: 'Bi-Directional Interaction',
                                 desc: 'Remote participants can influence the VR environment, ask questions, or trigger events within the simulation.',
-                                icon: '🔄'
+                                number: '02'
                             },
                             {
                                 title: 'Universal Access',
                                 desc: 'Compatible with browsers, mobile devices, and standalone headsets—no high-end PC required for the audience.',
-                                icon: '🌐'
+                                number: '03'
                             }
                         ].map((feature, idx) => (
                             <div key={idx} className="vr-livestream-feature-card">
-                                <div className="vr-livestream-feature-icon">
-                                    {feature.icon}
+                                <div className="vr-livestream-feature-icon" style={{
+                                    fontSize: '2rem',
+                                    fontWeight: '900',
+                                    color: '#FF9B50',
+                                    fontFamily: 'monospace'
+                                }}>
+                                    {feature.number}
                                 </div>
                                 <h3 className="vr-livestream-feature-title">
                                     {feature.title}
@@ -199,15 +204,12 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
 
                         <div className="vr-livestream-stats-grid">
                             {[
-                                { region: 'North America', connections: '5,000+', icon: '🌎' },
-                                { region: 'Europe', connections: '3,500+', icon: '🌍' },
-                                { region: 'Asia Pacific', connections: '8,000+', icon: '🌏' },
-                                { region: 'Global Total', connections: '20K+', icon: '🌐' }
+                                { region: 'North America', connections: '5,000+' },
+                                { region: 'Europe', connections: '3,500+' },
+                                { region: 'Asia Pacific', connections: '8,000+' },
+                                { region: 'Global Total', connections: '20K+' }
                             ].map((stat, idx) => (
                                 <div key={idx} className="vr-livestream-stat-card">
-                                    <div className="vr-livestream-stat-icon">
-                                        {stat.icon}
-                                    </div>
                                     <div className="vr-livestream-stat-value">
                                         {stat.connections}
                                     </div>

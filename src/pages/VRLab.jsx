@@ -33,12 +33,17 @@ export default function VRLab({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                     <p className="vr-product-section-subtitle">Complete science education platform</p>
                     <div className="vr-product-feature-grid">
                         {[
-                            { title: 'Safe Experimentation', desc: 'Conduct dangerous experiments with hazardous chemicals and equipment without any safety risks.', icon: '🧪' },
-                            { title: 'Unlimited Resources', desc: 'Access expensive equipment and rare materials without budget constraints or supply limitations.', icon: '🔬' },
-                            { title: 'Repeatable Learning', desc: 'Repeat experiments unlimited times to master concepts and perfect techniques.', icon: '🔁' }
+                            { title: 'Safe Experimentation', desc: 'Conduct dangerous experiments with hazardous chemicals and equipment without any safety risks.', number: '01' },
+                            { title: 'Unlimited Resources', desc: 'Access expensive equipment and rare materials without budget constraints or supply limitations.', number: '02' },
+                            { title: 'Repeatable Learning', desc: 'Repeat experiments unlimited times to master concepts and perfect techniques.', number: '03' }
                         ].map((feature, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div className="vr-product-feature-icon">{feature.icon}</div>
+                                <div className="vr-product-feature-icon" style={{
+                                    fontSize: '2rem',
+                                    fontWeight: '900',
+                                    color: '#FF9B50',
+                                    fontFamily: 'monospace'
+                                }}>{feature.number}</div>
                                 <h3 className="vr-product-feature-title">{feature.title}</h3>
                                 <p className="vr-product-feature-desc">{feature.desc}</p>
                             </div>

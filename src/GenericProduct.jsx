@@ -61,7 +61,7 @@ function VideoGallery({ videos, isDarkTheme }) {
 
 import AppNav from './components/AppNav';
 
-export default function GenericProduct({ productId, onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
+export default function GenericProduct({ productId, onNavigate, isDarkTheme, onBookDemo, onToggleTheme, scrollToContact }) {
     const product = productsData[productId] || {};
 
     useEffect(() => {
@@ -204,7 +204,7 @@ export default function GenericProduct({ productId, onNavigate, isDarkTheme, onB
                                     cursor: 'pointer',
                                     transition: 'all 0.3s ease'
                                 }}
-                                    onClick={() => onNavigate('contact')} // Or similar
+                                    onClick={scrollToContact} // Or similar
                                     onMouseEnter={e => e.target.style.borderColor = '#FF9B50'}
                                     onMouseLeave={e => e.target.style.borderColor = isDarkTheme ? '#444' : '#ddd'}
                                 >
@@ -234,11 +234,13 @@ export default function GenericProduct({ productId, onNavigate, isDarkTheme, onB
                                 overflow: 'hidden'
                             }}>
                                 <div style={{
-                                    fontSize: '5rem',
-                                    opacity: 0.2
+                                    fontSize: '3rem',
+                                    fontWeight: '900',
+                                    color: '#FF9B50',
+                                    fontFamily: 'monospace'
                                 }}>
                                     {/* Placeholder Icon */}
-                                    📦
+                                    01
                                 </div>
                             </div>
                         </div>

@@ -43,12 +43,17 @@ export default function VRDefence({ onNavigate, isDarkTheme, onBookDemo, onToggl
                     <p className="vr-product-section-subtitle">Elite-level simulation technology for modern warfare training</p>
                     <div className="vr-product-feature-grid">
                         {[
-                            { title: 'Mission-Specific Rehearsals', desc: 'Upload 1:1 geospatial data to recreate real-world terrain and urban environments for specific operations.', icon: '🗺️' },
-                            { title: 'Advanced Equipment Handling', desc: 'Virtual interaction with complex systems—from drone-interface HUDs to armored vehicle controls.', icon: '🎯' },
-                            { title: 'Squad-Level Synchronization', desc: 'Multi-user environment where team members communicate and coordinate in real-time within the same simulation.', icon: '👥' }
+                            { title: 'Mission-Specific Rehearsals', desc: 'Upload 1:1 geospatial data to recreate real-world terrain and urban environments for specific operations.', number: '01' },
+                            { title: 'Advanced Equipment Handling', desc: 'Virtual interaction with complex systems—from drone-interface HUDs to armored vehicle controls.', number: '02' },
+                            { title: 'Squad-Level Synchronization', desc: 'Multi-user environment where team members communicate and coordinate in real-time within the same simulation.', number: '03' }
                         ].map((feature, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div className="vr-product-feature-icon">{feature.icon}</div>
+                                <div className="vr-product-feature-icon" style={{
+                                    fontSize: '2rem',
+                                    fontWeight: '900',
+                                    color: '#FF9B50',
+                                    fontFamily: 'monospace'
+                                }}>{feature.number}</div>
                                 <h3 className="vr-product-feature-title">{feature.title}</h3>
                                 <p className="vr-product-feature-desc">{feature.desc}</p>
                             </div>
@@ -105,13 +110,12 @@ export default function VRDefence({ onNavigate, isDarkTheme, onBookDemo, onToggl
                         <p className="vr-product-section-subtitle">Quantifiable metrics tracking operational readiness</p>
                         <div className="vr-product-stats-grid">
                             {[
-                                { metric: 'Situational Awareness', value: '96%', icon: '👁️', desc: 'Threat detection rate' },
-                                { metric: 'Target Accuracy', value: '94%', icon: '🎯', desc: 'Precision under stress' },
-                                { metric: 'Reaction Speed', value: '0.6s', icon: '⚡', desc: 'Response to contact' },
-                                { metric: 'Team Coordination', value: '98%', icon: '🤝', desc: 'Squad synchronization' }
+                                { metric: 'Situational Awareness', value: '96%', desc: 'Threat detection rate' },
+                                { metric: 'Target Accuracy', value: '94%', desc: 'Precision under stress' },
+                                { metric: 'Reaction Speed', value: '0.6s', desc: 'Response to contact' },
+                                { metric: 'Team Coordination', value: '98%', desc: 'Squad synchronization' }
                             ].map((stat, idx) => (
                                 <div key={idx} className="vr-product-stat-card">
-                                    <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>{stat.icon}</div>
                                     <div className="vr-product-stat-value">{stat.value}</div>
                                     <div className="vr-product-stat-label">{stat.metric}</div>
                                     <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{stat.desc}</div>
@@ -125,15 +129,20 @@ export default function VRDefence({ onNavigate, isDarkTheme, onBookDemo, onToggl
                 <section className="vr-product-section">
                     <h2 className="vr-product-section-title">Security & Data Protection</h2>
                     <p className="vr-product-section-subtitle">Military-grade security for classified training operations</p>
-                    <div className="vr-product-feature-grid">
+                    <div className="vr-product-feature-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
                         {[
-                            { feature: 'Air-Gapped Systems', desc: 'Isolated networks for classified operations', icon: '🔒' },
-                            { feature: 'Encrypted Data Storage', desc: 'Military-grade AES-256 encryption', icon: '🛡️' },
-                            { feature: 'Secure Authentication', desc: 'Multi-factor biometric access control', icon: '🔐' },
-                            { feature: 'Audit Trail Logging', desc: 'Complete session recording and tracking', icon: '📋' }
+                            { feature: 'Air-Gapped Systems', desc: 'Isolated networks for classified operations', number: '01' },
+                            { feature: 'Encrypted Data Storage', desc: 'Military-grade AES-256 encryption', number: '02' },
+                            { feature: 'Secure Authentication', desc: 'Multi-factor biometric access control', number: '03' },
+                            { feature: 'Audit Trail Logging', desc: 'Complete session recording and tracking', number: '04' }
                         ].map((item, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div className="vr-product-feature-icon">{item.icon}</div>
+                                <div className="vr-product-feature-icon" style={{
+                                    fontSize: '2rem',
+                                    fontWeight: '900',
+                                    color: '#FF9B50',
+                                    fontFamily: 'monospace'
+                                }}>{item.number}</div>
                                 <h3 className="vr-product-feature-title">{item.feature}</h3>
                                 <p className="vr-product-feature-desc">{item.desc}</p>
                             </div>

@@ -33,12 +33,17 @@ export default function VRElearning({ onNavigate, isDarkTheme, onBookDemo, onTog
                     <p className="vr-product-section-subtitle">Immersive education for the digital age</p>
                     <div className="vr-product-feature-grid">
                         {[
-                            { title: 'Interactive Lessons', desc: 'Engage with 3D models, simulations, and virtual environments that make abstract concepts tangible.', icon: '📚' },
-                            { title: 'Collaborative Spaces', desc: 'Join classmates in virtual study rooms for group projects and peer learning experiences.', icon: '👥' },
-                            { title: 'Gamified Learning', desc: 'Earn achievements, track progress, and compete in educational challenges that motivate students.', icon: '🎮' }
+                            { title: 'Interactive Lessons', desc: 'Engage with 3D models, simulations, and virtual environments that make abstract concepts tangible.', number: '01' },
+                            { title: 'Collaborative Spaces', desc: 'Join classmates in virtual study rooms for group projects and peer learning experiences.', number: '02' },
+                            { title: 'Gamified Learning', desc: 'Earn achievements, track progress, and compete in educational challenges that motivate students.', number: '03' }
                         ].map((feature, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div className="vr-product-feature-icon">{feature.icon}</div>
+                                <div className="vr-product-feature-icon" style={{
+                                    fontSize: '2rem',
+                                    fontWeight: '900',
+                                    color: '#FF9B50',
+                                    fontFamily: 'monospace'
+                                }}>{feature.number}</div>
                                 <h3 className="vr-product-feature-title">{feature.title}</h3>
                                 <p className="vr-product-feature-desc">{feature.desc}</p>
                             </div>

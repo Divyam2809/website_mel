@@ -33,12 +33,17 @@ export default function VRUdyog({ onNavigate, isDarkTheme, onBookDemo, onToggleT
                     <p className="vr-product-section-subtitle">Advanced VR training for industrial operations</p>
                     <div className="vr-product-feature-grid">
                         {[
-                            { title: 'Equipment Operation', desc: 'Train on heavy machinery, assembly lines, and specialized equipment without production downtime.', icon: '⚙️' },
-                            { title: 'Safety Protocols', desc: 'Practice lockout/tagout, confined space entry, and hazard identification in realistic scenarios.', icon: '🦺' },
-                            { title: 'Quality Control', desc: 'Learn inspection procedures, defect identification, and quality assurance processes.', icon: '✓' }
+                            { title: 'Equipment Operation', desc: 'Train on heavy machinery, assembly lines, and specialized equipment without production downtime.', number: '01' },
+                            { title: 'Safety Protocols', desc: 'Practice lockout/tagout, confined space entry, and hazard identification in realistic scenarios.', number: '02' },
+                            { title: 'Quality Control', desc: 'Learn inspection procedures, defect identification, and quality assurance processes.', number: '03' }
                         ].map((feature, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div className="vr-product-feature-icon">{feature.icon}</div>
+                                <div className="vr-product-feature-icon" style={{
+                                    fontSize: '2rem',
+                                    fontWeight: '900',
+                                    color: '#FF9B50',
+                                    fontFamily: 'monospace'
+                                }}>{feature.number}</div>
                                 <h3 className="vr-product-feature-title">{feature.title}</h3>
                                 <p className="vr-product-feature-desc">{feature.desc}</p>
                             </div>
