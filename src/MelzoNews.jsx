@@ -76,7 +76,7 @@ This article is in Gujarati. The title and excerpt have been translated to Engli
             id: 4,
             category: 'Gujarati Newspaper',
             date: 'January 2025',
-            title: 'Hardik Software created for free education of Gujarati medium students',
+            title: 'Hardik created software for free education of Gujarati medium students',
             summary: 'Software benefiting 2.80 lakh students; ranked first among 1200 startups in state government\'s startup scheme',
             image: '/images/melzo-partners-universities.png',
             language: 'Gujarati',

@@ -38,6 +38,8 @@ import BookDemo from './components/BookDemo';
 
 import { Routes, Route, useNavigate, useLocation, Navigate, useParams } from 'react-router-dom';
 
+import usePageTitle from './hooks/usePageTitle';
+
 // Wrapper for GenericProduct to extract route params
 const GenericProductWrapper = (props) => {
     const { productId } = useParams();
@@ -52,6 +54,9 @@ export default function App() {
 
     const navigate = useNavigate();
     const location = useLocation();
+
+    // Call custom hook for SEO titles
+    usePageTitle();
 
     // Custom cursor effect
     useEffect(() => {
@@ -133,7 +138,7 @@ export default function App() {
     );
 
     // Navigation Adapter for existing components
-    const handleNavigate = (page) => {
+    const handleNavigate = (page, options = {}) => {
         // Known top-level pages that should stay at the root
         const topLevelPages = [
             'home',
@@ -151,13 +156,13 @@ export default function App() {
         const targetPage = page.toLowerCase();
 
         if (topLevelPages.includes(targetPage)) {
-            navigate(`/${targetPage}`);
+            navigate(`/${targetPage}`, options);
         } else if (targetPage.startsWith('product-')) {
             // Handle generic product wrapper links (e.g. product-custom-solutions)
-            navigate(`/products/${targetPage.replace('product-', '')}`);
+            navigate(`/products/${targetPage.replace('product-', '')}`, options);
         } else {
             // Assume it's a specific product page and route to /products/<name>
-            navigate(`/products/${targetPage}`);
+            navigate(`/products/${targetPage}`, options);
         }
     };
 
@@ -260,7 +265,51 @@ export default function App() {
 
             {/* Scroll To Top Button */}
             <ScrollToTopButton isDarkTheme={isDarkTheme} />
+
+            {/* Back Button */}
+            <BackButton isDarkTheme={isDarkTheme} />
         </>
+    );
+}
+
+// Internal Back Button Component
+function BackButton({ isDarkTheme }) {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // Do not show on home page
+    if (location.pathname === '/' || location.pathname === '/home') {
+        return null;
+    }
+
+    return (
+        <button
+            onClick={() => navigate(-1)}
+            style={{
+                position: 'fixed',
+                bottom: '30px',
+                left: '30px',
+                backgroundColor: 'transparent',
+                color: '#FF9B50',
+                width: '50px',
+                height: '50px',
+                borderRadius: '50%',
+                border: '2px solid #FF9B50',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.5rem',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                zIndex: 1000,
+                transition: 'transform 0.3s ease'
+            }}
+            title="Go Back"
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+        >
+            ←
+        </button>
     );
 }
 

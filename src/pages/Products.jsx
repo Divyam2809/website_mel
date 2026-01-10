@@ -339,7 +339,16 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo, onToggle
                         {categories.map((cat) => (
                             <button
                                 key={cat.title}
-                                onClick={() => setActiveCategory(cat.title)}
+                                onClick={() => {
+                                    setActiveCategory(cat.title);
+                                    if (onNavigate) {
+                                        // Update history state for back button persistence
+                                        onNavigate('products', {
+                                            state: { category: cat.title },
+                                            replace: true
+                                        });
+                                    }
+                                }}
                                 style={{
                                     padding: '0.8rem 1.5rem',
                                     borderRadius: '50px',
@@ -421,7 +430,7 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo, onToggle
                                 opacity: 0,
                                 transform: 'translateY(10px)'
                             }}
-                                onClick={() => item.link && onNavigate(item.link)}
+                                onClick={() => item.link && onNavigate(item.link, { state: { category: activeCategory } })}
                                 onMouseEnter={(e) => {
                                     e.currentTarget.style.transform = 'translateY(-5px)';
                                     e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.1)';
