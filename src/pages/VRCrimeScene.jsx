@@ -36,12 +36,17 @@ export default function VRCrimeScene({ onNavigate, isDarkTheme, onBookDemo, onTo
                     <p className="vr-product-section-subtitle">Advanced VR technology for precision forensic training</p>
                     <div className="vr-product-feature-grid">
                         {[
-                            { title: 'Haptic Evidence Collection', desc: 'Using specialized controllers to feel the \'weight\' and \'resistance\' of objects to practice delicate recovery techniques.', icon: '🔬' },
-                            { title: 'Dynamic Motion Effects', desc: 'Simulating environmental stressors (shifting ground, unstable structures) to train focus under pressure.', icon: '⚡' },
-                            { title: 'Procedural Accuracy', desc: 'Built-in checklists that track if a participant follows legal and safety protocols in real-time.', icon: '✓' }
+                            { title: 'Haptic Evidence Collection', desc: 'Using specialized controllers to feel the \'weight\' and \'resistance\' of objects to practice delicate recovery techniques.', number: '01' },
+                            { title: 'Dynamic Motion Effects', desc: 'Simulating environmental stressors (shifting ground, unstable structures) to train focus under pressure.', number: '02' },
+                            { title: 'Procedural Accuracy', desc: 'Built-in checklists that track if a participant follows legal and safety protocols in real-time.', number: '03' }
                         ].map((feature, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div className="vr-product-feature-icon">{feature.icon}</div>
+                                <div className="vr-product-feature-icon" style={{
+                                    fontSize: '2rem',
+                                    fontWeight: '900',
+                                    color: '#FF9B50',
+                                    fontFamily: 'monospace'
+                                }}>{feature.number}</div>
                                 <h3 className="vr-product-feature-title">{feature.title}</h3>
                                 <p className="vr-product-feature-desc">{feature.desc}</p>
                             </div>
@@ -95,13 +100,12 @@ export default function VRCrimeScene({ onNavigate, isDarkTheme, onBookDemo, onTo
                         <p className="vr-product-section-subtitle">Dashboard overlay showing critical metrics for every training session</p>
                         <div className="vr-product-stats-grid">
                             {[
-                                { metric: 'Clarity Score', value: '94%', icon: '🎯' },
-                                { metric: 'Evidence Recovery Rate', value: '87%', icon: '📊' },
-                                { metric: 'Protocol Compliance', value: '98%', icon: '✓' },
-                                { metric: 'Time to Secure Scene', value: '12:34', icon: '⏱️' }
+                                { metric: 'Clarity Score', value: '94%' },
+                                { metric: 'Evidence Recovery Rate', value: '87%' },
+                                { metric: 'Protocol Compliance', value: '98%' },
+                                { metric: 'Time to Secure Scene', value: '12:34' }
                             ].map((stat, idx) => (
                                 <div key={idx} className="vr-product-stat-card">
-                                    <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>{stat.icon}</div>
                                     <div className="vr-product-stat-value">{stat.value}</div>
                                     <div className="vr-product-stat-label" style={{ fontSize: '0.95rem' }}>{stat.metric}</div>
                                 </div>

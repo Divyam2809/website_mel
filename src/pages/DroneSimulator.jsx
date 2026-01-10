@@ -33,12 +33,17 @@ export default function DroneSimulator({ onNavigate, isDarkTheme, onBookDemo, on
                     <p className="vr-product-section-subtitle">Cutting-edge simulation technology for realistic flight training</p>
                     <div className="vr-product-feature-grid">
                         {[
-                            { title: 'Realistic Physics Engine', desc: 'Simulation of wind resistance, battery gravity shifts, and momentum for authentic flight dynamics.', icon: '⚙️' },
-                            { title: 'Haptic Motion Feedback', desc: 'The Melzo system mimics the \'feel\' of flight and environmental tilt during maneuvers.', icon: '🎮' },
-                            { title: 'Multi-Environment Arenas', desc: 'Diverse training grounds—from industrial warehouses and construction sites to open-world landscapes.', icon: '🌍' }
+                            { title: 'Realistic Physics Engine', desc: 'Simulation of wind resistance, battery gravity shifts, and momentum for authentic flight dynamics.', number: '01' },
+                            { title: 'Haptic Motion Feedback', desc: 'The Melzo system mimics the \'feel\' of flight and environmental tilt during maneuvers.', number: '02' },
+                            { title: 'Multi-Environment Arenas', desc: 'Diverse training grounds—from industrial warehouses and construction sites to open-world landscapes.', number: '03' }
                         ].map((feature, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div className="vr-product-feature-icon">{feature.icon}</div>
+                                <div className="vr-product-feature-icon" style={{
+                                    fontSize: '2rem',
+                                    fontWeight: '900',
+                                    color: '#FF9B50',
+                                    fontFamily: 'monospace'
+                                }}>{feature.number}</div>
                                 <h3 className="vr-product-feature-title">{feature.title}</h3>
                                 <p className="vr-product-feature-desc">{feature.desc}</p>
                             </div>
@@ -92,13 +97,12 @@ export default function DroneSimulator({ onNavigate, isDarkTheme, onBookDemo, on
                         <p className="vr-product-section-subtitle">From beginner-friendly interfaces to advanced FPV racing HUDs</p>
                         <div className="vr-product-feature-grid">
                             {[
-                                { level: 'Beginner', features: ['Guided Flight Paths', 'Auto-Stabilization', 'Collision Warnings', 'Speed Limiters'], icon: '🎓' },
-                                { level: 'Intermediate', features: ['Manual Controls', 'Weather Simulation', 'Obstacle Courses', 'Battery Management'], icon: '🚁' },
-                                { level: 'Advanced', features: ['FPV Racing Mode', 'Acrobatic Maneuvers', 'Multi-Drone Control', 'Custom Scenarios'], icon: '🏆' }
+                                { level: 'Beginner', features: ['Guided Flight Paths', 'Auto-Stabilization', 'Collision Warnings', 'Speed Limiters'] },
+                                { level: 'Intermediate', features: ['Manual Controls', 'Weather Simulation', 'Obstacle Courses', 'Battery Management'] },
+                                { level: 'Advanced', features: ['FPV Racing Mode', 'Acrobatic Maneuvers', 'Multi-Drone Control', 'Custom Scenarios'] }
                             ].map((tier, idx) => (
                                 <div key={idx} className="vr-product-feature-card">
-                                    <div style={{ fontSize: '3rem', textAlign: 'center', marginBottom: '1rem' }}>{tier.icon}</div>
-                                    <h3 className="vr-product-feature-title" style={{ textAlign: 'center', color: 'var(--accent)' }}>{tier.level}</h3>
+                                    <h3 className="vr-product-feature-title" style={{ textAlign: 'center', color: 'var(--accent)', marginBottom: '1.5rem' }}>{tier.level}</h3>
                                     <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                                         {tier.features.map((feature, i) => (
                                             <li key={i} style={{ padding: '0.75rem 0', borderBottom: i < tier.features.length - 1 ? '1px solid var(--border-color)' : 'none', color: 'var(--text-secondary)', fontSize: '0.95rem' }}>

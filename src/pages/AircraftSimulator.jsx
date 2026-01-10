@@ -35,12 +35,17 @@ export default function AircraftSimulator({ onNavigate, isDarkTheme, onBookDemo,
                     <p className="vr-product-section-subtitle">Professional-grade simulation technology for authentic flight training</p>
                     <div className="vr-product-feature-grid">
                         {[
-                            { title: 'Full Cockpit Replication', desc: '1:1 mapping of dials, switches, and HUDs that respond to virtual touch with precision accuracy.', icon: '🎛️' },
-                            { title: 'Kinetic Motion Systems', desc: 'Hardware mimics G-force, turbulence, and landing impact to build physiological readiness.', icon: '⚡' },
-                            { title: 'Variable Weather & Lighting', desc: 'Toggle zero-visibility, night flights, and extreme storm conditions at the click of a button.', icon: '🌦️' }
+                            { title: 'Full Cockpit Replication', desc: '1:1 mapping of dials, switches, and HUDs that respond to virtual touch with precision accuracy.', number: '01' },
+                            { title: 'Kinetic Motion Systems', desc: 'Hardware mimics G-force, turbulence, and landing impact to build physiological readiness.', number: '02' },
+                            { title: 'Variable Weather & Lighting', desc: 'Toggle zero-visibility, night flights, and extreme storm conditions at the click of a button.', number: '03' }
                         ].map((feature, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div className="vr-product-feature-icon">{feature.icon}</div>
+                                <div className="vr-product-feature-icon" style={{
+                                    fontSize: '2rem',
+                                    fontWeight: '900',
+                                    color: '#FF9B50',
+                                    fontFamily: 'monospace'
+                                }}>{feature.number}</div>
                                 <h3 className="vr-product-feature-title">{feature.title}</h3>
                                 <p className="vr-product-feature-desc">{feature.desc}</p>
                             </div>
@@ -94,13 +99,12 @@ export default function AircraftSimulator({ onNavigate, isDarkTheme, onBookDemo,
                         <p className="vr-product-section-subtitle">Instructor dashboard providing scientific basis for flight readiness</p>
                         <div className="vr-product-stats-grid">
                             {[
-                                { metric: 'Response Time', value: '0.8s', icon: '⏱️', desc: 'Average reaction to emergencies' },
-                                { metric: 'Path Deviation', value: '±2°', icon: '📍', desc: 'Navigation accuracy' },
-                                { metric: 'Landing Accuracy', value: '98%', icon: '🛬', desc: 'Touchdown precision' },
-                                { metric: 'Checklist Compliance', value: '100%', icon: '✓', desc: 'Procedural adherence' }
+                                { metric: 'Response Time', value: '0.8s', desc: 'Average reaction to emergencies' },
+                                { metric: 'Path Deviation', value: '±2°', desc: 'Navigation accuracy' },
+                                { metric: 'Landing Accuracy', value: '98%', desc: 'Touchdown precision' },
+                                { metric: 'Checklist Compliance', value: '100%', desc: 'Procedural adherence' }
                             ].map((stat, idx) => (
                                 <div key={idx} className="vr-product-stat-card">
-                                    <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>{stat.icon}</div>
                                     <div className="vr-product-stat-value">{stat.value}</div>
                                     <div className="vr-product-stat-label">{stat.metric}</div>
                                     <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{stat.desc}</div>

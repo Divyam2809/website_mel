@@ -4,7 +4,7 @@ import AppNav from '../components/AppNav';
 import GridBackground from '../components/GridBackground';
 import '../styles/Industries.css';
 
-export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
+export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme, scrollToContact }) {
     const [showEducationModal, setShowEducationModal] = useState(false);
     const [showCSRModal, setShowCSRModal] = useState(false);
     const [showGovernmentModal, setShowGovernmentModal] = useState(false);
@@ -219,19 +219,21 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                         }}>
                             Ready to Transform Your Industry?
                         </h2>
-                        <button style={{
-                            background: '#FF9B50',
-                            color: '#fff',
-                            border: 'none',
-                            padding: '1.2rem 3rem',
-                            cursor: 'pointer',
-                            borderRadius: '30px',
-                            transition: 'all 0.3s ease',
-                            fontWeight: 600,
-                            fontSize: '1.1rem',
-                            letterSpacing: '0.5px',
-                            boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
-                        }}>
+                        <button
+                            onClick={scrollToContact}
+                            style={{
+                                background: '#FF9B50',
+                                color: '#fff',
+                                border: 'none',
+                                padding: '1.2rem 3rem',
+                                cursor: 'pointer',
+                                borderRadius: '30px',
+                                transition: 'all 0.3s ease',
+                                fontWeight: 600,
+                                fontSize: '1.1rem',
+                                letterSpacing: '0.5px',
+                                boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
+                            }}>
                             Contact Sales
                         </button>
                     </div>
@@ -627,73 +629,7 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                     ))}
                                 </div>
 
-                                {/* CTA Buttons */}
-                                <div style={{
-                                    display: 'flex',
-                                    gap: '1rem',
-                                    justifyContent: 'center',
-                                    flexWrap: 'wrap'
-                                }}>
-                                    <button
-                                        onClick={() => {
-                                            setShowEducationModal(false);
-                                            onNavigate && onNavigate('education-training');
-                                        }}
-                                        style={{
-                                            background: '#FF9B50',
-                                            color: '#fff',
-                                            border: 'none',
-                                            padding: '1rem 2rem',
-                                            cursor: 'pointer',
-                                            borderRadius: '30px',
-                                            transition: 'all 0.3s ease',
-                                            fontWeight: 600,
-                                            fontSize: '1rem',
-                                            letterSpacing: '0.5px',
-                                            boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.transform = 'translateY(-3px)';
-                                            e.target.style.boxShadow = '0 8px 25px rgba(255, 155, 80, 0.5)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.transform = 'translateY(0)';
-                                            e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                                        }}
-                                    >
-                                        Learn More →
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setShowEducationModal(false);
-                                            // You can add contact or demo booking logic here
-                                        }}
-                                        style={{
-                                            background: 'transparent',
-                                            color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
-                                            border: `2px solid ${isDarkTheme ? '#FFFFFF' : '#2D2D2D'}`,
-                                            padding: '1rem 2rem',
-                                            cursor: 'pointer',
-                                            borderRadius: '30px',
-                                            transition: 'all 0.3s ease',
-                                            fontWeight: 600,
-                                            fontSize: '1rem',
-                                            letterSpacing: '0.5px'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.background = '#2D2D2D';
-                                            e.target.style.color = '#fff';
-                                            e.target.style.transform = 'translateY(-3px)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.background = 'transparent';
-                                            e.target.style.color = isDarkTheme ? '#FFFFFF' : '#2D2D2D';
-                                            e.target.style.transform = 'translateY(0)';
-                                        }}
-                                    >
-                                        Contact Sales
-                                    </button>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -978,72 +914,7 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                     ))}
                                 </div>
 
-                                {/* CTA Buttons */}
-                                <div style={{
-                                    display: 'flex',
-                                    gap: '1rem',
-                                    justifyContent: 'center',
-                                    flexWrap: 'wrap'
-                                }}>
-                                    <button
-                                        onClick={() => {
-                                            setShowCSRModal(false);
-                                            onNavigate && onNavigate('csr');
-                                        }}
-                                        style={{
-                                            background: '#FF9B50',
-                                            color: '#fff',
-                                            border: 'none',
-                                            padding: '1rem 2rem',
-                                            cursor: 'pointer',
-                                            borderRadius: '30px',
-                                            transition: 'all 0.3s ease',
-                                            fontWeight: 600,
-                                            fontSize: '1rem',
-                                            letterSpacing: '0.5px',
-                                            boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.transform = 'translateY(-3px)';
-                                            e.target.style.boxShadow = '0 8px 25px rgba(255, 155, 80, 0.5)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.transform = 'translateY(0)';
-                                            e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                                        }}
-                                    >
-                                        Learn More →
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setShowCSRModal(false);
-                                        }}
-                                        style={{
-                                            background: 'transparent',
-                                            color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
-                                            border: `2px solid ${isDarkTheme ? '#FFFFFF' : '#2D2D2D'}`,
-                                            padding: '1rem 2rem',
-                                            cursor: 'pointer',
-                                            borderRadius: '30px',
-                                            transition: 'all 0.3s ease',
-                                            fontWeight: 600,
-                                            fontSize: '1rem',
-                                            letterSpacing: '0.5px'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.background = '#2D2D2D';
-                                            e.target.style.color = '#fff';
-                                            e.target.style.transform = 'translateY(-3px)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.background = 'transparent';
-                                            e.target.style.color = isDarkTheme ? '#FFFFFF' : '#2D2D2D';
-                                            e.target.style.transform = 'translateY(0)';
-                                        }}
-                                    >
-                                        Contact Sales
-                                    </button>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -1328,72 +1199,7 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                     ))}
                                 </div>
 
-                                {/* CTA Buttons */}
-                                <div style={{
-                                    display: 'flex',
-                                    gap: '1rem',
-                                    justifyContent: 'center',
-                                    flexWrap: 'wrap'
-                                }}>
-                                    <button
-                                        onClick={() => {
-                                            setShowGovernmentModal(false);
-                                            onNavigate && onNavigate('government');
-                                        }}
-                                        style={{
-                                            background: '#FF9B50',
-                                            color: '#fff',
-                                            border: 'none',
-                                            padding: '1rem 2rem',
-                                            cursor: 'pointer',
-                                            borderRadius: '30px',
-                                            transition: 'all 0.3s ease',
-                                            fontWeight: 600,
-                                            fontSize: '1rem',
-                                            letterSpacing: '0.5px',
-                                            boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.transform = 'translateY(-3px)';
-                                            e.target.style.boxShadow = '0 8px 25px rgba(255, 155, 80, 0.5)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.transform = 'translateY(0)';
-                                            e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                                        }}
-                                    >
-                                        Learn More →
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setShowGovernmentModal(false);
-                                        }}
-                                        style={{
-                                            background: 'transparent',
-                                            color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
-                                            border: `2px solid ${isDarkTheme ? '#FFFFFF' : '#2D2D2D'}`,
-                                            padding: '1rem 2rem',
-                                            cursor: 'pointer',
-                                            borderRadius: '30px',
-                                            transition: 'all 0.3s ease',
-                                            fontWeight: 600,
-                                            fontSize: '1rem',
-                                            letterSpacing: '0.5px'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.background = '#2D2D2D';
-                                            e.target.style.color = '#fff';
-                                            e.target.style.transform = 'translateY(-3px)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.background = 'transparent';
-                                            e.target.style.color = isDarkTheme ? '#FFFFFF' : '#2D2D2D';
-                                            e.target.style.transform = 'translateY(0)';
-                                        }}
-                                    >
-                                        Contact Sales
-                                    </button>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -1678,72 +1484,7 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                     ))}
                                 </div>
 
-                                {/* CTA Buttons */}
-                                <div style={{
-                                    display: 'flex',
-                                    gap: '1rem',
-                                    justifyContent: 'center',
-                                    flexWrap: 'wrap'
-                                }}>
-                                    <button
-                                        onClick={() => {
-                                            setShowIndustryModal(false);
-                                            onNavigate && onNavigate('industry');
-                                        }}
-                                        style={{
-                                            background: '#FF9B50',
-                                            color: '#fff',
-                                            border: 'none',
-                                            padding: '1rem 2rem',
-                                            cursor: 'pointer',
-                                            borderRadius: '30px',
-                                            transition: 'all 0.3s ease',
-                                            fontWeight: 600,
-                                            fontSize: '1rem',
-                                            letterSpacing: '0.5px',
-                                            boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.transform = 'translateY(-3px)';
-                                            e.target.style.boxShadow = '0 8px 25px rgba(255, 155, 80, 0.5)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.transform = 'translateY(0)';
-                                            e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                                        }}
-                                    >
-                                        Learn More →
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setShowIndustryModal(false);
-                                        }}
-                                        style={{
-                                            background: 'transparent',
-                                            color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
-                                            border: `2px solid ${isDarkTheme ? '#FFFFFF' : '#2D2D2D'}`,
-                                            padding: '1rem 2rem',
-                                            cursor: 'pointer',
-                                            borderRadius: '30px',
-                                            transition: 'all 0.3s ease',
-                                            fontWeight: 600,
-                                            fontSize: '1rem',
-                                            letterSpacing: '0.5px'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.background = '#2D2D2D';
-                                            e.target.style.color = '#fff';
-                                            e.target.style.transform = 'translateY(-3px)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.background = 'transparent';
-                                            e.target.style.color = isDarkTheme ? '#FFFFFF' : '#2D2D2D';
-                                            e.target.style.transform = 'translateY(0)';
-                                        }}
-                                    >
-                                        Contact Sales
-                                    </button>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -2108,61 +1849,7 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                     </div>
                                 </div>
 
-                                {/* Call to Action */}
-                                <div style={{
-                                    display: 'flex',
-                                    gap: '1rem',
-                                    justifyContent: 'center',
-                                    flexWrap: 'wrap',
-                                    marginTop: '2rem'
-                                }}>
-                                    <button style={{
-                                        background: '#FF9B50',
-                                        color: '#fff',
-                                        border: 'none',
-                                        padding: '1rem 2.5rem',
-                                        borderRadius: '50px',
-                                        fontSize: '1rem',
-                                        fontWeight: 700,
-                                        cursor: 'pointer',
-                                        transition: 'all 0.3s ease',
-                                        boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
-                                    }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.transform = 'translateY(-3px)';
-                                            e.target.style.boxShadow = '0 8px 25px rgba(255, 155, 80, 0.5)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.transform = 'translateY(0)';
-                                            e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                                        }}
-                                    >
-                                        Learn More →
-                                    </button>
-                                    <button style={{
-                                        background: 'transparent',
-                                        color: isDarkTheme ? '#EEEEEE' : '#2D2D2D',
-                                        border: `2px solid ${isDarkTheme ? '#EEEEEE' : '#2D2D2D'}`,
-                                        padding: '1rem 2.5rem',
-                                        borderRadius: '50px',
-                                        fontSize: '1rem',
-                                        fontWeight: 700,
-                                        cursor: 'pointer',
-                                        transition: 'all 0.3s ease'
-                                    }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.background = isDarkTheme ? '#EEEEEE' : '#2D2D2D';
-                                            e.target.style.color = isDarkTheme ? '#000' : '#fff';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.background = 'transparent';
-                                            e.target.style.color = isDarkTheme ? '#EEEEEE' : '#2D2D2D';
-                                        }}
-                                        onClick={() => setShowEducationModal(false)}
-                                    >
-                                        Contact Sales
-                                    </button>
-                                </div>
+
                             </div>
                         </div>
 
@@ -3335,61 +3022,7 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                     </div>
                                 </div>
 
-                                {/* Call to Action */}
-                                <div style={{
-                                    display: 'flex',
-                                    gap: '1rem',
-                                    justifyContent: 'center',
-                                    flexWrap: 'wrap',
-                                    marginTop: '2rem'
-                                }}>
-                                    <button style={{
-                                        background: '#FF9B50',
-                                        color: '#fff',
-                                        border: 'none',
-                                        padding: '1rem 2.5rem',
-                                        borderRadius: '50px',
-                                        fontSize: '1rem',
-                                        fontWeight: 700,
-                                        cursor: 'pointer',
-                                        transition: 'all 0.3s ease',
-                                        boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
-                                    }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.transform = 'translateY(-3px)';
-                                            e.target.style.boxShadow = '0 8px 25px rgba(255, 155, 80, 0.5)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.transform = 'translateY(0)';
-                                            e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                                        }}
-                                    >
-                                        Schedule Demo →
-                                    </button>
-                                    <button style={{
-                                        background: 'transparent',
-                                        color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
-                                        border: `2px solid ${isDarkTheme ? '#FFFFFF' : '#2D2D2D'}`,
-                                        padding: '1rem 2.5rem',
-                                        borderRadius: '50px',
-                                        fontSize: '1rem',
-                                        fontWeight: 700,
-                                        cursor: 'pointer',
-                                        transition: 'all 0.3s ease'
-                                    }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.background = isDarkTheme ? '#FFFFFF' : '#2D2D2D';
-                                            e.target.style.color = isDarkTheme ? '#000' : '#fff';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.background = 'transparent';
-                                            e.target.style.color = isDarkTheme ? '#FFFFFF' : '#2D2D2D';
-                                        }}
-                                        onClick={() => setShowDefenceModal(false)}
-                                    >
-                                        View Simulators
-                                    </button>
-                                </div>
+
                             </div>
                         </div>
 

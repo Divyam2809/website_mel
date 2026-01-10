@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 // Icon Component for rendering SVG icons
 const Icon = ({ type, color = '#FF9B50' }) => {
@@ -189,7 +190,14 @@ import AppNav from '../components/AppNav';
 import GridBackground from '../components/GridBackground';
 
 export default function Products({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
+    const location = useLocation();
     const [activeCategory, setActiveCategory] = useState("Hardware Solutions");
+
+    useEffect(() => {
+        if (location.state?.category) {
+            setActiveCategory(location.state.category);
+        }
+    }, [location.state]);
 
     const categories = [
         {
@@ -244,9 +252,9 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo, onToggle
             title: "Tourism",
             id: "tourism",
             items: [
-                { name: 'VR in Tourism', icon: 'globe', description: 'Virtual travel experiences to global destinations.', link: 'product-vr-tourism' },
-                { name: 'Virtual Heritage Tours', icon: 'camera', description: 'Explore historical sites and monuments virtually.', link: 'product-virtual-heritage' },
-                { name: '360° City Guides', icon: 'map', description: 'Immersive city exploration for travelers.', link: 'product-city-guides' }
+                { name: 'VR in Tourism', icon: 'globe', description: 'Virtual travel experiences to global destinations.', link: 'vrtourism' },
+                { name: 'Virtual Heritage Tours', icon: 'camera', description: 'Explore historical sites and monuments virtually.', link: 'virtualheritage' },
+                { name: '360° City Guides', icon: 'map', description: 'Immersive city exploration for travelers.', link: 'cityguides' }
             ]
         },
         {

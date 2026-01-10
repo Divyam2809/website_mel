@@ -38,12 +38,17 @@ export default function VRRealEstate({ onNavigate, isDarkTheme, onBookDemo, onTo
                     <p className="vr-product-section-subtitle">Beyond visualization. Total sensory engagement.</p>
                     <div className="vr-product-feature-grid">
                         {[
-                            { title: 'Full-Scale Walkthroughs', icon: '🚶', desc: 'Navigate layouts with 1:1 spatial accuracy. Clients understand room dimensions, ceiling heights, and flow in a way blueprints never convey.' },
-                            { title: 'Interactive Customization', icon: '🎨', desc: 'Toggle finishes, flooring, lighting, and furniture with a single click during the demo. See marble vs. wood. Light vs. dark. Instantly.' },
-                            { title: 'Environmental Simulation', icon: '🌅', desc: 'The 7D edge: Experience views at sunrise, noon, and sunset. Hear ambient street noise. Feel the neighborhood vibe before signing.' }
+                            { title: 'Full-Scale Walkthroughs', number: '01', desc: 'Navigate layouts with 1:1 spatial accuracy. Clients understand room dimensions, ceiling heights, and flow in a way blueprints never convey.' },
+                            { title: 'Interactive Customization', number: '02', desc: 'Toggle finishes, flooring, lighting, and furniture with a single click during the demo. See marble vs. wood. Light vs. dark. Instantly.' },
+                            { title: 'Environmental Simulation', number: '03', desc: 'The 7D edge: Experience views at sunrise, noon, and sunset. Hear ambient street noise. Feel the neighborhood vibe before signing.' }
                         ].map((item, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div className="vr-product-feature-icon">{item.icon}</div>
+                                <div className="vr-product-feature-icon" style={{
+                                    fontSize: '2rem',
+                                    fontWeight: '900',
+                                    color: '#FF9B50',
+                                    fontFamily: 'monospace'
+                                }}>{item.number}</div>
                                 <h3 className="vr-product-feature-title">{item.title}</h3>
                                 <p className="vr-product-feature-desc">{item.desc}</p>
                             </div>
@@ -95,12 +100,12 @@ export default function VRRealEstate({ onNavigate, isDarkTheme, onBookDemo, onTo
                     <p>A Melzo VR setup transforms a standard sales office into a high-tech destination. Position your brand as a market leader with an experience that buyers remember—and talk about.</p>
                     <div className="vr-product-feature-grid" style={{ marginBottom: '4rem' }}>
                         {[
-                            { icon: '🎯', title: 'Premium Positioning', desc: 'Stand out in a crowded market with technology that screams innovation and quality.' },
-                            { icon: '⚡', title: 'Faster Decision Cycles', desc: 'Reduce the time from first viewing to contract signing by eliminating uncertainty.' },
-                            { icon: '💎', title: 'Luxury Brand Appeal', desc: 'Attract high-net-worth buyers who expect cutting-edge experiences in every interaction.' }
+                            { number: '01', title: 'Premium Positioning', desc: 'Stand out in a crowded market with technology that screams innovation and quality.' },
+                            { number: '02', title: 'Faster Decision Cycles', desc: 'Reduce the time from first viewing to contract signing by eliminating uncertainty.' },
+                            { number: '03', title: 'Luxury Brand Appeal', desc: 'Attract high-net-worth buyers who expect cutting-edge experiences in every interaction.' }
                         ].map((item, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{item.icon}</div>
+                                <div style={{ fontSize: '2rem', fontWeight: '900', color: '#FF9B50', fontFamily: 'monospace', marginBottom: '1rem' }}>{item.number}</div>
                                 <h4 className="vr-product-feature-title">{item.title}</h4>
                                 <p className="vr-product-feature-desc">{item.desc}</p>
                             </div>
