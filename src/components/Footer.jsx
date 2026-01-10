@@ -18,12 +18,102 @@ export default function Footer({ isDarkTheme, onNavigate }) {
     return (
         <footer style={{
             backgroundColor: bgColor,
-            padding: '4rem 5% 2rem',
-            marginTop: '0',
-            borderTop: `1px solid ${borderColor}`,
+            padding: '8rem 5% 4rem',
+            marginTop: '5rem',
             color: textColor,
-            transition: 'background-color 0.3s ease, color 0.3s ease'
+            transition: 'background-color 0.3s ease, color 0.3s ease',
+            position: 'relative',
+            clipPath: 'polygon(0 100px, 50% 0, 100% 100px, 100% 100%, 0 100%)'
         }}>
+            {/* New Success Story Form Section */}
+            <div style={{
+                maxWidth: '800px',
+                margin: '0 auto 5rem auto',
+                textAlign: 'center'
+            }}>
+                <h2 style={{
+                    fontSize: '2.5rem',
+                    fontWeight: 800,
+                    marginBottom: '3rem',
+                    color: textColor
+                }}>
+                    Want to be our next <span style={{ color: '#FF9B50' }}>success story?</span>
+                </h2>
+
+                <form onSubmit={(e) => e.preventDefault()} style={{ maxWidth: '700px', margin: '0 auto' }}>
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: '1fr 1fr',
+                        gap: '2rem 3rem',
+                        marginBottom: '2rem',
+                        textAlign: 'left'
+                    }}>
+                        {['Your Name', 'Email Id', 'Phone No.', 'Company'].map((placeholder, i) => (
+                            <input
+                                key={i}
+                                type={placeholder.includes('Email') ? 'email' : 'text'}
+                                placeholder={placeholder}
+                                style={{
+                                    width: '100%',
+                                    padding: '10px 0',
+                                    background: 'transparent',
+                                    border: 'none',
+                                    borderBottom: `1px solid ${subTextColor}`,
+                                    color: textColor,
+                                    outline: 'none',
+                                    fontSize: '1rem',
+                                    transition: 'border-color 0.3s'
+                                }}
+                                onFocus={(e) => e.target.style.borderBottomColor = '#FF9B50'}
+                                onBlur={(e) => e.target.style.borderBottomColor = subTextColor}
+                            />
+                        ))}
+                    </div>
+                    <div style={{ textAlign: 'left', marginBottom: '3rem' }}>
+                        <input
+                            type="text"
+                            placeholder="Say Hello!"
+                            style={{
+                                width: '100%',
+                                padding: '10px 0',
+                                background: 'transparent',
+                                border: 'none',
+                                borderBottom: `1px solid ${subTextColor}`,
+                                color: textColor,
+                                outline: 'none',
+                                fontSize: '1rem',
+                                transition: 'border-color 0.3s'
+                            }}
+                            onFocus={(e) => e.target.style.borderBottomColor = '#FF9B50'}
+                            onBlur={(e) => e.target.style.borderBottomColor = subTextColor}
+                        />
+                    </div>
+
+                    <button type="submit" style={{
+                        backgroundColor: '#FF9B50',
+                        color: '#fff',
+                        border: 'none',
+                        padding: '12px 35px',
+                        borderRadius: '30px',
+                        fontSize: '1rem',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)',
+                        transition: 'transform 0.2s'
+                    }}
+                        onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
+                        onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+                    >
+                        Submit <span style={{ fontSize: '1.2rem' }}>→</span>
+                    </button>
+                </form>
+            </div>
+
+            <hr style={{ borderColor: borderColor, opacity: 0.2, marginBottom: '4rem', maxWidth: '1400px', margin: '0 auto 4rem auto' }} />
+
             <div style={{
                 maxWidth: '1400px',
                 margin: '0 auto'
@@ -48,9 +138,6 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                             }
                         }
                     `}</style>
-                    {/* ... (Left Side kept same via context, but I need to be careful with replace_file) ... */}
-                    {/* Actually, I will just replace the top part and component definition to destructure onNavigate */}
-                    {/* And then replace the specific Explore list */}
 
                     <div style={{ minWidth: '250px' }}>
                         <img
@@ -69,9 +156,7 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                             marginBottom: '1.5rem',
                             maxWidth: '350px'
                         }}>
-                            {/* *DUMMY TEXT ISO 0001 2015 certified company*<br /> */}
                             Melzo is an Indian EdTech company delivering immersive digital learning solutions for schools and institutions. Through VR Labs and Interactive Learning Platforms, Melzo helps educators simplify operations and enhance student understanding using modern technology.
-
                         </p>
                         <div style={{
                             display: 'flex',
@@ -163,7 +248,7 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                             Policies
                         </h4>
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                            {['Terms of Services', 'Privacy and Refund Policy', 'Health & Safety'].map((item, index) => (
+                            {['Terms of Services', 'Privacy Policy', 'Health & Safety'].map((item, index) => (
                                 <li key={index} style={{ marginBottom: '0.8rem' }}>
                                     <a href="#" style={{
                                         color: subTextColor,
@@ -192,7 +277,6 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                             gap: '0.5rem'
                         }}>
                             Our Offerings
-
                         </h4>
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                             {[

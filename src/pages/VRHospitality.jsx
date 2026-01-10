@@ -20,7 +20,7 @@ export default function VRHospitality({ onNavigate, isDarkTheme, onBookDemo, onT
                     <div className="vr-product-hero-content">
                         <div className="vr-product-badge">VR Hospitality Training</div>
                         <h1>Service Excellence Through Immersive Training</h1>
-                        <p>Transform hospitality training with VR simulations that prepare staff for real-world scenarios in hotels, restaurants, and tourism.</p>
+                        <p>Provide the ideal customer experience and market your business globally with VR solutions that cater to your creatives needs.</p>
                         <div className="vr-product-hero-buttons">
                             <button onClick={onBookDemo} className="vr-product-btn-primary">Request Training Demo</button>
                             <button className="vr-product-btn-secondary">View Training Modules</button>
@@ -29,20 +29,110 @@ export default function VRHospitality({ onNavigate, isDarkTheme, onBookDemo, onT
                 </section>
 
                 <section className="vr-product-section">
-                    <h2 className="vr-product-section-title">The Training Suite</h2>
-                    <p className="vr-product-section-subtitle">Comprehensive hospitality training solutions</p>
-                    <div className="vr-product-feature-grid">
-                        {[
-                            { title: 'Guest Service Scenarios', desc: 'Practice handling difficult guests, special requests, and high-pressure situations in a safe environment.', icon: '🏨' },
-                            { title: 'Multi-Language Support', desc: 'Train staff to serve international guests with real-time language practice and cultural awareness modules.', icon: '🌐' },
-                            { title: 'Emergency Protocols', desc: 'Simulate fire drills, medical emergencies, and security situations to ensure staff readiness.', icon: '🚨' }
-                        ].map((feature, idx) => (
-                            <div key={idx} className="vr-product-feature-card">
-                                <div className="vr-product-feature-icon">{feature.icon}</div>
-                                <h3 className="vr-product-feature-title">{feature.title}</h3>
-                                <p className="vr-product-feature-desc">{feature.desc}</p>
-                            </div>
-                        ))}
+                    <h2 className="vr-product-section-title">Comprehensive VR Hospitality Suite</h2>
+                    <p className="vr-product-section-subtitle">Discover, share & create immersive VR content easily.</p>
+                    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))',
+                            gap: '4rem 3rem'
+                        }}>
+                            {[
+                                {
+                                    title: 'The marketing tool you need',
+                                    desc: "Rather than reading advertising descriptions and 2D images, offer customers a chance to experience things for themselves with Virtual Reality Walkthrough of a suite, a particular room, or the hotel as a whole.",
+                                },
+                                {
+                                    title: 'Get actionable insights',
+                                    desc: 'Get 100% data of visitors inside virtual reality walkthroughs of your locations. With VR Analytics, you can get actionable insights on top-selling rooms and location performance.',
+                                },
+                                {
+                                    title: 'Immerse and convert',
+                                    desc: "With 360 photography you can provide customers with an immersive look at your hotels and outside locations. Melzo's 360 photography helps you create the most realistic imagery that helps you upsell your services.",
+                                },
+                                {
+                                    title: 'Provide customer support 24x7x365',
+                                    desc: 'Engage visitors with AI-enabled Talkbot that can provide visitors with key information about your hotels and booking processes.',
+                                },
+                                {
+                                    title: 'Integrate virtual ordering system',
+                                    desc: 'With virtual menus, you can let customers see what a meal looks like in a 3D 360 environment on their phones and place orders using virtual ordering services.',
+                                },
+                                {
+                                    title: 'Achieve a 360 digital transformation',
+                                    desc: "Attract new customers using immersive and interactive VR experiences. With a 360 Website, you can embed VR tools for marketing and advertising on your company website.",
+                                }
+                            ].map((item, idx) => (
+                                <div key={idx} style={{
+                                    display: 'flex',
+                                    gap: '1.5rem',
+                                    alignItems: 'flex-start',
+                                    transition: 'transform 0.3s ease',
+                                    cursor: 'default'
+                                }}
+                                    onMouseEnter={e => {
+                                        e.currentTarget.style.transform = 'translateY(-5px)';
+                                        const numInfo = e.currentTarget.querySelector('.feature-number');
+                                        if (numInfo) {
+                                            numInfo.style.color = '#FF9B50';
+                                            numInfo.style.transform = 'scale(1.1)';
+                                            numInfo.style.filter = 'drop-shadow(0 0 8px rgba(255, 155, 80, 0.4))';
+                                        }
+                                    }}
+                                    onMouseLeave={e => {
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        const numInfo = e.currentTarget.querySelector('.feature-number');
+                                        if (numInfo) {
+                                            numInfo.style.color = 'rgba(255, 155, 80, 0.25)';
+                                            numInfo.style.transform = 'scale(1)';
+                                            numInfo.style.filter = 'none';
+                                        }
+                                    }}>
+                                    <div className="feature-number" style={{
+                                        fontSize: '2.5rem',
+                                        fontWeight: '800',
+                                        color: 'rgba(255, 155, 80, 0.25)',
+                                        fontFamily: 'monospace',
+                                        lineHeight: 1,
+                                        marginTop: '-0.3rem',
+                                        userSelect: 'none',
+                                        transition: 'all 0.3s ease'
+                                    }}>
+                                        {(idx + 1).toString().padStart(2, '0')}
+                                    </div>
+                                    <div>
+                                        <h3 style={{
+                                            fontSize: '1.4rem',
+                                            fontWeight: 700,
+                                            marginBottom: '1rem',
+                                            color: '#FF9B50',
+                                            lineHeight: '1.3'
+                                        }}>
+                                            {item.title}
+                                        </h3>
+                                        <p style={{
+                                            fontSize: '1rem',
+                                            lineHeight: '1.7',
+                                            color: isDarkTheme ? '#AAA' : '#555',
+                                            marginBottom: item.link ? '1rem' : '0'
+                                        }}>
+                                            {item.desc}
+                                        </p>
+                                        {item.link && (
+                                            <a href="#" style={{
+                                                color: '#FF9B50',
+                                                textDecoration: 'underline',
+                                                fontSize: '0.9rem',
+                                                fontWeight: 500,
+                                                opacity: 0.8
+                                            }}>
+                                                {item.link}
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </section>
 

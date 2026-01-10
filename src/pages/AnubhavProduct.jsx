@@ -442,6 +442,83 @@ function BentoGrid({ isDarkTheme }) {
 
 import AppNav from '../components/AppNav';
 
+// Feature Item with Scroll & Hover Animation
+function FeatureItem({ feature, index, isDarkTheme }) {
+    const [isVisible, setIsVisible] = useState(false);
+    const domRef = useRef();
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        if (domRef.current) {
+            observer.observe(domRef.current);
+        }
+
+        return () => {
+            if (domRef.current) observer.unobserve(domRef.current);
+        };
+    }, []);
+
+    return (
+        <div
+            ref={domRef}
+            style={{
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+                transition: `all 0.8s cubic-bezier(0.17, 0.55, 0.55, 1) ${index * 0.1}s`
+            }}
+        >
+            <div
+                style={{
+                    paddingLeft: '1.5rem',
+                    borderLeft: `4px solid ${isDarkTheme ? '#333' : '#e0e0e0'}`,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                    height: '100%',
+                    cursor: 'default'
+                }}
+                onMouseEnter={e => {
+                    e.currentTarget.style.borderLeftColor = '#FF9B50';
+                    e.currentTarget.style.transform = 'translateX(10px)';
+                    e.currentTarget.style.background = isDarkTheme ? 'linear-gradient(90deg, rgba(255,155,80,0.05) 0%, transparent 100%)' : 'linear-gradient(90deg, rgba(255,155,80,0.05) 0%, transparent 100%)';
+                }}
+                onMouseLeave={e => {
+                    e.currentTarget.style.borderLeftColor = isDarkTheme ? '#333' : '#e0e0e0';
+                    e.currentTarget.style.transform = 'translateX(0)';
+                    e.currentTarget.style.background = 'transparent';
+                }}
+            >
+                <h3 style={{
+                    fontSize: '1.4rem',
+                    fontWeight: 800,
+                    marginBottom: '0.8rem',
+                    color: isDarkTheme ? '#fff' : '#000',
+                    lineHeight: '1.2'
+                }}>
+                    {feature.title}
+                </h3>
+                <p style={{
+                    fontSize: '1rem',
+                    lineHeight: '1.6',
+                    color: isDarkTheme ? '#AAA' : '#666',
+                    margin: 0
+                }}>
+                    {feature.desc}
+                </p>
+            </div>
+        </div>
+    );
+}
+
 export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     // const [mediaContent, setMediaContent] = useState({ videos: [], photos: [] }); // Removed dynamic state
 
@@ -586,6 +663,16 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
 
                     {/* Left Side: Content */}
                     <section style={{ maxWidth: '550px', position: 'relative', zIndex: 2 }}>
+
+                        <img
+                            src="/assets/Melzo_Anubhav_Logo.png"
+                            alt="Melzo Anubhav Logo"
+                            style={{
+                                maxWidth: '250px',
+                                marginBottom: '1.5rem',
+                                filter: isDarkTheme ? 'brightness(0) invert(1)' : 'none'
+                            }}
+                        />
 
                         <h1 style={{
                             fontSize: 'clamp(2.5rem, 5vw, 4rem)',
@@ -793,6 +880,24 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                                 e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
                                 e.currentTarget.style.transform = 'translateX(0)';
                             }}>
+                            <div style={{
+                                width: '100%',
+                                aspectRatio: '16/9',
+                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
+                                borderRadius: '12px',
+                                overflow: 'hidden',
+                                marginBottom: '1.5rem',
+                            }}>
+                                <img
+                                    src="/images/7d_chair/Person using VR headset.webp"
+                                    alt="7D Labs Experiment"
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover'
+                                    }}
+                                />
+                            </div>
                             <h2 style={{
                                 fontSize: '1.75rem',
                                 fontWeight: 900,
@@ -832,6 +937,24 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                                 e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
                                 e.currentTarget.style.transform = 'translateX(0)';
                             }}>
+                            <div style={{
+                                width: '100%',
+                                aspectRatio: '16/9',
+                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
+                                borderRadius: '12px',
+                                overflow: 'hidden',
+                                marginBottom: '1.5rem',
+                            }}>
+                                <img
+                                    src="/images/7d_chair/VR headset and controllers.webp"
+                                    alt="VR Built-In"
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover'
+                                    }}
+                                />
+                            </div>
                             <h2 style={{
                                 fontSize: '1.75rem',
                                 fontWeight: 900,
@@ -871,6 +994,24 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                                 e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
                                 e.currentTarget.style.transform = 'translateX(0)';
                             }}>
+                            <div style={{
+                                width: '100%',
+                                aspectRatio: '16/9',
+                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
+                                borderRadius: '12px',
+                                overflow: 'hidden',
+                                marginBottom: '1.5rem',
+                            }}>
+                                <img
+                                    src="/images/7d_chair/Virtual wildlife encounter with tiger.webp"
+                                    alt="Virtual Tours"
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover'
+                                    }}
+                                />
+                            </div>
                             <h2 style={{
                                 fontSize: '1.75rem',
                                 fontWeight: 900,
@@ -910,6 +1051,24 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                                 e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
                                 e.currentTarget.style.transform = 'translateX(0)';
                             }}>
+                            <div style={{
+                                width: '100%',
+                                aspectRatio: '16/9',
+                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
+                                borderRadius: '12px',
+                                overflow: 'hidden',
+                                marginBottom: '1.5rem',
+                            }}>
+                                <img
+                                    src="/images/7d_chair/Close-up of premium chair upholstery.webp"
+                                    alt="Immersive Ease"
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover'
+                                    }}
+                                />
+                            </div>
                             <h2 style={{
                                 fontSize: '1.75rem',
                                 fontWeight: 900,
@@ -1309,8 +1468,58 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                     </div>
                 </section>
 
-                {/* Photo Gallery Section */}
-                <PhotoGallery photos={mediaContent.photos} isDarkTheme={isDarkTheme} />
+                {/* Why Choose Anubhav 7D Chair Section */}
+                <section style={{
+                    padding: '5rem 5%',
+                    backgroundColor: isDarkTheme ? '#1A1A1A' : '#fff'
+                }}>
+                    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+                        <h2 style={{
+                            fontSize: '2.5rem',
+                            fontWeight: 900,
+                            letterSpacing: '-1px',
+                            marginBottom: '1.5rem',
+                            textAlign: 'center',
+                            color: '#FF9B50'
+                        }}>
+                            Why Choose Melzo Anubhav 7D Chair
+                        </h2>
+
+                        <p style={{
+                            fontSize: '1.1rem',
+                            lineHeight: '1.6',
+                            color: isDarkTheme ? '#AAA' : '#666',
+                            textAlign: 'center',
+                            maxWidth: '800px',
+                            margin: '0 auto 4rem auto'
+                        }}>
+                            Melzo Anubhav is <span style={{ color: '#FF9B50' }}>India's First</span> interactive education revolution powered by virtual reality! Experience premium features with our 7D offering.
+                        </p>
+
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+                            gap: '3rem',
+                            rowGap: '4rem'
+                        }}>
+                            {[
+                                { title: "Built for Institutions", desc: "Designed specifically for schools, universities, and training centers." },
+                                { title: "Immersive Learning", desc: "Blends cutting-edge motion effects with virtual reality simulations." },
+                                { title: "Hands-on Virtual Experiments", desc: "Enable lifelike science and technology experiments in a safe, interactive environment." },
+                                { title: "Historical Exploration", desc: "Let users journey through the pages of history like never before." },
+                                { title: "Multi-Dimensional Education", desc: "Brings science, technology, and history to life in an entirely new dimension." },
+                                { title: "Future-Ready Platform", desc: "The future of education isn't just coming—it's already here with Melzo Anubhav! Experience the future with our 7D premium features." }
+                            ].map((feature, index) => (
+                                <FeatureItem
+                                    key={index}
+                                    feature={feature}
+                                    index={index}
+                                    isDarkTheme={isDarkTheme}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </section>
 
                 {/* Compare Section */}
                 <section style={{

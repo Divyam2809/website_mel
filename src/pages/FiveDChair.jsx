@@ -23,6 +23,57 @@ function LoadingFallback() {
     );
 }
 
+// Expandable Text Component
+function ExpandableText({ text, isDarkTheme, limit = 200 }) {
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    if (text.length <= limit) {
+        return (
+            <p style={{
+                fontSize: '0.95rem',
+                lineHeight: '1.8',
+                color: isDarkTheme ? '#AAA' : '#666',
+                maxWidth: '500px'
+            }}>
+                {text}
+            </p>
+        );
+    }
+
+    return (
+        <div style={{ maxWidth: '500px' }}>
+            <p style={{
+                fontSize: '0.95rem',
+                lineHeight: '1.8',
+                color: isDarkTheme ? '#AAA' : '#666',
+                marginBottom: '0.5rem',
+                display: 'inline'
+            }}>
+                {isExpanded ? text : text.slice(0, limit) + '...'}
+            </p>
+            <button
+                onClick={(e) => {
+                    e.stopPropagation(); // Prevent parent clicks if any
+                    setIsExpanded(!isExpanded);
+                }}
+                style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#FF9B50',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    fontSize: '0.9rem',
+                    padding: '0',
+                    marginLeft: '8px',
+                    textDecoration: 'underline'
+                }}
+            >
+                {isExpanded ? 'Show Less' : 'Show More'}
+            </button>
+        </div>
+    );
+}
+
 // Video Gallery Component
 function VideoGallery({ videos, isDarkTheme }) {
     if (!videos || videos.length === 0) return null;
@@ -177,7 +228,7 @@ function BentoGrid({ isDarkTheme }) {
         {
             id: 1,
             title: "5D Labs Experiment",
-            description: "Experience curriculum-based 5D lab experiments with Melzo 5D Lab's virtual reality-powered labs like never before. Students can safely conduct physics experiments, chemical reactions, biological dissections, and engineering simulations in an immersive environment. Designed for schools, universities, and training centers, these lifelike 5D simulations bring science to life. From exploring Newton's Laws to dissecting virtual organisms, every experience is hands-on and engaging. With motion effects, real-time interaction, and stunning visuals, Melzo 5D Lab overcomes the limitations of traditional labs.",
+            description: "Experience next-generation curriculum-based 5D lab experiments with Melzo Anubhav's advanced virtual reality technology. Students can safely conduct enhanced physics experiments, complex chemical reactions, detailed biological dissections, and advanced engineering simulations in an ultra-immersive environment. Designed for premium educational institutions, universities, and advanced training centers, these ultra-realistic 5D simulations bring science to life with unprecedented detail. From exploring advanced quantum physics to dissecting virtual organisms with haptic feedback, every experience is hands-on and incredibly engaging. With enhanced motion effects, real-time interaction, and stunning 5D visuals, Melzo Anubhav 5D overcomes all limitations of traditional labs.",
             // icon: "🔬",
             gradient: "linear-gradient(135deg, #5F634F 0%, #4a4d3f 100%)",
             glowColor: "rgba(95, 99, 79, 0.3)",
@@ -186,7 +237,7 @@ function BentoGrid({ isDarkTheme }) {
         {
             id: 2,
             title: "VR Built-In",
-            description: "Melzo 5D Lab brings education to life through immersive Virtual Reality, allowing users to explore high-quality 3D simulations, lifelike virtual labs, and interactive content with unmatched clarity and depth. Students, educators, and professionals can experience hands-on training ,conduct virtual experiments, and engage in immersive storytelling—making complex concepts easier to grasp. With support for advanced VR headsets such as Meta Quest 2 and Meta Quest 3s, the experience is smooth, intuitive, and engaging. Melzo 5D Lab redefines education by extending learning beyond books and screens into a truly experiential and impactful journey.",
+            description: "Melzo Anubhav brings education to life through immersive Virtual Reality, allowing users to explore high-quality 3D simulations, lifelike virtual labs, and interactive content with unmatched clarity and depth. Students, educators, and professionals can experience hands-on training ,conduct virtual experiments, and engage in immersive storytelling—making complex concepts easier to grasp. With support for advanced VR headsets such as Meta Quest 2s and Meta Quest 3, the experience is smooth, intuitive, and engaging. Melzo Anubhav redefines education by extending learning beyond books and screens into a truly experiential and impactful journey.",
             // icon: "🥽",
             gradient: "linear-gradient(135deg, #8B7E74 0%, #6d6157 100%)",
             glowColor: "rgba(139, 126, 116, 0.3)",
@@ -195,7 +246,7 @@ function BentoGrid({ isDarkTheme }) {
         {
             id: 3,
             title: "Virtual Tours",
-            description: "Step into history and exploration like never before with Melzo 5D Lab's interactive virtual tours. Experience the Apollo 11 Moon Landing, dive into an underwater adventure, witness African wildlife, and explore the beauty of Italy—all from your seat. Powered by 5D virtual reality and immersive effects, Melzo 5D Lab lets you feel the atmosphere of historical events and walk through global landmarks as if you were truly there. Perfect for students, educators, and history enthusiasts, these realistic simulations make learning engaging and unforgettable. Melzo 5D Lab turns history into an experience because the best way to learn it is to live it.",
+            description: "Melzo Anubhav brings education to life through immersive Virtual Reality, allowing users to explore high-quality 3D simulations, lifelike virtual labs, and interactive content with unmatched clarity and depth. Students, educators, and professionals can experience hands-on training ,conduct virtual experiments, and engage in immersive storytelling—making complex concepts easier to grasp. With support for advanced VR headsets such as Meta Quest 2s and Meta Quest 3, the experience is smooth, intuitive, and engaging. Melzo Anubhav redefines education by extending learning beyond books and screens into a truly experiential and impactful journey.Step into history and exploration like never before with Melzo Anubhav 5D's ultra-immersive virtual tours. Experience the Apollo 11 Moon Landing with spatial audio, dive into underwater adventures with haptic feedback, witness African wildlife with scent simulation, and explore the beauty of Italy with temperature effects—all from your premium 5D seat. Powered by revolutionary 5D virtual reality and multi-sensory effects, Melzo Anubhav 5D lets you feel the atmosphere of historical events and walk through global landmarks as if you were truly there. Perfect for premium educational institutions, universities, and history enthusiasts, these photorealistic simulations make learning engaging and unforgettable. Melzo Anubhav 5D turns history into a living experience because the best way to learn it is to live it completely.",
             // icon: "🌍",
             gradient: "linear-gradient(135deg, #A0937D 0%, #857a68 100%)",
             glowColor: "rgba(160, 147, 125, 0.3)",
@@ -203,8 +254,8 @@ function BentoGrid({ isDarkTheme }) {
         },
         {
             id: 4,
-            title: "Immersive Ease",
-            description: "Melzo 5D Lab is thoughtfully designed to deliver both immersive education and superior comfort. The chair features premium cushioning made with high-quality, leather-like materials that offer a soft, supportive, and durable seating experience. This carefully chosen upholstery provides a smooth finish and luxurious feel, ensuring users remain comfortable during extended interactive sessions. Its easy-to-clean and wear-resistant surface makes it ideal for continuous use in educational environments such as schools, labs, and training centers.",
+            title: "Premium Immersive",
+            description: "Melzo Anubhav 5D is meticulously designed to deliver both ultra-immersive education and superior luxury comfort. The chair features premium memory foam cushioning made with high-quality, genuine leather materials that offer an incredibly soft, supportive, and durable seating experience. This carefully selected premium upholstery provides a smooth finish and luxurious feel, ensuring users remain comfortable during extended interactive sessions. Its easy-to-clean and wear-resistant surface makes it ideal for continuous use in premium educational environments such as elite schools, universities, and advanced training centers. The ergonomic design supports proper posture during long VR sessions.",
             // icon: "💺",
             gradient: "linear-gradient(135deg, #6B7C59 0%, #556347 100%)",
             glowColor: "rgba(107, 124, 89, 0.3)",
@@ -428,12 +479,12 @@ function BentoGrid({ isDarkTheme }) {
                     .bento-grid {
                         grid-template-columns: repeat(2, 1fr) !important;
                     }
-                }
-
-                @media (max-width: 640px) {
-                    .bento-grid {
-                        grid-template-columns: 1fr !important;
                     }
+
+                    @media (max-width: 640px) {
+                        .bento-grid {
+                            grid-template-columns: 1fr !important;
+                        }
                 }
             `}</style>
         </section>
@@ -441,6 +492,83 @@ function BentoGrid({ isDarkTheme }) {
 }
 
 import AppNav from '../components/AppNav';
+
+// Feature Item with Scroll & Hover Animation
+function FeatureItem({ feature, index, isDarkTheme }) {
+    const [isVisible, setIsVisible] = useState(false);
+    const domRef = useRef();
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        if (domRef.current) {
+            observer.observe(domRef.current);
+        }
+
+        return () => {
+            if (domRef.current) observer.unobserve(domRef.current);
+        };
+    }, []);
+
+    return (
+        <div
+            ref={domRef}
+            style={{
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+                transition: `all 0.8s cubic-bezier(0.17, 0.55, 0.55, 1) ${index * 0.1}s`
+            }}
+        >
+            <div
+                style={{
+                    paddingLeft: '1.5rem',
+                    borderLeft: `4px solid ${isDarkTheme ? '#333' : '#e0e0e0'}`,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                    height: '100%',
+                    cursor: 'default'
+                }}
+                onMouseEnter={e => {
+                    e.currentTarget.style.borderLeftColor = '#FF9B50';
+                    e.currentTarget.style.transform = 'translateX(10px)';
+                    e.currentTarget.style.background = isDarkTheme ? 'linear-gradient(90deg, rgba(255,155,80,0.05) 0%, transparent 100%)' : 'linear-gradient(90deg, rgba(255,155,80,0.05) 0%, transparent 100%)';
+                }}
+                onMouseLeave={e => {
+                    e.currentTarget.style.borderLeftColor = isDarkTheme ? '#333' : '#e0e0e0';
+                    e.currentTarget.style.transform = 'translateX(0)';
+                    e.currentTarget.style.background = 'transparent';
+                }}
+            >
+                <h3 style={{
+                    fontSize: '1.4rem',
+                    fontWeight: 800,
+                    marginBottom: '0.8rem',
+                    color: isDarkTheme ? '#fff' : '#000',
+                    lineHeight: '1.2'
+                }}>
+                    {feature.title}
+                </h3>
+                <p style={{
+                    fontSize: '1rem',
+                    lineHeight: '1.6',
+                    color: isDarkTheme ? '#AAA' : '#666',
+                    margin: 0
+                }}>
+                    {feature.desc}
+                </p>
+            </div>
+        </div>
+    );
+}
 
 export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     useEffect(() => {
@@ -589,6 +717,16 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                     {/* Left Side: Content */}
                     <section style={{ maxWidth: '550px', position: 'relative', zIndex: 2 }}>
 
+                        <img
+                            src="/assets/Melzo_Anubhav_Logo.png"
+                            alt="Melzo Anubhav Logo"
+                            style={{
+                                maxWidth: '250px',
+                                marginBottom: '1.5rem',
+                                filter: isDarkTheme ? 'brightness(0) invert(1)' : 'none'
+                            }}
+                        />
+
                         <h1 style={{
                             fontSize: 'clamp(2.5rem, 5vw, 4rem)',
                             lineHeight: '1.1',
@@ -716,41 +854,134 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                         </div>
                     </section>
 
-                    {/* Right Side: 3D Viewer */}
+                    {/* Right Side: Color Selector */}
                     <section style={{
                         height: '70vh',
                         minHeight: '500px',
-                        position: 'relative'
+                        position: 'relative',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
                     }}>
                         <div style={{
                             width: '100%',
                             height: '100%',
-                            borderRadius: '8px',
-                            overflow: 'hidden',
-                            position: 'relative',
-                            zIndex: 1
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
                         }}>
-                            <Canvas
-                                camera={{ position: [2, 1, 4.5], fov: 55 }}
-                                dpr={[1, 2]}
-                                style={{ cursor: 'grab' }}
-                            >
-                                <Suspense fallback={<LoadingFallback />}>
-                                    <ambientLight intensity={0.5} />
-                                    <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
-                                    <pointLight position={[-10, -10, -10]} intensity={0.5} />
-                                    <Environment preset="city" />
-                                    <ChairModel key={currentModelIndex} modelPath={chairModels[currentModelIndex].path} />
-                                    <OrbitControls
-                                        makeDefault
-                                        autoRotate
-                                        autoRotateSpeed={0.5}
-                                        enableZoom={false}
-                                        minPolarAngle={Math.PI / 4}
-                                        maxPolarAngle={Math.PI / 1.5}
-                                    />
-                                </Suspense>
-                            </Canvas>
+                            {/* Main Image Preview Container - Buttons are now inside */}
+                            <div style={{
+                                width: '100%',
+                                maxWidth: '600px',
+                                height: '100%',
+                                maxHeight: '500px',
+                                borderRadius: '20px',
+                                padding: '1rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                transition: 'all 0.3s ease',
+                                position: 'relative'
+                            }}>
+                                {/* Prev Button */}
+                                <button
+                                    onClick={prevColor}
+                                    style={{
+                                        position: 'absolute',
+                                        left: '-20px',
+                                        background: isDarkTheme ? '#333' : '#fff',
+                                        border: 'none',
+                                        borderRadius: '50%',
+                                        width: '50px',
+                                        height: '50px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        cursor: 'pointer',
+                                        boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+                                        color: isDarkTheme ? '#fff' : '#333',
+                                        transition: 'all 0.2s ease',
+                                        zIndex: 10
+                                    }}
+                                    onMouseEnter={e => {
+                                        e.currentTarget.style.transform = 'scale(1.1)';
+                                        e.currentTarget.style.backgroundColor = '#FF9B50';
+                                        e.currentTarget.style.color = '#fff';
+                                    }}
+                                    onMouseLeave={e => {
+                                        e.currentTarget.style.transform = 'scale(1)';
+                                        e.currentTarget.style.backgroundColor = isDarkTheme ? '#333' : '#fff';
+                                        e.currentTarget.style.color = isDarkTheme ? '#fff' : '#333';
+                                    }}
+                                >
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="15 18 9 12 15 6"></polyline>
+                                    </svg>
+                                </button>
+
+                                <img
+                                    src={`/images/${colorOptions[selectedColorIndex].image}`}
+                                    alt={colorOptions[selectedColorIndex].name}
+                                    style={{
+                                        maxWidth: '100%',
+                                        maxHeight: '100%',
+                                        objectFit: 'contain',
+                                        transition: 'all 0.3s ease',
+                                        filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.2))'
+                                    }}
+                                />
+
+                                {/* Label */}
+                                <div style={{
+                                    position: 'absolute',
+                                    bottom: '10px',
+                                    background: 'rgba(0,0,0,0.6)',
+                                    color: '#fff',
+                                    padding: '0.5rem 1.5rem',
+                                    borderRadius: '30px',
+                                    backdropFilter: 'blur(5px)',
+                                    fontWeight: 600
+                                }}>
+                                    {colorOptions[selectedColorIndex].name}
+                                </div>
+
+                                {/* Next Button */}
+                                <button
+                                    onClick={nextColor}
+                                    style={{
+                                        position: 'absolute',
+                                        right: '-20px',
+                                        background: isDarkTheme ? '#333' : '#fff',
+                                        border: 'none',
+                                        borderRadius: '50%',
+                                        width: '50px',
+                                        height: '50px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        cursor: 'pointer',
+                                        boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+                                        color: isDarkTheme ? '#fff' : '#333',
+                                        transition: 'all 0.2s ease',
+                                        zIndex: 10
+                                    }}
+                                    onMouseEnter={e => {
+                                        e.currentTarget.style.transform = 'scale(1.1)';
+                                        e.currentTarget.style.backgroundColor = '#FF9B50';
+                                        e.currentTarget.style.color = '#fff';
+                                    }}
+                                    onMouseLeave={e => {
+                                        e.currentTarget.style.transform = 'scale(1)';
+                                        e.currentTarget.style.backgroundColor = isDarkTheme ? '#333' : '#fff';
+                                        e.currentTarget.style.color = isDarkTheme ? '#fff' : '#333';
+                                    }}
+                                >
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="9 18 15 12 9 6"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </section>
 
@@ -795,6 +1026,24 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                 e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
                                 e.currentTarget.style.transform = 'translateX(0)';
                             }}>
+                            <div style={{
+                                width: '100%',
+                                aspectRatio: '16/9',
+                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
+                                borderRadius: '12px',
+                                overflow: 'hidden',
+                                marginBottom: '1.5rem',
+                            }}>
+                                <img
+                                    src="/images/5d_chair/Person using VR headset_5d.webp"
+                                    alt="5D Labs Experiment"
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover'
+                                    }}
+                                />
+                            </div>
                             <h2 style={{
                                 fontSize: '1.75rem',
                                 fontWeight: 900,
@@ -809,14 +1058,10 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                 5D Labs Experiment
                             </h2>
 
-                            <p style={{
-                                fontSize: '0.95rem',
-                                lineHeight: '1.8',
-                                color: isDarkTheme ? '#AAA' : '#666',
-                                maxWidth: '500px'
-                            }}>
-                                Experience curriculum-based 5D lab experiments with Melzo 5D Lab's virtual reality-powered labs. Students can conduct physics experiments, chemical reactions, biological dissections, and engineering simulations in an immersive environment. Designed for schools, universities, and training centers, these lifelike 5D simulations bring science to life. From exploring Newton's Laws to dissecting virtual organisms, every experience is hands-on and engaging.
-                            </p>
+                            <ExpandableText
+                                isDarkTheme={isDarkTheme}
+                                text="Experience next-generation curriculum-based 5D lab experiments with Melzo Anubhav's advanced virtual reality technology. Students can safely conduct enhanced physics experiments, complex chemical reactions, detailed biological dissections, and advanced engineering simulations in an ultra-immersive environment. Designed for premium educational institutions, universities, and advanced training centers, these ultra-realistic 5D simulations bring science to life with unprecedented detail. From exploring advanced quantum physics to dissecting virtual organisms with haptic feedback, every experience is hands-on and incredibly engaging. With enhanced motion effects, real-time interaction, and stunning 5D visuals, Melzo Anubhav 5D overcomes all limitations of traditional labs."
+                            />
                         </div>
 
                         {/* Feature Block 2: VR Built-In */}
@@ -834,6 +1079,24 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                 e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
                                 e.currentTarget.style.transform = 'translateX(0)';
                             }}>
+                            <div style={{
+                                width: '100%',
+                                aspectRatio: '16/9',
+                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
+                                borderRadius: '12px',
+                                overflow: 'hidden',
+                                marginBottom: '1.5rem',
+                            }}>
+                                <img
+                                    src="/images/5d_chair/VR headset and controllers.webp"
+                                    alt="VR Built-In"
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover'
+                                    }}
+                                />
+                            </div>
                             <h2 style={{
                                 fontSize: '1.75rem',
                                 fontWeight: 900,
@@ -848,14 +1111,10 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                 VR Built-In
                             </h2>
 
-                            <p style={{
-                                fontSize: '0.95rem',
-                                lineHeight: '1.8',
-                                color: isDarkTheme ? '#AAA' : '#666',
-                                maxWidth: '500px'
-                            }}>
-                                Melzo 5D Lab brings education to life through immersive Virtual Reality, allowing users to explore high-quality 3D simulations, lifelike virtual labs, and interactive content with unmatched clarity and depth. Students, educators, and professionals can experience hands-on training, conduct virtual experiments, and engage in immersive storytelling—making complex concepts easier to grasp. With support for advanced VR headsets such as Meta Quest 2 and Meta Quest 3s, the experience is smooth, intuitive, and engaging.
-                            </p>
+                            <ExpandableText
+                                isDarkTheme={isDarkTheme}
+                                text="Melzo Anubhav brings education to life through immersive Virtual Reality, allowing users to explore high-quality 3D simulations, lifelike virtual labs, and interactive content with unmatched clarity and depth. Students, educators, and professionals can experience hands-on training ,conduct virtual experiments, and engage in immersive storytelling—making complex concepts easier to grasp. With support for advanced VR headsets such as Meta Quest 2s and Meta Quest 3, the experience is smooth, intuitive, and engaging. Melzo Anubhav redefines education by extending learning beyond books and screens into a truly experiential and impactful journey."
+                            />
                         </div>
 
                         {/* Feature Block 3: Virtual Tours */}
@@ -873,6 +1132,24 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                 e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
                                 e.currentTarget.style.transform = 'translateX(0)';
                             }}>
+                            <div style={{
+                                width: '100%',
+                                aspectRatio: '16/9',
+                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
+                                borderRadius: '12px',
+                                overflow: 'hidden',
+                                marginBottom: '1.5rem',
+                            }}>
+                                <img
+                                    src="/images/5d_chair/Virtual wildlife encounter with tiger_5d.webp"
+                                    alt="Virtual Tours"
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover'
+                                    }}
+                                />
+                            </div>
                             <h2 style={{
                                 fontSize: '1.75rem',
                                 fontWeight: 900,
@@ -887,14 +1164,10 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                 Virtual Tours
                             </h2>
 
-                            <p style={{
-                                fontSize: '0.95rem',
-                                lineHeight: '1.8',
-                                color: isDarkTheme ? '#AAA' : '#666',
-                                maxWidth: '500px'
-                            }}>
-                                Step into history and exploration like never before with Melzo 5D Lab's interactive virtual tours. Experience the Apollo 11 Moon Landing, dive into an underwater adventure, witness African wildlife, and explore the beauty of Italy—all from your seat. Powered by 5D virtual reality and immersive effects, Melzo 5D Lab lets you feel the atmosphere of historical events and walk through global landmarks as if you were truly there. Perfect for students, educators, and history enthusiasts.
-                            </p>
+                            <ExpandableText
+                                isDarkTheme={isDarkTheme}
+                                text="Step into history and exploration like never before with Melzo Anubhav 5D's ultra-immersive virtual tours. Experience the Apollo 11 Moon Landing with spatial audio, dive into underwater adventures with haptic feedback, witness African wildlife with scent simulation, and explore the beauty of Italy with temperature effects—all from your premium 5D seat. Powered by revolutionary 5D virtual reality and multi-sensory effects, Melzo Anubhav 5D lets you feel the atmosphere of historical events and walk through global landmarks as if you were truly there. Perfect for premium educational institutions, universities, and history enthusiasts, these photorealistic simulations make learning engaging and unforgettable. Melzo Anubhav 5D turns history into a living experience because the best way to learn it is to live it completely."
+                            />
                         </div>
 
                         {/* Feature Block 4: Immersive Ease */}
@@ -912,6 +1185,24 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                 e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
                                 e.currentTarget.style.transform = 'translateX(0)';
                             }}>
+                            <div style={{
+                                width: '100%',
+                                aspectRatio: '16/9',
+                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
+                                borderRadius: '12px',
+                                overflow: 'hidden',
+                                marginBottom: '1.5rem',
+                            }}>
+                                <img
+                                    src="/images/5d_chair/Close-up of premium 5d chair upholstery.webp"
+                                    alt="Immersive Ease"
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover'
+                                    }}
+                                />
+                            </div>
                             <h2 style={{
                                 fontSize: '1.75rem',
                                 fontWeight: 900,
@@ -923,17 +1214,13 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                 gap: '1rem'
                             }}>
                                 <span style={{ color: '#FF9B50' }}>/</span>
-                                Immersive Ease
+                                Premium Immersive
                             </h2>
 
-                            <p style={{
-                                fontSize: '0.95rem',
-                                lineHeight: '1.8',
-                                color: isDarkTheme ? '#AAA' : '#666',
-                                maxWidth: '500px'
-                            }}>
-                                Melzo 5D Lab is thoughtfully designed to deliver both immersive education and superior comfort. The chair features premium cushioning made with high-quality, leather-like materials that offer a soft, supportive, and durable seating experience. This carefully chosen upholstery provides a smooth finish and luxurious feel, ensuring users remain comfortable during extended interactive sessions. Its easy-to-clean and wear-resistant surface makes it ideal for continuous use in educational environments.
-                            </p>
+                            <ExpandableText
+                                isDarkTheme={isDarkTheme}
+                                text="Melzo Anubhav 5D is meticulously designed to deliver both ultra-immersive education and superior luxury comfort. The chair features premium memory foam cushioning made with high-quality, genuine leather materials that offer an incredibly soft, supportive, and durable seating experience. This carefully selected premium upholstery provides a smooth finish and luxurious feel, ensuring users remain comfortable during extended interactive sessions. Its easy-to-clean and wear-resistant surface makes it ideal for continuous use in premium educational environments such as elite schools, universities, and advanced training centers. The ergonomic design supports proper posture during long VR sessions."
+                            />
                         </div>
                     </div>
                 </section>
@@ -973,7 +1260,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                 controls
                                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             >
-                                <source src="/assets/videos/AnubhavFeatures.mp4" type="video/mp4" />
+                                <source src="/assets/videos/5dchair_feature.webm" type="video/webm" />
                                 Your browser does not support the video tag.
                             </video>
                         </div>
@@ -1170,149 +1457,60 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                 </section>
 
 
-                {/* Choose Your Style Section */}
+
+
+                {/* Why Choose Anubhav 5D Chair Section */}
                 <section style={{
                     padding: '5rem 5%',
-                    backgroundColor: isDarkTheme ? '#151515' : '#FAFAFA',
-                    textAlign: 'center'
+                    backgroundColor: isDarkTheme ? '#1A1A1A' : '#fff'
                 }}>
                     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
                         <h2 style={{
                             fontSize: '2.5rem',
                             fontWeight: 900,
                             letterSpacing: '-1px',
-                            marginBottom: '1rem',
+                            marginBottom: '1.5rem',
+                            textAlign: 'center',
                             color: '#FF9B50'
                         }}>
-                            Choose Your Style
+                            Why Choose Melzo Anubhav 5D Chair
                         </h2>
+
                         <p style={{
-                            fontSize: '1.2rem',
-                            opacity: 0.7,
-                            marginBottom: '3rem',
-                            color: isDarkTheme ? '#AAA' : '#666'
+                            fontSize: '1.1rem',
+                            lineHeight: '1.6',
+                            color: isDarkTheme ? '#AAA' : '#666',
+                            textAlign: 'center',
+                            maxWidth: '800px',
+                            margin: '0 auto 4rem auto'
                         }}>
-                            Available in a variety of colors to match your institution's theme
+                            Melzo Anubhav is <span style={{ color: '#FF9B50' }}>India's First</span> interactive education revolution powered by virtual reality! Experience premium features with our 5D offering.
                         </p>
 
                         <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: '2rem'
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+                            gap: '3rem',
+                            rowGap: '4rem'
                         }}>
-                            {/* Prev Button */}
-                            <button
-                                onClick={prevColor}
-                                style={{
-                                    background: isDarkTheme ? '#333' : '#fff',
-                                    border: 'none',
-                                    borderRadius: '50%',
-                                    width: '50px',
-                                    height: '50px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                    boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
-                                    color: isDarkTheme ? '#fff' : '#333',
-                                    transition: 'all 0.2s ease'
-                                }}
-                                onMouseEnter={e => {
-                                    e.currentTarget.style.transform = 'scale(1.1)';
-                                    e.currentTarget.style.backgroundColor = '#FF9B50';
-                                    e.currentTarget.style.color = '#fff';
-                                }}
-                                onMouseLeave={e => {
-                                    e.currentTarget.style.transform = 'scale(1)';
-                                    e.currentTarget.style.backgroundColor = isDarkTheme ? '#333' : '#fff';
-                                    e.currentTarget.style.color = isDarkTheme ? '#fff' : '#333';
-                                }}
-                            >
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <polyline points="15 18 9 12 15 6"></polyline>
-                                </svg>
-                            </button>
-
-                            {/* Main Image Preview */}
-                            <div style={{
-                                width: '100%',
-                                maxWidth: '800px',
-                                height: '500px',
-                                backgroundColor: isDarkTheme ? '#262626' : '#fff',
-                                borderRadius: '20px',
-                                padding: '2rem',
-                                boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                transition: 'all 0.3s ease',
-                                position: 'relative'
-                            }}>
-                                <img
-                                    src={`/images/${colorOptions[selectedColorIndex].image}`}
-                                    alt={colorOptions[selectedColorIndex].name}
-                                    style={{
-                                        maxWidth: '100%',
-                                        maxHeight: '100%',
-                                        objectFit: 'contain',
-                                        transition: 'all 0.3s ease'
-                                    }}
+                            {[
+                                { title: "Built for Institutions", desc: "Designed specifically for schools, universities, and training centers." },
+                                { title: "Immersive Learning", desc: "Blends cutting-edge motion effects with virtual reality simulations." },
+                                { title: "Hands-on Virtual Experiments", desc: "Enable lifelike science and technology experiments in a safe, interactive environment." },
+                                { title: "Historical Exploration", desc: "Let users journey through the pages of history like never before." },
+                                { title: "Multi-Dimensional Education", desc: "Brings science, technology, and history to life in an entirely new dimension." },
+                                { title: "Future-Ready Platform", desc: "The future of education isn't just coming—it's already here with Melzo Anubhav! Experience the future with our 5D premium features." }
+                            ].map((feature, index) => (
+                                <FeatureItem
+                                    key={index}
+                                    feature={feature}
+                                    index={index}
+                                    isDarkTheme={isDarkTheme}
                                 />
-
-                                {/* Label */}
-                                <div style={{
-                                    position: 'absolute',
-                                    bottom: '20px',
-                                    background: 'rgba(0,0,0,0.6)',
-                                    color: '#fff',
-                                    padding: '0.5rem 1.5rem',
-                                    borderRadius: '30px',
-                                    backdropFilter: 'blur(5px)',
-                                    fontWeight: 600
-                                }}>
-                                    {colorOptions[selectedColorIndex].name}
-                                </div>
-                            </div>
-
-                            {/* Next Button */}
-                            <button
-                                onClick={nextColor}
-                                style={{
-                                    background: isDarkTheme ? '#333' : '#fff',
-                                    border: 'none',
-                                    borderRadius: '50%',
-                                    width: '50px',
-                                    height: '50px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                    boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
-                                    color: isDarkTheme ? '#fff' : '#333',
-                                    transition: 'all 0.2s ease'
-                                }}
-                                onMouseEnter={e => {
-                                    e.currentTarget.style.transform = 'scale(1.1)';
-                                    e.currentTarget.style.backgroundColor = '#FF9B50';
-                                    e.currentTarget.style.color = '#fff';
-                                }}
-                                onMouseLeave={e => {
-                                    e.currentTarget.style.transform = 'scale(1)';
-                                    e.currentTarget.style.backgroundColor = isDarkTheme ? '#333' : '#fff';
-                                    e.currentTarget.style.color = isDarkTheme ? '#fff' : '#333';
-                                }}
-                            >
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <polyline points="9 18 15 12 9 6"></polyline>
-                                </svg>
-                            </button>
+                            ))}
                         </div>
                     </div>
                 </section>
-
-                {/* Photo Gallery Section */}
-                <PhotoGallery photos={mediaContent.photos} isDarkTheme={isDarkTheme} />
 
                 {/* Compare Section */}
                 <section style={{

@@ -80,7 +80,7 @@ export const productsData = {
         photoGallery: []
     },
     'vr-kala': {
-        title: 'VR in Kala',
+        title: 'VR in Kalaa',
         tagline: 'Preserving Art & Culture',
         description: 'Explore art galleries, museums, and cultural heritage sites in Virtual Reality. Preserving and democratizing access to human creativity and history.',
         features: ['Virtual Museums', 'Art Gallery Tours', 'Cultural Preservation', 'Interactive Exhibits'],
