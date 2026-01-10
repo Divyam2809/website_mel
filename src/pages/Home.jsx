@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import AppNav from '../components/AppNav';
 
-export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
+export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme, scrollToContact }) {
     return (
         <>
             <AppNav
@@ -123,18 +124,20 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                                 }}>
                                 Explore Our Products
                             </button>
-                            <button style={{
-                                background: 'transparent',
-                                color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
-                                border: isDarkTheme ? '2px solid #FFFFFF' : '2px solid #2D2D2D',
-                                padding: '1.2rem 3rem',
-                                cursor: 'pointer',
-                                borderRadius: '30px',
-                                transition: 'all 0.3s ease',
-                                fontWeight: 600,
-                                fontSize: '1.1rem',
-                                letterSpacing: '0.5px'
-                            }}
+                            <button
+                                onClick={scrollToContact}
+                                style={{
+                                    background: 'transparent',
+                                    color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
+                                    border: isDarkTheme ? '2px solid #FFFFFF' : '2px solid #2D2D2D',
+                                    padding: '1.2rem 3rem',
+                                    cursor: 'pointer',
+                                    borderRadius: '30px',
+                                    transition: 'all 0.3s ease',
+                                    fontWeight: 600,
+                                    fontSize: '1.1rem',
+                                    letterSpacing: '0.5px'
+                                }}
                                 onMouseEnter={(e) => {
                                     e.target.style.background = '#2D2D2D';
                                     e.target.style.color = '#fff';
@@ -1235,6 +1238,7 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
 
 // Modern Minimal Product Carousel Component
 function ProductCarousel({ onNavigate, isDarkTheme }) {
+    const navigate = useNavigate();
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -1439,7 +1443,13 @@ function ProductCarousel({ onNavigate, isDarkTheme }) {
 
                             {/* CTA Button */}
                             <button
-                                onClick={() => onNavigate && onNavigate(product.id)}
+                                onClick={() => {
+                                    const categoryMap = {
+                                        'Industrial & Enterprise Solutions': 'Industrial & Enterprise'
+                                    };
+                                    const category = categoryMap[product.title] || product.title;
+                                    navigate('/products', { state: { category } });
+                                }}
                                 style={{
                                     background: '#FF9B50',
                                     color: '#fff',

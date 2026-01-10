@@ -28,6 +28,9 @@ const DroneSimulator = React.lazy(() => import('./pages/DroneSimulator'));
 const AircraftSimulator = React.lazy(() => import('./pages/AircraftSimulator'));
 const VRDefence = React.lazy(() => import('./pages/VRDefence'));
 const VRLiveStream = React.lazy(() => import('./pages/VRLiveStream'));
+const VRTourism = React.lazy(() => import('./pages/VRTourism'));
+const VirtualHeritage = React.lazy(() => import('./pages/VirtualHeritage'));
+const CityGuides = React.lazy(() => import('./pages/CityGuides'));
 const MelzoNews = React.lazy(() => import('./MelzoNews'));
 
 import Footer from './components/Footer';
@@ -140,7 +143,11 @@ export default function App() {
         onNavigate: handleNavigate, // Pass the adapter
         isDarkTheme,
         onBookDemo: () => setIsDemoOpen(true),
-        onToggleTheme: () => setIsDarkTheme(!isDarkTheme)
+        onToggleTheme: () => setIsDarkTheme(!isDarkTheme),
+        scrollToContact: () => {
+            const footer = document.getElementById('footer-contact');
+            if (footer) footer.scrollIntoView({ behavior: 'smooth' });
+        }
     };
 
     // Note: We pass getCurrentPage() implicitly by components possibly using window.location or we rely on AppNav processing commonProps?
@@ -196,6 +203,9 @@ export default function App() {
                         <Route path="/aircraftsimulator" element={<AircraftSimulator {...commonProps} />} />
                         <Route path="/vrdefence" element={<VRDefence {...commonProps} />} />
                         <Route path="/vrlivestream" element={<VRLiveStream {...commonProps} />} />
+                        <Route path="/vrtourism" element={<VRTourism {...commonProps} />} />
+                        <Route path="/virtualheritage" element={<VirtualHeritage {...commonProps} />} />
+                        <Route path="/cityguides" element={<CityGuides {...commonProps} />} />
                         <Route path="/melzonews" element={<MelzoNews {...commonProps} />} />
 
                         {/* Fallback */}

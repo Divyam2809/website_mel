@@ -58,22 +58,27 @@ export default function VRKala({ onNavigate, isDarkTheme, onBookDemo, onToggleTh
                             {
                                 title: 'Virtual Time Travel',
                                 desc: 'Walking through reconstructed historical sites with 360-degree historical accuracy.',
-                                icon: '🏛️'
+                                number: '01'
                             },
                             {
                                 title: 'Interactive Art & Music',
                                 desc: 'Allowing users to \'conduct\' a virtual symphony or \'paint\' alongside digital masters to understand technique.',
-                                icon: '🎨'
+                                number: '02'
                             },
                             {
                                 title: 'Global Heritage Access',
                                 desc: 'Bringing the world\'s most remote or fragile cultural artifacts to local classrooms and museums.',
-                                icon: '🌍'
+                                number: '03'
                             }
                         ].map((feature, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div className="vr-product-feature-icon">
-                                    {feature.icon}
+                                <div className="vr-product-feature-icon" style={{
+                                    fontSize: '2rem',
+                                    fontWeight: '900',
+                                    color: '#FF9B50',
+                                    fontFamily: 'monospace'
+                                }}>
+                                    {feature.number}
                                 </div>
                                 <h3 className="vr-product-feature-title">
                                     {feature.title}

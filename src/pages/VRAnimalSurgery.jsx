@@ -33,12 +33,17 @@ export default function VRAnimalSurgery({ onNavigate, isDarkTheme, onBookDemo, o
                     <p className="vr-product-section-subtitle">Comprehensive veterinary surgical training</p>
                     <div className="vr-product-feature-grid">
                         {[
-                            { title: 'Realistic Anatomy', desc: 'Interact with anatomically accurate 3D models of various animal species with realistic tissue response.', icon: '🐕' },
-                            { title: 'Surgical Procedures', desc: 'Practice spay/neuter, orthopedic repairs, soft tissue surgery, and emergency procedures.', icon: '⚕️' },
-                            { title: 'Haptic Feedback', desc: 'Feel realistic tissue resistance, tool feedback, and surgical sensations through advanced haptics.', icon: '✋' }
+                            { title: 'Realistic Anatomy', desc: 'Interact with anatomically accurate 3D models of various animal species with realistic tissue response.', number: '01' },
+                            { title: 'Surgical Procedures', desc: 'Practice spay/neuter, orthopedic repairs, soft tissue surgery, and emergency procedures.', number: '02' },
+                            { title: 'Haptic Feedback', desc: 'Feel realistic tissue resistance, tool feedback, and surgical sensations through advanced haptics.', number: '03' }
                         ].map((feature, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div className="vr-product-feature-icon">{feature.icon}</div>
+                                <div className="vr-product-feature-icon" style={{
+                                    fontSize: '2rem',
+                                    fontWeight: '900',
+                                    color: '#FF9B50',
+                                    fontFamily: 'monospace'
+                                }}>{feature.number}</div>
                                 <h3 className="vr-product-feature-title">{feature.title}</h3>
                                 <p className="vr-product-feature-desc">{feature.desc}</p>
                             </div>

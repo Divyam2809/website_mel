@@ -117,6 +117,7 @@ export default function AppNav({ onNavigate, isDarkTheme, onToggleTheme, onBookD
                                     {[
                                         { label: 'Blog', id: 'blog' },
                                         { label: 'Case Studies', id: 'casestudies' },
+                                        { label: 'Melzo in News', id: 'melzonews' },
                                         { label: 'FAQs', id: 'faqs' }
                                     ].map((item) => (
                                         <div

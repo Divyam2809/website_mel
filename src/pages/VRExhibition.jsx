@@ -40,12 +40,17 @@ export default function VRExhibition({ onNavigate, isDarkTheme, onBookDemo, onTo
                         <p className="vr-product-section-subtitle">Transform passive viewers into active participants.</p>
                         <div className="vr-product-feature-grid">
                             {[
-                                { title: 'Interactive Product Demos', icon: '🔍', desc: 'Let attendees "explode" products into 3D components, see them in action at full scale, or customize features in real-time. Engagement that sticks.' },
-                                { title: 'Virtual Booth Portals', icon: '🌐', desc: 'Transport users from a 10x10 physical space into a massive, custom-branded virtual world. Unlimited square footage, zero rental fees.' },
-                                { title: 'Multi-User Presentations', icon: '👥', desc: 'Enable synchronized VR keynotes where dozens of attendees experience a presentation simultaneously. Scale your message without scaling your stage.' }
+                                { title: 'Interactive Product Demos', number: '01', desc: 'Let attendees "explode" products into 3D components, see them in action at full scale, or customize features in real-time. Engagement that sticks.' },
+                                { title: 'Virtual Booth Portals', number: '02', desc: 'Transport users from a 10x10 physical space into a massive, custom-branded virtual world. Unlimited square footage, zero rental fees.' },
+                                { title: 'Multi-User Presentations', number: '03', desc: 'Enable synchronized VR keynotes where dozens of attendees experience a presentation simultaneously. Scale your message without scaling your stage.' }
                             ].map((item, idx) => (
                                 <div key={idx} className="vr-product-feature-card">
-                                    <div className="vr-product-feature-icon">{item.icon}</div>
+                                    <div className="vr-product-feature-icon" style={{
+                                        fontSize: '2rem',
+                                        fontWeight: '900',
+                                        color: '#FF9B50',
+                                        fontFamily: 'monospace'
+                                    }}>{item.number}</div>
                                     <h3 className="vr-product-feature-title">{item.title}</h3>
                                     <p className="vr-product-feature-desc">{item.desc}</p>
                                 </div>
@@ -100,12 +105,12 @@ export default function VRExhibition({ onNavigate, isDarkTheme, onBookDemo, onTo
                     <p>We provide the hardware, the booth setup, and the onsite technical support. You focus on your guests, not the cables.</p>
                     <div className="vr-product-feature-grid" style={{ marginBottom: '4rem' }}>
                         {[
-                            { icon: '📦', title: 'Complete Hardware Package', desc: 'VR headsets, motion chairs, tracking systems, and display screens—all delivered and configured.' },
-                            { icon: '🎪', title: 'Professional Booth Setup', desc: 'Our team handles installation, calibration, and aesthetic integration with your brand identity.' },
-                            { icon: '🛠️', title: 'Onsite Technical Support', desc: 'Dedicated technicians ensure seamless operation throughout your event. Zero downtime guaranteed.' }
+                            { number: '01', title: 'Complete Hardware Package', desc: 'VR headsets, motion chairs, tracking systems, and display screens—all delivered and configured.' },
+                            { number: '02', title: 'Professional Booth Setup', desc: 'Our team handles installation, calibration, and aesthetic integration with your brand identity.' },
+                            { number: '03', title: 'Onsite Technical Support', desc: 'Dedicated technicians ensure seamless operation throughout your event. Zero downtime guaranteed.' }
                         ].map((item, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{item.icon}</div>
+                                <div style={{ fontSize: '2rem', fontWeight: '900', color: '#FF9B50', fontFamily: 'monospace', marginBottom: '1rem' }}>{item.number}</div>
                                 <h4 className="vr-product-feature-title">{item.title}</h4>
                                 <p className="vr-product-feature-desc">{item.desc}</p>
                             </div>

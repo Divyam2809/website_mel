@@ -221,12 +221,12 @@ export default function VRRealEstate({ onNavigate, isDarkTheme, onBookDemo, onTo
                     <p>A Melzo VR setup transforms a standard sales office into a high-tech destination. Position your brand as a market leader with an experience that buyers remember—and talk about.</p>
                     <div className="vr-product-feature-grid" style={{ marginBottom: '4rem' }}>
                         {[
-                            { icon: '🎯', title: 'Premium Positioning', desc: 'Stand out in a crowded market with technology that screams innovation and quality.' },
-                            { icon: '⚡', title: 'Faster Decision Cycles', desc: 'Reduce the time from first viewing to contract signing by eliminating uncertainty.' },
-                            { icon: '💎', title: 'Luxury Brand Appeal', desc: 'Attract high-net-worth buyers who expect cutting-edge experiences in every interaction.' }
+                            { number: '01', title: 'Premium Positioning', desc: 'Stand out in a crowded market with technology that screams innovation and quality.' },
+                            { number: '02', title: 'Faster Decision Cycles', desc: 'Reduce the time from first viewing to contract signing by eliminating uncertainty.' },
+                            { number: '03', title: 'Luxury Brand Appeal', desc: 'Attract high-net-worth buyers who expect cutting-edge experiences in every interaction.' }
                         ].map((item, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{item.icon}</div>
+                                <div style={{ fontSize: '2rem', fontWeight: '900', color: '#FF9B50', fontFamily: 'monospace', marginBottom: '1rem' }}>{item.number}</div>
                                 <h4 className="vr-product-feature-title">{item.title}</h4>
                                 <p className="vr-product-feature-desc">{item.desc}</p>
                             </div>

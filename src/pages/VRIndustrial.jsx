@@ -33,12 +33,17 @@ export default function VRIndustrial({ onNavigate, isDarkTheme, onBookDemo, onTo
                     <p className="vr-product-section-subtitle">Comprehensive training for industrial operations</p>
                     <div className="vr-product-feature-grid">
                         {[
-                            { title: 'Process Simulation', desc: 'Practice complex manufacturing processes in a virtual environment before touching real equipment.', icon: '🏭' },
-                            { title: 'Maintenance Training', desc: 'Learn preventive maintenance, troubleshooting, and repair procedures on virtual machinery.', icon: '🔧' },
-                            { title: 'Safety Compliance', desc: 'Master OSHA regulations, lockout/tagout procedures, and emergency response protocols.', icon: '⚠️' }
+                            { title: 'Process Simulation', desc: 'Practice complex manufacturing processes in a virtual environment before touching real equipment.', number: '01' },
+                            { title: 'Maintenance Training', desc: 'Learn preventive maintenance, troubleshooting, and repair procedures on virtual machinery.', number: '02' },
+                            { title: 'Safety Compliance', desc: 'Master OSHA regulations, lockout/tagout procedures, and emergency response protocols.', number: '03' }
                         ].map((feature, idx) => (
                             <div key={idx} className="vr-product-feature-card">
-                                <div className="vr-product-feature-icon">{feature.icon}</div>
+                                <div className="vr-product-feature-icon" style={{
+                                    fontSize: '2rem',
+                                    fontWeight: '900',
+                                    color: '#FF9B50',
+                                    fontFamily: 'monospace'
+                                }}>{feature.number}</div>
                                 <h3 className="vr-product-feature-title">{feature.title}</h3>
                                 <p className="vr-product-feature-desc">{feature.desc}</p>
                             </div>

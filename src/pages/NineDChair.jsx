@@ -215,9 +215,9 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             gap: '2.5rem'
                         }}>
                             {[
-                                { title: 'Interactive Chairs', icon: '💺', desc: 'Ergonomic 9D chairs designed for extended learning sessions with built-in haptics.' },
-                                { title: 'Motion Systems', icon: '⚡', desc: 'Advanced 6DOF motion platforms that simulate real-world physics and movement.' },
-                                { title: 'VR Headsets', icon: '🥽', desc: 'High-fidelity, wireless headsets delivering crystal clear 4K visuals.' }
+                                { title: 'Interactive Chairs', number: '01', desc: 'Ergonomic 9D chairs designed for extended learning sessions with built-in haptics.' },
+                                { title: 'Motion Systems', number: '02', desc: 'Advanced 6DOF motion platforms that simulate real-world physics and movement.' },
+                                { title: 'VR Headsets', number: '03', desc: 'High-fidelity, wireless headsets delivering crystal clear 4K visuals.' }
                             ].map((item, idx) => (
                                 <div key={idx} style={{
                                     backgroundColor: theme.cardBg,
@@ -239,17 +239,12 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                     }}
                                 >
                                     <div style={{
-                                        fontSize: '3rem',
+                                        fontSize: '2.5rem',
+                                        fontWeight: 800,
+                                        color: theme.accent,
                                         marginBottom: '1.5rem',
-                                        background: isDarkTheme ? '#333' : '#f0f0f0',
-                                        width: '80px',
-                                        height: '80px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        borderRadius: '50%',
-                                        margin: '0 auto 1.5rem'
-                                    }}>{item.icon}</div>
+                                        fontFamily: 'monospace'
+                                    }}>{item.number}</div>
                                     <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1rem' }}>{item.title}</h3>
                                     <p style={{ color: theme.subText, lineHeight: '1.6' }}>{item.desc}</p>
                                 </div>

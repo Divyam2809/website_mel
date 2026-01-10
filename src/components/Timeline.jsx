@@ -150,7 +150,7 @@ export default function Timeline({ items, isDarkTheme }) {
                                     fontSize: '3rem',
                                     fontWeight: 900,
                                     color: '#FF9B50',
-                                    opacity: 0.2,
+                                    opacity: 0.8,
                                     marginBottom: '-1rem'
                                 }}>{item.year}</div>
                                 <h3 style={{ fontSize: '1.5rem', fontWeight: 700, margin: '1rem 0' }}>{item.title}</h3>
