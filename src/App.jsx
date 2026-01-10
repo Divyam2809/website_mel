@@ -134,16 +134,39 @@ export default function App() {
 
     // Navigation Adapter for existing components
     const handleNavigate = (page) => {
-        if (page === 'home') navigate('/home');
-        else if (page.startsWith('product-')) navigate(`/product/${page.replace('product-', '')}`);
-        else navigate(`/${page}`);
+        // Known top-level pages that should stay at the root
+        const topLevelPages = [
+            'home',
+            'products',
+            'industries',
+            'blog',
+            'casestudies',
+            'faqs',
+            'about',
+            'guidelines',
+            'melzonews'
+        ];
+
+        // Normalized page string (handle lowercase/trim if needed, though usually strict)
+        const targetPage = page.toLowerCase();
+
+        if (topLevelPages.includes(targetPage)) {
+            navigate(`/${targetPage}`);
+        } else if (targetPage.startsWith('product-')) {
+            // Handle generic product wrapper links (e.g. product-custom-solutions)
+            navigate(`/products/${targetPage.replace('product-', '')}`);
+        } else {
+            // Assume it's a specific product page and route to /products/<name>
+            navigate(`/products/${targetPage}`);
+        }
     };
 
     // Helper to determine active "page" for AppNav highlighting
     const getCurrentPage = () => {
         const path = location.pathname;
         if (path === '/' || path === '/home') return 'home';
-        if (path.startsWith('/product/')) return 'product-' + path.split('/')[2];
+        // if path is /products/something, we might still want to highlight 'products'
+        if (path.startsWith('/products')) return 'products';
         return path.substring(1);
     };
 
@@ -182,39 +205,41 @@ export default function App() {
                         <Route path="/" element={<Navigate to="/home" replace />} />
                         <Route path="/home" element={<Home {...commonProps} />} />
                         <Route path="/products" element={<Products {...commonProps} />} />
-                        <Route path="/anubhav" element={<AnubhavProduct {...commonProps} />} />
                         <Route path="/industries" element={<Industries {...commonProps} />} />
                         <Route path="/blog" element={<Blog {...commonProps} />} />
                         <Route path="/casestudies" element={<CaseStudies {...commonProps} />} />
                         <Route path="/faqs" element={<FAQs {...commonProps} />} />
                         <Route path="/about" element={<About {...commonProps} />} />
                         <Route path="/guidelines" element={<Guidelines {...commonProps} />} />
-
-                        {/* Dynamic Product Route */}
-                        <Route path="/product/:productId" element={<GenericProductWrapper {...commonProps} />} />
-
-                        {/* Individual Product Pages */}
-                        <Route path="/ninedchair" element={<NineDChair {...commonProps} />} />
-                        <Route path="/fivedchair" element={<FiveDChair {...commonProps} />} />
-                        <Route path="/vrlab" element={<VRLab {...commonProps} />} />
-                        <Route path="/vrelearning" element={<VRElearning {...commonProps} />} />
-                        <Route path="/vrerp" element={<VRERP {...commonProps} />} />
-                        <Route path="/vrindustrial" element={<VRIndustrial {...commonProps} />} />
-                        <Route path="/vranimalsurgery" element={<VRAnimalSurgery {...commonProps} />} />
-                        <Route path="/vrudyog" element={<VRUdyog {...commonProps} />} />
-                        <Route path="/vrrealestate" element={<VRRealEstate {...commonProps} />} />
-                        <Route path="/vrhospitality" element={<VRHospitality {...commonProps} />} />
-                        <Route path="/vrexhibition" element={<VRExhibition {...commonProps} />} />
-                        <Route path="/vrkala" element={<VRKala {...commonProps} />} />
-                        <Route path="/vrcrimescene" element={<VRCrimeScene {...commonProps} />} />
-                        <Route path="/dronesimulator" element={<DroneSimulator {...commonProps} />} />
-                        <Route path="/aircraftsimulator" element={<AircraftSimulator {...commonProps} />} />
-                        <Route path="/vrdefence" element={<VRDefence {...commonProps} />} />
-                        <Route path="/vrlivestream" element={<VRLiveStream {...commonProps} />} />
-                        <Route path="/vrtourism" element={<VRTourism {...commonProps} />} />
-                        <Route path="/virtualheritage" element={<VirtualHeritage {...commonProps} />} />
-                        <Route path="/cityguides" element={<CityGuides {...commonProps} />} />
                         <Route path="/melzonews" element={<MelzoNews {...commonProps} />} />
+
+                        {/* Product Pages Redesigned Route Structure */}
+
+                        {/* Dynamic Generic Product Route */}
+                        <Route path="/products/:productId" element={<GenericProductWrapper {...commonProps} />} />
+
+                        {/* Specific Product Routes (Nested under /products/ for cleaner browsing) */}
+                        <Route path="/products/anubhav" element={<AnubhavProduct {...commonProps} />} />
+                        <Route path="/products/ninedchair" element={<NineDChair {...commonProps} />} />
+                        <Route path="/products/fivedchair" element={<FiveDChair {...commonProps} />} />
+                        <Route path="/products/vrlab" element={<VRLab {...commonProps} />} />
+                        <Route path="/products/vrelearning" element={<VRElearning {...commonProps} />} />
+                        <Route path="/products/vrerp" element={<VRERP {...commonProps} />} />
+                        <Route path="/products/vrindustrial" element={<VRIndustrial {...commonProps} />} />
+                        <Route path="/products/vranimalsurgery" element={<VRAnimalSurgery {...commonProps} />} />
+                        <Route path="/products/vrudyog" element={<VRUdyog {...commonProps} />} />
+                        <Route path="/products/vrrealestate" element={<VRRealEstate {...commonProps} />} />
+                        <Route path="/products/vrhospitality" element={<VRHospitality {...commonProps} />} />
+                        <Route path="/products/vrexhibition" element={<VRExhibition {...commonProps} />} />
+                        <Route path="/products/vrkala" element={<VRKala {...commonProps} />} />
+                        <Route path="/products/vrcrimescene" element={<VRCrimeScene {...commonProps} />} />
+                        <Route path="/products/dronesimulator" element={<DroneSimulator {...commonProps} />} />
+                        <Route path="/products/aircraftsimulator" element={<AircraftSimulator {...commonProps} />} />
+                        <Route path="/products/vrdefence" element={<VRDefence {...commonProps} />} />
+                        <Route path="/products/vrlivestream" element={<VRLiveStream {...commonProps} />} />
+                        <Route path="/products/vrtourism" element={<VRTourism {...commonProps} />} />
+                        <Route path="/products/virtualheritage" element={<VirtualHeritage {...commonProps} />} />
+                        <Route path="/products/cityguides" element={<CityGuides {...commonProps} />} />
 
                         {/* Fallback */}
                         <Route path="*" element={<Navigate to="/home" replace />} />
