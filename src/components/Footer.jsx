@@ -26,8 +26,8 @@ export default function Footer({ isDarkTheme, onNavigate }) {
             position: 'relative',
             clipPath: 'polygon(0 100px, 50% 0, 100% 100px, 100% 100%, 0 100%)'
         }}>
-            
-            
+
+
 
             <hr style={{ borderColor: borderColor, opacity: 0.2, marginBottom: '4rem', maxWidth: '1400px', margin: '0 auto 4rem auto' }} />
 
@@ -81,7 +81,7 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                         }}>
                             {[
                                 { name: 'linkedin', src: '/assets/linkedin.svg', link: 'https://www.linkedin.com/company/melzo/' },
-                                { name: 'instagram', src: '/assets/insta.svg', link: 'https://www.instagram.com/melzoanubhav?igsh=MXJhMDdpYm4yd3BhZw==' },
+                                { name: 'instagram', src: '/assets/insta.svg', link: 'https://www.instagram.com/melzoanubhav' },
                                 { name: 'x', src: '/assets/x_logo.svg', link: 'https://x.com/melzo_e_learn?s=11' },
                                 { name: 'gmail', src: '/assets/gmail.svg', link: 'mailto:contact@melzo.com' }
                             ].map((social) => (
