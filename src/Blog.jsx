@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppNav from './components/AppNav';
 import { blogData } from './data/blogData';
+import ModernGradientBackground from './components/ModernGradientBackground';
 
 export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const navigate = useNavigate();
@@ -29,76 +30,176 @@ export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                 onBookDemo={onBookDemo}
                 currentPage="blog"
             />
-            <div style={{ backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff', minHeight: '100vh', padding: '120px 5%', color: isDarkTheme ? '#FFFFFF' : '#2D2D2D', fontFamily: 'Inter, sans-serif' }}>
-                <h1 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '2rem', color: '#FF9B50' }}>Melzo Blog</h1>
-                <div style={{ display: 'grid', gap: '2rem' }}>
-                    {loading ? (
-                        <p>Loading posts...</p>
-                    ) : posts.length > 0 ? (
-                        posts.map((post) => (
-                            <div key={post.slug} style={{
-                                padding: '2rem',
-                                borderRadius: '16px',
-                                background: isDarkTheme ? '#262626' : '#f9f9f9',
-                                border: '1px solid rgba(0,0,0,0.05)',
-                                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                                cursor: 'pointer'
-                            }}
-                                onClick={() => navigate(`/blog/${post.slug}`)}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-5px)';
-                                    e.currentTarget.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.boxShadow = 'none';
-                                }}
-                            >
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '1rem' }}>
-                                    {post.category && (
-                                        <span style={{
-                                            padding: '4px 12px',
-                                            backgroundColor: 'rgba(255, 155, 80, 0.1)',
-                                            color: '#FF9B50',
-                                            borderRadius: '20px',
-                                            fontSize: '0.8rem',
-                                            fontWeight: 600
-                                        }}>
-                                            {post.category}
-                                        </span>
-                                    )}
-                                    <span style={{ opacity: 0.6, fontSize: '0.9rem' }}>
-                                        {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : post.publishDate}
-                                    </span>
-                                </div>
-                                <h2 style={{ fontSize: '1.5rem', margin: '0.5rem 0', lineHeight: 1.3 }}>{post.title}</h2>
-                                <p style={{ opacity: 0.8, marginBottom: '1.5rem' }}>
-                                    {post.excerpt
-                                        ? post.excerpt
-                                        : (post.content && Array.isArray(post.content)
-                                            ? post.content.find(b => b.type === 'paragraph')?.content?.substring(0, 150)
-                                            : 'Click to read more...')}
-                                    ...
-                                </p>
-                                <button style={{
-                                    background: 'transparent',
-                                    border: '1px solid #FF9B50',
-                                    color: '#FF9B50',
-                                    padding: '0.5rem 1rem',
+            {/* Background Container */}
+            <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+                <ModernGradientBackground isDarkTheme={isDarkTheme} />
+
+                {/* Content Container */}
+                <div style={{
+                    position: 'relative',
+                    zIndex: 1,
+                    padding: '120px 5%',
+                    color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
+                    fontFamily: 'Inter, sans-serif',
+                }}>
+                    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+                        <h1 style={{
+                            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                            fontWeight: 900,
+                            marginBottom: '3rem',
+                            color: isDarkTheme ? '#FFFFFF' : '#1A1A1A',
+                            textAlign: 'center',
+                            textShadow: isDarkTheme ? '0 0 40px rgba(255,155,80,0.3)' : 'none'
+                        }}>
+                            Latest <span style={{ color: '#FF9B50' }}>Insights</span>
+                        </h1>
+
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+                            gap: '2.5rem'
+                        }}>
+                            {loading ? (
+                                <p style={{ textAlign: 'center', width: '100%' }}>Loading posts...</p>
+                            ) : posts.length > 0 ? (
+                                posts.map((post) => (
+                                    <div key={post.slug}
+                                        style={{
+                                            padding: '2.5rem',
+                                            borderRadius: '24px',
+                                            background: isDarkTheme
+                                                ? 'rgba(30, 30, 30, 0.6)'
+                                                : 'rgba(255, 255, 255, 0.6)',
+                                            backdropFilter: 'blur(20px)',
+                                            WebkitBackdropFilter: 'blur(20px)',
+                                            border: isDarkTheme
+                                                ? '1px solid rgba(255, 255, 255, 0.08)'
+                                                : '1px solid rgba(255, 255, 255, 0.4)',
+                                            boxShadow: isDarkTheme
+                                                ? '0 10px 40px -10px rgba(0,0,0,0.5)'
+                                                : '0 10px 40px -10px rgba(0,0,0,0.05)',
+                                            transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                                            cursor: 'pointer',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                            height: '100%'
+                                        }}
+                                        onClick={() => navigate(`/blog/${post.slug}`)}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)';
+                                            e.currentTarget.style.borderColor = '#FF9B50';
+                                            e.currentTarget.style.boxShadow = isDarkTheme
+                                                ? '0 20px 60px -15px rgba(255, 155, 80, 0.15)'
+                                                : '0 20px 60px -15px rgba(255, 155, 80, 0.15)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                                            e.currentTarget.style.borderColor = isDarkTheme
+                                                ? 'rgba(255, 255, 255, 0.08)'
+                                                : 'rgba(255, 255, 255, 0.4)';
+                                            e.currentTarget.style.boxShadow = isDarkTheme
+                                                ? '0 10px 40px -10px rgba(0,0,0,0.5)'
+                                                : '0 10px 40px -10px rgba(0,0,0,0.05)';
+                                        }}
+                                    >
+                                        <div>
+                                            <div style={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                                marginBottom: '1.5rem',
+                                                flexWrap: 'wrap',
+                                                gap: '1rem'
+                                            }}>
+                                                {post.category && (
+                                                    <span style={{
+                                                        padding: '6px 14px',
+                                                        backgroundImage: 'linear-gradient(135deg, #FF9B50 0%, #FF9B50 100%)',
+                                                        color: 'white',
+                                                        borderRadius: '20px',
+                                                        fontSize: '0.75rem',
+                                                        fontWeight: 700,
+                                                        letterSpacing: '0.5px',
+                                                        boxShadow: '0 4px 10px rgba(255, 155, 80, 0.3)'
+                                                    }}>
+                                                        {post.category.toUpperCase()}
+                                                    </span>
+                                                )}
+                                                <span style={{
+                                                    opacity: 0.5,
+                                                    fontSize: '0.85rem',
+                                                    fontWeight: 500,
+                                                    letterSpacing: '0.5px'
+                                                }}>
+                                                    {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : post.publishDate}
+                                                </span>
+                                            </div>
+
+                                            <h2 style={{
+                                                fontSize: '1.75rem',
+                                                margin: '0 0 1rem 0',
+                                                lineHeight: 1.3,
+                                                fontWeight: 800,
+                                                background: isDarkTheme
+                                                    ? 'linear-gradient(to right, #fff, #bbb)'
+                                                    : 'linear-gradient(to right, #1A1A1A, #444)',
+                                                WebkitBackgroundClip: 'text',
+                                                WebkitTextFillColor: 'transparent',
+                                                display: 'inline-block'
+                                            }}>
+                                                {post.title}
+                                            </h2>
+
+                                            <p style={{
+                                                opacity: 0.8,
+                                                marginBottom: '2rem',
+                                                lineHeight: 1.6,
+                                                fontSize: '1rem'
+                                            }}>
+                                                {post.excerpt
+                                                    ? post.excerpt
+                                                    : (post.content && Array.isArray(post.content)
+                                                        ? post.content.find(b => b.type === 'paragraph')?.content?.substring(0, 120)
+                                                        : 'Click to read more...')}
+                                                ...
+                                            </p>
+                                        </div>
+
+                                        <div style={{ display: 'flex', alignItems: 'center', marginTop: 'auto' }}>
+                                            <button style={{
+                                                background: 'transparent',
+                                                border: 'none',
+                                                color: '#FF9B50',
+                                                padding: 0,
+                                                fontSize: '1rem',
+                                                fontWeight: 700,
+                                                cursor: 'pointer',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '8px'
+                                            }}
+                                            >
+                                                Read Article
+                                                <span style={{ fontSize: '1.2rem', transition: 'transform 0.3s' }}>→</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <div style={{
+                                    gridColumn: '1 / -1',
+                                    padding: '4rem',
+                                    textAlign: 'center',
+                                    background: isDarkTheme ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)',
                                     borderRadius: '20px',
-                                    cursor: 'pointer',
-                                    fontWeight: 600
-                                }}
-                                    onClick={(e) => {
-                                        e.stopPropagation(); // Prevent double navigation
-                                        navigate(`/blog/${post.slug}`);
-                                    }}
-                                >Read More</button>
-                            </div>
-                        ))
-                    ) : (
-                        <p style={{ opacity: 0.7 }}>No blog posts available at the moment.</p>
-                    )}
+                                    border: '1px dashed rgba(128,128,128,0.3)'
+                                }}>
+                                    <p style={{ opacity: 0.6, fontSize: '1.2rem' }}>No blog posts available at the moment.</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
