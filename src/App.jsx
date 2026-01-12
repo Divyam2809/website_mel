@@ -50,8 +50,7 @@ const GenericProductWrapper = (props) => {
 export default function App() {
     const [isDarkTheme, setIsDarkTheme] = useState(false);
     const [isDemoOpen, setIsDemoOpen] = useState(false);
-    const cursorRef = useRef(null);
-    const cursorDotRef = useRef(null);
+
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -59,57 +58,7 @@ export default function App() {
     // Call custom hook for SEO titles
     usePageTitle();
 
-    // Custom cursor effect
-    useEffect(() => {
-        // ... (keeping existing cursor logic exactly as is)
-        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-        const cursor = cursorRef.current;
-        const cursorDot = cursorDotRef.current;
 
-        if (!cursor || !cursorDot) return;
-
-        if (isTouchDevice) {
-            cursor.style.display = 'none';
-            cursorDot.style.display = 'none';
-            return;
-        }
-
-        const moveCursor = (e) => {
-            cursor.style.left = `${e.clientX}px`;
-            cursor.style.top = `${e.clientY}px`;
-            cursorDot.style.left = `${e.clientX}px`;
-            cursorDot.style.top = `${e.clientY}px`;
-        };
-
-        const handleMouseOver = (e) => {
-            const target = e.target;
-            if (
-                target.tagName === 'A' ||
-                target.tagName === 'BUTTON' ||
-                target.closest('a') ||
-                target.closest('button') ||
-                target.style.cursor === 'pointer'
-            ) {
-                cursor.classList.add('hover');
-                cursorDot.classList.add('hover');
-            }
-        };
-
-        const handleMouseOut = () => {
-            cursor.classList.remove('hover');
-            cursorDot.classList.remove('hover');
-        };
-
-        window.addEventListener('mousemove', moveCursor);
-        document.addEventListener('mouseover', handleMouseOver);
-        document.addEventListener('mouseout', handleMouseOut);
-
-        return () => {
-            window.removeEventListener('mousemove', moveCursor);
-            document.removeEventListener('mouseover', handleMouseOver);
-            document.removeEventListener('mouseout', handleMouseOut);
-        };
-    }, []);
 
     // Scroll to top when path changes
     useEffect(() => {
@@ -199,9 +148,7 @@ export default function App() {
 
     return (
         <>
-            {/* Custom Cursor Elements */}
-            <div ref={cursorRef} className="custom-cursor"></div>
-            <div ref={cursorDotRef} className="custom-cursor-dot"></div>
+
 
             <div style={{ backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff', minHeight: '100vh', color: isDarkTheme ? '#FFFFFF' : '#2D2D2D', fontFamily: 'Inter, sans-serif', transition: 'all 0.3s ease' }}>
 
@@ -267,52 +214,12 @@ export default function App() {
             {/* Scroll To Top Button */}
             <ScrollToTopButton isDarkTheme={isDarkTheme} />
 
-            {/* Back Button */}
-            <BackButton isDarkTheme={isDarkTheme} />
+
         </>
     );
 }
 
-// Internal Back Button Component
-function BackButton({ isDarkTheme }) {
-    const navigate = useNavigate();
-    const location = useLocation();
 
-    // Do not show on home page
-    if (location.pathname === '/' || location.pathname === '/home') {
-        return null;
-    }
-
-    return (
-        <button
-            onClick={() => navigate(-1)}
-            style={{
-                position: 'fixed',
-                bottom: '30px',
-                left: '30px',
-                backgroundColor: 'transparent',
-                color: '#FF9B50',
-                width: '50px',
-                height: '50px',
-                borderRadius: '50%',
-                border: '2px solid #FF9B50',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '1.5rem',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-                zIndex: 1000,
-                transition: 'transform 0.3s ease'
-            }}
-            title="Go Back"
-            onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
-            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-        >
-            ←
-        </button>
-    );
-}
 
 // Internal ScrollToTop Component
 function ScrollToTopButton({ isDarkTheme }) {

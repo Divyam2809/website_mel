@@ -339,6 +339,7 @@ This article is in Hindi. The title and excerpt have been translated to English 
                                 display: 'flex',
                                 flexDirection: 'column'
                             }}
+                                onClick={() => setSelectedNews(item)}
                                 onMouseEnter={(e) => {
                                     e.currentTarget.style.transform = 'translateY(-5px)';
                                     e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';

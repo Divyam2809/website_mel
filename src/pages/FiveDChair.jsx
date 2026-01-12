@@ -676,7 +676,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                     <section style={{ maxWidth: '550px', position: 'relative', zIndex: 2 }}>
 
                         <img
-                            src="/assets/Melzo_Anubhav_Logo.png"
+                            src="/assets/Melzo_Anubhav_Logo.webp"
                             alt="Melzo Anubhav Logo"
                             style={{
                                 maxWidth: '250px',
