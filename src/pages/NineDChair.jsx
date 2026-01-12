@@ -5,7 +5,7 @@ import AppNav from '../components/AppNav';
 
 // 3D Model Component
 function ChairModel({ modelPath }) {
-    const { scene } = useGLTF(modelPath);
+    const { scene } = useGLTF(modelPath, '/draco-gltf/');
     return <primitive object={scene} scale={1} position={[0, 0, 0]} rotation={[0, Math.PI / 4, 0]} />;
 }
 
@@ -48,19 +48,31 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                 transition: 'background-color 0.3s ease, color 0.3s ease'
             }}>
                 {/* 1. Hero Section */}
-                <section style={{
-                    minHeight: '100vh',
-                    position: 'relative',
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '120px 5% 5rem',
-                    gap: '2rem',
-                    backgroundImage: 'url(/assets/vr_lab_hero.webp)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                }}>
+                {/* 1. Hero Section */}
+                <style>{`
+                    .nined-hero-grid {
+                        min-height: 100vh;
+                        position: relative;
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 120px 5% 5rem;
+                        gap: 2rem;
+                        background-image: url(/assets/vr_lab_hero.webp);
+                        background-size: cover;
+                        background-position: center;
+                    }
+                    @media (max-width: 968px) {
+                        .nined-hero-grid {
+                            grid-template-columns: 1fr;
+                            padding: 100px 5% 3rem;
+                            height: auto;
+                            min-height: auto;
+                        }
+                    }
+                `}</style>
+                <section className="nined-hero-grid">
                     {/* Overlay */}
                     <div style={{
                         position: 'absolute',
@@ -264,7 +276,7 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             <h2 style={{ fontSize: '3rem', fontWeight: 900, marginTop: '1rem' }}>Core Pillars of Simulation</h2>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '4rem' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem' }}>
                             {[
                                 { title: 'Science Experiments', desc: 'Conduct dangerous or expensive experiments in a perfectly safe, virtual environment.', color: '#FF9B50' },
                                 { title: 'Interactive Simulations', desc: 'Complex concepts visualized through manipulatable 3D models and real-time physics.', color: '#FF9B50' },

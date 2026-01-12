@@ -6,7 +6,7 @@ export default function Footer({ isDarkTheme, onNavigate }) {
     const textColor = isDarkTheme ? '#E0E0E0' : '#2D2D2D';
     const subTextColor = isDarkTheme ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.6)';
     const bgColor = isDarkTheme ? '#0F0F0F' : '#F5F5F5';
-    const borderColor = isDarkTheme ? 'rgba(231, 143, 36, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+    const borderColor = isDarkTheme ? '#FF9B50' : 'rgba(0, 0, 0, 0.1)';
     const iconBg = isDarkTheme ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
 
     const exploreLinks = [
@@ -26,8 +26,8 @@ export default function Footer({ isDarkTheme, onNavigate }) {
             position: 'relative',
             clipPath: 'polygon(0 100px, 50% 0, 100% 100px, 100% 100%, 0 100%)'
         }}>
-            
-            
+
+
 
             <hr style={{ borderColor: borderColor, opacity: 0.2, marginBottom: '4rem', maxWidth: '1400px', margin: '0 auto 4rem auto' }} />
 
