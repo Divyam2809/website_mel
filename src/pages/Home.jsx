@@ -30,7 +30,7 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                         right: 0,
                         bottom: 0,
                         width: '100%',
-                        backgroundImage: 'url(/images/classroom-hero.jpg)',
+                        backgroundImage: 'url(/images/classroom-hero.webp)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         opacity: 0.5,

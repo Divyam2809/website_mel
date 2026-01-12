@@ -213,9 +213,9 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo, onToggle
             id: "software",
             items: [
 
-                { name: 'VR in Industrial Training (MELA)', icon: '/assets/mela.png', isImage: true, description: 'Vocational training simulations for industry skills.', link: 'vrindustrial' },
+                { name: 'VR in Industrial Training (MELA)', icon: '/assets/mela.webp', isImage: true, description: 'Vocational training simulations for industry skills.', link: 'vrindustrial' },
                 { name: 'VR Lab (Complete Hardware Setup)', icon: 'server', description: 'Turnkey VR lab solution with headsets and PCs.', link: 'vrlab' },
-                { name: 'VR in Kalaa', icon: '/assets/kalaa.png', isImage: true, description: 'Preserving and exploring art and culture in VR.', link: 'vrkala' }
+                { name: 'VR in Kalaa', icon: '/assets/kalaa.webp', isImage: true, description: 'Preserving and exploring art and culture in VR.', link: 'vrkala' }
             ]
         },
         {
@@ -231,7 +231,7 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo, onToggle
             title: "Industrial & Enterprise",
             id: "industrial",
             items: [
-                { name: 'VR in Udyog', icon: '/assets/udyog.png', isImage: true, description: 'Virtual prototyping and industrial process simulation.', link: 'vrudyog' },
+                { name: 'VR in Udyog', icon: '/assets/udyog.webp', isImage: true, description: 'Virtual prototyping and industrial process simulation.', link: 'vrudyog' },
                 { name: 'VR in Real Estate', icon: 'building', description: 'Immersive property tours and architectural visualization.', link: 'vrrealestate' },
                 { name: 'VR in Hospitality', icon: 'coffee', description: 'Virtual walkthroughs for hotels and resorts.', link: 'vrhospitality' },
                 { name: 'VR Exhibition Solutions', icon: 'store', description: 'Virtual trade shows and interactive exhibitions.', link: 'vrexhibition' },
@@ -462,8 +462,8 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo, onToggle
                                             style={{
                                                 width: '100%',
                                                 height: '100%',
-                                                objectFit: (item.icon.includes('mela.png') || item.icon.includes('kalaa.png') || item.icon.includes('udyog.png')) ? 'contain' : 'cover',
-                                                padding: (item.icon.includes('mela.png') || item.icon.includes('kalaa.png') || item.icon.includes('udyog.png')) ? '5px' : '0'
+                                                objectFit: (item.icon.includes('mela.webp') || item.icon.includes('kalaa.webp') || item.icon.includes('udyog.webp')) ? 'contain' : 'cover',
+                                                padding: (item.icon.includes('mela.webp') || item.icon.includes('kalaa.webp') || item.icon.includes('udyog.webp')) ? '5px' : '0'
                                             }}
                                         />
                                     ) : (

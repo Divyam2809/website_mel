@@ -543,11 +543,11 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
 
     // Color Options State
     const colorOptions = [
-        { name: 'Brown', image: '5d_chair/Brown (Large).png', color: '#795548' },
-        { name: 'Green', image: '5d_chair/Green (Large).png', color: '#4CAF50' },
-        { name: 'Pink', image: '5d_chair/Pink (Large).png', color: '#E91E63' },
-        { name: 'Silver', image: '5d_chair/Silver (Large).png', color: '#E0E0E0' },
-        { name: 'Yellow', image: '5d_chair/Yellow (Large).png', color: '#FFEB3B' },
+        { name: 'Brown', image: '5d_chair/Brown (Large).webp', color: '#795548' },
+        { name: 'Green', image: '5d_chair/Green (Large).webp', color: '#4CAF50' },
+        { name: 'Pink', image: '5d_chair/Pink (Large).webp', color: '#E91E63' },
+        { name: 'Silver', image: '5d_chair/Silver (Large).webp', color: '#E0E0E0' },
+        { name: 'Yellow', image: '5d_chair/Yellow (Large).webp', color: '#FFEB3B' },
     ];
     const [selectedColorIndex, setSelectedColorIndex] = useState(0);
 
@@ -567,7 +567,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
             date: 'January 12, 2025',
             title: 'In a first, 5D laboratory in Surat school to help students \'hear, visualise\' curriculum',
             description: 'On Friday, the Sarvoday trust-run school at Bhatar launched the Melzo Anubhav 5D lab, which the school authorities claimed, is the first initiative of its kind for students.',
-            image: '/images/news-1.jpg',
+            image: '/images/news_indian_express.webp',
             link: '#'
         },
         {
@@ -576,7 +576,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
             date: 'January 14, 2025',
             title: 'Surat student\'s turn! India\'s first 5D lab launched in this school',
             description: 'IG Desai School in Surat has launched India\'s first 5D lab. This lab will help school students understand science and social science subjects easily and experience them in re...',
-            image: '/images/news-2.jpg',
+            image: '/images/news_news18_gujarat.webp',
             link: '#'
         },
         {
@@ -585,7 +585,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
             date: 'January 2025',
             title: 'IIT pass Gujarati created 5D lab for children',
             description: 'Students can see the outside world from a small room with 5D virtual-sensory chair; Education with VR, AR, AI\'s vision',
-            image: '/images/news-3.jpg',
+            image: '/images/gujarati-newspaper-5d-lab.webp',
             link: '#'
         },
         {
@@ -594,7 +594,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
             date: 'January 25, 2025',
             title: 'Anubhav VR Lab: Revolutionizing Classroom Learning',
             description: 'Students can now explore complex scientific concepts through immersive VR experiences, making learning interactive and fun.',
-            image: '/images/news-4.jpg',
+            image: '/images/toi-vr-chairs-smc-full.webp',
             link: '#'
         },
         {
@@ -603,7 +603,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
             date: 'February 2, 2025',
             title: 'Top EdTech Innovations of 2025: Melzo Anubhav Leads the Way',
             description: 'Recognized for its impact on student engagement and retention, Melzo Anubhav is setting new standards in educational technology.',
-            image: '/images/news-5.jpg',
+            image: '/images/education-img.webp',
             link: '#'
         },
         {
@@ -612,7 +612,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
             date: 'February 10, 2025',
             title: 'Bridging the Gap: How 5D Labs are Transforming Rural Education',
             description: 'Access to advanced learning tools is no longer limited to urban centers. 5D labs are bringing world-class education to every corner of India.',
-            image: '/images/news-6.jpg',
+            image: '/assets/vr_elearning_hero.webp',
             link: '#'
         }
     ];
@@ -1576,7 +1576,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                     </div>
                 </section>
 
-               
+
             </div >
         </>
     );
