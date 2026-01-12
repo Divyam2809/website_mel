@@ -147,10 +147,12 @@ export default function Guidelines({ onNavigate, isDarkTheme, onBookDemo, onTogg
                     <SubSection title="The Chair" theme={theme}>
                         <p>The Melzo Anubhav Chair is a 7D/5D motion simulated seat designed for immersive learning. It includes:</p>
                         <CheckList items={[
-                            "360-degree rotation base",
-                            "Vibration and haptic feedback sensors",
-                            "Integrated joystick controls (if applicable)",
-                            "Safety harness and ergonomic cushioning"
+                            "Motion control system",
+                            "Vibration sensor",
+                            "Air blower for hot and cold air effects",
+                            "Recliner",
+                            "180-degree bi-directional rotation",
+                            "Water mist system"
                         ]} theme={theme} />
                     </SubSection>
 

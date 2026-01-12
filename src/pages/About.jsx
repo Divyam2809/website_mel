@@ -7,6 +7,46 @@ import AppNav from '../components/AppNav';
 export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const [isVisible, setIsVisible] = useState(false);
 
+    // Initial Static Data
+    const [awards, setAwards] = useState([
+        {
+            title: "WhatsApp Startup India",
+            subtitle: "Grand Challenge 2019",
+            status: "Winner",
+            prize: "$50,000",
+            image: "/images/whatsapp.webp"
+        },
+        {
+            title: "Vibrant Gujarat",
+            subtitle: "Startup Summit 2018",
+            status: "Winner",
+            prize: "₹30,00,000",
+            image: "/images/gujarat.webp"
+        },
+        {
+            title: "Dubai Future Accelerators",
+            subtitle: "Cohort 7 & 8 (2020)",
+            status: "Finalist",
+            prize: "KHDA Challenge",
+            image: "/images/dubai.webp"
+        },
+        {
+            title: "Data Innovation Bazaar",
+            subtitle: "Western Digital 2020",
+            status: "National Top 5",
+            prize: "₹2,00,000",
+            image: "/images/data.webp"
+        }
+    ]);
+
+    const [team, setTeam] = useState([
+        { firstName: 'HARDIK', surname: 'DESAI', role: 'Founder & CEO', image: '/team/hardiksir.webp' },
+        { firstName: 'BHAVIK', surname: 'MEHTA', role: 'Chief Technology Officer', image: '/team/bhaviksir.webp' },
+        { firstName: 'SOMNATH', surname: 'CHAUDHARI', role: 'Sales Head', image: '/team/somnathsir.webp' },
+        { firstName: 'TAPAN', surname: 'DESAI', role: 'Production Head', image: '/team/tapansir.webp' },
+        { firstName: 'GAYATRI', surname: 'BANSHIWAL', role: 'SR. HR Manager', image: '/team/gayatrimaam.webp' }
+    ]);
+
     useEffect(() => {
         setIsVisible(true);
     }, []);
@@ -16,6 +56,10 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
         transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
         transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)'
     };
+
+    // Filter Logic for Render
+    const ceo = team.find(m => m.role.toLowerCase().includes('ceo') || m.role.toLowerCase().includes('founder'));
+    const otherTeam = team.filter(m => m !== ceo);
 
 
     return (
@@ -292,36 +336,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                             gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
                             gap: '2rem'
                         }}>
-                            {[
-                                {
-                                    title: "WhatsApp Startup India",
-                                    subtitle: "Grand Challenge 2019",
-                                    status: "Winner",
-                                    prize: "$50,000",
-                                    icon: <img src="/images/whatsapp.webp" alt="WhatsApp Startup India" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                                },
-                                {
-                                    title: "Vibrant Gujarat",
-                                    subtitle: "Startup Summit 2018",
-                                    status: "Winner",
-                                    prize: "₹30,00,000",
-                                    icon: <img src="/images/gujarat.webp" alt="Vibrant Gujarat" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                                },
-                                {
-                                    title: "Dubai Future Accelerators",
-                                    subtitle: "Cohort 7 & 8 (2020)",
-                                    status: "Finalist",
-                                    prize: "KHDA Challenge",
-                                    icon: <img src="/images/dubai.webp" alt="Dubai Future Accelerators" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                                },
-                                {
-                                    title: "Data Innovation Bazaar",
-                                    subtitle: "Western Digital 2020",
-                                    status: "National Top 5",
-                                    prize: "₹2,00,000",
-                                    icon: <img src="/images/data.webp" alt="Data Innovation Bazaar" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                                }
-                            ].map((award, index) => (
+                            {awards.map((award, index) => (
                                 <div key={index} style={{
                                     background: isDarkTheme ? '#1A1A1A' : '#FFF',
                                     borderRadius: '20px',
@@ -354,7 +369,8 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                                             justifyContent: 'center',
                                             fontSize: '2.5rem'
                                         }}>
-                                            {award.icon}
+                                            {/* Using standard img for now to handle both static paths and sanity urls */}
+                                            <img src={award.image} alt={award.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                                         </div>
                                         <h3 style={{
                                             fontSize: '1.2rem',
@@ -427,29 +443,26 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
 
 
                         {/* CEO Section - Large Card */}
-                        <div className="ceo-section">
-                            <div className="ceo-box">
-                                <img src="/team/hardiksir.webp" className="ceo-img" alt="HARDIK DESAI" />
-                                <div className="ceo-info">
-                                    <div className="ceo-name-container">
-                                        <h3 className="ceo-firstname">HARDIK</h3>
-                                        <h3 className="ceo-surname">DESAI</h3>
+                        {ceo && (
+                            <div className="ceo-section">
+                                <div className="ceo-box">
+                                    <img src={ceo.image} className="ceo-img" alt={`${ceo.firstName} ${ceo.surname}`} />
+                                    <div className="ceo-info">
+                                        <div className="ceo-name-container">
+                                            <h3 className="ceo-firstname">{ceo.firstName}</h3>
+                                            <h3 className="ceo-surname">{ceo.surname}</h3>
+                                        </div>
+                                        <span className="ceo-role">{ceo.role}</span>
                                     </div>
-                                    <span className="ceo-role">Founder & CEO</span>
                                 </div>
                             </div>
-                        </div>
+                        )}
 
                         {/* Team Members - Single Row */}
                         <div className="team-row">
-                            {[
-                                { firstName: 'BHAVIK', surname: 'MEHTA', role: 'Chief Technology Officer', imgsrc: '/team/bhaviksir.webp' },
-                                { firstName: 'SOMNATH', surname: 'CHAUDHARI', role: 'Sales Head', imgsrc: '/team/somnathsir.webp' },
-                                { firstName: 'TAPAN', surname: 'DESAI', role: 'Production Head', imgsrc: '/team/tapansir.webp' },
-                                { firstName: 'GAYATRI', surname: 'BANSHIWAL', role: 'SR. HR Manager', imgsrc: '/team/gayatrimaam.webp' }
-                            ].map((member, idx) => (
+                            {otherTeam.map((member, idx) => (
                                 <div key={idx} className="team-member-box">
-                                    <img src={member.imgsrc} className="team-member-img" alt={`${member.firstName} ${member.surname}`} />
+                                    <img src={member.image} className="team-member-img" alt={`${member.firstName} ${member.surname}`} />
                                     <div className="team-member-info">
                                         <div className="team-member-name-container">
                                             <h4 className="team-member-firstname">{member.firstName}</h4>

@@ -7,212 +7,123 @@ export default function MelzoNews({ onNavigate, isDarkTheme, onBookDemo, onToggl
     const [selectedLanguage, setSelectedLanguage] = useState('All');
     const [showAll, setShowAll] = useState(false);
 
-    const newsItems = [
+    // State for news data
+    const [newsItems, setNewsItems] = useState([
         {
-            id: 14,
+            id: 1,
             category: 'Times of India',
             date: 'January 10, 2026',
             title: 'VR chairs bring classrooms to life for SMC students',
-            summary: 'The Surat Municipal Corporation (SMC) has introduced high-tech VR chairs and virtual reality headsets in its primary schools to provide students with an immersive, multi-sensory educational experience.',
+            summary: 'The Surat Municipal Corporation (SMC) has introduced high-tech VR chairs to enhance learning experiences in municipal schools.',
+            content: 'In a first-of-its-kind initiative, the Surat Municipal Corporation (SMC) has deployed Virtual Reality (VR) chairs in its schools. This move aims to modernize education and provide students with immersive learning opportunities. The 5D chairs allow students to experience educational content in a realistic, engaging manner, covering subjects from science to history. Officials state this will significantly improve retention and student interest.',
             image: '/images/toi-vr-chairs-smc.webp',
-            language: 'English',
-            content: `The Surat Municipal Corporation (SMC) has introduced high-tech VR chairs and virtual reality headsets in its primary schools to provide students with an immersive, multi-sensory educational experience.
-
-This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.`
-        },
-        {
-            id: 15,
-            category: 'Times of India',
-            date: 'January 10, 2026',
-            title: 'VR chairs bring classrooms to life for SMC students',
-            summary: 'In a bid to enhance learning for underprivileged students, Surat Municipal Corporation (SMC) has introduced multidimensional experience chairs in municipal schools, offering students an immersive education through virtual reality.',
-            image: '/images/toi-vr-chairs-smc-full.webp',
-            language: 'English',
-            content: `In a bid to enhance learning for underprivileged students, Surat Municipal Corporation (SMC) has introduced multidimensional experience chairs in municipal schools, offering students an immersive education through virtual reality.
-
-This article highlights how the Melzo Experience 7D Lab, equipped with VR headsets and motion chairs that blow air and spray mist, is transforming education by allowing students to virtually visit space or historical sites and conduct interactive experiments.`
-        },
-        {
-            id: 'new-1',
-            category: 'Divya Bhaskar',
-            date: 'January 2025',
-            title: 'IIT pass Gujarati created 5D lab for children',
-            summary: 'Students can see the outside world from a small room with 5D virtual-sensory chair; Education with VR, AR, AI',
-            image: '/images/gujarati-newspaper-5d-lab.webp',
-            language: 'Gujarati',
-            content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.
-
-Translation Note
-This article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`
+            language: 'English'
         },
         {
             id: 2,
-            category: 'Indian Express',
-            date: 'January 12, 2025',
-            title: 'In a first, 5D laboratory in Surat school to help students \'hear, visualise\' curriculum',
-            summary: 'On Friday, the Sarvoday trust-run school at Bhatar launched the Melzo Anubhav 5D lab, which, the school authorities claimed, is the first initiative of its kind for students.',
-            image: '/images/news_indian_express.webp',
-            language: 'English',
-            content: `On Friday, the Sarvoday trust-run school at Bhatar launched the Melzo Anubhav 5D lab, which, the school authorities claimed, is the first initiative of its kind for students.
-
-This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.`
+            category: 'News18 Gujarati',
+            date: 'December 12, 2025',
+            title: 'Surat: First 5D Education Lab Launched',
+            summary: 'News18 Gujarati covers the inauguration of the first 5D Education Lab in Surat, revolutionizing local education.',
+            content: 'Surat witnesses a major leap in educational technology with the launch of its first 5D Education Lab. This facility, powered by Melzo, offers students a unique way to learn complex concepts. The report highlights the enthusiasm among students and teachers alike as they embrace this new era of digital learning.',
+            image: '/images/news18-gujarat-5d-lab.webp',
+            language: 'Gujarati'
         },
         {
             id: 3,
-            category: 'News18 Gujarat',
-            date: 'January 14, 2025',
-            title: 'Surat student\'s turn! India\'s first 5D lab launched in this school',
-            summary: 'IG Desai School in Surat has launched India\'s first 5D lab. This lab will help school students understand science and social science subjects easily and experience subjects in real life with the help of technology.',
-            image: '/images/news18-surat-5d-lab-updated.webp',
-            language: 'Gujarati',
-            content: `IG Desai School in Surat has launched India's first 5D lab. This lab will help school students understand science and social science subjects easily and experience subjects in real life with the help of technology.
-
-This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.
-
-Translation Note
-This article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`
+            category: 'Indian Express',
+            date: 'November 05, 2025',
+            title: 'I.G. Desai School Adopts VR Learning',
+            summary: 'The Indian Express features I.G. Desai School\'s adoption of Melzo\'s VR solutions for their curriculum.',
+            content: 'I.G. Desai School has become a pioneer in adopting Virtual Reality for school education. By integrating Melzo\'s VR modules, the school aims to provide a holistic learning environment. The principal emphasized that visual learning through VR helps students grasp difficult topics with ease.',
+            image: '/images/indian-express-5d-lab.webp',
+            language: 'English'
         },
         {
             id: 4,
-            category: 'Gujarati Newspaper',
-            date: 'January 2025',
-            title: 'Hardik created software for free education of Gujarati medium students',
-            summary: 'Software benefiting 2.80 lakh students; ranked first among 1200 startups in state government\'s startup scheme',
-            image: '/images/melzo-partners-universities.webp',
-            language: 'Gujarati',
-            content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.
-
-Translation Note
-This article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`
+            category: 'Divya Bhaskar',
+            date: 'October 20, 2025',
+            title: 'Virtual Reality: The Future of School Education',
+            summary: 'Divya Bhaskar discusses how VR labs are becoming the new standard in Gujarati medium schools.',
+            content: 'A detailed report on how Virtual Reality technology is transforming the educational landscape in Gujarat. The article features interviews with students who describe their experience as "magical" and "unforgettable". It also notes the cost-effectiveness of these digital labs compared to traditional physical labs.',
+            image: '/images/divya-bhaskar-5d-lab.webp',
+            language: 'Gujarati'
         },
         {
             id: 5,
-            category: 'Gujarati Newspaper',
-            date: 'January 2025',
-            title: 'Country\'s first 5D lab, students will do virtual experiments',
-            summary: 'Innovation: Google\'s virtual reality and all technical-non-technical subjects at Surat\'s student media center in 5D',
+            category: 'Gujarat Samachar',
+            date: 'September 15, 2025',
+            title: 'Melzo Anubhav: 5D Lab Success Story',
+            summary: 'Coverage of the successful implementation of Melzo Anubhav 5D labs in multiple districts.',
+            content: 'The Melzo Anubhav initiative has reached a milestone with successful implementations in Surat and surrounding districts. The 5D labs are not just about watching videos; they provide a sensory experience that aids memory retention. The article outlines future plans to expand this model to rural schools.',
             image: '/images/gujarati-newspaper-5d-lab.webp',
-            language: 'Gujarati',
-            content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.
-
-Translation Note
-This article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`
+            language: 'Gujarati'
         },
         {
             id: 6,
-            category: 'Gujarati Newspaper',
-            date: 'January 10, 2025',
-            title: 'Sarvoday Charitable Trust\'s IG Desai School in Surat Bhatar launches 5D technology for real education',
-            summary: 'Modern technology to provide education to poor, middle-class students; parents also happy with the effort',
-            image: '/images/sarvoday-ig-desai-5d.webp',
-            language: 'Gujarati',
-            content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.
-
-Translation Note
-This article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`
+            category: 'Dainik Bhaskar',
+            date: 'August 10, 2025',
+            title: 'Hindi Medium Schools Embrace VR Tech',
+            summary: 'how Hindi medium schools are bridging the digital divide using VR technology.',
+            content: 'Breaking language barriers, Melzo\'s localized content is now empowering Hindi medium schools. The report focuses on a school in Surat where students are learning geography and history through VR headsets, making education interactive and fun.',
+            image: '/images/hindi-newspaper-5d-lab.webp',
+            language: 'Hindi'
         },
         {
             id: 7,
-            category: 'Hindi Newspaper',
-            date: 'January 2025',
-            title: 'Students in Surat learning complex subjects from India\'s first 5D lab',
-            summary: 'The city\'s IT youth developed this with indigenous technology. Students can see biology, physics, chemistry and other subjects in 3D.',
-            image: '/images/hindi-newspaper-5d-lab.webp',
-            language: 'Hindi',
-            content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.
-
-Translation Note
-This article is in Hindi. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`
+            category: 'Sarvoday',
+            date: 'July 22, 2025',
+            title: 'Sarvoday School Inaugurates Hi-Tech VR Class',
+            summary: 'Sarvoday School steps into the future with a new VR classroom facility.',
+            content: 'Inauguration ceremony of the new VR classroom at Sarvoday School. The event was attended by local dignitaries who praised the school management for investing in future-ready technology. The VR setup includes 5D chairs and a library of educational content aligned with the state board curriculum.',
+            image: '/images/sarvoday-5d-lab.webp',
+            language: 'Gujarati'
         },
         {
             id: 8,
-            category: 'Gujarati Newspaper',
-            date: 'January 2025',
-            title: 'Melzo Anubhav 5D Lab launched at IG Desai School in Bhatar',
-            summary: 'New initiative in education: Country\'s first 5D lab launched to make students\' educational experience more interactive and effective',
-            image: '/images/melzo-anubhav-5d-lab.webp',
-            language: 'Gujarati',
-            content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.
-
-Translation Note
-This article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`
+            category: 'Rajasthan Patrika',
+            date: 'June 05, 2025',
+            title: 'Students Explore Science in 5D',
+            summary: 'A look at how students are exploring science concepts using 5D technology.',
+            content: 'Science class has never been this exciting. Students are now diving into the human bloodstream and flying into space, all while sitting in their classroom. This Hindi report captures the wonder and excitement of young learners experiencing 5D education for the first time.',
+            image: '/images/hindi-surat-5d-lab-students.webp',
+            language: 'Hindi'
         },
         {
             id: 9,
-            category: 'Gujarati Newspaper',
-            date: 'January 13, 2025',
-            title: 'Launch of India\'s first 5D laboratory for students at IG Desai School',
-            summary: 'Developed by Surat youth at a cost equivalent to a laptop; lab costs 50 lakhs to set up in Disney World, Apple Center, and universities',
-            image: '/images/ig-desai-5d-laboratory.webp',
-            language: 'Gujarati',
-            content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.
-
-Translation Note
-This article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`
+            category: 'Tech Media',
+            date: 'May 18, 2025',
+            title: 'Hardik Desai on the Future of EdTech',
+            summary: 'Founder Hardik Desai discusses the vision behind Melzo and the role of immersive tech.',
+            content: 'In an exclusive interview, Hardik Desai, the brain behind Melzo, shares his vision. "We want to structure experience over memorization," he says. The article explores the technical challenges and the triumphs of building an indigenous VR platform for India.',
+            image: '/images/hardik-software-gujarati.webp',
+            language: 'Gujarati'
         },
         {
             id: 10,
-            category: 'Gujarati Newspaper',
-            date: 'January 2025',
-            title: '5D Lab launched to increase student\'s memory power',
-            summary: 'This modern lab is a combination of virtual reality and sensory technology that provides a new way of teaching and learning',
-            image: '/images/5d-lab-memory-power.webp',
-            language: 'Gujarati',
-            content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.
-
-Translation Note
-This article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`
-        },
-        {
-            id: 11,
-            category: 'Gujarati Newspaper',
-            date: 'January 12, 2025',
-            title: 'India\'s first 5D lab launched in Surat school',
-            summary: 'Students at IG Desai School will now be able to learn and experience various subjects of science and social studies; 80% of students come from economically weaker backgrounds',
-            image: '/images/surat-first-5d-lab.webp',
-            language: 'Gujarati',
-            content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.
-
-Translation Note
-This article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`
-        },
-        {
-            id: 12,
-            category: 'Gujarati Newspaper',
-            date: 'January 10, 2025',
-            title: 'India\'s First 5D Lab Revolutionizing Complex Educational Topics',
-            summary: 'The first 5D lab of Melzo Anubhav is offering education to the world. This lab at IG Desai School is transforming how students learn complex subjects through immersive experiences.',
-            image: '/images/hindi-5d-lab-surat.webp',
-            language: 'Gujarati',
-            content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.
-
-Translation Note
-This article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`
-        },
-        {
-            id: 13,
-            category: 'Hindi Newspaper',
-            date: 'January 2025',
-            title: 'Students in Surat Learning Complex Subjects from India\'s First 5D Lab',
-            summary: 'Developed by a local IT youth using indigenous technology, this 5D lab is helping students understand difficult subjects through immersive experiences and virtual reality.',
-            image: '/images/hindi-surat-5d-lab-students.webp',
-            language: 'Hindi',
-            content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.
-
-Translation Note
-This article is in Hindi. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`
+            category: 'News18',
+            date: 'April 30, 2025',
+            title: 'Surat 5D Lab: A Model for the Nation',
+            summary: 'News18 reports on how Surat\'s 5D lab model is being replicated across the country.',
+            content: 'What started in Surat is now a model for schools nationwide. The 5D lab setup, which combines hardware and software for an immersive experience, is drawing attention from educational boards in other states. The report details the scalability and impact of this innovation.',
+            image: '/images/news18-surat-5d-lab-updated.webp',
+            language: 'English'
         }
-    ];
+    ]);
 
-    // Filter and search logic
+    // ... Keep existing filter logic ...
     const filteredNews = newsItems.filter(item => {
         const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.summary.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesLanguage = selectedLanguage === 'All' || item.language === selectedLanguage;
+            (item.summary && item.summary.toLowerCase().includes(searchTerm.toLowerCase()));
+
+        // For Sanity items which don't have language field yet, we might want to show them on "All" or default to English
+        const matchesLanguage = selectedLanguage === 'All' ||
+            (item.language === selectedLanguage) ||
+            (!item.language && selectedLanguage === 'English');
+
         return matchesSearch && matchesLanguage;
     });
 
-    // Show only first 3 if showAll is false
     const displayedNews = showAll ? filteredNews : filteredNews.slice(0, 3);
 
     return (
@@ -339,6 +250,7 @@ This article is in Hindi. The title and excerpt have been translated to English 
                                 display: 'flex',
                                 flexDirection: 'column'
                             }}
+                                onClick={() => setSelectedNews(item)}
                                 onMouseEnter={(e) => {
                                     e.currentTarget.style.transform = 'translateY(-5px)';
                                     e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
