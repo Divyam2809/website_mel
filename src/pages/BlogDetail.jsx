@@ -103,9 +103,15 @@ export default function BlogDetail({ onNavigate, isDarkTheme, onBookDemo, onTogg
                     paddingBottom: '80px'
                 }}>
                     <div style={{
-                        maxWidth: '800px',
+                        maxWidth: '900px',
                         margin: '0 auto',
-                        padding: '40px',
+                        padding: 'clamp(30px, 5vh, 60px) clamp(20px, 5vw, 80px)',
+                        background: isDarkTheme ? 'rgba(20, 20, 20, 0.6)' : 'rgba(255, 255, 255, 0.7)',
+                        backdropFilter: 'blur(20px)',
+                        WebkitBackdropFilter: 'blur(20px)',
+                        border: isDarkTheme ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid rgba(255, 255, 255, 0.3)',
+                        borderRadius: '32px',
+                        boxShadow: isDarkTheme ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)' : '0 25px 50px -12px rgba(0, 0, 0, 0.05)',
                     }}>
                         {/* Header */}
                         <header style={{ marginBottom: '4rem', textAlign: 'center' }}>
