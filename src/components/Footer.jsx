@@ -82,7 +82,7 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                             {[
                                 { name: 'linkedin', src: '/assets/linkedin.svg', link: 'https://www.linkedin.com/company/melzo/' },
                                 { name: 'instagram', src: '/assets/insta.svg', link: 'https://www.instagram.com/melzoanubhav' },
-                                { name: 'x', src: '/assets/x_logo.svg', link: 'https://x.com/melzo_e_learn?s=11' },
+                                { name: 'x', src: '/assets/x_logo.svg', link: 'https://x.com/Melzo_E_Learn' },
                                 { name: 'gmail', src: '/assets/gmail.svg', link: 'mailto:contact@melzo.com' }
                             ].map((social) => (
                                 <a key={social.name} href={social.link} target="_blank" rel="noopener noreferrer" style={{

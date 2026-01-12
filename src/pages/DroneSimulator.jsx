@@ -16,7 +16,7 @@ export default function DroneSimulator({ onNavigate, isDarkTheme, onBookDemo, on
                 currentPage="dronesimulator"
             />
             <div className={`vr-product-container ${themeClass}`}>
-                <section className="vr-product-hero" style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, ${isDarkTheme ? '0.7' : '0.5'}), rgba(0, 0, 0, ${isDarkTheme ? '0.7' : '0.5'})), url('/images/drone_simulator_hero.png')` }}>
+                <section className="vr-product-hero" style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, ${isDarkTheme ? '0.7' : '0.5'}), rgba(0, 0, 0, ${isDarkTheme ? '0.7' : '0.5'})), url('/images/drone_simulator_hero.webp')` }}>
                     <div className="vr-product-hero-content">
                         <div className="vr-product-badge">VR Drone Flight Academy</div>
                         <h1>Master the Skies Before You Touch the Controller</h1>

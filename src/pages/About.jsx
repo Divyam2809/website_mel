@@ -298,28 +298,28 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                                     subtitle: "Grand Challenge 2019",
                                     status: "Winner",
                                     prize: "$50,000",
-                                    icon: <img src="/images/whatsapp.png" alt="WhatsApp Startup India" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                                    icon: <img src="/images/whatsapp.webp" alt="WhatsApp Startup India" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                                 },
                                 {
                                     title: "Vibrant Gujarat",
                                     subtitle: "Startup Summit 2018",
                                     status: "Winner",
                                     prize: "₹30,00,000",
-                                    icon: <img src="/images/gujarat.png" alt="Vibrant Gujarat" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                                    icon: <img src="/images/gujarat.webp" alt="Vibrant Gujarat" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                                 },
                                 {
                                     title: "Dubai Future Accelerators",
                                     subtitle: "Cohort 7 & 8 (2020)",
                                     status: "Finalist",
                                     prize: "KHDA Challenge",
-                                    icon: <img src="/images/dubai.png" alt="Dubai Future Accelerators" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                                    icon: <img src="/images/dubai.webp" alt="Dubai Future Accelerators" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                                 },
                                 {
                                     title: "Data Innovation Bazaar",
                                     subtitle: "Western Digital 2020",
                                     status: "National Top 5",
                                     prize: "₹2,00,000",
-                                    icon: <img src="/images/data.png" alt="Data Innovation Bazaar" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                                    icon: <img src="/images/data.webp" alt="Data Innovation Bazaar" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                                 }
                             ].map((award, index) => (
                                 <div key={index} style={{
@@ -429,7 +429,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                         {/* CEO Section - Large Card */}
                         <div className="ceo-section">
                             <div className="ceo-box">
-                                <img src="/team/hardiksir.jpeg" className="ceo-img" alt="HARDIK DESAI" />
+                                <img src="/team/hardiksir.webp" className="ceo-img" alt="HARDIK DESAI" />
                                 <div className="ceo-info">
                                     <div className="ceo-name-container">
                                         <h3 className="ceo-firstname">HARDIK</h3>
@@ -443,10 +443,10 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                         {/* Team Members - Single Row */}
                         <div className="team-row">
                             {[
-                                { firstName: 'BHAVIK', surname: 'MEHTA', role: 'Chief Technology Officer', imgsrc: '/team/bhaviksir.png' },
-                                { firstName: 'SOMNATH', surname: 'CHAUDHARI', role: 'Sales Head', imgsrc: '/team/somnathsir.jpeg' },
-                                { firstName: 'TAPAN', surname: 'DESAI', role: 'Production Head', imgsrc: '/team/tapansir.jpeg' },
-                                { firstName: 'GAYATRI', surname: 'BANSHIWAL', role: 'SR. HR Manager', imgsrc: '/team/gayatrimaam.png' }
+                                { firstName: 'BHAVIK', surname: 'MEHTA', role: 'Chief Technology Officer', imgsrc: '/team/bhaviksir.webp' },
+                                { firstName: 'SOMNATH', surname: 'CHAUDHARI', role: 'Sales Head', imgsrc: '/team/somnathsir.webp' },
+                                { firstName: 'TAPAN', surname: 'DESAI', role: 'Production Head', imgsrc: '/team/tapansir.webp' },
+                                { firstName: 'GAYATRI', surname: 'BANSHIWAL', role: 'SR. HR Manager', imgsrc: '/team/gayatrimaam.webp' }
                             ].map((member, idx) => (
                                 <div key={idx} className="team-member-box">
                                     <img src={member.imgsrc} className="team-member-img" alt={`${member.firstName} ${member.surname}`} />
@@ -503,7 +503,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                             font-weight: 900;
                             line-height: 1;
                             margin: 0;
-                            color: #000000;
+                            color: #ffffff;
                             letter-spacing: -2px;
                             transition: transform 0.5s ease;
                         }
@@ -513,7 +513,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                             line-height: 1;
                             margin: 0;
                             margin-top: 5px;
-                            color: #000000;
+                            color: #ffffff;
                             letter-spacing: -1.5px;
                             opacity: 0.9;
                             transition: transform 0.5s ease;
