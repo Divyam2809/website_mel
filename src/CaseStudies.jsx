@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import AppNav from './components/AppNav';
 
 export default function CaseStudies({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
+    const [caseStudies, setCaseStudies] = useState([
+        {
+            title: 'XYZ University',
+            summary: 'Implemented VR Labs for 500+ students, resulting in 40% improved retention rates.'
+        },
+        {
+            title: 'Global Manufacturing Corp',
+            summary: 'Reduced safety training costs by 60% using our VR simulation modules.'
+        }
+    ]);
 
     return (
         <>
@@ -19,14 +29,12 @@ export default function CaseStudies({ onNavigate, isDarkTheme, onBookDemo, onTog
                     <p style={{ fontSize: '1.2rem', opacity: 0.8, marginBottom: '3rem' }}>See how our partners are transforming their operations with Melzo.</p>
 
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-                        <div style={{ padding: '2rem', background: isDarkTheme ? '#262626' : '#f5f5f5', borderRadius: '20px' }}>
-                            <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>XYZ University</h3>
-                            <p>Implemented VR Labs for 500+ students, resulting in 40% improved retention rates.</p>
-                        </div>
-                        <div style={{ padding: '2rem', background: isDarkTheme ? '#262626' : '#f5f5f5', borderRadius: '20px' }}>
-                            <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Global Manufacturing Corp</h3>
-                            <p>Reduced safety training costs by 60% using our VR simulation modules.</p>
-                        </div>
+                        {caseStudies.map((item, index) => (
+                            <div key={index} style={{ padding: '2rem', background: isDarkTheme ? '#262626' : '#f5f5f5', borderRadius: '20px' }}>
+                                <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>{item.title}</h3>
+                                <p>{item.summary}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>

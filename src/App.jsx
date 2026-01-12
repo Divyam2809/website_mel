@@ -32,6 +32,7 @@ const VRTourism = React.lazy(() => import('./pages/VRTourism'));
 const VirtualHeritage = React.lazy(() => import('./pages/VirtualHeritage'));
 const CityGuides = React.lazy(() => import('./pages/CityGuides'));
 const MelzoNews = React.lazy(() => import('./MelzoNews'));
+const BlogDetail = React.lazy(() => import('./pages/BlogDetail'));
 
 
 import Footer from './components/Footer';
@@ -160,6 +161,7 @@ export default function App() {
                         <Route path="/products" element={<Products {...commonProps} />} />
                         <Route path="/industries" element={<Industries {...commonProps} />} />
                         <Route path="/blog" element={<Blog {...commonProps} />} />
+                        <Route path="/blog/:slug" element={<BlogDetail {...commonProps} />} />
                         <Route path="/casestudies" element={<CaseStudies {...commonProps} />} />
                         <Route path="/faqs" element={<FAQs {...commonProps} />} />
                         <Route path="/about" element={<About {...commonProps} />} />

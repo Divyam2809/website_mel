@@ -3,12 +3,11 @@ import React, { useState } from 'react';
 import AppNav from './components/AppNav';
 
 export default function FAQs({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
-    const faqs = [
+    const [faqs, setFaqs] = useState([
         { q: 'What hardware is required?', a: 'Our solutions are compatible with major VR headsets like Oculus, HTC Vive, and Pico.' },
         { q: 'Can I customize the content?', a: 'Yes, we offer tailored content development services to meet specific curriculum or industry needs.' },
         { q: 'Do you offer on-site support?', a: 'We provide comprehensive installation, training, and 24/7 technical support.' }
-    ];
-
+    ]);
 
     return (
         <>
