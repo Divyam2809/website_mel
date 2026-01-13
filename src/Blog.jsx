@@ -1,161 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AppNav from './components/AppNav';
-import mockStorage from './services/mockStorage';
+import { blogData } from './data/blogData';
+import GridBackground from './components/GridBackground';
 
 export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
+    const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
-    const [selectedPost, setSelectedPost] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        loadPosts();
+        // Initial static data
+        const staticPosts = Object.entries(blogData).map(([slug, data]) => ({
+            slug,
+            ...data,
+            isStatic: true
+        }));
+
+        setPosts(staticPosts);
+        setLoading(false);
     }, []);
-
-    const loadPosts = async () => {
-        try {
-            const response = await mockStorage.getBlogs();
-            const visiblePosts = response.data
-                .filter(post => post.isVisible !== false)
-                .map(post => ({
-                    ...post,
-                    id: post._id,
-                    date: post.publishDate || post.date,
-                    authorName: post.author?.name || 'Melzo Team',
-                    role: post.author?.role || 'Contributor'
-                }));
-            setPosts(visiblePosts);
-
-            // Auto-open detailed post if one is "featured" or simply based on complexity? No, user clicks.
-        } catch (error) {
-            console.error('Failed to load blogs', error);
-        }
-    };
-
-    const renderContent = (content) => {
-        if (!content) return null;
-
-        // Handle simple string content (fallback for old blogs)
-        if (typeof content === 'string') {
-            return <div className="blog-content-text" dangerouslySetInnerHTML={{ __html: content }} />;
-        }
-
-        // Handle Rich Content Array
-        if (Array.isArray(content)) {
-            return content.map((block, idx) => {
-                switch (block.type) {
-                    case 'heading':
-                        return (
-                            <h3 key={idx} style={{
-                                fontSize: '1.8rem',
-                                fontWeight: 800,
-                                marginTop: '3rem',
-                                marginBottom: '1.5rem',
-                                color: isDarkTheme ? '#fff' : '#111'
-                            }}>
-                                {block.content}
-                            </h3>
-                        );
-                    case 'paragraph':
-                        return (
-                            <p key={idx} style={{
-                                fontSize: '1.15rem',
-                                lineHeight: 1.8,
-                                marginBottom: '1.5rem',
-                                opacity: 0.9,
-                                color: isDarkTheme ? '#eee' : '#333'
-                            }}>
-                                {block.content}
-                            </p>
-                        );
-                    case 'quote':
-                        return (
-                            <blockquote key={idx} style={{
-                                borderLeft: '4px solid #FF9B50',
-                                margin: '2.5rem 0',
-                                padding: '1.5rem 2rem',
-                                fontSize: '1.5rem',
-                                fontStyle: 'italic',
-                                background: isDarkTheme ? 'rgba(255, 155, 80, 0.1)' : 'rgba(255, 155, 80, 0.05)',
-                                borderRadius: '0 12px 12px 0',
-                                color: isDarkTheme ? '#FF9B50' : '#444'
-                            }}>
-                                "{block.content}"
-                            </blockquote>
-                        );
-                    case 'media':
-                        const src = (block.content && typeof block.content === 'object') ? block.content.url : block.content;
-                        const alt = (block.content && typeof block.content === 'object') ? block.content.alt : 'Blog Media';
-                        return <div key={idx} style={{ margin: '2rem 0' }}>{renderMedia(src, true, alt)}</div>;
-                    case 'list':
-                        return (
-                            <ul key={idx} style={{
-                                margin: '1.5rem 0',
-                                paddingLeft: '1.5rem',
-                                listStyle: 'none'
-                            }}>
-                                {block.items.map((item, i) => (
-                                    <li key={i} style={{
-                                        fontSize: '1.1rem',
-                                        marginBottom: '1rem',
-                                        lineHeight: 1.6,
-                                        display: 'flex',
-                                        gap: '12px'
-                                    }}>
-                                        <span style={{ color: '#FF9B50', fontWeight: 'bold' }}>•</span>
-                                        <span style={{ color: isDarkTheme ? '#eee' : '#333' }}>{item}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        );
-                    default:
-                        return null;
-                }
-            });
-        }
-        return null;
-    };
-
-    const renderMedia = (source, isDetail = false, altText = "Blog Media") => {
-        if (!source) return null;
-        // Simple check for video extensions or data URI mime type
-        const isVideo = source.match(/\.(mp4|webm|ogg)$/i) || source.startsWith('data:video');
-
-        if (isVideo) {
-            return (
-                <video
-                    src={source}
-                    style={{
-                        width: '100%',
-                        height: isDetail ? 'auto' : '200px',
-                        maxHeight: isDetail ? '600px' : 'none',
-                        objectFit: 'cover',
-                        borderRadius: isDetail ? '16px' : '16px 16px 0 0',
-                        marginBottom: isDetail ? '2rem' : '0',
-                        display: 'block'
-                    }}
-                    controls={isDetail}
-                    muted={!isDetail}
-                    autoPlay={!isDetail}
-                    loop
-                    playsInline
-                />
-            );
-        }
-        return (
-            <img
-                src={source}
-                alt={altText}
-                style={{
-                    width: '100%',
-                    height: isDetail ? 'auto' : '200px',
-                    maxHeight: isDetail ? '500px' : 'none',
-                    objectFit: 'cover',
-                    borderRadius: isDetail ? '16px' : '16px 16px 0 0',
-                    marginBottom: isDetail ? '2rem' : '0',
-                    display: 'block'
-                }}
-            />
-        );
-    };
 
     return (
         <>
@@ -166,117 +30,184 @@ export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                 onBookDemo={onBookDemo}
                 currentPage="blog"
             />
+            {/* Background Container */}
             <div style={{
-                backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff',
+                position: 'relative',
                 minHeight: '100vh',
-                padding: '120px 5% 60px',
-                color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
-                fontFamily: 'Inter, sans-serif'
+                overflow: 'hidden',
+                background: isDarkTheme
+                    ? 'linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%)'
+                    : 'linear-gradient(135deg, #FFF5EC 0%, #FFFFFF 100%)'
             }}>
-                <h1 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '3rem', color: '#FF9B50' }}>Melzo Blog</h1>
+                <GridBackground isDarkTheme={isDarkTheme} />
 
-                {selectedPost ? (
-                    // Detailed View
-                    <div style={{ maxWidth: '800px', margin: '0 auto', animation: 'fadeIn 0.5s ease' }}>
-                        <button
-                            onClick={() => setSelectedPost(null)}
-                            style={{
-                                background: 'transparent',
-                                border: 'none',
-                                color: isDarkTheme ? '#bbb' : '#666',
-                                cursor: 'pointer',
-                                fontSize: '1rem',
-                                marginBottom: '2rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px'
-                            }}
-                        >
-                            ← Back to Articles
-                        </button>
-
-                        {renderMedia(selectedPost.image, true)}
-
-                        <span style={{
-                            color: '#FF9B50',
-                            fontWeight: 700,
-                            textTransform: 'uppercase',
-                            letterSpacing: '1px',
-                            fontSize: '0.9rem'
-                        }}>
-                            {selectedPost.category || 'Opinion'}
-                        </span>
-
+                {/* Content Container */}
+                <div style={{
+                    position: 'relative',
+                    zIndex: 1,
+                    padding: '120px 5%',
+                    color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
+                    fontFamily: 'Inter, sans-serif',
+                }}>
+                    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
                         <h1 style={{
-                            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-                            fontWeight: 800,
-                            marginTop: '1rem',
-                            lineHeight: 1.1
+                            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                            fontWeight: 900,
+                            marginBottom: '3rem',
+                            color: isDarkTheme ? '#FFFFFF' : '#1A1A1A',
+                            textAlign: 'center',
+                            textShadow: isDarkTheme ? '0 0 40px rgba(255,155,80,0.3)' : 'none'
                         }}>
-                            {selectedPost.title}
+                            Latest <span style={{ color: '#FF9B50' }}>Insights</span>
                         </h1>
 
                         <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '1rem',
-                            margin: '2rem 0 3rem',
-                            paddingBottom: '2rem',
-                            borderBottom: isDarkTheme ? '1px solid #333' : '1px solid #eee'
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                            gap: '2.5rem'
                         }}>
-                            <div>
-                                <p style={{ fontWeight: 700, margin: 0 }}>{selectedPost.authorName}</p>
-                                <p style={{ fontSize: '0.9rem', opacity: 0.7, margin: 0 }}>{selectedPost.role} • {selectedPost.readTime ? `${selectedPost.readTime} min read` : selectedPost.date}</p>
-                            </div>
-                        </div>
+                            {loading ? (
+                                <p style={{ textAlign: 'center', width: '100%' }}>Loading posts...</p>
+                            ) : posts.length > 0 ? (
+                                posts.map((post) => (
+                                    <div key={post.slug}
+                                        style={{
+                                            padding: '2.5rem',
+                                            borderRadius: '24px',
+                                            background: isDarkTheme
+                                                ? 'rgba(30, 30, 30, 0.6)'
+                                                : 'rgba(255, 255, 255, 0.6)',
+                                            backdropFilter: 'blur(20px)',
+                                            WebkitBackdropFilter: 'blur(20px)',
+                                            border: isDarkTheme
+                                                ? '1px solid rgba(255, 255, 255, 0.08)'
+                                                : '1px solid rgba(0, 0, 0, 0.1)',
+                                            boxShadow: isDarkTheme
+                                                ? '0 10px 40px -10px rgba(0,0,0,0.5)'
+                                                : '0 10px 40px -10px rgba(0,0,0,0.1)',
+                                            transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                                            cursor: 'pointer',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                            height: '100%'
+                                        }}
+                                        onClick={() => navigate(`/blog/${post.slug}`)}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)';
+                                            e.currentTarget.style.borderColor = '#FF9B50';
+                                            e.currentTarget.style.boxShadow = isDarkTheme
+                                                ? '0 20px 60px -15px rgba(255, 155, 80, 0.15)'
+                                                : '0 20px 60px -15px rgba(255, 155, 80, 0.2)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                                            e.currentTarget.style.borderColor = isDarkTheme
+                                                ? 'rgba(255, 255, 255, 0.08)'
+                                                : 'rgba(0, 0, 0, 0.1)';
+                                            e.currentTarget.style.boxShadow = isDarkTheme
+                                                ? '0 10px 40px -10px rgba(0,0,0,0.5)'
+                                                : '0 10px 40px -10px rgba(0,0,0,0.1)';
+                                        }}
+                                    >
+                                        <div>
+                                            <div style={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                                marginBottom: '1.5rem',
+                                                flexWrap: 'wrap',
+                                                gap: '1rem'
+                                            }}>
+                                                {post.category && (
+                                                    <span style={{
+                                                        padding: '6px 14px',
+                                                        backgroundImage: 'linear-gradient(135deg, #FF9B50 0%, #FF9B50 100%)',
+                                                        color: 'white',
+                                                        borderRadius: '20px',
+                                                        fontSize: '0.75rem',
+                                                        fontWeight: 700,
+                                                        letterSpacing: '0.5px',
+                                                        boxShadow: '0 4px 10px rgba(255, 155, 80, 0.3)'
+                                                    }}>
+                                                        {post.category.toUpperCase()}
+                                                    </span>
+                                                )}
+                                                <span style={{
+                                                    opacity: 0.5,
+                                                    fontSize: '0.85rem',
+                                                    fontWeight: 500,
+                                                    letterSpacing: '0.5px'
+                                                }}>
+                                                    {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : post.publishDate}
+                                                </span>
+                                            </div>
 
-                        <div className="blog-body">
-                            {renderContent(selectedPost.content)}
+                                            <h2 style={{
+                                                fontSize: '1.75rem',
+                                                margin: '0 0 1rem 0',
+                                                lineHeight: 1.3,
+                                                fontWeight: 800,
+                                                background: isDarkTheme
+                                                    ? 'linear-gradient(to right, #fff, #bbb)'
+                                                    : 'linear-gradient(to right, #1A1A1A, #444)',
+                                                WebkitBackgroundClip: 'text',
+                                                WebkitTextFillColor: 'transparent',
+                                                display: 'inline-block'
+                                            }}>
+                                                {post.title}
+                                            </h2>
+
+                                            <p style={{
+                                                opacity: 0.8,
+                                                marginBottom: '2rem',
+                                                lineHeight: 1.6,
+                                                fontSize: '1rem'
+                                            }}>
+                                                {post.excerpt
+                                                    ? post.excerpt
+                                                    : (post.content && Array.isArray(post.content)
+                                                        ? post.content.find(b => b.type === 'paragraph')?.content?.substring(0, 120)
+                                                        : 'Click to read more...')}
+                                                ...
+                                            </p>
+                                        </div>
+
+                                        <div style={{ display: 'flex', alignItems: 'center', marginTop: 'auto' }}>
+                                            <button style={{
+                                                background: 'transparent',
+                                                border: 'none',
+                                                color: '#FF9B50',
+                                                padding: 0,
+                                                fontSize: '1rem',
+                                                fontWeight: 700,
+                                                cursor: 'pointer',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '8px'
+                                            }}
+                                            >
+                                                Read Article
+                                                <span style={{ fontSize: '1.2rem', transition: 'transform 0.3s' }}>→</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <div style={{
+                                    gridColumn: '1 / -1',
+                                    padding: '4rem',
+                                    textAlign: 'center',
+                                    background: isDarkTheme ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)',
+                                    borderRadius: '20px',
+                                    border: '1px dashed rgba(128,128,128,0.3)'
+                                }}>
+                                    <p style={{ opacity: 0.6, fontSize: '1.2rem' }}>No blog posts available at the moment.</p>
+                                </div>
+                            )}
                         </div>
                     </div>
-                ) : (
-                    // List View
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '2rem' }}>
-                        {posts.map((post) => (
-                            <div key={post.id} style={{
-                                padding: '0', // Removed padding to allow image full width
-                                borderRadius: '24px',
-                                background: isDarkTheme ? '#262626' : '#f9f9f9',
-                                border: '1px solid rgba(0,0,0,0.05)',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                transition: 'transform 0.3s ease',
-                                cursor: 'pointer',
-                                overflow: 'hidden'
-                            }}
-                                onClick={() => setSelectedPost(post)}
-                                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
-                                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-                            >
-                                {renderMedia(post.image, false)}
-                                <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem', fontSize: '0.9rem', opacity: 0.6 }}>
-                                        <span>{post.category || 'Article'}</span>
-                                        <span>{post.date}</span>
-                                    </div>
-                                    <h2 style={{ fontSize: '1.75rem', margin: '0 0 1rem', lineHeight: 1.3 }}>{post.title}</h2>
-                                    <p style={{ opacity: 0.8, lineHeight: 1.6, flex: 1, marginBottom: '2rem' }}>{post.excerpt}</p>
-                                    <div style={{
-                                        color: '#FF9B50',
-                                        fontWeight: 700,
-                                        fontSize: '1rem',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '8px',
-                                        marginTop: 'auto'
-                                    }}>
-                                        Read Article →
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
+                </div>
             </div>
             <style>{`
                 @keyframes fadeIn {

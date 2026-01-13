@@ -32,6 +32,9 @@ const VRTourism = React.lazy(() => import('./pages/VRTourism'));
 const VirtualHeritage = React.lazy(() => import('./pages/VirtualHeritage'));
 const CityGuides = React.lazy(() => import('./pages/CityGuides'));
 const MelzoNews = React.lazy(() => import('./MelzoNews'));
+const BlogDetail = React.lazy(() => import('./pages/BlogDetail'));
+const NotFound = React.lazy(() => import('./pages/NotFound'));
+
 
 // Admin Panel Components
 const AdminLogin = React.lazy(() => import('./components/admin/AdminLogin'));
@@ -40,8 +43,14 @@ const ContentManager = React.lazy(() => import('./components/admin/ContentManage
 
 import Footer from './components/Footer';
 import BookDemo from './components/BookDemo';
+import Toast from './components/Toast';
+import ProductComparison from './components/ProductComparison';
 
 import { Routes, Route, useNavigate, useLocation, Navigate, useParams } from 'react-router-dom';
+
+import usePageTitle from './hooks/usePageTitle';
+import useMetaDescription from './hooks/useMetaDescription';
+import { useToast } from './hooks/useToast';
 
 // Wrapper for GenericProduct to extract route params
 const GenericProductWrapper = (props) => {
@@ -52,68 +61,30 @@ const GenericProductWrapper = (props) => {
 export default function App() {
     const [isDarkTheme, setIsDarkTheme] = useState(false);
     const [isDemoOpen, setIsDemoOpen] = useState(false);
-    const cursorRef = useRef(null);
-    const cursorDotRef = useRef(null);
+    const [isComparisonOpen, setIsComparisonOpen] = useState(false);
 
     const navigate = useNavigate();
     const location = useLocation();
+    const { toasts, removeToast, success, error, warning, info } = useToast();
 
-    // Custom cursor effect
-    useEffect(() => {
-        // ... (keeping existing cursor logic exactly as is)
-        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-        const cursor = cursorRef.current;
-        const cursorDot = cursorDotRef.current;
+    // Call custom hooks for SEO
+    usePageTitle();
+    useMetaDescription();
 
-        if (!cursor || !cursorDot) return;
 
-        if (isTouchDevice) {
-            cursor.style.display = 'none';
-            cursorDot.style.display = 'none';
-            return;
-        }
-
-        const moveCursor = (e) => {
-            cursor.style.left = `${e.clientX}px`;
-            cursor.style.top = `${e.clientY}px`;
-            cursorDot.style.left = `${e.clientX}px`;
-            cursorDot.style.top = `${e.clientY}px`;
-        };
-
-        const handleMouseOver = (e) => {
-            const target = e.target;
-            if (
-                target.tagName === 'A' ||
-                target.tagName === 'BUTTON' ||
-                target.closest('a') ||
-                target.closest('button') ||
-                target.style.cursor === 'pointer'
-            ) {
-                cursor.classList.add('hover');
-                cursorDot.classList.add('hover');
-            }
-        };
-
-        const handleMouseOut = () => {
-            cursor.classList.remove('hover');
-            cursorDot.classList.remove('hover');
-        };
-
-        window.addEventListener('mousemove', moveCursor);
-        document.addEventListener('mouseover', handleMouseOver);
-        document.addEventListener('mouseout', handleMouseOut);
-
-        return () => {
-            window.removeEventListener('mousemove', moveCursor);
-            document.removeEventListener('mouseover', handleMouseOver);
-            document.removeEventListener('mouseout', handleMouseOut);
-        };
-    }, []);
 
     // Scroll to top when path changes
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [location.pathname]);
+
+    // PREVENT SCROLL RESTORATION ON REFRESH
+    useEffect(() => {
+        if ('scrollRestoration' in window.history) {
+            window.history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+    }, []);
 
     // Loading Fallback
     const PageLoader = () => (
@@ -130,17 +101,40 @@ export default function App() {
     );
 
     // Navigation Adapter for existing components
-    const handleNavigate = (page) => {
-        if (page === 'home') navigate('/home');
-        else if (page.startsWith('product-')) navigate(`/product/${page.replace('product-', '')}`);
-        else navigate(`/${page}`);
+    const handleNavigate = (page, options = {}) => {
+        // Known top-level pages that should stay at the root
+        const topLevelPages = [
+            'home',
+            'products',
+            'industries',
+            'blog',
+            'casestudies',
+            'faqs',
+            'about',
+            'guidelines',
+            'melzonews'
+        ];
+
+        // Normalized page string (handle lowercase/trim if needed, though usually strict)
+        const targetPage = page.toLowerCase();
+
+        if (topLevelPages.includes(targetPage)) {
+            navigate(`/${targetPage}`, options);
+        } else if (targetPage.startsWith('product-')) {
+            // Handle generic product wrapper links (e.g. product-custom-solutions)
+            navigate(`/products/${targetPage.replace('product-', '')}`, options);
+        } else {
+            // Assume it's a specific product page and route to /products/<name>
+            navigate(`/products/${targetPage}`, options);
+        }
     };
 
     // Helper to determine active "page" for AppNav highlighting
     const getCurrentPage = () => {
         const path = location.pathname;
         if (path === '/' || path === '/home') return 'home';
-        if (path.startsWith('/product/')) return 'product-' + path.split('/')[2];
+        // if path is /products/something, we might still want to highlight 'products'
+        if (path.startsWith('/products')) return 'products';
         return path.substring(1);
     };
 
@@ -149,6 +143,8 @@ export default function App() {
         isDarkTheme,
         onBookDemo: () => setIsDemoOpen(true),
         onToggleTheme: () => setIsDarkTheme(!isDarkTheme),
+        onCompareProducts: () => setIsComparisonOpen(true),
+        showToast: { success, error, warning, info },
         scrollToContact: () => {
             const footer = document.getElementById('footer-contact');
             if (footer) footer.scrollIntoView({ behavior: 'smooth' });
@@ -167,9 +163,7 @@ export default function App() {
 
     return (
         <>
-            {/* Custom Cursor Elements */}
-            <div ref={cursorRef} className="custom-cursor"></div>
-            <div ref={cursorDotRef} className="custom-cursor-dot"></div>
+
 
             <div style={{ backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff', minHeight: '100vh', color: isDarkTheme ? '#FFFFFF' : '#2D2D2D', fontFamily: 'Inter, sans-serif', transition: 'all 0.3s ease' }}>
 
@@ -179,47 +173,45 @@ export default function App() {
                         <Route path="/" element={<Navigate to="/home" replace />} />
                         <Route path="/home" element={<Home {...commonProps} />} />
                         <Route path="/products" element={<Products {...commonProps} />} />
-                        <Route path="/anubhav" element={<AnubhavProduct {...commonProps} />} />
                         <Route path="/industries" element={<Industries {...commonProps} />} />
                         <Route path="/blog" element={<Blog {...commonProps} />} />
+                        <Route path="/blog/:slug" element={<BlogDetail {...commonProps} />} />
                         <Route path="/casestudies" element={<CaseStudies {...commonProps} />} />
                         <Route path="/faqs" element={<FAQs {...commonProps} />} />
                         <Route path="/about" element={<About {...commonProps} />} />
                         <Route path="/guidelines" element={<Guidelines {...commonProps} />} />
-
-                        {/* Dynamic Product Route */}
-                        <Route path="/product/:productId" element={<GenericProductWrapper {...commonProps} />} />
-
-                        {/* Individual Product Pages */}
-                        <Route path="/ninedchair" element={<NineDChair {...commonProps} />} />
-                        <Route path="/fivedchair" element={<FiveDChair {...commonProps} />} />
-                        <Route path="/vrlab" element={<VRLab {...commonProps} />} />
-                        <Route path="/vrelearning" element={<VRElearning {...commonProps} />} />
-                        <Route path="/vrerp" element={<VRERP {...commonProps} />} />
-                        <Route path="/vrindustrial" element={<VRIndustrial {...commonProps} />} />
-                        <Route path="/vranimalsurgery" element={<VRAnimalSurgery {...commonProps} />} />
-                        <Route path="/vrudyog" element={<VRUdyog {...commonProps} />} />
-                        <Route path="/vrrealestate" element={<VRRealEstate {...commonProps} />} />
-                        <Route path="/vrhospitality" element={<VRHospitality {...commonProps} />} />
-                        <Route path="/vrexhibition" element={<VRExhibition {...commonProps} />} />
-                        <Route path="/vrkala" element={<VRKala {...commonProps} />} />
-                        <Route path="/vrcrimescene" element={<VRCrimeScene {...commonProps} />} />
-                        <Route path="/dronesimulator" element={<DroneSimulator {...commonProps} />} />
-                        <Route path="/aircraftsimulator" element={<AircraftSimulator {...commonProps} />} />
-                        <Route path="/vrdefence" element={<VRDefence {...commonProps} />} />
-                        <Route path="/vrlivestream" element={<VRLiveStream {...commonProps} />} />
-                        <Route path="/vrtourism" element={<VRTourism {...commonProps} />} />
-                        <Route path="/virtualheritage" element={<VirtualHeritage {...commonProps} />} />
-                        <Route path="/cityguides" element={<CityGuides {...commonProps} />} />
                         <Route path="/melzonews" element={<MelzoNews {...commonProps} />} />
 
-                        {/* Admin Panel */}
-                        <Route path="/admin/login" element={<AdminLogin />} />
-                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                        <Route path="/admin/content/:type" element={<ContentManager />} />
+                        {/* Product Pages Redesigned Route Structure */}
 
-                        {/* Fallback */}
-                        <Route path="*" element={<Navigate to="/home" replace />} />
+                        {/* Dynamic Generic Product Route */}
+                        <Route path="/products/:productId" element={<GenericProductWrapper {...commonProps} />} />
+
+                        {/* Specific Product Routes (Nested under /products/ for cleaner browsing) */}
+                        <Route path="/products/anubhav" element={<AnubhavProduct {...commonProps} />} />
+                        <Route path="/products/ninedchair" element={<NineDChair {...commonProps} />} />
+                        <Route path="/products/fivedchair" element={<FiveDChair {...commonProps} />} />
+                        <Route path="/products/vrlab" element={<VRLab {...commonProps} />} />
+                        <Route path="/products/vrelearning" element={<VRElearning {...commonProps} />} />
+                        <Route path="/products/vrerp" element={<VRERP {...commonProps} />} />
+                        <Route path="/products/vrindustrial" element={<VRIndustrial {...commonProps} />} />
+                        <Route path="/products/vranimalsurgery" element={<VRAnimalSurgery {...commonProps} />} />
+                        <Route path="/products/vrudyog" element={<VRUdyog {...commonProps} />} />
+                        <Route path="/products/vrrealestate" element={<VRRealEstate {...commonProps} />} />
+                        <Route path="/products/vrhospitality" element={<VRHospitality {...commonProps} />} />
+                        <Route path="/products/vrexhibition" element={<VRExhibition {...commonProps} />} />
+                        <Route path="/products/vrkala" element={<VRKala {...commonProps} />} />
+                        <Route path="/products/vrcrimescene" element={<VRCrimeScene {...commonProps} />} />
+                        <Route path="/products/dronesimulator" element={<DroneSimulator {...commonProps} />} />
+                        <Route path="/products/aircraftsimulator" element={<AircraftSimulator {...commonProps} />} />
+                        <Route path="/products/vrdefence" element={<VRDefence {...commonProps} />} />
+                        <Route path="/products/vrlivestream" element={<VRLiveStream {...commonProps} />} />
+                        <Route path="/products/vrtourism" element={<VRTourism {...commonProps} />} />
+                        <Route path="/products/virtualheritage" element={<VirtualHeritage {...commonProps} />} />
+                        <Route path="/products/cityguides" element={<CityGuides {...commonProps} />} />
+
+                        {/* Fallback - 404 Page */}
+                        <Route path="*" element={<NotFound {...commonProps} />} />
                     </Routes>
                 </Suspense>
 
@@ -236,6 +228,90 @@ export default function App() {
                 onClose={() => setIsDemoOpen(false)}
                 isDarkTheme={isDarkTheme}
             />
+
+            {/* Product Comparison Modal */}
+            {isComparisonOpen && (
+                <ProductComparison
+                    isDarkTheme={isDarkTheme}
+                    onClose={() => setIsComparisonOpen(false)}
+                />
+            )}
+
+            {/* Toast Notifications */}
+            {toasts.map(toast => (
+                <Toast
+                    key={toast.id}
+                    message={toast.message}
+                    type={toast.type}
+                    duration={toast.duration}
+                    onClose={() => removeToast(toast.id)}
+                />
+            ))}
+
+            {/* Scroll To Top Button */}
+            <ScrollToTopButton isDarkTheme={isDarkTheme} />
+
+
+        </>
+    );
+}
+
+
+
+// Internal ScrollToTop Component
+function ScrollToTopButton({ isDarkTheme }) {
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const toggleVisibility = () => {
+            if (window.pageYOffset > 300) {
+                setIsVisible(true);
+            } else {
+                setIsVisible(false);
+            }
+        };
+
+        window.addEventListener('scroll', toggleVisibility);
+        return () => window.removeEventListener('scroll', toggleVisibility);
+    }, []);
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
+
+    return (
+        <>
+            {isVisible && (
+                <button
+                    onClick={scrollToTop}
+                    style={{
+                        position: 'fixed',
+                        bottom: '30px',
+                        right: '30px',
+                        backgroundColor: 'transparent',
+                        color: '#FF9B50',
+                        width: '50px',
+                        height: '50px',
+                        borderRadius: '50%',
+                        border: '2px solid #FF9B50',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '1.5rem',
+                        boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                        zIndex: 1000,
+                        transition: 'transform 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
+                    onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                >
+                    ↑
+                </button>
+            )}
         </>
     );
 }

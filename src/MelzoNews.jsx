@@ -7,37 +7,124 @@ export default function MelzoNews({ onNavigate, isDarkTheme, onBookDemo, onToggl
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLanguage, setSelectedLanguage] = useState('All');
     const [showAll, setShowAll] = useState(false);
-    const [newsItems, setNewsItems] = useState([]);
 
-    useEffect(() => {
-        loadNews();
-    }, []);
-
-    const loadNews = async () => {
-        try {
-            const response = await mockStorage.getNews();
-            const validNews = response.data
-                .filter(item => item.isVisible !== false) // Default to true if undefined
-                .map(item => ({
-                    ...item,
-                    id: item._id,
-                    summary: item.excerpt || item.summary, // Fallback for summary
-                }));
-            setNewsItems(validNews);
-        } catch (error) {
-            console.error('Error loading news:', error);
+    // State for news data
+    const [newsItems, setNewsItems] = useState([
+        {
+            id: 1,
+            category: 'Times of India',
+            date: 'January 10, 2026',
+            title: 'VR chairs bring classrooms to life for SMC students',
+            summary: 'The Surat Municipal Corporation (SMC) has introduced high-tech VR chairs to enhance learning experiences in municipal schools.',
+            content: 'In a first-of-its-kind initiative, the Surat Municipal Corporation (SMC) has deployed Virtual Reality (VR) chairs in its schools. This move aims to modernize education and provide students with immersive learning opportunities. The 5D chairs allow students to experience educational content in a realistic, engaging manner, covering subjects from science to history. Officials state this will significantly improve retention and student interest.',
+            image: '/images/toi-vr-chairs-smc.webp',
+            language: 'English'
+        },
+        {
+            id: 2,
+            category: 'News18 Gujarati',
+            date: 'December 12, 2025',
+            title: 'Surat: First 5D Education Lab Launched',
+            summary: 'News18 Gujarati covers the inauguration of the first 5D Education Lab in Surat, revolutionizing local education.',
+            content: 'Surat witnesses a major leap in educational technology with the launch of its first 5D Education Lab. This facility, powered by Melzo, offers students a unique way to learn complex concepts. The report highlights the enthusiasm among students and teachers alike as they embrace this new era of digital learning.',
+            image: '/images/news18-gujarat-5d-lab.webp',
+            language: 'Gujarati'
+        },
+        {
+            id: 3,
+            category: 'Indian Express',
+            date: 'November 05, 2025',
+            title: 'I.G. Desai School Adopts VR Learning',
+            summary: 'The Indian Express features I.G. Desai School\'s adoption of Melzo\'s VR solutions for their curriculum.',
+            content: 'I.G. Desai School has become a pioneer in adopting Virtual Reality for school education. By integrating Melzo\'s VR modules, the school aims to provide a holistic learning environment. The principal emphasized that visual learning through VR helps students grasp difficult topics with ease.',
+            image: '/images/indian-express-5d-lab.webp',
+            language: 'English'
+        },
+        {
+            id: 4,
+            category: 'Divya Bhaskar',
+            date: 'October 20, 2025',
+            title: 'Virtual Reality: The Future of School Education',
+            summary: 'Divya Bhaskar discusses how VR labs are becoming the new standard in Gujarati medium schools.',
+            content: 'A detailed report on how Virtual Reality technology is transforming the educational landscape in Gujarat. The article features interviews with students who describe their experience as "magical" and "unforgettable". It also notes the cost-effectiveness of these digital labs compared to traditional physical labs.',
+            image: '/images/divya-bhaskar-5d-lab.webp',
+            language: 'Gujarati'
+        },
+        {
+            id: 5,
+            category: 'Gujarat Samachar',
+            date: 'September 15, 2025',
+            title: 'Melzo Anubhav: 5D Lab Success Story',
+            summary: 'Coverage of the successful implementation of Melzo Anubhav 5D labs in multiple districts.',
+            content: 'The Melzo Anubhav initiative has reached a milestone with successful implementations in Surat and surrounding districts. The 5D labs are not just about watching videos; they provide a sensory experience that aids memory retention. The article outlines future plans to expand this model to rural schools.',
+            image: '/images/gujarati-newspaper-5d-lab.webp',
+            language: 'Gujarati'
+        },
+        {
+            id: 6,
+            category: 'Dainik Bhaskar',
+            date: 'August 10, 2025',
+            title: 'Hindi Medium Schools Embrace VR Tech',
+            summary: 'how Hindi medium schools are bridging the digital divide using VR technology.',
+            content: 'Breaking language barriers, Melzo\'s localized content is now empowering Hindi medium schools. The report focuses on a school in Surat where students are learning geography and history through VR headsets, making education interactive and fun.',
+            image: '/images/hindi-newspaper-5d-lab.webp',
+            language: 'Hindi'
+        },
+        {
+            id: 7,
+            category: 'Sarvoday',
+            date: 'July 22, 2025',
+            title: 'Sarvoday School Inaugurates Hi-Tech VR Class',
+            summary: 'Sarvoday School steps into the future with a new VR classroom facility.',
+            content: 'Inauguration ceremony of the new VR classroom at Sarvoday School. The event was attended by local dignitaries who praised the school management for investing in future-ready technology. The VR setup includes 5D chairs and a library of educational content aligned with the state board curriculum.',
+            image: '/images/sarvoday-5d-lab.webp',
+            language: 'Gujarati'
+        },
+        {
+            id: 8,
+            category: 'Rajasthan Patrika',
+            date: 'June 05, 2025',
+            title: 'Students Explore Science in 5D',
+            summary: 'A look at how students are exploring science concepts using 5D technology.',
+            content: 'Science class has never been this exciting. Students are now diving into the human bloodstream and flying into space, all while sitting in their classroom. This Hindi report captures the wonder and excitement of young learners experiencing 5D education for the first time.',
+            image: '/images/hindi-surat-5d-lab-students.webp',
+            language: 'Hindi'
+        },
+        {
+            id: 9,
+            category: 'Tech Media',
+            date: 'May 18, 2025',
+            title: 'Hardik Desai on the Future of EdTech',
+            summary: 'Founder Hardik Desai discusses the vision behind Melzo and the role of immersive tech.',
+            content: 'In an exclusive interview, Hardik Desai, the brain behind Melzo, shares his vision. "We want to structure experience over memorization," he says. The article explores the technical challenges and the triumphs of building an indigenous VR platform for India.',
+            image: '/images/hardik-software-gujarati.webp',
+            language: 'Gujarati'
+        },
+        {
+            id: 10,
+            category: 'News18',
+            date: 'April 30, 2025',
+            title: 'Surat 5D Lab: A Model for the Nation',
+            summary: 'News18 reports on how Surat\'s 5D lab model is being replicated across the country.',
+            content: 'What started in Surat is now a model for schools nationwide. The 5D lab setup, which combines hardware and software for an immersive experience, is drawing attention from educational boards in other states. The report details the scalability and impact of this innovation.',
+            image: '/images/news18-surat-5d-lab-updated.webp',
+            language: 'English'
         }
-    };
+    ]);
 
-    // Filter and search logic
+    // ... Keep existing filter logic ...
     const filteredNews = newsItems.filter(item => {
         const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.summary.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesLanguage = selectedLanguage === 'All' || item.language === selectedLanguage;
+            (item.summary && item.summary.toLowerCase().includes(searchTerm.toLowerCase()));
+
+        // For Sanity items which don't have language field yet, we might want to show them on "All" or default to English
+        const matchesLanguage = selectedLanguage === 'All' ||
+            (item.language === selectedLanguage) ||
+            (!item.language && selectedLanguage === 'English');
+
         return matchesSearch && matchesLanguage;
     });
 
-    // Show only first 3 if showAll is false
     const displayedNews = showAll ? filteredNews : filteredNews.slice(0, 3);
 
     return (
@@ -157,20 +244,24 @@ export default function MelzoNews({ onNavigate, isDarkTheme, onBookDemo, onToggl
                             <div key={item.id} style={{
                                 background: isDarkTheme ? '#262626' : '#ffffff',
                                 borderRadius: '16px',
-                                border: '1px solid rgba(0,0,0,0.05)',
+                                border: isDarkTheme ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.12)',
+                                boxShadow: isDarkTheme ? '0 4px 20px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.08)',
                                 overflow: 'hidden',
-                                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                                transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
                                 cursor: 'pointer',
                                 display: 'flex',
                                 flexDirection: 'column'
                             }}
+                                onClick={() => setSelectedNews(item)}
                                 onMouseEnter={(e) => {
                                     e.currentTarget.style.transform = 'translateY(-5px)';
-                                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+                                    e.currentTarget.style.boxShadow = isDarkTheme ? '0 12px 30px rgba(0,0,0,0.5)' : '0 12px 30px rgba(0,0,0,0.15)';
+                                    e.currentTarget.style.borderColor = '#FF9B50';
                                 }}
                                 onMouseLeave={(e) => {
                                     e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.boxShadow = 'none';
+                                    e.currentTarget.style.boxShadow = isDarkTheme ? '0 4px 20px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.08)';
+                                    e.currentTarget.style.borderColor = isDarkTheme ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.12)';
                                 }}
                             >
                                 {/* Placeholder for Image if we had real ones, mostly just gradient for now */}

@@ -103,31 +103,31 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                 }}>
                     {industries.map((industry, index) => {
                         const bgImage = {
-                            'education': '/images/education_modal_vr.jpg',
-                            'csr': '/images/csr-bg.jpg',
-                            'government': '/images/government-bg.jpg', // Assuming you might have these, or fallback
-                            'defence': '/images/defence-bg.jpg'
+                            'education': '/images/education_modal_vr.webp',
+                            'csr': '/images/csr-bg.webp',
+                            'government': '/images/government-bg.webp', // Assuming you might have these, or fallback
+                            'defence': '/images/defence-bg.webp'
                         }[industry.id] || '/images/default-industry.jpg';
 
                         // Specific Content for the new card format
                         const cardData = {
                             'education': {
 
-                                image: '/images/education_modal_vr.jpg',
+                                image: '/images/education_modal_vr.webp',
                                 summary: 'Curriculum-aligned VR labs for Science, Math, History, Geography.',
                                 impact: 'Improve student retention rates by up to 75% and save 60% on physical lab infrastructure.',
                                 details: '• K-12 Integration\n• STEM Labs\n• Teacher Training'
                             },
                             'csr': {
 
-                                image: '/images/csr-bg.jpg',
+                                image: '/images/csr-bg.webp',
                                 summary: 'Measurable impact, scalable deployment, and comprehensive reporting.',
                                 impact: 'Directly reached 15,000+ beneficiaries in rural sectors with quantifiable skill improvements.',
                                 details: '• Rural Development\n• Skill Alignment\n• Impact Reports'
                             },
                             'government': {
 
-                                image: '/images/government-bg.jpg',
+                                image: '/images/government-bg.webp',
                                 summary: 'Skill development, safety training, and immersive awareness programs.',
                                 impact: 'Standardized training for 50,000+ personnel with zero safety incidents during simulation.',
                                 details: '• Public Safety\n• Urban Planning\n• Civic Awareness'
@@ -313,7 +313,7 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             <div style={{
                                 width: '100%',
                                 height: '300px',
-                                backgroundImage: 'url(/images/education_modal_vr.jpg)',
+                                backgroundImage: 'url(/images/education_modal_vr.webp)',
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                                 position: 'relative'

@@ -652,5 +652,58 @@
         grid-template-columns: 1fr !important;
     }
 }
+
 /* Orange accent bar on hover */
-div:hover > .accent-bar { opacity: 1 !important; }
+div:hover>.accent-bar {
+    opacity: 1 !important;
+}
+
+/* ===== Keyboard Navigation Focus Indicators ===== */
+/* Global focus styles for accessibility */
+*:focus {
+    outline: 2px solid #FF9B50;
+    outline-offset: 2px;
+}
+
+*:focus:not(:focus-visible) {
+    outline: none;
+}
+
+*:focus-visible {
+    outline: 2px solid #FF9B50;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(255, 155, 80, 0.2);
+}
+
+/* Button focus styles */
+button:focus-visible {
+    outline: 2px solid #FF9B50;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(255, 155, 80, 0.2);
+}
+
+/* Input focus styles */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid #FF9B50;
+    outline-offset: 0;
+    border-color: #FF9B50 !important;
+}
+
+/* Link focus styles */
+a:focus-visible {
+    outline: 2px solid #FF9B50;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ===== Image Lazy Loading ===== */
+img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+}
+
+img[loading="lazy"].loaded {
+    opacity: 1;
+}

@@ -4,12 +4,13 @@ import { OrbitControls, Stage, useGLTF, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import Guidelines from '../Guidelines';
 import GridBackground from '../components/GridBackground';
+import ExpandableText from '../components/ExpandableText';
 
 
 
 // 3D Model Component - loads the GLB file with dynamic path
 function ChairModel({ modelPath }) {
-    const { scene } = useGLTF(modelPath);
+    const { scene } = useGLTF(modelPath, '/draco-gltf/');
     return <primitive object={scene} scale={30} position={[0, +0.2, 0]} rotation={[0, Math.PI * 0.15, 0]} />;
 }
 
@@ -44,7 +45,7 @@ function VideoGallery({ videos, isDarkTheme }) {
             </h2>
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
                 gap: '2rem',
                 maxWidth: '1200px',
                 margin: '0 auto'
@@ -59,16 +60,22 @@ function VideoGallery({ videos, isDarkTheme }) {
                         width: '100%',
                         margin: '0 auto'
                     }}>
+                        {/* Force hide controls with CSS */}
+                        <style>{`
+                            video::-webkit-media-controls { display: none !important; }
+                            video::-webkit-media-controls-enclosure { display: none !important; }
+                        `}</style>
                         <video
-                            controls
                             autoPlay
                             loop
                             muted
                             playsInline
+                            controls={false}
                             style={{
                                 width: '100%',
                                 display: 'block',
-                                backgroundColor: '#000'
+                                backgroundColor: '#000',
+                                pointerEvents: 'none' // Prevent interaction
                             }}
                             poster={video.thumbnail ? `/assets/videos/${video.thumbnail}` : undefined}
                         >
@@ -556,7 +563,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
             date: 'January 12, 2025',
             title: 'In a first, 5D laboratory in Surat school to help students \'hear, visualise\' curriculum',
             description: 'On Friday, the Sarvoday trust-run school at Bhatar launched the Melzo Anubhav 5D lab, which the school authorities claimed, is the first initiative of its kind for students.',
-            image: '/images/news-1.jpg',
+            image: '/images/news_indian_express.webp',
             link: '#'
         },
         {
@@ -565,7 +572,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
             date: 'January 14, 2025',
             title: 'Surat student\'s turn! India\'s first 5D lab launched in this school',
             description: 'IG Desai School in Surat has launched India\'s first 5D lab. This lab will help school students understand science and social science subjects easily and experience them in re...',
-            image: '/images/news-2.jpg',
+            image: '/images/news_news18_gujarat.webp',
             link: '#'
         },
         {
@@ -574,7 +581,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
             date: 'January 2025',
             title: 'IIT pass Gujarati created 5D lab for children',
             description: 'Students can see the outside world from a small room with 5D virtual-sensory chair; Education with VR, AR, AI\'s vision',
-            image: '/images/news-3.jpg',
+            image: '/images/gujarati-newspaper-5d-lab.webp',
             link: '#'
         },
         {
@@ -583,7 +590,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
             date: 'January 25, 2025',
             title: 'Anubhav VR Lab: Revolutionizing Classroom Learning',
             description: 'Students can now explore complex scientific concepts through immersive VR experiences, making learning interactive and fun.',
-            image: '/images/news-4.jpg',
+            image: '/images/toi-vr-chairs-smc-full.webp',
             link: '#'
         },
         {
@@ -592,7 +599,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
             date: 'February 2, 2025',
             title: 'Top EdTech Innovations of 2025: Melzo Anubhav Leads the Way',
             description: 'Recognized for its impact on student engagement and retention, Melzo Anubhav is setting new standards in educational technology.',
-            image: '/images/news-5.jpg',
+            image: '/images/education-img.webp',
             link: '#'
         },
         {
@@ -601,7 +608,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
             date: 'February 10, 2025',
             title: 'Bridging the Gap: How 5D Labs are Transforming Rural Education',
             description: 'Access to advanced learning tools is no longer limited to urban centers. 5D labs are bringing world-class education to every corner of India.',
-            image: '/images/news-6.jpg',
+            image: '/assets/vr_elearning_hero.webp',
             link: '#'
         }
     ];
@@ -648,16 +655,38 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
             <div style={{ backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff', minHeight: '100vh', color: isDarkTheme ? '#FFFFFF' : '#2D2D2D', fontFamily: 'Inter, sans-serif' }}>
 
 
-                <main style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    minHeight: '80vh',
-                    alignItems: 'center',
-                    padding: '120px 5% 0 5%',
-                    gap: '3rem',
-                    position: 'relative',
-                    overflow: 'hidden'
-                }}>
+                <style>{`
+                    .anubhav-hero-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        min-height: 80vh;
+                        align-items: center;
+                        padding: 120px 5% 0 5%;
+                        gap: 3rem;
+                        position: relative;
+                        overflow: hidden;
+                    }
+                    .anubhav-model-section {
+                        height: 70vh;
+                        min-height: 500px;
+                        position: relative;
+                    }
+                    
+                    @media (max-width: 968px) {
+                        .anubhav-hero-grid {
+                            grid-template-columns: 1fr;
+                            padding-top: 100px;
+                            height: auto;
+                            min-height: auto;
+                            padding-bottom: 3rem;
+                        }
+                        .anubhav-model-section {
+                            height: 50vh;
+                            min-height: 300px; 
+                        }
+                    }
+                `}</style>
+                <main className="anubhav-hero-grid">
                     {/* Grid Overlay Background */}
                     <GridBackground isDarkTheme={isDarkTheme} />
 
@@ -665,7 +694,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                     <section style={{ maxWidth: '550px', position: 'relative', zIndex: 2 }}>
 
                         <img
-                            src="/assets/Melzo_Anubhav_Logo.png"
+                            src="/assets/Melzo_Anubhav_Logo.webp"
                             alt="Melzo Anubhav Logo"
                             style={{
                                 maxWidth: '250px',
@@ -748,7 +777,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                                 }}
                                 onMouseLeave={(e) => {
                                     e.target.style.background = 'transparent';
-                                    e.target.style.color = '#2D2D2D';
+                                    e.target.style.color = isDarkTheme ? '#FFFFFF' : '#2D2D2D';
                                     e.target.style.transform = 'translateY(0)';
                                 }}>
                                 View Guidelines
@@ -802,11 +831,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                     </section>
 
                     {/* Right Side: 3D Viewer */}
-                    <section style={{
-                        height: '70vh',
-                        minHeight: '500px',
-                        position: 'relative'
-                    }}>
+                    <section className="anubhav-model-section">
                         <div style={{
                             width: '100%',
                             height: '100%',
@@ -1607,7 +1632,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                                     <div>
                                         <span style={{ fontWeight: 700, color: isDarkTheme ? '#eee' : '#333' }}>7 degree of Immersion: </span>
                                         <span style={{ color: isDarkTheme ? '#aaa' : '#555' }}>
-                                            360° Rotation, Vibration, <span style={{ color: '#FF4D4D', fontWeight: 600 }}>Rocking, Recliner</span>, Mist, Air Blasts, Fragrance
+                                            360° Rotation, Vibration, <span style={{ color: '#FF9B50', fontWeight: 600 }}>Rocking, Recliner</span>, Mist, Air Blasts, Fragrance
                                         </span>
                                     </div>
                                     {[
@@ -1627,222 +1652,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                     </div>
                 </section>
 
-                {/* Media Coverage & Recognition Section */}
-                <section style={{
-                    padding: '5rem 5%',
-                    backgroundColor: isDarkTheme ? '#0F0F0F' : '#F8F8F8',
-                    borderTop: isDarkTheme ? '1px solid #262626' : '1px solid #E5E5E5',
-                    borderBottom: isDarkTheme ? '1px solid #262626' : '1px solid #E5E5E5',
-                    position: 'relative',
-                    overflow: 'hidden'
-                }}>
-                    {/* Background decoration */}
-                    <div style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: '800px',
-                        height: '800px',
-                        background: 'radial-gradient(circle, rgba(255, 155, 80, 0.03) 0%, transparent 70%)',
-                        borderRadius: '50%',
-                        pointerEvents: 'none'
-                    }} />
 
-                    <div style={{
-                        maxWidth: '1400px',
-                        margin: '0 auto',
-                        position: 'relative',
-                        zIndex: 1
-                    }}>
-                        <div style={{
-                            textAlign: 'center',
-                            marginBottom: '5rem'
-                        }}>
-                            <h2 style={{
-                                fontSize: 'clamp(2rem, 4vw, 2.8rem)',
-                                fontWeight: 900,
-                                letterSpacing: '-1px',
-                                marginBottom: '1rem',
-                                color: '#FF9B50'
-                            }}>
-                                Media Coverage
-                            </h2>
-
-
-                        </div>
-
-                        {/* News Articles Grid */}
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-                            gap: '2rem'
-                        }}>
-                            {allArticles.slice(0, visibleArticles).map((article, index) => (
-                                <div
-                                    key={index}
-                                    style={{
-                                        backgroundColor: isDarkTheme ? '#1A1A1A' : '#FFFFFF',
-                                        borderRadius: '12px',
-                                        overflow: 'hidden',
-                                        boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-                                        transition: 'all 0.3s ease',
-                                        cursor: 'pointer',
-                                        border: isDarkTheme ? '1px solid #262626' : '1px solid #E5E5E5'
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.transform = 'translateY(-8px)';
-                                        e.currentTarget.style.boxShadow = '0 12px 30px rgba(255, 155, 80, 0.2)';
-                                        e.currentTarget.style.borderColor = '#FF9B50';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.transform = 'translateY(0)';
-                                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
-                                        e.currentTarget.style.borderColor = isDarkTheme ? '#262626' : '#E5E5E5';
-                                    }}
-                                >
-                                    {/* Article Image */}
-                                    <div style={{
-                                        width: '100%',
-                                        height: '200px',
-                                        backgroundColor: isDarkTheme ? '#262626' : '#F5F5F5',
-                                        position: 'relative',
-                                        overflow: 'hidden'
-                                    }}>
-                                        {/* Placeholder for image */}
-                                        <div style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            background: 'linear-gradient(135deg, rgba(255, 155, 80, 0.1) 0%, rgba(255, 155, 80, 0.05) 100%)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            fontSize: '3rem'
-                                        }}>
-                                            📰
-                                        </div>
-
-                                        {/* Publication Badge */}
-                                        <div style={{
-                                            position: 'absolute',
-                                            top: '12px',
-                                            left: '12px',
-                                            backgroundColor: article.publicationColor,
-                                            color: '#FFFFFF',
-                                            padding: '0.4rem 0.8rem',
-                                            borderRadius: '6px',
-                                            fontSize: '0.75rem',
-                                            fontWeight: 700,
-                                            textTransform: 'uppercase',
-                                            letterSpacing: '0.5px'
-                                        }}>
-                                            {article.publication}
-                                        </div>
-                                    </div>
-
-                                    {/* Article Content */}
-                                    <div style={{
-                                        padding: '1.5rem'
-                                    }}>
-                                        {/* Date */}
-                                        <div style={{
-                                            fontSize: '0.85rem',
-                                            color: isDarkTheme ? '#AAA' : '#666',
-                                            marginBottom: '0.8rem',
-                                            fontWeight: 500
-                                        }}>
-                                            {article.date}
-                                        </div>
-
-                                        {/* Title */}
-                                        <h3 style={{
-                                            fontSize: '1.2rem',
-                                            fontWeight: 700,
-                                            lineHeight: '1.4',
-                                            marginBottom: '0.8rem',
-                                            color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
-                                            minHeight: '3.4rem'
-                                        }}>
-                                            {article.title}
-                                        </h3>
-
-                                        {/* Description */}
-                                        <p style={{
-                                            fontSize: '0.95rem',
-                                            lineHeight: '1.6',
-                                            color: isDarkTheme ? '#AAA' : '#666',
-                                            marginBottom: '1.2rem',
-                                            minHeight: '4.8rem'
-                                        }}>
-                                            {article.description}
-                                        </p>
-
-                                        {/* Read More Link */}
-                                        <a
-                                            href={article.link}
-                                            style={{
-                                                color: '#FF9B50',
-                                                fontSize: '0.9rem',
-                                                fontWeight: 600,
-                                                textDecoration: 'none',
-                                                display: 'inline-flex',
-                                                alignItems: 'center',
-                                                gap: '0.5rem',
-                                                transition: 'all 0.3s ease'
-                                            }}
-                                            onMouseEnter={(e) => {
-                                                e.currentTarget.style.gap = '0.8rem';
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                e.currentTarget.style.gap = '0.5rem';
-                                            }}
-                                        >
-                                            Read Full Article
-                                            <span style={{ fontSize: '1.2rem' }}>→</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* More Articles Button */}
-                        {visibleArticles < allArticles.length && (
-                            <div style={{
-                                textAlign: 'center',
-                                marginTop: '3rem'
-                            }}>
-                                <button
-                                    onClick={() => setVisibleArticles(prev => prev + 3)}
-                                    style={{
-                                        background: 'transparent',
-                                        color: '#FF9B50',
-                                        border: '2px solid #FF9B50',
-                                        padding: '0.8rem 2rem',
-                                        borderRadius: '30px',
-                                        fontWeight: 700,
-                                        fontSize: '1rem',
-                                        cursor: 'pointer',
-                                        display: 'inline-flex',
-                                        alignItems: 'center',
-                                        gap: '0.5rem',
-                                        transition: 'all 0.3s ease'
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.target.style.background = '#FF9B50';
-                                        e.target.style.color = '#fff';
-                                        e.target.style.gap = '0.8rem';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.target.style.background = 'transparent';
-                                        e.target.style.color = '#FF9B50';
-                                        e.target.style.gap = '0.5rem';
-                                    }}>
-                                    More Articles <span style={{ fontSize: '1.2rem' }}>→</span>
-                                </button>
-                            </div>
-                        )}
-                    </div>
-                </section>
             </div >
         </>
     );
