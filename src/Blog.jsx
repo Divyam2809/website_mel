@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppNav from './components/AppNav';
-import { blogData } from './data/blogData';
+import mockStorage from './services/mockStorage';
 import GridBackground from './components/GridBackground';
 
 export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
@@ -10,15 +10,21 @@ export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Initial static data
-        const staticPosts = Object.entries(blogData).map(([slug, data]) => ({
-            slug,
-            ...data,
-            isStatic: true
-        }));
+        const fetchPosts = async () => {
+            try {
+                const response = await mockStorage.getBlogs();
+                const visiblePosts = response.data.filter(post =>
+                    post.status === 'Published' || (!post.status && post.isVisible !== false)
+                );
+                setPosts(visiblePosts);
+            } catch (error) {
+                console.error("Failed to load blogs", error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-        setPosts(staticPosts);
-        setLoading(false);
+        fetchPosts();
     }, []);
 
     return (
@@ -61,16 +67,12 @@ export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                             Latest <span style={{ color: '#FF9B50' }}>Insights</span>
                         </h1>
 
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                            gap: '2.5rem'
-                        }}>
+                        <div className="blog-grid">
                             {loading ? (
                                 <p style={{ textAlign: 'center', width: '100%' }}>Loading posts...</p>
                             ) : posts.length > 0 ? (
                                 posts.map((post) => (
-                                    <div key={post.slug}
+                                    <div key={post._id || post.slug}
                                         style={{
                                             padding: '2.5rem',
                                             borderRadius: '24px',
@@ -111,6 +113,31 @@ export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                                         }}
                                     >
                                         <div>
+                                            {/* Featured Image */}
+                                            {post.image && (
+                                                <div style={{
+                                                    width: '100%',
+                                                    height: '200px',
+                                                    marginBottom: '1.5rem',
+                                                    borderRadius: '16px',
+                                                    overflow: 'hidden',
+                                                    boxShadow: '0 8px 20px rgba(0,0,0,0.1)'
+                                                }}>
+                                                    <img
+                                                        src={post.image}
+                                                        alt={post.title}
+                                                        style={{
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            objectFit: 'cover',
+                                                            transition: 'transform 0.5s ease'
+                                                        }}
+                                                        onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+                                                        onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                                                    />
+                                                </div>
+                                            )}
+
                                             <div style={{
                                                 display: 'flex',
                                                 justifyContent: 'space-between',
@@ -210,6 +237,21 @@ export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                 </div>
             </div>
             <style>{`
+                .blog-grid {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 2.5rem;
+                }
+                @media (min-width: 768px) {
+                    .blog-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+                }
+                @media (min-width: 1024px) {
+                    .blog-grid {
+                        grid-template-columns: repeat(3, 1fr);
+                    }
+                }
                 @keyframes fadeIn {
                     from { opacity: 0; transform: translateY(20px); }
                     to { opacity: 1; transform: translateY(0); }

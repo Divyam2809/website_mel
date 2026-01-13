@@ -40,6 +40,7 @@ const NotFound = React.lazy(() => import('./pages/NotFound'));
 const AdminLogin = React.lazy(() => import('./components/admin/AdminLogin'));
 const AdminDashboard = React.lazy(() => import('./components/admin/AdminDashboard'));
 const ContentManager = React.lazy(() => import('./components/admin/ContentManager'));
+const BlogForm = React.lazy(() => import('./components/admin/BlogForm'));
 
 import Footer from './components/Footer';
 import BookDemo from './components/BookDemo';
@@ -215,6 +216,8 @@ export default function App() {
                         <Route path="/admin/login" element={<AdminLogin />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
                         <Route path="/admin/content/:moduleType" element={<ContentManager />} />
+                        <Route path="/admin/editor" element={<BlogForm />} />
+                        <Route path="/admin/editor/:slug" element={<BlogForm />} />
 
                         {/* Fallback - 404 Page */}
                         <Route path="*" element={<NotFound {...commonProps} />} />

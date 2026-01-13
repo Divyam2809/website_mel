@@ -4,51 +4,53 @@ import GridBackground from '../components/GridBackground';
 
 import AppNav from '../components/AppNav';
 
+import mockStorage from '../services/mockStorage';
+
 export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const [isVisible, setIsVisible] = useState(false);
-
-    // Initial Static Data
-    const [awards, setAwards] = useState([
-        {
-            title: "WhatsApp Startup India",
-            subtitle: "Grand Challenge 2019",
-            status: "Winner",
-            prize: "$50,000",
-            image: "/images/whatsapp.webp"
-        },
-        {
-            title: "Vibrant Gujarat",
-            subtitle: "Startup Summit 2018",
-            status: "Winner",
-            prize: "₹30,00,000",
-            image: "/images/gujarat.webp"
-        },
-        {
-            title: "Dubai Future Accelerators",
-            subtitle: "Cohort 7 & 8 (2020)",
-            status: "Finalist",
-            prize: "KHDA Challenge",
-            image: "/images/dubai.webp"
-        },
-        {
-            title: "Data Innovation Bazaar",
-            subtitle: "Western Digital 2020",
-            status: "National Top 5",
-            prize: "₹2,00,000",
-            image: "/images/data.webp"
-        }
-    ]);
-
-    const [team, setTeam] = useState([
-        { firstName: 'HARDIK', surname: 'DESAI', role: 'Founder & CEO', image: '/team/hardiksir.webp' },
-        { firstName: 'BHAVIK', surname: 'MEHTA', role: 'Chief Technology Officer', image: '/team/bhaviksir.webp' },
-        { firstName: 'SOMNATH', surname: 'CHAUDHARI', role: 'Sales Head', image: '/team/somnathsir.webp' },
-        { firstName: 'TAPAN', surname: 'DESAI', role: 'Production Head', image: '/team/tapansir.webp' },
-        { firstName: 'GAYATRI', surname: 'BANSHIWAL', role: 'SR. HR Manager', image: '/team/gayatrimaam.webp' }
-    ]);
+    const [awards, setAwards] = useState([]);
+    const [team, setTeam] = useState([]);
 
     useEffect(() => {
         setIsVisible(true);
+
+        const fetchData = async () => {
+            try {
+                // Fetch Awards
+                const awardsRes = await mockStorage.getAwards();
+                const visibleAwards = awardsRes.data.filter(a =>
+                    a.status === 'Published' || (!a.status && a.isVisible !== false)
+                ).map(a => ({
+                    ...a,
+                    subtitle: a.organization, // Map organization to subtitle
+                    status: a.awardLevel || 'Recognition', // Map awardLevel to display status
+                    // prize is already prize
+                }));
+                setAwards(visibleAwards);
+
+                // Fetch Team
+                const teamRes = await mockStorage.getTeamDetails();
+                const visibleTeam = teamRes.data.filter(t =>
+                    t.status === 'Published' || (!t.status && t.isVisible !== false)
+                ).map(t => {
+                    const nameParts = (t.name || '').split(' ');
+                    const firstName = nameParts[0] || '';
+                    const surname = nameParts.slice(1).join(' ') || '';
+                    return {
+                        ...t,
+                        firstName: firstName.toUpperCase(),
+                        surname: surname.toUpperCase(),
+                        role: t.position,
+                        image: t.image
+                    };
+                });
+                setTeam(visibleTeam);
+
+            } catch (error) {
+                console.error("Failed to load About page data", error);
+            }
+        };
+        fetchData();
     }, []);
 
     const fadeInUp = {

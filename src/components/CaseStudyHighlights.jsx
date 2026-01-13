@@ -1,6 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import mockStorage from '../services/mockStorage';
 
 export default function CaseStudyHighlights({ isDarkTheme }) {
+    const [caseStudies, setCaseStudies] = useState([]);
+
+    useEffect(() => {
+        const fetchStudies = async () => {
+            try {
+                const response = await mockStorage.getCaseStudies();
+                // Take first 4 visible case studies
+                const visible = response.data.filter(s =>
+                    s.status === 'Published' || (!s.status && s.isVisible !== false)
+                ).slice(0, 4);
+                setCaseStudies(visible);
+            } catch (error) {
+                console.error("Failed to load case studies", error);
+            }
+        };
+        fetchStudies();
+    }, []);
+
     return (
         <section style={{
             padding: '5rem 5%'
@@ -36,229 +55,68 @@ export default function CaseStudyHighlights({ isDarkTheme }) {
                     gap: '2rem',
                     marginBottom: '3rem'
                 }}>
-                    {/* Case Study 1 */}
-                    <div style={{
-                        background: isDarkTheme ? '#262626' : '#ffffff',
-                        padding: '2rem',
-                        borderRadius: '12px',
-                        border: '1px solid rgba(0,0,0,0.05)',
-                        transition: 'all 0.3s ease',
-                        cursor: 'pointer'
-                    }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'translateY(-5px)';
-                            e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
-                            e.currentTarget.style.borderColor = '#FF9B50';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = 'none';
-                            e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
-                        }}
-                    >
-                        <div style={{
-                            width: '50px',
-                            height: '50px',
-                            background: '#ff9c5090',
-                            borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginBottom: '1.5rem',
-                            boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
-                        }}>
-                            <div style={{
-                                width: '18px',
-                                height: '18px',
-                                border: '2.5px solid white',
-                                transform: 'rotate(45deg)'
-                            }} />
+                    {caseStudies.length > 0 ? (
+                        caseStudies.map((study) => (
+                            <div key={study._id} style={{
+                                background: isDarkTheme ? '#262626' : '#ffffff',
+                                padding: '2rem',
+                                borderRadius: '12px',
+                                border: '1px solid rgba(0,0,0,0.05)',
+                                transition: 'all 0.3s ease',
+                                cursor: 'pointer'
+                            }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-5px)';
+                                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
+                                    e.currentTarget.style.borderColor = '#FF9B50';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                    e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
+                                }}
+                            >
+                                <div style={{
+                                    width: '50px',
+                                    height: '50px',
+                                    background: '#ff9c5090',
+                                    borderRadius: '50%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    marginBottom: '1.5rem',
+                                    boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
+                                }}>
+                                    <div style={{
+                                        width: '18px',
+                                        height: '18px',
+                                        border: '2.5px solid white',
+                                        transform: 'rotate(45deg)'
+                                    }} />
+                                </div>
+                                <h3 style={{
+                                    fontSize: '1.3rem',
+                                    fontWeight: 700,
+                                    marginBottom: '0.5rem',
+                                    color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
+                                }}>
+                                    {study.title}
+                                </h3>
+                                <p style={{
+                                    fontSize: '1.05rem',
+                                    lineHeight: '1.6',
+                                    color: '#FF9B50',
+                                    fontWeight: 600
+                                }}>
+                                    {study.description}
+                                </p>
+                            </div>
+                        ))
+                    ) : (
+                        <div style={{ textAlign: 'center', gridColumn: '1/-1', opacity: 0.5, color: isDarkTheme ? '#fff' : '#000' }}>
+                            <p>No case studies available.</p>
                         </div>
-                        <h3 style={{
-                            fontSize: '1.3rem',
-                            fontWeight: 700,
-                            marginBottom: '0.5rem',
-                            color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
-                        }}>
-                            Surat CBSE School
-                        </h3>
-                        <p style={{
-                            fontSize: '1.05rem',
-                            lineHeight: '1.6',
-                            color: '#FF9B50',
-                            fontWeight: 600
-                        }}>
-                            15% rise in admissions
-                        </p>
-                    </div>
-
-                    {/* Case Study 2 */}
-                    <div style={{
-                        background: isDarkTheme ? '#262626' : '#ffffff',
-                        padding: '2rem',
-                        borderRadius: '12px',
-                        border: '1px solid rgba(0,0,0,0.05)',
-                        transition: 'all 0.3s ease',
-                        cursor: 'pointer'
-                    }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'translateY(-5px)';
-                            e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
-                            e.currentTarget.style.borderColor = '#FF9B50';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = 'none';
-                            e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
-                        }}
-                    >
-                        <div style={{
-                            width: '50px',
-                            height: '50px',
-                            background: '#ff9c5090',
-                            borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginBottom: '1.5rem',
-                            boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
-                        }}>
-                            <div style={{
-                                width: '18px',
-                                height: '18px',
-                                border: '2.5px solid white',
-                                transform: 'rotate(45deg)'
-                            }} />
-                        </div>
-                        <h3 style={{
-                            fontSize: '1.3rem',
-                            fontWeight: 700,
-                            marginBottom: '0.5rem',
-                            color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
-                        }}>
-                            Ahmedabad Govt School
-                        </h3>
-                        <p style={{
-                            fontSize: '1.05rem',
-                            lineHeight: '1.6',
-                            color: '#FF9B50',
-                            fontWeight: 600
-                        }}>
-                            Improved science comprehension
-                        </p>
-                    </div>
-
-                    {/* Case Study 3 */}
-                    <div style={{
-                        background: isDarkTheme ? '#262626' : '#ffffff',
-                        padding: '2rem',
-                        borderRadius: '12px',
-                        border: '1px solid rgba(0,0,0,0.05)',
-                        transition: 'all 0.3s ease',
-                        cursor: 'pointer'
-                    }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'translateY(-5px)';
-                            e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
-                            e.currentTarget.style.borderColor = '#FF9B50';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = 'none';
-                            e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
-                        }}
-                    >
-                        <div style={{
-                            width: '50px',
-                            height: '50px',
-                            background: '#ff9c5090',
-                            borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginBottom: '1.5rem',
-                            boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
-                        }}>
-                            <div style={{
-                                width: '18px',
-                                height: '18px',
-                                border: '2.5px solid white',
-                                transform: 'rotate(45deg)'
-                            }} />
-                        </div>
-                        <h3 style={{
-                            fontSize: '1.3rem',
-                            fontWeight: 700,
-                            marginBottom: '0.5rem',
-                            color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
-                        }}>
-                            CSR Program (Gujarat)
-                        </h3>
-                        <p style={{
-                            fontSize: '1.05rem',
-                            lineHeight: '1.6',
-                            color: '#FF9B50',
-                            fontWeight: 600
-                        }}>
-                            1,200 students/year impact
-                        </p>
-                    </div>
-
-                    {/* Case Study 4 */}
-                    <div style={{
-                        background: isDarkTheme ? '#262626' : '#ffffff',
-                        padding: '2rem',
-                        borderRadius: '12px',
-                        border: '1px solid rgba(0,0,0,0.05)',
-                        transition: 'all 0.3s ease',
-                        cursor: 'pointer'
-                    }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'translateY(-5px)';
-                            e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
-                            e.currentTarget.style.borderColor = '#FF9B50';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = 'none';
-                            e.currentTarget.style.borderColor = 'rgba(0,0,0,0.05)';
-                        }}
-                    >
-                        <div style={{
-                            width: '50px',
-                            height: '50px',
-                            background: '#ff9c5090',
-                            borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginBottom: '1.5rem',
-                            boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)'
-                        }}>
-                            <div style={{
-                                width: '18px',
-                                height: '18px',
-                                border: '2.5px solid white',
-                                transform: 'rotate(45deg)'
-                            }} />
-                        </div>
-                        <h3 style={{
-                            fontSize: '1.3rem',
-                            fontWeight: 700,
-                            marginBottom: '0.5rem',
-                            color: isDarkTheme ? '#FFFFFF' : '#2D2D2D'
-                        }}>
-                            Polytechnic Institute
-                        </h3>
-                        <p style={{
-                            fontSize: '1.05rem',
-                            lineHeight: '1.6',
-                            color: '#FF9B50',
-                            fontWeight: 600
-                        }}>
-                            Safer industrial training
-                        </p>
-                    </div>
+                    )}
                 </div>
 
                 {/* CTA Button */}

@@ -70,6 +70,14 @@ body:has(.admin-header) *,
 .admin-header a,
 .admin-container [role="button"],
 .module-card,
+.content-module-card,
+.sidebar-item,
+.admin-header img,
+.file-upload-zone,
+.edit-btn,
+.delete-btn,
+select,
+.admin-container select,
 button,
 a,
 [onclick] {
@@ -78,10 +86,8 @@ a,
 
 .admin-container input,
 .admin-container textarea,
-.admin-container select,
 input,
-textarea,
-select {
+textarea {
     cursor: text !important;
 }
 
