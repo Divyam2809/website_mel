@@ -33,6 +33,11 @@ const VirtualHeritage = React.lazy(() => import('./pages/VirtualHeritage'));
 const CityGuides = React.lazy(() => import('./pages/CityGuides'));
 const MelzoNews = React.lazy(() => import('./MelzoNews'));
 
+// Admin Panel Components
+const AdminLogin = React.lazy(() => import('./components/admin/AdminLogin'));
+const AdminDashboard = React.lazy(() => import('./components/admin/AdminDashboard'));
+const ContentManager = React.lazy(() => import('./components/admin/ContentManager'));
+
 import Footer from './components/Footer';
 import BookDemo from './components/BookDemo';
 
@@ -208,13 +213,20 @@ export default function App() {
                         <Route path="/cityguides" element={<CityGuides {...commonProps} />} />
                         <Route path="/melzonews" element={<MelzoNews {...commonProps} />} />
 
+                        {/* Admin Panel */}
+                        <Route path="/admin/login" element={<AdminLogin />} />
+                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                        <Route path="/admin/content/:type" element={<ContentManager />} />
+
                         {/* Fallback */}
                         <Route path="*" element={<Navigate to="/home" replace />} />
                     </Routes>
                 </Suspense>
 
-                {/* Common Footer for all pages */}
-                <Footer isDarkTheme={isDarkTheme} onNavigate={handleNavigate} />
+                {/* Common Footer for all pages - Hidden on Admin Routes */}
+                {!location.pathname.startsWith('/admin') && (
+                    <Footer isDarkTheme={isDarkTheme} onNavigate={handleNavigate} />
+                )}
 
             </div>
 
