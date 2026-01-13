@@ -11,8 +11,11 @@ export default function DataStrip() {
         }}>
             <div style={{
                 display: 'flex',
-                animation: 'scroll 30s linear infinite',
-                whiteSpace: 'nowrap'
+                animation: 'scroll 20s linear infinite',
+                whiteSpace: 'nowrap',
+                willChange: 'transform',
+                backfaceVisibility: 'hidden',
+                transform: 'translateZ(0)'
             }}>
                 {/* Duplicate content for seamless loop */}
                 {[1, 2, 3].map((_, index) => (
@@ -71,8 +74,8 @@ export default function DataStrip() {
             </div>
             <style>{`
                 @keyframes scroll {
-                    0% { transform: translateX(0); }
-                    100% { transform: translateX(-33.333%); }
+                    0% { transform: translate3d(0, 0, 0); }
+                    100% { transform: translate3d(-33.333%, 0, 0); }
                 }
             `}</style>
         </section>

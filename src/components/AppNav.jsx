@@ -62,7 +62,7 @@ export default function AppNav({ onNavigate, isDarkTheme, onToggleTheme, onBookD
                 left: 0,
                 width: '100%',
                 boxSizing: 'border-box',
-                backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff',
+                backgroundColor: isDarkTheme ? '#403d3dff' : '#ffffff',
                 zIndex: 1000,
                 borderBottom: isDarkTheme ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(255,255,255,0.5)',
                 boxShadow: isDarkTheme ? '0 8px 32px 0 rgba(0, 0, 0, 0.2)' : '0 8px 32px 0 rgba(31, 38, 135, 0.1)',

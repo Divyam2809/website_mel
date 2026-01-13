@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 export default function Footer({ isDarkTheme, onNavigate }) {
     const navigate = useNavigate();
     const textColor = isDarkTheme ? '#E0E0E0' : '#2D2D2D';
-    const subTextColor = isDarkTheme ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.6)';
-    const bgColor = isDarkTheme ? '#0F0F0F' : '#F5F5F5';
-    const borderColor = isDarkTheme ? '#FF9B50' : 'rgba(0, 0, 0, 0.1)';
+    const subTextColor = isDarkTheme ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)';
+    const bgColor = isDarkTheme ? '#0F0F0F' : '#FFFFFF';
+    const borderColor = isDarkTheme ? 'rgba(255, 155, 80, 0.3)' : 'rgba(255, 155, 80, 0.3)';
     const iconBg = isDarkTheme ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
 
     const exploreLinks = [
@@ -19,17 +19,20 @@ export default function Footer({ isDarkTheme, onNavigate }) {
     return (
         <footer id="footer-contact" style={{
             backgroundColor: bgColor,
-            padding: '8rem 5% 4rem',
+            padding: '4rem 5%',
             marginTop: '5rem',
             color: textColor,
             transition: 'background-color 0.3s ease, color 0.3s ease',
             position: 'relative',
-            clipPath: 'polygon(0 100px, 50% 0, 100% 100px, 100% 100%, 0 100%)'
+            borderTop: `1px solid ${borderColor}`,
+            boxShadow: isDarkTheme
+                ? 'none'
+                : '0 -4px 20px rgba(0, 0, 0, 0.05)'
         }}>
 
 
 
-            <hr style={{ borderColor: borderColor, opacity: 0.2, marginBottom: '4rem', maxWidth: '1400px', margin: '0 auto 4rem auto' }} />
+            <hr style={{ borderColor: borderColor, opacity: 0.3, marginBottom: '4rem', maxWidth: '1400px', margin: '0 auto 4rem auto' }} />
 
             <div style={{
                 maxWidth: '1400px',

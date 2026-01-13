@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppNav from './components/AppNav';
 import { blogData } from './data/blogData';
-import ModernGradientBackground from './components/ModernGradientBackground';
+import GridBackground from './components/GridBackground';
 
 export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const navigate = useNavigate();
@@ -31,8 +31,15 @@ export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                 currentPage="blog"
             />
             {/* Background Container */}
-            <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-                <ModernGradientBackground isDarkTheme={isDarkTheme} />
+            <div style={{
+                position: 'relative',
+                minHeight: '100vh',
+                overflow: 'hidden',
+                background: isDarkTheme
+                    ? 'linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%)'
+                    : 'linear-gradient(135deg, #FFF5EC 0%, #FFFFFF 100%)'
+            }}>
+                <GridBackground isDarkTheme={isDarkTheme} />
 
                 {/* Content Container */}
                 <div style={{
@@ -74,10 +81,10 @@ export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                                             WebkitBackdropFilter: 'blur(20px)',
                                             border: isDarkTheme
                                                 ? '1px solid rgba(255, 255, 255, 0.08)'
-                                                : '1px solid rgba(255, 255, 255, 0.4)',
+                                                : '1px solid rgba(0, 0, 0, 0.1)',
                                             boxShadow: isDarkTheme
                                                 ? '0 10px 40px -10px rgba(0,0,0,0.5)'
-                                                : '0 10px 40px -10px rgba(0,0,0,0.05)',
+                                                : '0 10px 40px -10px rgba(0,0,0,0.1)',
                                             transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                                             cursor: 'pointer',
                                             display: 'flex',
@@ -91,16 +98,16 @@ export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                                             e.currentTarget.style.borderColor = '#FF9B50';
                                             e.currentTarget.style.boxShadow = isDarkTheme
                                                 ? '0 20px 60px -15px rgba(255, 155, 80, 0.15)'
-                                                : '0 20px 60px -15px rgba(255, 155, 80, 0.15)';
+                                                : '0 20px 60px -15px rgba(255, 155, 80, 0.2)';
                                         }}
                                         onMouseLeave={(e) => {
                                             e.currentTarget.style.transform = 'translateY(0) scale(1)';
                                             e.currentTarget.style.borderColor = isDarkTheme
                                                 ? 'rgba(255, 255, 255, 0.08)'
-                                                : 'rgba(255, 255, 255, 0.4)';
+                                                : 'rgba(0, 0, 0, 0.1)';
                                             e.currentTarget.style.boxShadow = isDarkTheme
                                                 ? '0 10px 40px -10px rgba(0,0,0,0.5)'
-                                                : '0 10px 40px -10px rgba(0,0,0,0.05)';
+                                                : '0 10px 40px -10px rgba(0,0,0,0.1)';
                                         }}
                                     >
                                         <div>

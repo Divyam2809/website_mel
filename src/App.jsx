@@ -33,14 +33,19 @@ const VirtualHeritage = React.lazy(() => import('./pages/VirtualHeritage'));
 const CityGuides = React.lazy(() => import('./pages/CityGuides'));
 const MelzoNews = React.lazy(() => import('./MelzoNews'));
 const BlogDetail = React.lazy(() => import('./pages/BlogDetail'));
+const NotFound = React.lazy(() => import('./pages/NotFound'));
 
 
 import Footer from './components/Footer';
 import BookDemo from './components/BookDemo';
+import Toast from './components/Toast';
+import ProductComparison from './components/ProductComparison';
 
 import { Routes, Route, useNavigate, useLocation, Navigate, useParams } from 'react-router-dom';
 
 import usePageTitle from './hooks/usePageTitle';
+import useMetaDescription from './hooks/useMetaDescription';
+import { useToast } from './hooks/useToast';
 
 // Wrapper for GenericProduct to extract route params
 const GenericProductWrapper = (props) => {
@@ -51,13 +56,15 @@ const GenericProductWrapper = (props) => {
 export default function App() {
     const [isDarkTheme, setIsDarkTheme] = useState(false);
     const [isDemoOpen, setIsDemoOpen] = useState(false);
-
+    const [isComparisonOpen, setIsComparisonOpen] = useState(false);
 
     const navigate = useNavigate();
     const location = useLocation();
+    const { toasts, removeToast, success, error, warning, info } = useToast();
 
-    // Call custom hook for SEO titles
+    // Call custom hooks for SEO
     usePageTitle();
+    useMetaDescription();
 
 
 
@@ -131,6 +138,8 @@ export default function App() {
         isDarkTheme,
         onBookDemo: () => setIsDemoOpen(true),
         onToggleTheme: () => setIsDarkTheme(!isDarkTheme),
+        onCompareProducts: () => setIsComparisonOpen(true),
+        showToast: { success, error, warning, info },
         scrollToContact: () => {
             const footer = document.getElementById('footer-contact');
             if (footer) footer.scrollIntoView({ behavior: 'smooth' });
@@ -196,8 +205,8 @@ export default function App() {
                         <Route path="/products/virtualheritage" element={<VirtualHeritage {...commonProps} />} />
                         <Route path="/products/cityguides" element={<CityGuides {...commonProps} />} />
 
-                        {/* Fallback */}
-                        <Route path="*" element={<Navigate to="/home" replace />} />
+                        {/* Fallback - 404 Page */}
+                        <Route path="*" element={<NotFound {...commonProps} />} />
                     </Routes>
                 </Suspense>
 
@@ -212,6 +221,25 @@ export default function App() {
                 onClose={() => setIsDemoOpen(false)}
                 isDarkTheme={isDarkTheme}
             />
+
+            {/* Product Comparison Modal */}
+            {isComparisonOpen && (
+                <ProductComparison
+                    isDarkTheme={isDarkTheme}
+                    onClose={() => setIsComparisonOpen(false)}
+                />
+            )}
+
+            {/* Toast Notifications */}
+            {toasts.map(toast => (
+                <Toast
+                    key={toast.id}
+                    message={toast.message}
+                    type={toast.type}
+                    duration={toast.duration}
+                    onClose={() => removeToast(toast.id)}
+                />
+            ))}
 
             {/* Scroll To Top Button */}
             <ScrollToTopButton isDarkTheme={isDarkTheme} />

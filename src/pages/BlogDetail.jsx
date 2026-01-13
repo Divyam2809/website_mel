@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import AppNav from '../components/AppNav';
 import { blogData } from '../data/blogData';
-import ModernGradientBackground from '../components/ModernGradientBackground';
+import GridBackground from '../components/GridBackground';
 
 export default function BlogDetail({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const { slug } = useParams();
@@ -89,8 +89,15 @@ export default function BlogDetail({ onNavigate, isDarkTheme, onBookDemo, onTogg
             />
 
             {/* Background Container */}
-            <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-                <ModernGradientBackground isDarkTheme={isDarkTheme} />
+            <div style={{
+                position: 'relative',
+                minHeight: '100vh',
+                overflow: 'hidden',
+                background: isDarkTheme
+                    ? 'linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%)'
+                    : 'linear-gradient(135deg, #FFF5EC 0%, #FFFFFF 100%)'
+            }}>
+                <GridBackground isDarkTheme={isDarkTheme} />
 
                 {/* Content Container */}
                 <article style={{
@@ -106,12 +113,12 @@ export default function BlogDetail({ onNavigate, isDarkTheme, onBookDemo, onTogg
                         maxWidth: '900px',
                         margin: '0 auto',
                         padding: 'clamp(30px, 5vh, 60px) clamp(20px, 5vw, 80px)',
-                        background: isDarkTheme ? 'rgba(20, 20, 20, 0.6)' : 'rgba(255, 255, 255, 0.7)',
+                        background: isDarkTheme ? 'rgba(20, 20, 20, 0.6)' : 'rgba(255, 255, 255, 0.8)',
                         backdropFilter: 'blur(20px)',
                         WebkitBackdropFilter: 'blur(20px)',
-                        border: isDarkTheme ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid rgba(255, 255, 255, 0.3)',
+                        border: isDarkTheme ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid rgba(0, 0, 0, 0.1)',
                         borderRadius: '32px',
-                        boxShadow: isDarkTheme ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)' : '0 25px 50px -12px rgba(0, 0, 0, 0.05)',
+                        boxShadow: isDarkTheme ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)' : '0 25px 50px -12px rgba(0, 0, 0, 0.1)',
                     }}>
                         {/* Header */}
                         <header style={{ marginBottom: '4rem', textAlign: 'center' }}>

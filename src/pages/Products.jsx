@@ -422,8 +422,8 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo, onToggle
                                 display: 'flex',
                                 alignItems: 'center',
                                 gap: '1.5rem',
-                                boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
-                                border: '1px solid rgba(0,0,0,0.05)',
+                                boxShadow: isDarkTheme ? '0 4px 20px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.08)',
+                                border: isDarkTheme ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.12)',
                                 transition: 'all 0.3s ease',
                                 cursor: item.link ? 'pointer' : 'default',
                                 animation: `fadeIn 0.5s ease forwards ${index * 0.05}s`,
@@ -433,13 +433,13 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo, onToggle
                                 onClick={() => item.link && onNavigate(item.link, { state: { category: activeCategory } })}
                                 onMouseEnter={(e) => {
                                     e.currentTarget.style.transform = 'translateY(-5px)';
-                                    e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.1)';
+                                    e.currentTarget.style.boxShadow = isDarkTheme ? '0 12px 30px rgba(0,0,0,0.5)' : '0 12px 30px rgba(0,0,0,0.15)';
                                     e.currentTarget.style.border = '1px solid rgba(255, 155, 80, 0.3)';
                                 }}
                                 onMouseLeave={(e) => {
                                     e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.05)';
-                                    e.currentTarget.style.border = '1px solid rgba(0,0,0,0.05)';
+                                    e.currentTarget.style.boxShadow = isDarkTheme ? '0 4px 20px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.08)';
+                                    e.currentTarget.style.border = isDarkTheme ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.12)';
                                 }}
                             >
                                 {/* Icon Container */}

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { validators, validateForm } from '../utils/validation';
+import LoadingSpinner from './LoadingSpinner';
 
 export default function BookDemo({ isOpen, onClose, isDarkTheme }) {
     if (!isOpen) return null;
@@ -14,19 +16,61 @@ export default function BookDemo({ isOpen, onClose, isDarkTheme }) {
         agreeToTerms: false
     });
 
+    const [errors, setErrors] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const validationSchema = {
+        name: [validators.required, validators.minLength(2)],
+        email: [validators.required, validators.email],
+        phone: [validators.required, validators.phone],
+        institute: [validators.required],
+        designation: [validators.required],
+        date: [validators.required]
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Clear previous errors
+        setErrors({});
+
+        // Validate terms checkbox
         if (!formData.agreeToTerms) {
-            alert('Please agree to the terms and conditions');
+            setErrors({ agreeToTerms: 'Please agree to the terms and conditions' });
             return;
         }
-        setIsSubmitted(true);
+
+        // Validate form
+        const { isValid, errors: validationErrors } = validateForm(formData, validationSchema);
+
+        if (!isValid) {
+            setErrors(validationErrors);
+            return;
+        }
+
+        // Simulate API call
+        setIsLoading(true);
+
+        try {
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Here you would normally send data to your backend
+            console.log('Form submitted:', formData);
+
+            setIsSubmitted(true);
+        } catch (error) {
+            setErrors({ submit: 'Something went wrong. Please try again.' });
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleClose = () => {
         setIsSubmitted(false);
+        setErrors({});
+        setIsLoading(false);
         setFormData({
             name: '',
             email: '',
@@ -220,18 +264,38 @@ export default function BookDemo({ isOpen, onClose, isDarkTheme }) {
                                     type="text"
                                     placeholder="Full Name"
                                     required
-                                    style={inputStyle}
+                                    style={{
+                                        ...inputStyle,
+                                        borderColor: errors.name ? '#ef4444' : (isDarkTheme ? '#333' : '#e0e0e0')
+                                    }}
                                     value={formData.name}
                                     onChange={e => setFormData({ ...formData, name: e.target.value })}
                                     onFocus={(e) => {
-                                        e.target.style.borderColor = '#FF9B50';
+                                        e.target.style.borderColor = errors.name ? '#ef4444' : '#FF9B50';
                                         e.target.style.background = isDarkTheme ? '#2a2a2a' : '#fff';
                                     }}
                                     onBlur={(e) => {
-                                        e.target.style.borderColor = isDarkTheme ? '#333' : '#e0e0e0';
+                                        e.target.style.borderColor = errors.name ? '#ef4444' : (isDarkTheme ? '#333' : '#e0e0e0');
                                         e.target.style.background = isDarkTheme ? '#262626' : '#f9f9f9';
                                     }}
                                 />
+                                {errors.name && (
+                                    <div style={{
+                                        color: '#ef4444',
+                                        fontSize: '0.85rem',
+                                        marginTop: '0.5rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '0.5rem'
+                                    }}>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <line x1="12" y1="8" x2="12" y2="12" />
+                                            <line x1="12" y1="16" x2="12.01" y2="16" />
+                                        </svg>
+                                        {errors.name}
+                                    </div>
+                                )}
                             </div>
 
                             {/* Email and Phone */}
@@ -386,32 +450,102 @@ export default function BookDemo({ isOpen, onClose, isDarkTheme }) {
                                     I agree to the terms and conditions mentioned in the Privacy-Policy.
                                 </label>
                             </div>
+                            {errors.agreeToTerms && (
+                                <div style={{
+                                    color: '#ef4444',
+                                    fontSize: '0.85rem',
+                                    marginTop: '-1rem',
+                                    marginBottom: '1rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem'
+                                }}>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <line x1="12" y1="8" x2="12" y2="12" />
+                                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                                    </svg>
+                                    {errors.agreeToTerms}
+                                </div>
+                            )}
+
+                            {/* General Submit Error */}
+                            {errors.submit && (
+                                <div style={{
+                                    padding: '1rem',
+                                    background: 'rgba(239, 68, 68, 0.1)',
+                                    border: '1px solid #ef4444',
+                                    borderRadius: '12px',
+                                    color: '#ef4444',
+                                    fontSize: '0.9rem',
+                                    marginBottom: '1.5rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.75rem'
+                                }}>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <line x1="15" y1="9" x2="9" y2="15" />
+                                        <line x1="9" y1="9" x2="15" y2="15" />
+                                    </svg>
+                                    {errors.submit}
+                                </div>
+                            )}
 
                             {/* Submit Button */}
-                            <button type="submit" style={{
-                                width: '100%',
-                                padding: '1.1rem',
-                                background: '#FF9B50',
-                                color: '#fff',
-                                border: 'none',
-                                borderRadius: '30px',
-                                fontSize: '1.1rem',
-                                fontWeight: 700,
-                                cursor: 'pointer',
-                                transition: 'all 0.3s ease',
-                                letterSpacing: '0.5px'
-                            }}
+                            <button
+                                type="submit"
+                                disabled={isLoading}
+                                style={{
+                                    width: '100%',
+                                    padding: '1.1rem',
+                                    background: isLoading ? '#ccc' : '#FF9B50',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '30px',
+                                    fontSize: '1.1rem',
+                                    fontWeight: 700,
+                                    cursor: isLoading ? 'not-allowed' : 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    letterSpacing: '0.5px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '0.75rem'
+                                }}
                                 onMouseEnter={e => {
-                                    e.target.style.transform = 'translateY(-2px)';
-                                    e.target.style.boxShadow = '0 10px 25px rgba(255, 155, 80, 0.4)';
+                                    if (!isLoading) {
+                                        e.target.style.transform = 'translateY(-2px)';
+                                        e.target.style.boxShadow = '0 10px 25px rgba(255, 155, 80, 0.4)';
+                                    }
                                 }}
                                 onMouseLeave={e => {
                                     e.target.style.transform = 'translateY(0)';
                                     e.target.style.boxShadow = 'none';
                                 }}
                             >
-                                Book a Demo
+                                {isLoading ? (
+                                    <>
+                                        <div style={{
+                                            width: '20px',
+                                            height: '20px',
+                                            border: '2px solid rgba(255, 255, 255, 0.3)',
+                                            borderTop: '2px solid white',
+                                            borderRadius: '50%',
+                                            animation: 'spin 0.8s linear infinite'
+                                        }}></div>
+                                        Processing...
+                                    </>
+                                ) : (
+                                    'Book a Demo'
+                                )}
                             </button>
+                            <style>{`
+                                @keyframes spin {
+                                    0% { transform: rotate(0deg); }
+                                    100% { transform: rotate(360deg); }
+                                }
+                            `}</style>
                         </form>
                     </>
                 )}
