@@ -745,24 +745,33 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                         width: 100%;
                         overflow: hidden;
                         display: flex;
+                        will-change: transform;
                     }
                     .marquee-content {
                         display: flex;
-                        animation: scrollLeft 20s linear infinite;
+                        animation: scrollLeft 15s linear infinite;
+                        will-change: transform;
+                        backface-visibility: hidden;
+                        perspective: 1000px;
+                        transform: translateZ(0);
                     }
                     .marquee-content.slow {
-                        animation-duration: 40s;
+                        animation-duration: 50s;
                     }
                     .marquee-content.reverse {
                         animation-direction: reverse;
-                        animation-duration: 25s;
+                        animation-duration: 18s;
                     }
                     .marquee-content.medium {
-                        animation-duration: 30s;
+                        animation-duration: 20s;
                     }
                     @keyframes scrollLeft {
-                        0% { transform: translateX(0); }
-                        100% { transform: translateX(-50%); } 
+                        0% { 
+                            transform: translate3d(0, 0, 0); 
+                        }
+                        100% { 
+                            transform: translate3d(-50%, 0, 0); 
+                        }
                     }
                 `}</style>
                 </div>

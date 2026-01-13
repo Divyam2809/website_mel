@@ -62,7 +62,7 @@ export default function AppNav({ onNavigate, isDarkTheme, onToggleTheme, onBookD
                 left: 0,
                 width: '100%',
                 boxSizing: 'border-box',
-                backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff',
+                backgroundColor: isDarkTheme ? '#403d3dff' : '#ffffff',
                 zIndex: 1000,
                 borderBottom: isDarkTheme ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(255,255,255,0.5)',
                 boxShadow: isDarkTheme ? '0 8px 32px 0 rgba(0, 0, 0, 0.2)' : '0 8px 32px 0 rgba(31, 38, 135, 0.1)',
@@ -236,24 +236,61 @@ export default function AppNav({ onNavigate, isDarkTheme, onToggleTheme, onBookD
                     gap: '2rem',
                     transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                     transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(-100%)',
-                    opacity: isMobileMenuOpen ? 1 : 0
+                    opacity: isMobileMenuOpen ? 1 : 0,
+                    overflowY: 'auto'
                 }}>
-                    {['Home', 'Products', 'Industries', 'About', 'Contact'].map((link) => (
-                        <h2 key={link}
-                            onClick={() => {
-                                onNavigate(link.toLowerCase() === 'contact' ? 'bookdemo' : link.toLowerCase());
-                                if (link.toLowerCase() === 'contact') onBookDemo();
-                                setIsMobileMenuOpen(false);
-                            }}
+                    <h2 onClick={() => { onNavigate('home'); setIsMobileMenuOpen(false); }} style={{ fontSize: '2rem', fontWeight: 700, color: isDarkTheme ? '#fff' : '#333', cursor: 'pointer' }}>Home</h2>
+                    <h2 onClick={() => { onNavigate('products'); setIsMobileMenuOpen(false); }} style={{ fontSize: '2rem', fontWeight: 700, color: isDarkTheme ? '#fff' : '#333', cursor: 'pointer' }}>Products</h2>
+                    <h2 onClick={() => { onNavigate('industries'); setIsMobileMenuOpen(false); }} style={{ fontSize: '2rem', fontWeight: 700, color: isDarkTheme ? '#fff' : '#333', cursor: 'pointer' }}>Industries</h2>
+
+                    {/* Mobile Resources Section */}
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+                        <h2
+                            onClick={() => setResourcesHover(!resourcesHover)}
                             style={{
                                 fontSize: '2rem',
                                 fontWeight: 700,
                                 color: isDarkTheme ? '#fff' : '#333',
-                                cursor: 'pointer'
-                            }}>
-                            {link}
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '10px'
+                            }}
+                        >
+                            Resources <span style={{ fontSize: '1.5rem', transform: resourcesHover ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }}>▾</span>
                         </h2>
-                    ))}
+
+                        {resourcesHover && (
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', animation: 'fadeIn 0.3s ease' }}>
+                                {[
+                                    { label: 'Blog', id: 'blog' },
+                                    { label: 'Case Studies', id: 'casestudies' },
+                                    { label: 'Melzo in News', id: 'melzonews' },
+                                    { label: 'FAQs', id: 'faqs' }
+                                ].map((item) => (
+                                    <span
+                                        key={item.id}
+                                        onClick={() => {
+                                            onNavigate(item.id);
+                                            setIsMobileMenuOpen(false);
+                                            setResourcesHover(false);
+                                        }}
+                                        style={{
+                                            fontSize: '1.2rem',
+                                            fontWeight: 500,
+                                            color: isDarkTheme ? '#ccc' : '#666',
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        {item.label}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    <h2 onClick={() => { onNavigate('about'); setIsMobileMenuOpen(false); }} style={{ fontSize: '2rem', fontWeight: 700, color: isDarkTheme ? '#fff' : '#333', cursor: 'pointer' }}>About</h2>
+                    <h2 onClick={() => { onBookDemo(); setIsMobileMenuOpen(false); }} style={{ fontSize: '2rem', fontWeight: 700, color: isDarkTheme ? '#fff' : '#333', cursor: 'pointer' }}>Contact</h2>
                 </div>
             </nav>
         </>

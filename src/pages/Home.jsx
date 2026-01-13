@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import AppNav from '../components/AppNav';
-import ProductCarousel from '../components/ProductCarousel';
+// Lazy load the 3D Carousel
+const Product3DCarousel = React.lazy(() => import('../components/Product3DCarousel'));
+import LoadingSpinner from '../components/LoadingSpinner';
 import StatsSection from '../components/StatsSection';
 import NewsletterSection from '../components/NewsletterSection';
 import CTASection from '../components/CTASection';
 import DataStrip from '../components/DataStrip';
 import CaseStudyHighlights from '../components/CaseStudyHighlights';
 import Testimonials from '../components/Testimonials';
+import GridBackground from '../components/GridBackground';
 
 export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme, scrollToContact }) {
     return (
@@ -208,7 +211,7 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
 
                 {/* Products Preview Section - Carousel */}
                 <section style={{
-                    padding: '5rem 5%',
+                    padding: '4rem 5% 3rem',
                     position: 'relative',
                     overflow: 'hidden',
                     background: isDarkTheme
@@ -216,39 +219,44 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                         : 'linear-gradient(135deg, #FFF5EC 0%, #FFFFFF 100%)' // Very subtle orange tint
                 }}>
                     {/* Grid Overlay */}
-                    <div style={{
-                        position: 'absolute',
-                        top: 0, left: 0, right: 0, bottom: 0,
-                        backgroundImage: isDarkTheme
-                            ? 'linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)'
-                            : 'linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px)',
-                        backgroundSize: '40px 40px',
-                        zIndex: 0,
-                        pointerEvents: 'none'
-                    }} />
+                    <GridBackground isDarkTheme={isDarkTheme} />
 
                     <div style={{
                         maxWidth: '1400px',
-                        margin: '0 auto'
+                        margin: '0 auto',
+                        position: 'relative',
+                        zIndex: 2
                     }}>
                         <h2 style={{
                             fontSize: 'clamp(2rem, 4vw, 3rem)',
                             fontWeight: 900,
                             letterSpacing: '-2px',
-                            marginBottom: '4rem',
+                            marginBottom: '3rem',
                             textAlign: 'center',
                             color: '#FF9B50'
                         }}>
                             Our Products
                         </h2>
 
-                        <ProductCarousel onNavigate={onNavigate} isDarkTheme={isDarkTheme} />
+                        <Suspense fallback={
+                            <div style={{
+                                height: '600px',
+                                width: '100%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}>
+                                <LoadingSpinner size="large" />
+                            </div>
+                        }>
+                            <Product3DCarousel onNavigate={onNavigate} isDarkTheme={isDarkTheme} />
+                        </Suspense>
                     </div>
                 </section>
 
                 {/* Why VR Works Section */}
                 <section style={{
-                    padding: '5rem 5%',
+                    padding: '4rem 5%',
                     borderTop: '1px solid rgba(0,0,0,0.05)'
                 }}>
                     <div style={{

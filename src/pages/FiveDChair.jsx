@@ -10,7 +10,7 @@ import ExpandableText from '../components/ExpandableText';
 
 // 3D Model Component - loads the GLB file with dynamic path
 function ChairModel({ modelPath }) {
-    const { scene } = useGLTF(modelPath);
+    const { scene } = useGLTF(modelPath, '/draco-gltf/');
     return <primitive object={scene} scale={30} position={[0, +0.2, 0]} rotation={[0, Math.PI * 0.15, 0]} />;
 }
 
@@ -47,7 +47,7 @@ function VideoGallery({ videos, isDarkTheme }) {
             </h2>
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
                 gap: '2rem',
                 maxWidth: '1200px',
                 margin: '0 auto'
@@ -284,7 +284,7 @@ function BentoGrid({ isDarkTheme }) {
                 </div>
 
                 {/* Enhanced Bento Grid Layout */}
-                <div style={{
+                <div className="bento-grid" style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(4, 1fr)',
                     gap: '1.5rem',
@@ -659,16 +659,40 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
             <div style={{ backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff', minHeight: '100vh', color: isDarkTheme ? '#FFFFFF' : '#2D2D2D', fontFamily: 'Inter, sans-serif' }}>
 
 
-                <main style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    minHeight: '80vh',
-                    alignItems: 'center',
-                    padding: '120px 5% 0 5%',
-                    gap: '3rem',
-                    position: 'relative',
-                    overflow: 'hidden'
-                }}>
+                <style>{`
+                    .fived-hero-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        min-height: 80vh;
+                        align-items: center;
+                        padding: 120px 5% 0 5%;
+                        gap: 3rem;
+                        position: relative;
+                        overflow: hidden;
+                    }
+                    .fived-color-selector {
+                        height: 70vh;
+                        min-height: 500px;
+                        position: relative;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    @media (max-width: 968px) {
+                        .fived-hero-grid {
+                            grid-template-columns: 1fr;
+                            padding-top: 100px;
+                            height: auto;
+                            min-height: auto;
+                            padding-bottom: 3rem;
+                        }
+                        .fived-color-selector {
+                             height: 50vh;
+                             min-height: 300px;
+                        }
+                    }
+                `}</style>
+                <main className="fived-hero-grid">
                     {/* Grid Overlay Background */}
                     <GridBackground isDarkTheme={isDarkTheme} />
 
@@ -813,14 +837,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                     </section>
 
                     {/* Right Side: Color Selector */}
-                    <section style={{
-                        height: '70vh',
-                        minHeight: '500px',
-                        position: 'relative',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}>
+                    <section className="fived-color-selector">
                         <div style={{
                             width: '100%',
                             height: '100%',

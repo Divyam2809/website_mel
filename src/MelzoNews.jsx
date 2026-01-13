@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppNav from './components/AppNav';
+import mockStorage from './services/mockStorage';
 
 export default function MelzoNews({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const [selectedNews, setSelectedNews] = useState(null);
@@ -243,9 +244,10 @@ export default function MelzoNews({ onNavigate, isDarkTheme, onBookDemo, onToggl
                             <div key={item.id} style={{
                                 background: isDarkTheme ? '#262626' : '#ffffff',
                                 borderRadius: '16px',
-                                border: '1px solid rgba(0,0,0,0.05)',
+                                border: isDarkTheme ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.12)',
+                                boxShadow: isDarkTheme ? '0 4px 20px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.08)',
                                 overflow: 'hidden',
-                                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                                transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
                                 cursor: 'pointer',
                                 display: 'flex',
                                 flexDirection: 'column'
@@ -253,11 +255,13 @@ export default function MelzoNews({ onNavigate, isDarkTheme, onBookDemo, onToggl
                                 onClick={() => setSelectedNews(item)}
                                 onMouseEnter={(e) => {
                                     e.currentTarget.style.transform = 'translateY(-5px)';
-                                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+                                    e.currentTarget.style.boxShadow = isDarkTheme ? '0 12px 30px rgba(0,0,0,0.5)' : '0 12px 30px rgba(0,0,0,0.15)';
+                                    e.currentTarget.style.borderColor = '#FF9B50';
                                 }}
                                 onMouseLeave={(e) => {
                                     e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.boxShadow = 'none';
+                                    e.currentTarget.style.boxShadow = isDarkTheme ? '0 4px 20px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.08)';
+                                    e.currentTarget.style.borderColor = isDarkTheme ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.12)';
                                 }}
                             >
                                 {/* Placeholder for Image if we had real ones, mostly just gradient for now */}

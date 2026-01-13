@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
 import AppNav from './components/AppNav';
+import mockStorage from './services/mockStorage';
+import './styles/Industries.css'; // Using the Industry Card styles
 
 export default function CaseStudies({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const [caseStudies, setCaseStudies] = useState([
@@ -30,13 +32,31 @@ export default function CaseStudies({ onNavigate, isDarkTheme, onBookDemo, onTog
 
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
                         {caseStudies.map((item, index) => (
-                            <div key={index} style={{ padding: '2rem', background: isDarkTheme ? '#262626' : '#f5f5f5', borderRadius: '20px' }}>
+                            <div key={index} style={{
+                                padding: '2rem',
+                                background: isDarkTheme ? '#262626' : '#ffffff',
+                                borderRadius: '20px',
+                                border: isDarkTheme ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.12)',
+                                boxShadow: isDarkTheme ? '0 4px 20px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.08)',
+                                transition: 'all 0.3s ease'
+                            }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-5px)';
+                                    e.currentTarget.style.boxShadow = isDarkTheme ? '0 12px 30px rgba(0,0,0,0.5)' : '0 12px 30px rgba(0,0,0,0.15)';
+                                    e.currentTarget.style.borderColor = '#FF9B50';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = isDarkTheme ? '0 4px 20px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.08)';
+                                    e.currentTarget.style.borderColor = isDarkTheme ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.12)';
+                                }}
+                            >
                                 <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>{item.title}</h3>
                                 <p>{item.summary}</p>
                             </div>
                         ))}
                     </div>
-                </div>
+                )}
             </div>
         </>
     );
