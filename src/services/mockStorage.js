@@ -178,7 +178,7 @@ const initialCaseStudies = [
         title: 'Education Revolution: XYZ University',
         slug: 'xyz-university',
         description: 'Implemented VR Labs for 500+ students, resulting in 40% improved retention rates.',
-        image: '/images/education_modal_vr.jpg',
+        image: '/images/education_modal_vr.webp',
         type: 'image',
         mediaUrl: '',
         isVisible: true,
@@ -220,7 +220,7 @@ const initialNews = [
         date: 'January 10, 2026',
         title: 'VR chairs bring classrooms to life for SMC students',
         excerpt: 'The Surat Municipal Corporation (SMC) has introduced high-tech VR chairs and virtual reality headsets in its primary schools to provide students with an immersive, multi-sensory educational experience.',
-        image: '/images/toi-vr-chairs-smc.png',
+        image: '/images/toi-vr-chairs-smc.webp',
         language: 'English',
         content: `The Surat Municipal Corporation (SMC) has introduced high-tech VR chairs and virtual reality headsets in its primary schools to provide students with an immersive, multi-sensory educational experience.\n\nThis article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.`,
         isVisible: true
@@ -231,7 +231,7 @@ const initialNews = [
         date: 'January 10, 2026',
         title: 'VR chairs bring classrooms to life for SMC students',
         excerpt: 'In a bid to enhance learning for underprivileged students, Surat Municipal Corporation (SMC) has introduced multidimensional experience chairs in municipal schools, offering students an immersive education through virtual reality.',
-        image: '/images/toi-vr-chairs-smc-full.png',
+        image: '/images/toi-vr-chairs-smc-full.webp',
         language: 'English',
         content: `In a bid to enhance learning for underprivileged students, Surat Municipal Corporation (SMC) has introduced multidimensional experience chairs in municipal schools, offering students an immersive education through virtual reality.\n\nThis article highlights how the Melzo Experience 7D Lab, equipped with VR headsets and motion chairs that blow air and spray mist, is transforming education by allowing students to virtually visit space or historical sites and conduct interactive experiments.`,
         isVisible: true
@@ -242,7 +242,7 @@ const initialNews = [
         date: 'January 2025',
         title: 'IIT pass Gujarati created 5D lab for children',
         excerpt: 'Students can see the outside world from a small room with 5D virtual-sensory chair; Education with VR, AR, AI',
-        image: '/images/divya-bhaskar-5d-lab.png',
+        image: '/images/divya-bhaskar-5d-lab.webp',
         language: 'Gujarati',
         content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
         isVisible: true
@@ -253,7 +253,7 @@ const initialNews = [
         date: 'January 12, 2025',
         title: 'In a first, 5D laboratory in Surat school to help students \'hear, visualise\' curriculum',
         excerpt: 'On Friday, the Sarvoday trust-run school at Bhatar launched the Melzo Anubhav 5D lab, which, the school authorities claimed, is the first initiative of its kind for students.',
-        image: '/images/indian-express-5d-lab.png',
+        image: '/images/indian-express-5d-lab.webp',
         language: 'English',
         content: `On Friday, the Sarvoday trust-run school at Bhatar launched the Melzo Anubhav 5D lab, which, the school authorities claimed, is the first initiative of its kind for students.\n\nThis article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.`,
         isVisible: true
@@ -264,7 +264,7 @@ const initialNews = [
         date: 'January 14, 2025',
         title: 'Surat student\'s turn! India\'s first 5D lab launched in this school',
         excerpt: 'IG Desai School in Surat has launched India\'s first 5D lab. This lab will help school students understand science and social science subjects easily and experience subjects in real life with the help of technology.',
-        image: '/images/news18-surat-5d-lab-updated.png',
+        image: '/images/news18-surat-5d-lab-updated.webp',
         language: 'Gujarati',
         content: `IG Desai School in Surat has launched India's first 5D lab. This lab will help school students understand science and social science subjects easily and experience subjects in real life with the help of technology.\n\nThis article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
         isVisible: true
@@ -275,7 +275,7 @@ const initialNews = [
         date: 'January 2025',
         title: 'Hardik Software created for free education of Gujarati medium students',
         excerpt: 'Software benefiting 2.80 lakh students; ranked first among 1200 startups in state government\'s startup scheme',
-        image: '/images/melzo-partners-universities.png',
+        image: '/images/melzo-partners-universities.webp',
         language: 'Gujarati',
         content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
         isVisible: true
@@ -286,7 +286,7 @@ const initialNews = [
         date: 'January 2025',
         title: 'Country\'s first 5D lab, students will do virtual experiments',
         excerpt: 'Innovation: Google\'s virtual reality and all technical-non-technical subjects at Surat\'s student media center in 5D',
-        image: '/images/gujarati-newspaper-5d-lab.png',
+        image: '/images/gujarati-newspaper-5d-lab.webp',
         language: 'Gujarati',
         content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
         isVisible: true
@@ -297,7 +297,7 @@ const initialNews = [
         date: 'January 10, 2025',
         title: 'Sarvoday Charitable Trust\'s IG Desai School in Surat Bhatar launches 5D technology for real education',
         excerpt: 'Modern technology to provide education to poor, middle-class students; parents also happy with the effort',
-        image: '/images/sarvoday-ig-desai-5d.png',
+        image: '/images/sarvoday-ig-desai-5d.webp',
         language: 'Gujarati',
         content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
         isVisible: true
@@ -308,7 +308,7 @@ const initialNews = [
         date: 'January 2025',
         title: 'Students in Surat learning complex subjects from India\'s first 5D lab',
         excerpt: 'The city\'s IT youth developed this with indigenous technology. Students can see biology, physics, chemistry and other subjects in 3D.',
-        image: '/images/hindi-newspaper-5d-lab.png',
+        image: '/images/hindi-newspaper-5d-lab.webp',
         language: 'Hindi',
         content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Hindi. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
         isVisible: true
@@ -319,7 +319,7 @@ const initialNews = [
         date: 'January 2025',
         title: 'Melzo Anubhav 5D Lab launched at IG Desai School in Bhatar',
         excerpt: 'New initiative in education: Country\'s first 5D lab launched to make students\' educational experience more interactive and effective',
-        image: '/images/melzo-anubhav-5d-lab.png',
+        image: '/images/melzo-anubhav-5d-lab.webp',
         language: 'Gujarati',
         content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
         isVisible: true
@@ -330,7 +330,7 @@ const initialNews = [
         date: 'January 13, 2025',
         title: 'Launch of India\'s first 5D laboratory for students at IG Desai School',
         excerpt: 'Developed by Surat youth at a cost equivalent to a laptop; lab costs 50 lakhs to set up in Disney World, Apple Center, and universities',
-        image: '/images/ig-desai-5d-laboratory.png',
+        image: '/images/ig-desai-5d-laboratory.webp',
         language: 'Gujarati',
         content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
         isVisible: true
@@ -341,7 +341,7 @@ const initialNews = [
         date: 'January 2025',
         title: '5D Lab launched to increase student\'s memory power',
         excerpt: 'This modern lab is a combination of virtual reality and sensory technology that provides a new way of teaching and learning',
-        image: '/images/5d-lab-memory-power.png',
+        image: '/images/5d-lab-memory-power.webp',
         language: 'Gujarati',
         content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
         isVisible: true
@@ -352,7 +352,7 @@ const initialNews = [
         date: 'January 12, 2025',
         title: 'India\'s first 5D lab launched in Surat school',
         excerpt: 'Students at IG Desai School will now be able to learn and experience various subjects of science and social studies; 80% of students come from economically weaker backgrounds',
-        image: '/images/surat-first-5d-lab.png',
+        image: '/images/surat-first-5d-lab.webp',
         language: 'Gujarati',
         content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
         isVisible: true
@@ -363,7 +363,7 @@ const initialNews = [
         date: 'January 10, 2025',
         title: 'India\'s First 5D Lab Revolutionizing Complex Educational Topics',
         excerpt: 'The first 5D lab of Melzo Anubhav is offering education to the world. This lab at IG Desai School is transforming how students learn complex subjects through immersive experiences.',
-        image: '/images/5d-lab-revolutionizing-education.png',
+        image: '/images/5d-lab-revolutionizing-education.webp',
         language: 'Gujarati',
         content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
         isVisible: true
@@ -374,18 +374,62 @@ const initialNews = [
         date: 'January 2025',
         title: 'Students in Surat Learning Complex Subjects from India\'s First 5D Lab',
         excerpt: 'Developed by a local IT youth using indigenous technology, this 5D lab is helping students understand difficult subjects through immersive experiences and virtual reality.',
-        image: '/images/hindi-surat-5d-lab-students.png',
+        image: '/images/hindi-surat-5d-lab-students.webp',
         language: 'Hindi',
         content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Hindi. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
         isVisible: true
     }
 ];
 
-const ADMIN_CREDENTIALS = {
-    email: 'admin@melzo.com',
-    password: 'admin123',
-    role: 'superadmin'
-};
+const initialTestimonials = [
+    {
+        _id: 't1',
+        testimonial: "Students understand complex concepts faster with Melzo VR Labs.",
+        name: "Principal",
+        position: "CBSE School, Surat",
+        isVisible: true
+    },
+    {
+        _id: 't2',
+        testimonial: "A game-changer for our technical training program.",
+        name: "Director",
+        position: "Industrial Training Institute",
+        isVisible: true
+    },
+    {
+        _id: 't3',
+        testimonial: "The most affordable and effective VR solution we've found.",
+        name: "HOD",
+        position: "University Engineering Dept",
+        isVisible: true
+    }
+];
+
+const initialFAQs = [
+    { _id: 'f1', question: 'What hardware is required?', answer: 'Our solutions are compatible with major VR headsets like Oculus, HTC Vive, and Pico.', status: 'Published', slug: 'hardware-required', isVisible: true },
+    { _id: 'f2', question: 'Can I customize the content?', answer: 'Yes, we offer tailored content development services to meet specific curriculum or industry needs.', status: 'Published', slug: 'customize-content', isVisible: true },
+    { _id: 'f3', question: 'Do you offer on-site support?', answer: 'We provide comprehensive installation, training, and 24/7 technical support.', status: 'Published', slug: 'onsite-support', isVisible: true }
+];
+
+const initialAwards = [
+    { _id: 'a1', title: "WhatsApp Startup India", organization: "Grand Challenge 2019", awardLevel: "Winner", prize: "$50,000", image: "/images/whatsapp.webp", status: 'Published', slug: 'whatsapp-startup-india', isVisible: true },
+    { _id: 'a2', title: "Vibrant Gujarat", organization: "Startup Summit 2018", awardLevel: "Winner", prize: "₹30,00,000", image: "/images/gujarat.webp", status: 'Published', slug: 'vibrant-gujarat', isVisible: true },
+    { _id: 'a3', title: "Dubai Future Accelerators", organization: "Cohort 7 & 8 (2020)", awardLevel: "Finalist", prize: "KHDA Challenge", image: "/images/dubai.webp", status: 'Published', slug: 'dubai-future-accelerators', isVisible: true },
+    { _id: 'a4', title: "Data Innovation Bazaar", organization: "Western Digital 2020", awardLevel: "National Top 5", prize: "₹2,00,000", image: "/images/data.webp", status: 'Published', slug: 'data-innovation-bazaar', isVisible: true }
+];
+
+const initialTeam = [
+    { _id: 't1', name: 'HARDIK DESAI', position: 'Founder & CEO', image: '/team/hardiksir.webp', status: 'Published', slug: 'hardik-desai', isVisible: true },
+    { _id: 't2', name: 'BHAVIK MEHTA', position: 'Chief Technology Officer', image: '/team/bhaviksir.webp', status: 'Published', slug: 'bhavik-mehta', isVisible: true },
+    { _id: 't3', name: 'SOMNATH CHAUDHARI', position: 'Sales Head', image: '/team/somnathsir.webp', status: 'Published', slug: 'somnath-chaudhari', isVisible: true },
+    { _id: 't4', name: 'TAPAN DESAI', position: 'Production Head', image: '/team/tapansir.webp', status: 'Published', slug: 'tapan-desai', isVisible: true },
+    { _id: 't5', name: 'GAYATRI BANSHIWAL', position: 'SR. HR Manager', image: '/team/gayatrimaam.webp', status: 'Published', slug: 'gayatri-banshiwal', isVisible: true }
+];
+
+const ADMIN_USERS = [
+    { email: 'superadmin@melzo.com', password: 'superadmin123', role: 'superadmin', name: 'Super Admin' },
+    { email: 'admin@melzo.com', password: 'admin123', role: 'admin', name: 'Admin' }
+];
 
 class MockStorageService {
     constructor() {
@@ -393,6 +437,7 @@ class MockStorageService {
     }
 
     init() {
+        // ... (Existing initialization code)
         const existingBlogs = localStorage.getItem('blogs');
         if (!existingBlogs || existingBlogs === '[]') {
             localStorage.setItem('blogs', JSON.stringify(initialBlogs));
@@ -405,10 +450,49 @@ class MockStorageService {
         if (!existingNews || existingNews === '[]') {
             localStorage.setItem('news', JSON.stringify(initialNews));
         }
-        // Initialize other new modules
-        ['awards', 'faqs', 'teamdetails', 'testimonials'].forEach(key => {
-            if (!localStorage.getItem(key)) {
-                localStorage.setItem(key, JSON.stringify([]));
+
+        // Initialize Testimonials
+        if (!localStorage.getItem('testimonials')) {
+            localStorage.setItem('testimonials', JSON.stringify(initialTestimonials));
+        }
+
+        // Initialize Awards
+        if (!localStorage.getItem('awards')) {
+            localStorage.setItem('awards', JSON.stringify(initialAwards));
+        }
+
+        // Initialize FAQs
+        if (!localStorage.getItem('faqs')) {
+            localStorage.setItem('faqs', JSON.stringify(initialFAQs));
+        }
+
+        // Initialize Team
+        if (!localStorage.getItem('teamdetails')) {
+            localStorage.setItem('teamdetails', JSON.stringify(initialTeam));
+        }
+
+        // --- MIGRATION: Auto-Generate Slugs for Legacy Data ---
+        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials'];
+
+        collections.forEach(key => {
+            const items = JSON.parse(localStorage.getItem(key) || '[]');
+            let modified = false;
+
+            items.forEach(item => {
+                if (!item.slug) {
+                    // Determine source field for slug
+                    const sourceText = item.title || item.name || item.question || 'untitled';
+                    item.slug = sourceText
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/(^-|-$)+/g, '');
+                    modified = true;
+                }
+            });
+
+            if (modified) {
+                localStorage.setItem(key, JSON.stringify(items));
+                console.log(`Migrated slugs for ${key}`);
             }
         });
     }
@@ -417,9 +501,10 @@ class MockStorageService {
     login(email, password) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
-                    const user = { email, role: ADMIN_CREDENTIALS.role, token: 'mock-token-123' };
-                    resolve({ data: user });
+                const user = ADMIN_USERS.find(u => u.email === email && u.password === password);
+                if (user) {
+                    const userData = { email: user.email, role: user.role, name: user.name, token: `mock-token-${Date.now()}` };
+                    resolve({ data: userData });
                 } else {
                     reject({ response: { data: { message: 'Invalid credentials' } } });
                 }
@@ -481,6 +566,19 @@ class MockStorageService {
         });
     }
 
+    _delete(key, id) {
+        return new Promise((resolve, reject) => {
+            const items = this._getAll(key);
+            const filteredItems = items.filter(i => i._id !== id);
+            if (items.length !== filteredItems.length) {
+                this._save(key, filteredItems);
+                resolve({ message: 'Deleted successfully' });
+            } else {
+                reject({ message: 'Not found' });
+            }
+        });
+    }
+
     // --- Blogs ---
     getBlogs() {
         return new Promise((resolve) => {
@@ -506,7 +604,7 @@ class MockStorageService {
     }
 
     deleteBlog(id) {
-        return this._toggleVisibility('blogs', id);
+        return this._delete('blogs', id);
     }
 
     toggleBlogVisibility(id) {
@@ -529,7 +627,7 @@ class MockStorageService {
     }
 
     deleteCaseStudy(id) {
-        return this._toggleVisibility('caseFile', id);
+        return this._delete('caseFile', id);
     }
 
     toggleCaseStudyVisibility(id) {
@@ -551,6 +649,10 @@ class MockStorageService {
         return this._update('news', id, data);
     }
 
+    deleteNews(id) {
+        return this._delete('news', id);
+    }
+
     toggleNewsVisibility(id) {
         return this._toggleVisibility('news', id);
     }
@@ -568,6 +670,10 @@ class MockStorageService {
 
     updateAward(id, data) {
         return this._update('awards', id, data);
+    }
+
+    deleteAward(id) {
+        return this._delete('awards', id);
     }
 
     toggleAwardVisibility(id) {
@@ -589,6 +695,10 @@ class MockStorageService {
         return this._update('faqs', id, data);
     }
 
+    deleteFAQ(id) {
+        return this._delete('faqs', id);
+    }
+
     toggleFAQVisibility(id) {
         return this._toggleVisibility('faqs', id);
     }
@@ -608,6 +718,10 @@ class MockStorageService {
         return this._update('teamdetails', id, data);
     }
 
+    deleteTeamDetail(id) {
+        return this._delete('teamdetails', id);
+    }
+
     toggleTeamDetailVisibility(id) {
         return this._toggleVisibility('teamdetails', id);
     }
@@ -625,6 +739,10 @@ class MockStorageService {
 
     updateTestimonial(id, data) {
         return this._update('testimonials', id, data);
+    }
+
+    deleteTestimonial(id) {
+        return this._delete('testimonials', id);
     }
 
     toggleTestimonialVisibility(id) {

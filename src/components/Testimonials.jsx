@@ -1,23 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import mockStorage from '../services/mockStorage';
 
 export default function Testimonials({ isDarkTheme }) {
-    const [testimonials, setTestimonials] = React.useState([
-        {
-            quote: "Students understand complex concepts faster with Melzo VR Labs.",
-            author: "Principal",
-            role: "CBSE School, Surat"
-        },
-        {
-            quote: "A game-changer for our technical training program.",
-            author: "Director",
-            role: "Industrial Training Institute"
-        },
-        {
-            quote: "The most affordable and effective VR solution we've found.",
-            author: "HOD",
-            role: "University Engineering Dept"
-        }
-    ]);
+    const [testimonials, setTestimonials] = useState([]);
+
+    useEffect(() => {
+        const fetchTestimonials = async () => {
+            try {
+                const response = await mockStorage.getTestimonials();
+                // Filter visible and take latest 3? Or just map them.
+                const visible = response.data.filter(t =>
+                    t.status === 'Published' || (!t.status && t.isVisible !== false)
+                );
+                setTestimonials(visible);
+            } catch (error) {
+                console.error("Failed to load testimonials", error);
+            }
+        };
+        fetchTestimonials();
+    }, []);
 
     return (
         <section style={{
@@ -54,7 +55,7 @@ export default function Testimonials({ isDarkTheme }) {
                     gap: '2rem'
                 }}>
                     {testimonials.map((item, index) => (
-                        <div key={index} style={{
+                        <div key={item._id || index} style={{
                             background: isDarkTheme ? '#262626' : '#ffffff',
                             padding: '2.5rem',
                             borderRadius: '12px',
@@ -92,7 +93,7 @@ export default function Testimonials({ isDarkTheme }) {
                                 marginBottom: '1.5rem',
                                 fontStyle: 'italic'
                             }}>
-                                {item.quote}
+                                {item.testimonial || item.quote}
                             </p>
 
                             {/* Author */}
@@ -106,14 +107,14 @@ export default function Testimonials({ isDarkTheme }) {
                                     color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
                                     marginBottom: '0.25rem'
                                 }}>
-                                    {item.author}
+                                    {item.name || item.author}
                                 </p>
                                 <p style={{
                                     fontSize: '0.9rem',
                                     color: '#FF9B50',
                                     fontWeight: 600
                                 }}>
-                                    {item.role}
+                                    {item.position || item.role}
                                 </p>
                             </div>
                         </div>

@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import AppNav from './components/AppNav';
 import mockStorage from './services/mockStorage';
 import './styles/Industries.css'; // Using the Industry Card styles
 
 export default function CaseStudies({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
-    const [caseStudies, setCaseStudies] = useState([
-        {
-            title: 'XYZ University',
-            summary: 'Implemented VR Labs for 500+ students, resulting in 40% improved retention rates.'
-        },
-        {
-            title: 'Global Manufacturing Corp',
-            summary: 'Reduced safety training costs by 60% using our VR simulation modules.'
-        }
-    ]);
+    const [caseStudies, setCaseStudies] = useState([]);
+
+    useEffect(() => {
+        const fetchCaseStudies = async () => {
+            try {
+                const response = await mockStorage.getCaseStudies();
+                const visible = response.data.filter(s =>
+                    s.status === 'Published' || (!s.status && s.isVisible !== false)
+                ).map(s => ({
+                    ...s,
+                    summary: s.description || s.summary // Handle both fields
+                }));
+                setCaseStudies(visible);
+            } catch (error) {
+                console.error("Failed to load case studies", error);
+            }
+        };
+        fetchCaseStudies();
+    }, []);
 
     return (
         <>
@@ -32,7 +41,7 @@ export default function CaseStudies({ onNavigate, isDarkTheme, onBookDemo, onTog
 
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
                         {caseStudies.map((item, index) => (
-                            <div key={index} style={{
+                            <div key={item._id || index} style={{
                                 padding: '2rem',
                                 background: isDarkTheme ? '#262626' : '#ffffff',
                                 borderRadius: '20px',
@@ -56,7 +65,7 @@ export default function CaseStudies({ onNavigate, isDarkTheme, onBookDemo, onTog
                             </div>
                         ))}
                     </div>
-                )}
+                </div>
             </div>
         </>
     );

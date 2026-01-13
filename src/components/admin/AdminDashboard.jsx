@@ -15,7 +15,7 @@ const AdminDashboard = () => {
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
 
-        if (!user || user.role !== 'superadmin') {
+        if (!user || (user.role !== 'superadmin' && user.role !== 'admin')) {
             navigate('/admin/login');
             return;
         }
@@ -100,7 +100,7 @@ const AdminDashboard = () => {
                 <div style={{ backgroundColor: '#ffffff', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
                     <div className="admin-header">
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <img src="/assets/Melzo_Logo.svg" alt="Melzo" style={{ height: '40px' }} />
+                            <img src="/assets/Melzo_Logo.svg" alt="Melzo" style={{ height: '40px', cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} />
                         </div>
 
                         {/* RIGHT: Nav & Logout Group */}
