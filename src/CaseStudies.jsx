@@ -56,7 +56,7 @@ export default function CaseStudies({ onNavigate, isDarkTheme, onBookDemo, onTog
                             </div>
                         ))}
                     </div>
-                )}
+                </div>
             </div>
         </>
     );
