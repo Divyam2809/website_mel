@@ -7,7 +7,8 @@ import AdminSidebar from './AdminSidebar';
 import './admin.css';
 
 const ContentManager = () => {
-    const { type } = useParams();
+    const { moduleType } = useParams();
+    const type = moduleType; // Map route param to internal variable naming
     const [items, setItems] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [editItem, setEditItem] = useState(null);
