@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppNav from './components/AppNav';
+import mockStorage from './services/mockStorage';
 
 export default function MelzoNews({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const [selectedNews, setSelectedNews] = useState(null);

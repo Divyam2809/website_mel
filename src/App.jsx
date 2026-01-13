@@ -36,6 +36,11 @@ const BlogDetail = React.lazy(() => import('./pages/BlogDetail'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
 
 
+// Admin Panel Components
+const AdminLogin = React.lazy(() => import('./components/admin/AdminLogin'));
+const AdminDashboard = React.lazy(() => import('./components/admin/AdminDashboard'));
+const ContentManager = React.lazy(() => import('./components/admin/ContentManager'));
+
 import Footer from './components/Footer';
 import BookDemo from './components/BookDemo';
 import Toast from './components/Toast';
@@ -210,8 +215,10 @@ export default function App() {
                     </Routes>
                 </Suspense>
 
-                {/* Common Footer for all pages */}
-                <Footer isDarkTheme={isDarkTheme} onNavigate={handleNavigate} />
+                {/* Common Footer for all pages - Hidden on Admin Routes */}
+                {!location.pathname.startsWith('/admin') && (
+                    <Footer isDarkTheme={isDarkTheme} onNavigate={handleNavigate} />
+                )}
 
             </div>
 

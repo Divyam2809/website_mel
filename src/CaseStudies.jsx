@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
 import AppNav from './components/AppNav';
+import mockStorage from './services/mockStorage';
+import './styles/Industries.css'; // Using the Industry Card styles
 
 export default function CaseStudies({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const [caseStudies, setCaseStudies] = useState([
@@ -54,7 +56,7 @@ export default function CaseStudies({ onNavigate, isDarkTheme, onBookDemo, onTog
                             </div>
                         ))}
                     </div>
-                </div>
+                )}
             </div>
         </>
     );
