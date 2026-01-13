@@ -210,6 +210,12 @@ export default function App() {
                         <Route path="/products/virtualheritage" element={<VirtualHeritage {...commonProps} />} />
                         <Route path="/products/cityguides" element={<CityGuides {...commonProps} />} />
 
+                        {/* Admin Panel Routes */}
+                        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+                        <Route path="/admin/login" element={<AdminLogin />} />
+                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                        <Route path="/admin/content/:moduleType" element={<ContentManager />} />
+
                         {/* Fallback - 404 Page */}
                         <Route path="*" element={<NotFound {...commonProps} />} />
                     </Routes>
