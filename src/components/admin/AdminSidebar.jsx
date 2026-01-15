@@ -62,29 +62,24 @@ const AdminSidebar = ({ stats = {} }) => {
                 <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
             </svg>
         ),
-        Careers: (
+        Timeline: (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
         ),
-        EmployeeStories: (
+        Users: (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                 <circle cx="9" cy="7" r="4"></circle>
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
-        ),
-        ChevronDown: (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
         )
     };
 
-    const user = JSON.parse(localStorage.getItem('user'));
-    const isHR = user?.role === 'HR';
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const isSuperAdmin = user.role === 'superadmin';
 
     const menuItems = [
         { name: 'Blog', path: '/admin/content/blog', icon: Icons.Blog },
@@ -94,16 +89,12 @@ const AdminSidebar = ({ stats = {} }) => {
         { name: 'Team Details', path: '/admin/content/teamdetails', icon: Icons.Team },
         { name: 'Case Study', path: '/admin/content/casestudy', icon: Icons.CaseStudy },
         { name: 'Testimonials', path: '/admin/content/testimonials', icon: Icons.Testimonials },
-        {
-            name: 'Careers',
-            icon: Icons.Careers,
-            children: [
-                { name: 'Job Openings', path: '/admin/content/jobs' },
-                { name: 'Job Applications', path: '/admin/content/jobApplications' },
-                { name: 'Employee Stories', path: '/admin/content/employeeStories' }
-            ].filter(child => !isHR || (child.path === '/admin/content/jobs' || child.path === '/admin/content/jobApplications'))
-        }
-    ].filter(item => !isHR || item.name === 'Careers');
+        { name: 'Timeline', path: '/admin/content/timeline', icon: Icons.Timeline }
+    ];
+
+    if (isSuperAdmin) {
+        menuItems.push({ name: 'Users', path: '/admin/content/users', icon: Icons.Users });
+    }
 
     const isActive = (path) => {
         return location.pathname === path;

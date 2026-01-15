@@ -54,7 +54,7 @@ export default function Timeline({ items, isDarkTheme }) {
             window.removeEventListener('scroll', handleScroll);
             cancelAnimationFrame(animationFrameId);
         };
-    }, [items.length]);
+    }, [items]);
 
     return (
         <div
@@ -103,7 +103,7 @@ export default function Timeline({ items, isDarkTheme }) {
                     const isActive = activeIndices[index];
 
                     return (
-                        <div key={index} style={{
+                        <div key={item._id || index} style={{
                             display: 'flex',
                             justifyContent: isEven ? 'flex-end' : 'flex-start',
                             paddingBottom: '5rem',

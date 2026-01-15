@@ -426,120 +426,36 @@ const initialTeam = [
     { _id: 't5', name: 'GAYATRI BANSHIWAL', position: 'SR. HR Manager', image: '/team/gayatrimaam.webp', status: 'Published', slug: 'gayatri-banshiwal', isVisible: true }
 ];
 
-const initialJobs = [
-    {
-        _id: 'j1',
-        title: 'Unity Developer',
-        dept: 'Engineering',
-        loc: 'On-site',
-        tags: ['C#', 'Unity 3D', 'VR/AR'],
-        purpose: "Build immersive VR experiences that push the boundaries of what's possible in education and training.",
-        mission: [
-            "Develop and optimize high-fidelity VR applications using Unity.",
-            "Implement interactive game play mechanics and physics simulations.",
-            "Integrate with backend APIs for real-time multi-user experiences.",
-            "Collaborate with 3D artists to integrate assets seamlessly."
-        ],
-        requirements: [
-            "3+ years of experience with Unity 3D and C#.",
-            "Experience developing for Oculus/Meta Quest or similar headsets.",
-            "Strong understanding of 3D math and physics.",
-            "Portfolio of shipped games or VR applications."
-        ],
-        status: 'Published',
-        slug: 'unity-developer',
-        isVisible: true
-    },
-    {
-        _id: 'j2',
-        title: 'Full-stack Developer',
-        dept: 'Engineering',
-        loc: 'Remote / Hybrid',
-        tags: ['React', 'Node.js', 'PostgreSQL'],
-        purpose: "Architect the scalable cloud infrastructure that powers our global VR learning platform.",
-        mission: [
-            "Design and build robust APIs and microservices.",
-            "Develop responsive web interfaces for platform management.",
-            "Optimize database performance and data architecture.",
-            "Ensure security and compliance of user data."
-        ],
-        requirements: [
-            "Proficiency in React (Frontend) and Node.js (Backend).",
-            "Experience with relational databases (PostgreSQL/MySQL).",
-            "Familiarity with cloud platforms (AWS/Azure).",
-            "Knowledge of WebSocket or real-time communication is a plus."
-        ],
-        status: 'Published',
-        slug: 'full-stack-developer',
-        isVisible: true
-    },
-    {
-        _id: 'j3',
-        title: 'Marketing Manager',
-        dept: 'Growth',
-        loc: 'Hybrid',
-        tags: ['Strategy', 'B2B', 'Content'],
-        purpose: "Craft the narrative of the 'Melzoverse' and lead our growth in new markets.",
-        mission: [
-            "Develop and execute comprehensive marketing strategies.",
-            "Manage social media presence and content calendar.",
-            "Coordinate product launches and PR campaigns.",
-            "Analyze market trends and competitor activities to adjust strategy."
-        ],
-        requirements: [
-            "4+ years of experience in B2B tech marketing.",
-            "Strong copywriting and storytelling skills.",
-            "Experience with digital ad platforms and analytics tools.",
-            "Passion for education technology and innovation."
-        ],
-        status: 'Published',
-        slug: 'marketing-manager',
-        isVisible: true
-    }
+const initialTimeline = [
+    { _id: 'tl1', year: '2017', title: 'Inception', content: 'Founded in 2017, ShilpMIS Technologies Private Limited began its journey as India\'s pioneer in immersive technology.', isVisible: true, status: 'Published' },
+    { _id: 'tl2', year: '2019', title: 'First Lab', content: 'Launched our first fully immersive VR lab in Gujarat.', isVisible: true, status: 'Published' },
+    { _id: 'tl3', year: '2021', title: 'Expansion', content: 'Expanded operations to cover Education, CSR, and Enterprise training.', isVisible: true, status: 'Published' },
+    { _id: 'tl4', year: '2023', title: 'Innovation', content: 'Developed proprietary VR hardware and software ecosystem.', isVisible: true, status: 'Published' },
+    { _id: 'tl5', year: '2024', title: 'Global Reach', content: 'Partnered with international institutions for content exchange.', isVisible: true, status: 'Published' },
+    { _id: 'tl6', year: 'Future', title: 'Next Gen', content: 'Building the metaverse of education.', isVisible: true, status: 'Published' }
 ];
 
-
-
-const initialEmployeeStories = [
+const initialDemoQueries = [
     {
-        _id: 'es1',
-        quote: "Great work atmosphere with young, optimistic, and like-minded coworkers together with awesome learning opportunities – there are helpful experienced colleagues and a variety of projects for all modern AR and VR platforms plus access to the newest hardware is guaranteed!",
-        name: "Jarek Polak",
-        role: "VR/AR Developer",
-        tenure: "4 years at Melzo",
-        image: "https://randomuser.me/api/portraits/men/32.jpg",
-        status: 'Published',
-        slug: 'jarek-polak',
-        isVisible: true
-    },
-    {
-        _id: 'es2',
-        quote: "Melzo isn't just a workplace; it's a playground for innovators. The freedom to experiment with the latest tech stack and the support from leadership to pursue bold ideas is unmatched. Every day is a new challenge in the best possible way.",
-        name: "Sarah Jenkins",
-        role: "Senior UI/UX Designer",
-        tenure: "3 years at Melzo",
-        image: "https://randomuser.me/api/portraits/women/44.jpg",
-        status: 'Published',
-        slug: 'sarah-jenkins',
-        isVisible: true
-    },
-    {
-        _id: 'es3',
-        quote: "I joined as a junior dev and have grown into a lead role. The mentorship culture here is real. You are pushed to be your best, but you are never alone. The collaborative spirit is the secret sauce behind our products.",
-        name: "Amit Patel",
-        role: "Full Stack Engineer",
-        tenure: "5 years at Melzo",
-        image: "https://randomuser.me/api/portraits/men/86.jpg",
-        status: 'Published',
-        slug: 'amit-patel',
+        _id: 'dq1',
+        name: 'Rahul Verma',
+        email: 'rahul.verma@example.com',
+        phone: '9876543210',
+        institute: 'Delhi Public School',
+        designation: 'Principal',
+        date: '2026-02-15',
+        message: 'Interested in VR labs for grades 9-12.',
+        agreeToTerms: true,
+        status: 'Pending',
+        createdAt: '2026-01-14T10:00:00.000Z',
         isVisible: true
     }
 ];
 
 const ADMIN_USERS = [
     { email: 'superadmin@melzo.com', password: 'superadmin123', role: 'superadmin', name: 'Super Admin' },
-    { email: 'admin@melzo.com', password: 'admin123', role: 'admin', name: 'Admin' },
-    { email: 'hr@melzo.com', password: 'hr123', role: 'HR', name: 'Human Resources' }
+    { email: 'contentmanager@melzo.com', password: 'contentmanager123', role: 'content_manager', name: 'Content Manager' },
+    { email: 'sales@melzo.com', password: 'sales123', role: 'sales', name: 'Sales Team' }
 ];
 
 class MockStorageService {
@@ -582,18 +498,14 @@ class MockStorageService {
             localStorage.setItem('teamdetails', JSON.stringify(initialTeam));
         }
 
-        // Initialize Jobs
-        if (!localStorage.getItem('jobs')) {
-            localStorage.setItem('jobs', JSON.stringify(initialJobs));
+        // Initialize Timeline
+        if (!localStorage.getItem('timeline')) {
+            localStorage.setItem('timeline', JSON.stringify(initialTimeline));
         }
 
-        // Initialize Employee Stories
-        if (!localStorage.getItem('employeeStories')) {
-            localStorage.setItem('employeeStories', JSON.stringify(initialEmployeeStories));
-        }
-
-        if (!localStorage.getItem('jobApplications')) {
-            localStorage.setItem('jobApplications', JSON.stringify([]));
+        // Initialize Demo Queries
+        if (!localStorage.getItem('demoQueries')) {
+            localStorage.setItem('demoQueries', JSON.stringify(initialDemoQueries));
         }
 
         // --- MIGRATION: Auto-Generate Slugs for Legacy Data ---
@@ -626,7 +538,14 @@ class MockStorageService {
     login(email, password) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                const user = ADMIN_USERS.find(u => u.email === email && u.password === password);
+                let users = this._getAll('users');
+                if (users.length === 0) {
+                    // Seed seed users if missing
+                    users = ADMIN_USERS.map((u, i) => ({ ...u, _id: `u${i}`, isVisible: true, status: 'Published' }));
+                    this._save('users', users);
+                }
+
+                const user = users.find(u => u.email === email && u.password === password);
                 if (user) {
                     const userData = { email: user.email, role: user.role, name: user.name, token: `mock-token-${Date.now()}` };
                     resolve({ data: userData });
@@ -635,6 +554,94 @@ class MockStorageService {
                 }
             }, 500);
         });
+    }
+
+    getUsers() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('users') });
+        });
+    }
+
+    saveUser(data) {
+        return this._create('users', data);
+    }
+
+    updateUser(id, data) {
+        return this._update('users', id, data);
+    }
+
+    deleteUser(id) {
+        return this._delete('users', id);
+    }
+
+    init() {
+        if (!localStorage.getItem('users')) {
+            localStorage.setItem('users', JSON.stringify(ADMIN_USERS.map((u, i) => ({ ...u, _id: `u${i}`, isVisible: true, status: 'Published' }))));
+        }
+        if (!localStorage.getItem('blogs')) {
+            localStorage.setItem('blogs', JSON.stringify(initialBlogs));
+        }
+        if (!localStorage.getItem('caseFile')) {
+            localStorage.setItem('caseFile', JSON.stringify(initialCaseStudies));
+        }
+        // Initialize News
+        const existingNews = localStorage.getItem('news');
+        if (!existingNews || existingNews === '[]') {
+            localStorage.setItem('news', JSON.stringify(initialNews));
+        }
+
+        // Initialize Testimonials
+        if (!localStorage.getItem('testimonials')) {
+            localStorage.setItem('testimonials', JSON.stringify(initialTestimonials));
+        }
+
+        // Initialize Awards
+        if (!localStorage.getItem('awards')) {
+            localStorage.setItem('awards', JSON.stringify(initialAwards));
+        }
+
+        // Initialize FAQs
+        if (!localStorage.getItem('faqs')) {
+            localStorage.setItem('faqs', JSON.stringify(initialFAQs));
+        }
+
+        // Initialize Team Details
+        if (!localStorage.getItem('teamdetails')) {
+            localStorage.setItem('teamdetails', JSON.stringify(initialTeamDetails));
+        }
+
+        // Initialize Timeline
+        if (!localStorage.getItem('timeline')) {
+            localStorage.setItem('timeline', JSON.stringify(initialTimeline));
+        }
+
+        if (!localStorage.getItem('demoQueries')) {
+            localStorage.setItem('demoQueries', JSON.stringify(initialDemoQueries));
+        }
+
+        // --- MIGRATION: Update 'admin' role to 'content_manager' and Update Credentials ---
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        let usersModified = false;
+        users.forEach(u => {
+            // General role migration
+            if (u.role === 'admin') {
+                u.role = 'content_manager';
+                u.name = 'Content Manager';
+                usersModified = true;
+            }
+            // Specific email/password update for the default admin user
+            if (u.email === 'admin@melzo.com') {
+                u.email = 'contentmanager@melzo.com';
+                u.password = 'contentmanager123';
+                u.role = 'content_manager'; // Ensure role is updated
+                u.name = 'Content Manager';
+                usersModified = true;
+            }
+        });
+        if (usersModified) {
+            localStorage.setItem('users', JSON.stringify(users));
+            console.log('Migrated admin user to contentmanager credentials');
+        }
     }
 
     // Generic CRUD with Visibility
@@ -881,68 +888,46 @@ class MockStorageService {
         return this._toggleVisibility('testimonials', id);
     }
 
-    // --- Jobs ---
-    getJobs() {
+    // --- Timeline ---
+    getTimeline() {
         return new Promise((resolve) => {
-            resolve({ data: this._getAll('jobs') });
+            resolve({ data: this._getAll('timeline') });
         });
     }
 
-    saveJob(data) {
-        return this._create('jobs', data);
+    saveTimeline(data) {
+        return this._create('timeline', data);
     }
 
-    updateJob(id, data) {
-        return this._update('jobs', id, data);
+    updateTimeline(id, data) {
+        return this._update('timeline', id, data);
     }
 
-    deleteJob(id) {
-        return this._delete('jobs', id);
+    deleteTimeline(id) {
+        return this._delete('timeline', id);
     }
 
-    toggleJobVisibility(id) {
-        return this._toggleVisibility('jobs', id);
+    toggleTimelineVisibility(id) {
+        return this._toggleVisibility('timeline', id);
     }
 
-    // --- Employee Stories ---
-    getEmployeeStories() {
+    // --- Demo Queries ---
+    getDemoQueries() {
         return new Promise((resolve) => {
-            resolve({ data: this._getAll('employeeStories') });
+            resolve({ data: this._getAll('demoQueries').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) });
         });
     }
 
-    saveEmployeeStory(data) {
-        return this._create('employeeStories', data);
-    }
-
-    updateEmployeeStory(id, data) {
-        return this._update('employeeStories', id, data);
-    }
-
-    deleteEmployeeStory(id) {
-        return this._delete('employeeStories', id);
-    }
-
-    toggleEmployeeStoryVisibility(id) {
-        return this._toggleVisibility('employeeStories', id);
-    }
-
-    // --- Job Applications ---
-    getJobApplications() {
-        return new Promise((resolve) => {
-            resolve({ data: this._getAll('jobApplications') });
+    saveDemoQuery(data) {
+        return this._create('demoQueries', {
+            ...data,
+            status: 'Pending', // New, Contacted, Closed
+            notes: ''
         });
     }
 
-    saveJobApplication(data) {
-        return this._create('jobApplications', {
-            appliedAt: new Date().toISOString(), // Default
-            ...data
-        });
-    }
-
-    deleteJobApplication(id) {
-        return this._delete('jobApplications', id);
+    updateDemoQuery(id, data) {
+        return this._update('demoQueries', id, data);
     }
 }
 

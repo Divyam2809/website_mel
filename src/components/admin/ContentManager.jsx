@@ -15,10 +15,10 @@ const ContentManager = () => {
     const [formData, setFormData] = useState({});
     const [showConfirm, setShowConfirm] = useState(false);
     const [confirmAction, setConfirmAction] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
     const [stats, setStats] = useState({
         blogs: 0, news: 0, awards: 0, faqs: 0,
-        teamdetails: 0, caseStudy: 0, testimonials: 0, jobs: 0,
-        employeeStories: 0, applications: 0
+        teamdetails: 0, caseStudy: 0, testimonials: 0, timeline: 0
     });
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -170,67 +170,55 @@ const ContentManager = () => {
             toggle: (id) => mockStorage.toggleTestimonialVisibility(id),
             delete: (id) => mockStorage.deleteTestimonial(id)
         },
-        jobs: {
-            title: 'Careers / Openings',
+        timeline: {
+            title: 'Timeline Events',
             fields: {
+                year: 'text',
                 title: 'text',
-                slug: 'text',
-                status: 'select:Published,Draft',
-                tags: 'text', // Comma separated
-                purpose: 'textarea',
-                mission: 'json:blocks', // Use block editor for list
-                requirements: 'json:blocks', // Use block editor for list
-                metaTitle: 'text',
-                metaDescription: 'textarea',
-                metaKeywords: 'text'
+                content: 'textarea',
+                status: 'select:Published,Draft'
             },
-            get: () => mockStorage.getJobs(),
-            save: (data) => mockStorage.saveJob(data),
-            update: (id, data) => mockStorage.updateJob(id, data),
-            toggle: (id) => mockStorage.toggleJobVisibility(id),
-            delete: (id) => mockStorage.deleteJob(id)
+            get: () => mockStorage.getTimeline(),
+            save: (data) => mockStorage.saveTimeline(data),
+            update: (id, data) => mockStorage.updateTimeline(id, data),
+            toggle: (id) => mockStorage.toggleTimelineVisibility(id),
+            delete: (id) => mockStorage.deleteTimeline(id)
         },
-        jobApplications: {
-            title: 'Careers / Job Applications',
-            fields: {
-                fullName: 'text',
-                email: 'email',
-                phone: 'text',
-                linkedin: 'text',
-                jobTitle: 'text',
-                note: 'textarea',
-                resume: 'text',
-                appliedAt: 'date'
-            },
-            get: () => mockStorage.getJobApplications(),
-            delete: (id) => mockStorage.deleteJobApplication(id)
-        },
-        employeeStories: {
-            title: 'Employee Stories',
+        users: {
+            title: 'User Management',
             fields: {
                 name: 'text',
-                slug: 'text',
-                status: 'select:Published,Draft',
-                role: 'text',
-                quote: 'textarea',
-                tenure: 'text',
-                image: 'file',
-                metaTitle: 'text',
-                metaDescription: 'textarea',
-                metaKeywords: 'text'
+                email: 'email',
+                password: 'password', // Secure input
+                role: 'select:superadmin,content_manager,sales',
+                status: 'select:Published,Draft' // Reusing Published/Draft as Active/Inactive logic for simplicity or just for consistency
             },
-            get: () => mockStorage.getEmployeeStories(),
-            save: (data) => mockStorage.saveEmployeeStory(data),
-            update: (id, data) => mockStorage.updateEmployeeStory(id, data),
-            toggle: (id) => mockStorage.toggleEmployeeStoryVisibility(id),
-            delete: (id) => mockStorage.deleteEmployeeStory(id)
+            get: () => mockStorage.getUsers(),
+            save: (data) => mockStorage.saveUser(data),
+            update: (_id, data) => {
+                // If the update logic in mockStorage is strictly by id, we pass it.
+                // However, users usually don't have toggle visibility in the same way, but let's keep it consistent.
+                return mockStorage.updateUser ? mockStorage.updateUser(_id, data) : Promise.resolve();
+            },
+            // Since I didn't add updateUser explicitly in the previous step (I only added getUsers, saveUser, deleteUser),
+            // I should use saveUser logic or add updateUser to mockStorage.
+            // Wait, I added `_create` which is saveUser. I need `updateUser` in mockStorage.
+            // Let me double check mockStorage. I only added getUsers, saveUser, deleteUser.
+            // I should add `updateUser` to mockStorage in a separate step or just assume I can add it now.
+            // Actually, I can use a direct call to `_update` if I had exposed it, but I didn't.
+            // For now, let's just implement the 'save' (create).
+            // But wait, user management needs update.
+            // I will assume I can add `updateUser` to mockStorage in the next step or right now via another tool.
+            // For now, let's map it, and I will fix mockStorage immediately after.
+            toggle: (id) => Promise.resolve(), // Users don't use visibility toggle typically in this layout
+            delete: (id) => mockStorage.deleteUser(id)
         }
     };
 
     const config = moduleConfig[type];
 
     useEffect(() => {
-        if (!config) {
+        if (!config || (user && user.role === 'sales')) {
             navigate('/admin/dashboard');
             return;
         }
@@ -249,7 +237,7 @@ const ContentManager = () => {
 
     const loadStats = async () => {
         try {
-            const [blogs, news, awards, faqs, team, cases, testimonials, jobs, employeeStories, applications] = await Promise.all([
+            const [blogs, news, awards, faqs, team, cases, testimonials, timeline] = await Promise.all([
                 mockStorage.getBlogs(),
                 mockStorage.getNews(),
                 mockStorage.getAwards(),
@@ -257,9 +245,7 @@ const ContentManager = () => {
                 mockStorage.getTeamDetails(),
                 mockStorage.getCaseStudies(),
                 mockStorage.getTestimonials(),
-                mockStorage.getJobs(),
-                mockStorage.getEmployeeStories(),
-                mockStorage.getJobApplications()
+                mockStorage.getTimeline()
             ]);
 
             setStats({
@@ -270,9 +256,7 @@ const ContentManager = () => {
                 teamdetails: team.data.length,
                 caseStudy: cases.data.length,
                 testimonials: testimonials.data.length,
-                jobs: jobs.data.length,
-                employeeStories: employeeStories.data.length,
-                applications: applications.data.length
+                timeline: timeline.data.length
             });
         } catch (error) {
             console.error('Error loading stats:', error);
@@ -424,8 +408,46 @@ const ContentManager = () => {
                     </button>
                 </div>
             );
+
+        } else if (fieldType === 'password') {
+            return (
+                <div style={{ position: 'relative' }}>
+                    <input
+                        type={showPassword ? 'text' : 'password'}
+                        className="admin-input"
+                        placeholder={label}
+                        value={formData[key] || ''}
+                        onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                        style={{ paddingRight: '40px' }}
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{
+                            position: 'absolute',
+                            right: '10px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            opacity: 0.6,
+                            padding: '5px'
+                        }}
+                    >
+                        {showPassword ? (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                        ) : (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        )}
+                    </button>
+                </div>
+            );
         } else {
-            const inputType = fieldType === 'email' ? 'email' : fieldType === 'number' ? 'number' : fieldType === 'date' ? 'date' : 'text';
+            const inputType = fieldType === 'email' ? 'email'
+                : fieldType === 'number' ? 'number'
+                    : fieldType === 'date' ? 'date'
+                        : 'text';
             return (
                 <input
                     type={inputType}

@@ -236,6 +236,10 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                             <strong style={{ display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem', color: textColor }}>Phone Number -</strong>
                             <span style={{ color: subTextColor, fontSize: '0.9rem' }}>+91 - 9687588818 / 9687488818</span>
                         </div>
+                        <div style={{ marginBottom: '1rem' }}>
+                            <strong style={{ display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem', color: textColor }}>Mail Us -</strong>
+                            <span style={{ color: subTextColor, fontSize: '0.9rem' }}><a href="mailto:contact@melzo.com">contact@melzo.com</a></span>
+                        </div>
 
                         <div>
                             <strong style={{ display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem', color: textColor }}>Registered Office Address -</strong>
