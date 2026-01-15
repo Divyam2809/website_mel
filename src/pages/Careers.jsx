@@ -524,9 +524,9 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                     onClick={scrollToContainerTop}
                     style={{
                         position: 'fixed',
-                        bottom: '90px', // Positioned above the page scroll button
+                        bottom: '100px', // Positioned above the page scroll button
                         right: '30px',
-                        backgroundColor: '#FFFFFF',
+                        backgroundColor: isDarkTheme ? '#1A1A1A' : '#FFFFFF',
                         color: '#FF9B50',
                         width: '55px',
                         height: '55px',
@@ -537,17 +537,17 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                         alignItems: 'center',
                         justifyContent: 'center',
                         fontSize: '1.8rem',
-                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
+                        boxShadow: isDarkTheme ? '0 10px 30px rgba(0, 0, 0, 0.4)' : '0 10px 30px rgba(0, 0, 0, 0.15)',
                         zIndex: 99999,
                         transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
                     }}
                     onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'scale(1.1) translateY(-5px)';
-                        e.currentTarget.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.2)';
+                        e.currentTarget.style.boxShadow = isDarkTheme ? '0 15px 35px rgba(0, 0, 0, 0.6)' : '0 15px 35px rgba(0, 0, 0, 0.2)';
                     }}
                     onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'scale(1) translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.15)';
+                        e.currentTarget.style.boxShadow = isDarkTheme ? '0 10px 30px rgba(0, 0, 0, 0.4)' : '0 10px 30px rgba(0, 0, 0, 0.15)';
                     }}
                 >
                     ↑

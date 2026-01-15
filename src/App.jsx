@@ -304,28 +304,28 @@ function ScrollToTopButton({ isDarkTheme }) {
                         position: 'fixed',
                         bottom: '30px',
                         right: '30px',
-                        backgroundColor: '#FFFFFF',
+                        backgroundColor: isDarkTheme ? '#1A1A1A' : '#FFFFFF',
                         color: '#FF9B50',
                         width: '50px',
                         height: '50px',
                         borderRadius: '50%',
-                        border: '2px solid #FF9B50',
+                        border: `2px solid ${isDarkTheme ? '#FF9B50' : '#FF9B50'}`, // Updated border color
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         fontSize: '1.5rem',
-                        boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
-                        zIndex: 10000, // Elevated z-index
+                        boxShadow: isDarkTheme ? '0 8px 25px rgba(0,0,0,0.4)' : '0 8px 25px rgba(0,0,0,0.15)',
+                        zIndex: 10000,
                         transition: 'all 0.3s ease'
                     }}
                     onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'scale(1.1) translateY(-5px)';
-                        e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.2)';
+                        e.currentTarget.style.boxShadow = isDarkTheme ? '0 12px 30px rgba(0,0,0,0.6)' : '0 12px 30px rgba(0,0,0,0.2)';
                     }}
                     onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'scale(1) translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+                        e.currentTarget.style.boxShadow = isDarkTheme ? '0 8px 25px rgba(0,0,0,0.4)' : '0 8px 25px rgba(0,0,0,0.15)';
                     }}
                 >
                     ↑

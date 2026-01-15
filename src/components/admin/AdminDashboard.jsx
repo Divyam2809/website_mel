@@ -7,7 +7,8 @@ import './admin.css';
 const AdminDashboard = () => {
     const [stats, setStats] = useState({
         blogs: 0, news: 0, awards: 0, faqs: 0,
-        teamdetails: 0, caseStudy: 0, testimonials: 0, timeline: 0
+        teamdetails: 0, caseStudy: 0, testimonials: 0, timeline: 0,
+        jobs: 0, jobApplications: 0, employeeStories: 0, demoQueries: 0
     });
     const [visitorStats, setVisitorStats] = useState([]);
     const [recentQueries, setRecentQueries] = useState([]);
@@ -18,7 +19,7 @@ const AdminDashboard = () => {
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
 
-        if (!storedUser || !['superadmin', 'content_manager', 'sales'].includes(storedUser.role)) {
+        if (!storedUser || !['superadmin', 'content_manager', 'sales', 'HR'].includes(storedUser.role)) {
             navigate('/admin/login');
             return;
         }
@@ -73,7 +74,7 @@ const AdminDashboard = () => {
 
     const loadStats = async () => {
         try {
-            const [blogs, news, awards, faqs, team, cases, testimonials, timeline] = await Promise.all([
+            const [blogs, news, awards, faqs, team, cases, testimonials, timeline, jobs, applications, stories, queries] = await Promise.all([
                 mockStorage.getBlogs(),
                 mockStorage.getNews(),
                 mockStorage.getAwards(),
@@ -81,7 +82,11 @@ const AdminDashboard = () => {
                 mockStorage.getTeamDetails(),
                 mockStorage.getCaseStudies(),
                 mockStorage.getTestimonials(),
-                mockStorage.getTimeline()
+                mockStorage.getTimeline(),
+                mockStorage.getJobs(),
+                mockStorage.getJobApplications(),
+                mockStorage.getEmployeeStories(),
+                mockStorage.getDemoQueries()
             ]);
 
             setStats({
@@ -92,7 +97,11 @@ const AdminDashboard = () => {
                 teamdetails: team.data.length,
                 caseStudy: cases.data.length,
                 testimonials: testimonials.data.length,
-                timeline: timeline.data.length
+                timeline: timeline.data.length,
+                jobs: jobs.data.length,
+                jobApplications: applications.data.length,
+                employeeStories: stories.data.length,
+                demoQueries: queries.data.length
             });
         } catch (error) {
             console.error('Error loading stats:', error);
@@ -132,7 +141,6 @@ const AdminDashboard = () => {
     const yAxisMax = Math.ceil(maxVisitors / 50) * 50;
     const yAxisStep = yAxisMax / 5;
 
-    const user = JSON.parse(localStorage.getItem('user'));
     const isHR = user?.role === 'HR';
 
     const modules = [
@@ -143,8 +151,18 @@ const AdminDashboard = () => {
         { name: 'Team Details', path: '/admin/content/teamdetails', count: stats.teamdetails },
         { name: 'Case Study', path: '/admin/content/casestudy', count: stats.caseStudy },
         { name: 'Testimonials', path: '/admin/content/testimonials', count: stats.testimonials },
-        { name: 'Timeline', path: '/admin/content/timeline', count: stats.timeline }
-    ];
+        { name: 'Timeline', path: '/admin/content/timeline', count: stats.timeline },
+        ...(isHR || user?.role === 'superadmin' ? [
+            { name: 'Jobs', path: '/admin/content/jobs', count: stats.jobs || 0 },
+            { name: 'Applications', path: '/admin/content/jobApplications', count: stats.jobApplications || 0 },
+            { name: 'Employee Stories', path: '/admin/content/employeeStories', count: stats.employeeStories || 0 }
+        ] : []),
+        { name: 'Leads', path: '/admin/content/demoQueries', count: stats.demoQueries || 0 }
+    ].filter(m => {
+        if (isHR) return ['Jobs', 'Applications', 'Employee Stories'].includes(m.name);
+        if (user?.role === 'sales') return m.name === 'Leads';
+        return true;
+    });
 
     if (!user) return null; // Wait for auth check
 
@@ -168,33 +186,35 @@ const AdminDashboard = () => {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
                             {/* Nav Links */}
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                {!isSales && ['Analytics', 'Recent Queries', 'Content Management'].map((item) => (
-                                    <button
-                                        key={item}
-                                        onClick={() => {
-                                            const id = item.toLowerCase().replace(/ /g, '-');
-                                            const element = document.getElementById(id);
-                                            if (element) {
-                                                const yOffset = -100;
-                                                const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
-                                                window.scrollTo({ top: y, behavior: 'smooth' });
-                                            }
-                                        }}
-                                        style={{
-                                            background: 'transparent',
-                                            border: 'none',
-                                            fontSize: '0.95rem',
-                                            fontWeight: 600,
-                                            color: '#666',
-                                            cursor: 'pointer',
-                                            transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                            padding: '8px 20px',
-                                            borderRadius: '50px'
-                                        }}
-                                    >
-                                        {item}
-                                    </button>
-                                ))}
+                                {!isSales && ['Analytics', 'Recent Queries', 'Content Management']
+                                    .filter(item => !isHR || item !== 'Recent Queries')
+                                    .map((item) => (
+                                        <button
+                                            key={item}
+                                            onClick={() => {
+                                                const id = item.toLowerCase().replace(/ /g, '-');
+                                                const element = document.getElementById(id);
+                                                if (element) {
+                                                    const yOffset = -100;
+                                                    const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+                                                    window.scrollTo({ top: y, behavior: 'smooth' });
+                                                }
+                                            }}
+                                            style={{
+                                                background: 'transparent',
+                                                border: 'none',
+                                                fontSize: '0.95rem',
+                                                fontWeight: 600,
+                                                color: '#666',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                                padding: '8px 20px',
+                                                borderRadius: '50px'
+                                            }}
+                                        >
+                                            {item}
+                                        </button>
+                                    ))}
                             </div>
 
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
@@ -347,8 +367,8 @@ const AdminDashboard = () => {
                             </div>
                         )}
 
-                        {/* Queries Box - SHOW FOR ALL except Content Manager */}
-                        {!isContentManager && (
+                        {/* Queries Box - SHOW FOR ALL except Content Manager and HR */}
+                        {!isContentManager && !isHR && (
                             <div id="recent-queries" style={{ marginBottom: '3rem', scrollMarginTop: '100px' }}>
                                 <h2 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '2rem', color: '#ea6805' }}>
                                     {isSales ? 'Demo Requests' : 'Recent Queries'}
