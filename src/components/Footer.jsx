@@ -28,8 +28,7 @@ export default function Footer({ isDarkTheme, onNavigate }) {
             boxShadow: isDarkTheme
                 ? 'none'
                 : '0 -4px 20px rgba(0, 0, 0, 0.05)'
-        }}>
-
+        }} >
 
 
             <hr style={{ borderColor: borderColor, opacity: 0.3, marginBottom: '4rem', maxWidth: '1400px', margin: '0 auto 4rem auto' }} />

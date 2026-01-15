@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './admin.css';
 
 const AdminSidebar = ({ stats = {} }) => {
     const navigate = useNavigate();
     const location = useLocation();
+    const [expandedMenu, setExpandedMenu] = useState({});
 
+    const toggleMenu = (name) => {
+        setExpandedMenu(prev => ({
+            ...prev,
+            [name]: !prev[name]
+        }));
+    };
+
+    // ... Icons object ...
     // Professional Inline SVGs (Lucide-style)
     const Icons = {
+        // ... existing icons ...
         Blog: (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -90,6 +100,18 @@ const AdminSidebar = ({ stats = {} }) => {
         return location.pathname === path;
     };
 
+    // Auto-expand menu if active child
+    React.useEffect(() => {
+        menuItems.forEach(item => {
+            if (item.children) {
+                const hasActiveChild = item.children.some(child => isActive(child.path));
+                if (hasActiveChild) {
+                    setExpandedMenu(prev => ({ ...prev, [item.name]: true }));
+                }
+            }
+        });
+    }, [location.pathname]);
+
     return (
         <div className="admin-sidebar">
             <div className="sidebar-header">
@@ -97,17 +119,58 @@ const AdminSidebar = ({ stats = {} }) => {
             </div>
             <nav className="sidebar-nav">
                 {menuItems.map((item, index) => (
-                    <div
-                        key={index}
-                        className={`sidebar-item ${isActive(item.path) ? 'active' : ''}`}
-                        onClick={() => navigate(item.path)}
-                    >
-                        <div className="sidebar-item-content">
-                            <span className="sidebar-icon">{item.icon}</span>
-                            <span className="sidebar-label">{item.name}</span>
-                        </div>
-                        {/* Count badge removed as per request */}
-                    </div>
+                    <React.Fragment key={index}>
+                        {item.children ? (
+                            <>
+                                <div
+                                    className={`sidebar-item ${location.pathname.startsWith('/admin/content/jobs') || location.pathname.startsWith('/admin/content/employeeStories') ? 'active-parent' : ''}`}
+                                    onClick={() => toggleMenu(item.name)}
+                                    style={{ justifyContent: 'space-between', cursor: 'pointer' }}
+                                >
+                                    <div className="sidebar-item-content">
+                                        <span className="sidebar-icon">{item.icon}</span>
+                                        <span className="sidebar-label">{item.name}</span>
+                                    </div>
+                                    <span style={{
+                                        transform: expandedMenu[item.name] ? 'rotate(180deg)' : 'rotate(0deg)',
+                                        transition: 'transform 0.3s ease',
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    }}>
+                                        {Icons.ChevronDown}
+                                    </span>
+                                </div>
+                                <div className={`sidebar-submenu ${expandedMenu[item.name] ? 'expanded' : ''}`}
+                                    style={{
+                                        maxHeight: expandedMenu[item.name] ? '200px' : '0',
+                                        overflow: 'hidden',
+                                        transition: 'max-height 0.3s ease-in-out',
+                                        opacity: expandedMenu[item.name] ? 1 : 0
+                                    }}>
+                                    {item.children.map((child, cIdx) => (
+                                        <div
+                                            key={cIdx}
+                                            className={`sidebar-item sub-item ${isActive(child.path) ? 'active' : ''}`}
+                                            onClick={() => navigate(child.path)}
+                                            style={{ paddingLeft: '3.5rem' }}
+                                        >
+                                            <span className="sidebar-label" style={{ fontSize: '0.9rem' }}>{child.name}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
+                        ) : (
+                            <div
+                                className={`sidebar-item ${isActive(item.path) ? 'active' : ''}`}
+                                onClick={() => navigate(item.path)}
+                            >
+                                <div className="sidebar-item-content">
+                                    <span className="sidebar-icon">{item.icon}</span>
+                                    <span className="sidebar-label">{item.name}</span>
+                                </div>
+                            </div>
+                        )}
+                    </React.Fragment>
                 ))}
             </nav>
         </div>

@@ -14,8 +14,16 @@ const BlogForm = () => {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const isSuperAdmin = user.role === 'superadmin';
+    const isHR = user.role === 'HR';
     const [contentType, setContentType] = useState(initialType);
     const isEdit = !!slug;
+
+    // Role-based access control
+    useEffect(() => {
+        if (isHR) {
+            navigate('/admin/content/jobs');
+        }
+    }, [isHR, navigate]);
 
     const [formData, setFormData] = useState({
         title: '',
@@ -155,7 +163,7 @@ const BlogForm = () => {
             if (error.name === 'QuotaExceededError' || (error.code === 22) || (error.number === -2147024882)) {
                 alert('Storage Full! The image you are trying to upload is likely too large. Please try a smaller image (under 500KB).');
             } else {
-                alert(`Error saving content: ${error.message || 'Unknown error'}`);
+                alert(`Error saving item: ${error.message || 'Unknown error'}`);
             }
         } finally {
             setLoading(false);
@@ -193,42 +201,63 @@ const BlogForm = () => {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
                             {/* Nav Links */}
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                {['Analytics', 'Recent Queries', 'Content Management'].map((item) => (
-                                    <button
-                                        key={item}
-                                        onClick={() => {
-                                            const id = item.toLowerCase().replace(/ /g, '-');
-                                            navigate(`/admin/dashboard#${id}`);
-                                        }}
-                                        style={{
-                                            background: 'transparent',
-                                            border: 'none',
-                                            fontSize: '0.95rem',
-                                            fontWeight: 600,
-                                            color: '#666',
-                                            cursor: 'pointer',
-                                            transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                            padding: '8px 20px',
-                                            borderRadius: '50px',
-                                            position: 'relative',
-                                            overflow: 'hidden'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.color = '#FF9B50';
-                                            e.target.style.background = 'rgba(255, 155, 80, 0.08)';
-                                            e.target.style.transform = 'translateY(-2px)';
-                                            e.target.style.boxShadow = '0 4px 12px rgba(255, 155, 80, 0.15)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.color = '#666';
-                                            e.target.style.background = 'transparent';
-                                            e.target.style.transform = 'translateY(0)';
-                                            e.target.style.boxShadow = 'none';
-                                        }}
-                                    >
-                                        {item}
-                                    </button>
-                                ))}
+                                {['Analytics', 'Recent Queries', 'Content Management']
+                                    .filter(item => !isHR || item === 'Content Management')
+                                    .map((item) => (
+                                        <button
+                                            key={item}
+                                            onClick={() => {
+                                                const id = item.toLowerCase().replace(/ /g, '-');
+                                                navigate(`/admin/dashboard#${id}`);
+                                            }}
+                                            style={{
+                                                background: 'transparent',
+                                                border: 'none',
+                                                fontSize: '0.95rem',
+                                                fontWeight: 600,
+                                                color: '#666',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                                padding: '8px 20px',
+                                                borderRadius: '50px',
+                                                position: 'relative',
+                                                overflow: 'hidden'
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                e.target.style.color = '#FF9B50';
+                                                e.target.style.background = 'rgba(255, 155, 80, 0.08)';
+                                                e.target.style.transform = 'translateY(-2px)';
+                                                e.target.style.boxShadow = '0 4px 12px rgba(255, 155, 80, 0.15)';
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.target.style.color = '#666';
+                                                e.target.style.background = 'transparent';
+                                                e.target.style.transform = 'translateY(0)';
+                                                e.target.style.boxShadow = 'none';
+                                            }}
+                                        >
+                                            {item}
+                                        </button>
+                                    ))}
+                            </div>
+
+                            <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '10px',
+                                background: '#F0F7FF',
+                                padding: '8px 24px',
+                                borderRadius: '100px',
+                                color: '#475569',
+                                fontWeight: 700,
+                                fontSize: '0.95rem',
+                                border: '1px solid #E2E8F0'
+                            }}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7 }}>
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                {user?.role === 'superadmin' ? 'Super Admin' : user?.role === 'HR' ? 'HR' : 'Admin'}
                             </div>
 
                             <button

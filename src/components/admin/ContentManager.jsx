@@ -23,6 +23,14 @@ const ContentManager = () => {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const isSuperAdmin = user.role === 'superadmin';
+    const isHR = user.role === 'HR';
+
+    // Role-based access control
+    useEffect(() => {
+        if (isHR && moduleType !== 'jobs' && moduleType !== 'jobApplications') {
+            navigate('/admin/content/jobs');
+        }
+    }, [isHR, moduleType, navigate]);
 
     const moduleConfig = {
         blog: {
@@ -273,7 +281,12 @@ const ContentManager = () => {
                     setEditItem(null);
                     setFormData({});
                 } catch (error) {
-                    alert('Error saving item');
+                    console.error("Save Error:", error);
+                    if (error && (error.name === 'QuotaExceededError' || error.code === 22 || error.message?.includes('quota'))) {
+                        alert('Storage Limit Exceeded! \n\nThe browser\'s local storage is full. Please try:\n1. Uploading smaller images (compress them first).\n2. Deleting old or unused items.\n3. Using fewer high-res images.');
+                    } else {
+                        alert(`Error saving item: ${error.message || 'Unknown error'}`);
+                    }
                 }
             }
         });
@@ -325,6 +338,7 @@ const ContentManager = () => {
                     value={formData[key] || ''}
                     onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
                     rows={5}
+                    readOnly={type === 'jobApplications'}
                 />
             );
         } else if (fieldType === 'json:blocks') {
@@ -353,6 +367,7 @@ const ContentManager = () => {
                     className="admin-input"
                     value={formData[key] || ''}
                     onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                    disabled={type === 'jobApplications'}
                 >
                     <option value="">Select {label}</option>
                     {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
@@ -438,7 +453,8 @@ const ContentManager = () => {
                     type={inputType}
                     className="admin-input"
                     placeholder={label}
-                    value={formData[key] || ''}
+                    value={key === 'appliedAt' && formData[key] ? formData[key].split('T')[0] : (formData[key] || '')}
+                    readOnly={type === 'jobApplications'}
                     onChange={(e) => {
                         const newValue = e.target.value;
                         const updates = { [key]: newValue };
@@ -527,21 +543,23 @@ const ContentManager = () => {
                                     </div>
                                 ))}
                                 <div style={{ display: 'flex', gap: '12px', marginTop: '2rem' }}>
-                                    <button
-                                        type="submit"
-                                        style={{
-                                            background: '#FF9B50',
-                                            color: 'white',
-                                            border: 'none',
-                                            padding: '12px 32px',
-                                            borderRadius: '20px',
-                                            cursor: 'pointer',
-                                            fontWeight: 600,
-                                            fontSize: '1rem'
-                                        }}
-                                    >
-                                        {editItem ? 'Update' : 'Create'}
-                                    </button>
+                                    {type !== 'jobApplications' && (
+                                        <button
+                                            type="submit"
+                                            style={{
+                                                background: '#FF9B50',
+                                                color: 'white',
+                                                border: 'none',
+                                                padding: '12px 32px',
+                                                borderRadius: '20px',
+                                                cursor: 'pointer',
+                                                fontWeight: 600,
+                                                fontSize: '1rem'
+                                            }}
+                                        >
+                                            {editItem ? 'Update' : 'Create'}
+                                        </button>
+                                    )}
                                     <button
                                         type="button"
                                         onClick={() => { setShowForm(false); setEditItem(null); setFormData({}); }}
@@ -639,45 +657,66 @@ const ContentManager = () => {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
                             {/* Nav Links */}
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                {['Analytics', 'Recent Queries', 'Content Management'].map((item) => (
-                                    <button
-                                        key={item}
-                                        onClick={() => {
-                                            const id = item.toLowerCase().replace(/ /g, '-');
-                                            navigate(`/admin/dashboard#${id}`);
-                                            // Since we are navigating, we might need a timeout or useEffect on dashboard to handle hash scrolling, 
-                                            // effectively just going to dashboard is good for now, or maybe the user just wants the visual consistency.
-                                            // The simplest valid approach is to navigate to dashboard.
-                                        }}
-                                        style={{
-                                            background: 'transparent',
-                                            border: 'none',
-                                            fontSize: '0.95rem',
-                                            fontWeight: 600,
-                                            color: '#666',
-                                            cursor: 'pointer',
-                                            transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                            padding: '8px 20px',
-                                            borderRadius: '50px',
-                                            position: 'relative',
-                                            overflow: 'hidden'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.color = '#FF9B50';
-                                            e.target.style.background = 'rgba(255, 155, 80, 0.08)';
-                                            e.target.style.transform = 'translateY(-2px)';
-                                            e.target.style.boxShadow = '0 4px 12px rgba(255, 155, 80, 0.15)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.color = '#666';
-                                            e.target.style.background = 'transparent';
-                                            e.target.style.transform = 'translateY(0)';
-                                            e.target.style.boxShadow = 'none';
-                                        }}
-                                    >
-                                        {item}
-                                    </button>
-                                ))}
+                                {['Analytics', 'Recent Queries', 'Content Management']
+                                    .filter(item => !isHR || item === 'Content Management')
+                                    .map((item) => (
+                                        <button
+                                            key={item}
+                                            onClick={() => {
+                                                const id = item.toLowerCase().replace(/ /g, '-');
+                                                navigate(`/admin/dashboard#${id}`);
+                                                // Since we are navigating, we might need a timeout or useEffect on dashboard to handle hash scrolling, 
+                                                // effectively just going to dashboard is good for now, or maybe the user just wants the visual consistency.
+                                                // The simplest valid approach is to navigate to dashboard.
+                                            }}
+                                            style={{
+                                                background: 'transparent',
+                                                border: 'none',
+                                                fontSize: '0.95rem',
+                                                fontWeight: 600,
+                                                color: '#666',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                                padding: '8px 20px',
+                                                borderRadius: '50px',
+                                                position: 'relative',
+                                                overflow: 'hidden'
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                e.target.style.color = '#FF9B50';
+                                                e.target.style.background = 'rgba(255, 155, 80, 0.08)';
+                                                e.target.style.transform = 'translateY(-2px)';
+                                                e.target.style.boxShadow = '0 4px 12px rgba(255, 155, 80, 0.15)';
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.target.style.color = '#666';
+                                                e.target.style.background = 'transparent';
+                                                e.target.style.transform = 'translateY(0)';
+                                                e.target.style.boxShadow = 'none';
+                                            }}
+                                        >
+                                            {item}
+                                        </button>
+                                    ))}
+                            </div>
+
+                            <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '10px',
+                                background: '#F0F7FF',
+                                padding: '8px 24px',
+                                borderRadius: '100px',
+                                color: '#475569',
+                                fontWeight: 700,
+                                fontSize: '0.95rem',
+                                border: '1px solid #E2E8F0'
+                            }}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7 }}>
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                {user?.role === 'superadmin' ? 'Super Admin' : user?.role === 'HR' ? 'HR' : 'Admin'}
                             </div>
 
                             <button
@@ -737,27 +776,29 @@ const ContentManager = () => {
                             >
                                 ← Dashboard
                             </button>
-                            <button
-                                onClick={() => {
-                                    if (config.title === 'Blog Post' || config.title === 'Case Studies') {
-                                        navigate(`/admin/editor?type=${type}`);
-                                    } else {
-                                        setShowForm(true);
-                                    }
-                                }}
-                                style={{
-                                    background: '#FF9B50',
-                                    color: 'white',
-                                    border: 'none',
-                                    padding: '10px 24px',
-                                    borderRadius: '20px',
-                                    cursor: 'pointer',
-                                    fontWeight: 600,
-                                    fontSize: '0.9rem'
-                                }}
-                            >
-                                + Add New
-                            </button>
+                            {type !== 'jobApplications' && (
+                                <button
+                                    onClick={() => {
+                                        if (config.title === 'Blog Post' || config.title === 'Case Studies') {
+                                            navigate(`/admin/editor?type=${type}`);
+                                        } else {
+                                            setShowForm(true);
+                                        }
+                                    }}
+                                    style={{
+                                        background: '#FF9B50',
+                                        color: 'white',
+                                        border: 'none',
+                                        padding: '10px 24px',
+                                        borderRadius: '20px',
+                                        cursor: 'pointer',
+                                        fontWeight: 600,
+                                        fontSize: '0.9rem'
+                                    }}
+                                >
+                                    + Add New
+                                </button>
+                            )}
                         </div>
                     </div>
 
@@ -828,7 +869,8 @@ const ContentManager = () => {
                                                 }}>
                                                     <div>
                                                         <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#92400e', margin: '0 0 0.5rem 0' }}>
-                                                            {item.title || item.name || item.question || 'Untitled'}
+                                                            {item.title || item.name || item.question || item.fullName || 'Untitled'}
+                                                            {item.jobTitle && <span style={{ fontSize: '0.9rem', color: '#666', fontWeight: 500, marginLeft: '10px' }}>({item.jobTitle})</span>}
                                                         </h3>
                                                         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                                                             <span style={{
@@ -841,7 +883,12 @@ const ContentManager = () => {
                                                             }}>
                                                                 Draft
                                                             </span>
-                                                            {item.updatedAt && (
+                                                            {type === 'jobApplications' && item.appliedAt && (
+                                                                <span style={{ opacity: 0.6, fontSize: '0.85rem', color: '#92400e' }}>
+                                                                    Applied: {new Date(item.appliedAt).toLocaleDateString()}
+                                                                </span>
+                                                            )}
+                                                            {type !== 'jobApplications' && item.updatedAt && (
                                                                 <span style={{ opacity: 0.6, fontSize: '0.85rem', color: '#92400e' }}>
                                                                     Updated: {new Date(item.updatedAt).toLocaleDateString()}
                                                                 </span>
@@ -859,9 +906,9 @@ const ContentManager = () => {
                                                                 }
                                                             }}
                                                             style={{
-                                                                background: 'white',
-                                                                color: '#f59e0b',
-                                                                border: '1px solid #f59e0b',
+                                                                background: type === 'jobApplications' ? '#E5E7EB' : 'white',
+                                                                color: type === 'jobApplications' ? '#374151' : '#f59e0b',
+                                                                border: type === 'jobApplications' ? '1px solid #D1D5DB' : '1px solid #f59e0b',
                                                                 padding: '8px 20px',
                                                                 borderRadius: '20px',
                                                                 cursor: 'pointer',
@@ -869,9 +916,26 @@ const ContentManager = () => {
                                                                 fontSize: '0.85rem'
                                                             }}
                                                         >
-                                                            Edit
+                                                            {type === 'jobApplications' ? 'Open' : 'Edit'}
                                                         </button>
-                                                        {isSuperAdmin && (
+                                                        {type !== 'jobApplications' && (
+                                                            <button
+                                                                onClick={() => handleToggle(item._id, item.isVisible)}
+                                                                style={{
+                                                                    background: '#d1fae5',
+                                                                    color: '#065f46',
+                                                                    border: 'none',
+                                                                    padding: '8px 20px',
+                                                                    borderRadius: '20px',
+                                                                    cursor: 'pointer',
+                                                                    fontWeight: 600,
+                                                                    fontSize: '0.85rem'
+                                                                }}
+                                                            >
+                                                                Publish
+                                                            </button>
+                                                        )}
+                                                        {(isSuperAdmin || (isHR && (type === 'jobs' || type === 'jobApplications'))) && (
                                                             <button
                                                                 onClick={() => handleDelete(item._id)}
                                                                 style={{
@@ -917,7 +981,8 @@ const ContentManager = () => {
                                                 }}>
                                                     <div>
                                                         <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#2D2D2D', margin: '0 0 0.5rem 0' }}>
-                                                            {item.title || item.name || item.question || 'Untitled'}
+                                                            {item.title || item.name || item.question || item.fullName || 'Untitled'}
+                                                            {item.jobTitle && <span style={{ fontSize: '0.9rem', color: '#666', fontWeight: 500, marginLeft: '10px' }}>({item.jobTitle})</span>}
                                                         </h3>
                                                         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                                                             <span style={{
@@ -930,7 +995,12 @@ const ContentManager = () => {
                                                             }}>
                                                                 Published
                                                             </span>
-                                                            {item.updatedAt && (
+                                                            {type === 'jobApplications' && item.appliedAt && (
+                                                                <span style={{ opacity: 0.6, fontSize: '0.85rem', color: '#10b981' }}>
+                                                                    Applied: {new Date(item.appliedAt).toLocaleDateString()}
+                                                                </span>
+                                                            )}
+                                                            {type !== 'jobApplications' && item.updatedAt && (
                                                                 <span style={{ opacity: 0.6, fontSize: '0.85rem' }}>
                                                                     Updated: {new Date(item.updatedAt).toLocaleDateString()}
                                                                 </span>
@@ -948,9 +1018,9 @@ const ContentManager = () => {
                                                                 }
                                                             }}
                                                             style={{
-                                                                background: 'transparent',
-                                                                color: '#FF9B50',
-                                                                border: '1px solid #FF9B50',
+                                                                background: type === 'jobApplications' ? '#E5E7EB' : 'transparent',
+                                                                color: type === 'jobApplications' ? '#374151' : '#FF9B50',
+                                                                border: type === 'jobApplications' ? '1px solid #D1D5DB' : '1px solid #FF9B50',
                                                                 padding: '8px 20px',
                                                                 borderRadius: '20px',
                                                                 cursor: 'pointer',
@@ -958,24 +1028,26 @@ const ContentManager = () => {
                                                                 fontSize: '0.85rem'
                                                             }}
                                                         >
-                                                            Edit
+                                                            {type === 'jobApplications' ? 'Open' : 'Edit'}
                                                         </button>
-                                                        <button
-                                                            onClick={() => handleToggle(item._id, item.isVisible)}
-                                                            style={{
-                                                                background: item.isVisible ? '#fee2e2' : '#d1fae5',
-                                                                color: item.isVisible ? '#991b1b' : '#065f46',
-                                                                border: 'none',
-                                                                padding: '8px 20px',
-                                                                borderRadius: '20px',
-                                                                cursor: 'pointer',
-                                                                fontWeight: 600,
-                                                                fontSize: '0.85rem'
-                                                            }}
-                                                        >
-                                                            {item.isVisible ? 'Move to Draft' : 'Publish'}
-                                                        </button>
-                                                        {isSuperAdmin && (
+                                                        {type !== 'jobApplications' && (
+                                                            <button
+                                                                onClick={() => handleToggle(item._id, item.isVisible)}
+                                                                style={{
+                                                                    background: item.isVisible ? '#fee2e2' : '#d1fae5',
+                                                                    color: item.isVisible ? '#991b1b' : '#065f46',
+                                                                    border: 'none',
+                                                                    padding: '8px 20px',
+                                                                    borderRadius: '20px',
+                                                                    cursor: 'pointer',
+                                                                    fontWeight: 600,
+                                                                    fontSize: '0.85rem'
+                                                                }}
+                                                            >
+                                                                {item.isVisible ? 'Move to Draft' : 'Publish'}
+                                                            </button>
+                                                        )}
+                                                        {(isSuperAdmin || (isHR && (type === 'jobs' || type === 'jobApplications'))) && (
                                                             <button
                                                                 onClick={() => handleDelete(item._id)}
                                                                 style={{

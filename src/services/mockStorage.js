@@ -509,7 +509,7 @@ class MockStorageService {
         }
 
         // --- MIGRATION: Auto-Generate Slugs for Legacy Data ---
-        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials'];
+        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials', 'jobs', 'employeeStories', 'jobApplications'];
 
         collections.forEach(key => {
             const items = JSON.parse(localStorage.getItem(key) || '[]');
@@ -688,7 +688,14 @@ class MockStorageService {
             const items = this._getAll(key);
             const index = items.findIndex(i => i._id === id);
             if (index !== -1) {
-                items[index].isVisible = !items[index].isVisible;
+                const newVisibility = !items[index].isVisible;
+                items[index].isVisible = newVisibility;
+
+                // Sync status if it exists
+                if (items[index].status) {
+                    items[index].status = newVisibility ? 'Published' : 'Draft';
+                }
+
                 items[index].updatedAt = new Date().toISOString();
                 this._save(key, items);
                 resolve({ data: items[index] });

@@ -14,6 +14,7 @@ const AdminDashboard = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
 
+
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
 
@@ -130,6 +131,9 @@ const AdminDashboard = () => {
     // Calculate nice Y-axis scale
     const yAxisMax = Math.ceil(maxVisitors / 50) * 50;
     const yAxisStep = yAxisMax / 5;
+
+    const user = JSON.parse(localStorage.getItem('user'));
+    const isHR = user?.role === 'HR';
 
     const modules = [
         { name: 'Blog', path: '/admin/content/blog', count: stats.blogs },
