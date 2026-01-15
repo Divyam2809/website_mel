@@ -33,6 +33,7 @@ const VirtualHeritage = React.lazy(() => import('./pages/VirtualHeritage'));
 const CityGuides = React.lazy(() => import('./pages/CityGuides'));
 const MelzoNews = React.lazy(() => import('./MelzoNews'));
 const BlogDetail = React.lazy(() => import('./pages/BlogDetail'));
+const PrivacyPolicy = React.lazy(() => import('./pages/PrivacyPolicy'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
 
 
@@ -40,6 +41,8 @@ const NotFound = React.lazy(() => import('./pages/NotFound'));
 const AdminLogin = React.lazy(() => import('./components/admin/AdminLogin'));
 const AdminDashboard = React.lazy(() => import('./components/admin/AdminDashboard'));
 const ContentManager = React.lazy(() => import('./components/admin/ContentManager'));
+const BlogForm = React.lazy(() => import('./components/admin/BlogForm'));
+const FooterManager = React.lazy(() => import('./components/admin/FooterManager'));
 
 import Footer from './components/Footer';
 import BookDemo from './components/BookDemo';
@@ -181,6 +184,7 @@ export default function App() {
                         <Route path="/about" element={<About {...commonProps} />} />
                         <Route path="/guidelines" element={<Guidelines {...commonProps} />} />
                         <Route path="/melzonews" element={<MelzoNews {...commonProps} />} />
+                        <Route path="/privacy-policy" element={<PrivacyPolicy {...commonProps} />} />
 
                         {/* Product Pages Redesigned Route Structure */}
 
@@ -215,6 +219,9 @@ export default function App() {
                         <Route path="/admin/login" element={<AdminLogin />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
                         <Route path="/admin/content/:moduleType" element={<ContentManager />} />
+                        <Route path="/admin/footer" element={<FooterManager />} />
+                        <Route path="/admin/editor" element={<BlogForm />} />
+                        <Route path="/admin/editor/:slug" element={<BlogForm />} />
 
                         {/* Fallback - 404 Page */}
                         <Route path="*" element={<NotFound {...commonProps} />} />

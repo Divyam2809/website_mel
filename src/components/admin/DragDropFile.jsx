@@ -31,6 +31,33 @@ const DragDropFile = ({ onFileSelect, preview, accept = "image/*,video/*", altTe
     };
 
     const handleFile = (file) => {
+        // Validate file type based on accept prop
+        if (accept) {
+            const fileType = file.type;
+            const acceptedTypes = accept.split(',').map(t => t.trim());
+
+            const isValid = acceptedTypes.some(type => {
+                if (type.endsWith('/*')) {
+                    // Handle wildcard types like image/* or video/*
+                    const mainType = type.split('/')[0];
+                    return fileType.startsWith(mainType + '/');
+                }
+                // Handle specific types (.ext or mime/type) - simplified to mime mostly
+                return fileType === type;
+            });
+
+            if (!isValid) {
+                alert(`Invalid file type. Accepted types: ${accept}`);
+                return;
+            }
+        }
+
+        // Check file size (max 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+            alert('File is too large! Please upload an image smaller than 2MB.');
+            return;
+        }
+
         const reader = new FileReader();
         reader.onloadend = () => {
             onFileSelect(reader.result, file);

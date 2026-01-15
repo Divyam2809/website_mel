@@ -1,39 +1,73 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import BlockEditor from './BlockEditor';
+import DragDropFile from './DragDropFile';
+import AdminSidebar from './AdminSidebar';
 import mockStorage from '../../services/mockStorage';
 import './admin.css';
 
 const BlogForm = () => {
-    const { slug } = useParams(); // In our new logic, this is actually the ID
+    const { slug } = useParams();
+    const [searchParams] = useSearchParams();
+    const initialType = searchParams.get('type') || 'blog';
+
     const navigate = useNavigate();
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const initialType = queryParams.get('type') || 'blog';
-
-    const isEdit = !!slug;
-
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const isSuperAdmin = user.role === 'superadmin';
     const [contentType, setContentType] = useState(initialType);
+    const isEdit = !!slug;
 
     const [formData, setFormData] = useState({
         title: '',
         slug: '',
-        category: 'EdTech',
-        boards: [],
-        content: '',
-        description: '', // For Case Study
-        seoKeywords: '',
-        ctaType: 'Book a Demo',
-        status: 'Draft',
-        videoUrl: '', // For Case Study video
-        date: new Date().toISOString().split('T')[0] // Default to today
+        status: 'Published',
+        date: new Date().toISOString().split('T')[0],
+        author: '',
+        description: '', // Used for excerpt
+        content: [], // Block content
+        image: '',
+        videoUrl: '',
+        category: 'General',
+        metaTitle: '',
+        metaDescription: '',
+        metaKeywords: '',
+        seoKeywords: '', // Legacy support
+        boards: []
     });
-    const [featuredImage, setFeaturedImage] = useState(null); // File object or base64 string
-    const [imagePreview, setImagePreview] = useState('');
+
+    const [featuredImage, setFeaturedImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [stats, setStats] = useState({});
 
     useEffect(() => {
+        const loadStats = async () => {
+            try {
+                const [blogs, news, awards, faqs, team, cases, testimonials] = await Promise.all([
+                    mockStorage.getBlogs(),
+                    mockStorage.getNews(),
+                    mockStorage.getAwards(),
+                    mockStorage.getFAQs(),
+                    mockStorage.getTeamDetails(),
+                    mockStorage.getCaseStudies(),
+                    mockStorage.getTestimonials()
+                ]);
+
+                setStats({
+                    blogs: blogs.data.length,
+                    news: news.data.length,
+                    awards: awards.data.length,
+                    faqs: faqs.data.length,
+                    teamdetails: team.data.length,
+                    caseStudy: cases.data.length,
+                    testimonials: testimonials.data.length
+                });
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        };
+        loadStats();
+
         if (isEdit) {
             fetchData();
         }
@@ -46,24 +80,26 @@ const BlogForm = () => {
                 const response = await mockStorage.getBlog(slug);
                 data = response.data;
             } else {
-                const response = await mockStorage.getCaseStudies(); // Warning: getCaseStudy(id) is strictly better but we can find it
+                const response = await mockStorage.getCaseStudies();
                 const allStudies = response.data;
-                data = allStudies.find(s => s._id === slug);
+                data = allStudies.find(s => s._id === slug || s.slug === slug);
             }
 
             if (data) {
                 setFormData({
                     ...data,
+                    status: data.status || (data.isVisible ? 'Published' : 'Draft'),
                     boards: data.boards || [],
-                    seoKeywords: Array.isArray(data.seoKeywords) ? data.seoKeywords.join(', ') : (data.seoKeywords || ''),
-                    content: data.content || '',
-                    description: data.description || '',
+                    author: typeof data.author === 'object' ? (data.author?.name || '') : (data.author || ''),
+                    metaKeywords: data.metaKeywords || (Array.isArray(data.seoKeywords) ? data.seoKeywords.join(', ') : (data.seoKeywords || '')),
+                    content: Array.isArray(data.content) ? data.content : [],
+                    description: data.description || data.excerpt || '',
                     videoUrl: data.mediaUrl || '',
                     date: data.date ? new Date(data.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
                 });
                 if (data.image) {
                     setImagePreview(data.image);
-                    setFeaturedImage(data.image); // Keep existing image
+                    setFeaturedImage(data.image);
                 }
             }
         } catch (error) {
@@ -75,32 +111,11 @@ const BlogForm = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleContentChange = (content) => {
-        setFormData({ ...formData, content });
+    const handleContentChange = (newBlocks) => {
+        setFormData({ ...formData, content: newBlocks });
     };
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setFeaturedImage(reader.result);
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
 
-    const handleBoardChange = (e) => {
-        const { value, checked } = e.target;
-        let updatedBoards = [...formData.boards];
-        if (checked) {
-            updatedBoards.push(value);
-        } else {
-            updatedBoards = updatedBoards.filter(b => b !== value);
-        }
-        setFormData({ ...formData, boards: updatedBoards });
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -108,22 +123,24 @@ const BlogForm = () => {
 
         const dataToSave = {
             ...formData,
-            image: featuredImage, // Save base64 directly
-            mediaUrl: formData.videoUrl, // Map videoUrl to mediaUrl for case studies
-            type: contentType === 'casestudy' ? (formData.videoUrl ? 'video' : 'image') : undefined
+            image: featuredImage,
+            mediaUrl: formData.videoUrl,
+            type: contentType === 'casestudy' ? (formData.videoUrl ? 'video' : 'image') : undefined,
+            content: formData.content,
+            isVisible: formData.status === 'Published'
         };
 
-        // Clean up array fields
-        if (typeof dataToSave.seoKeywords === 'string') {
-            dataToSave.seoKeywords = dataToSave.seoKeywords.split(',').map(k => k.trim());
+        if (typeof dataToSave.metaKeywords === 'string') {
+            dataToSave.seoKeywords = dataToSave.metaKeywords.split(',').map(k => k.trim());
         }
 
         try {
             if (isEdit) {
+                const idToUpdate = formData._id || slug;
                 if (contentType === 'blog') {
-                    await mockStorage.updateBlog(slug, dataToSave);
+                    await mockStorage.updateBlog(idToUpdate, dataToSave);
                 } else {
-                    await mockStorage.updateCaseStudy(slug, dataToSave);
+                    await mockStorage.updateCaseStudy(idToUpdate, dataToSave);
                 }
             } else {
                 if (contentType === 'blog') {
@@ -132,156 +149,327 @@ const BlogForm = () => {
                     await mockStorage.saveCaseStudy(dataToSave);
                 }
             }
-            navigate('/admin/dashboard');
+            navigate(`/admin/content/${contentType}`);
         } catch (error) {
             console.error('Error saving content', error);
-            alert('Error saving content');
+            if (error.name === 'QuotaExceededError' || (error.code === 22) || (error.number === -2147024882)) {
+                alert('Storage Full! The image you are trying to upload is likely too large. Please try a smaller image (under 500KB).');
+            } else {
+                alert(`Error saving content: ${error.message || 'Unknown error'}`);
+            }
         } finally {
             setLoading(false);
         }
     };
 
-    const [isDragging, setIsDragging] = useState(false);
-
-    const handleDragOver = (e) => {
-        e.preventDefault();
-        setIsDragging(true);
-    };
-
-    const handleDragLeave = (e) => {
-        e.preventDefault();
-        setIsDragging(false);
-    };
-
-    const handleDrop = (e) => {
-        e.preventDefault();
-        setIsDragging(false);
-        const file = e.dataTransfer.files[0];
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setFeaturedImage(reader.result);
-                setImagePreview(reader.result);
-            };
-            reader.readAsDataURL(file);
+    const handleDelete = async () => {
+        if (!window.confirm('Are you sure you want to delete this content?')) return;
+        try {
+            const idToDelete = formData._id || slug;
+            if (contentType === 'blog') {
+                await mockStorage.deleteBlog(idToDelete);
+            } else {
+                await mockStorage.deleteCaseStudy(idToDelete);
+            }
+            navigate(`/admin/content/${contentType}`);
+        } catch (error) {
+            alert('Error deleting content');
         }
     };
 
     return (
-        <div className="admin-container">
-            <div className="form-header" style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2 style={{ color: '#FF9B50' }}>{isEdit ? 'Edit' : 'Add New'} {contentType === 'blog' ? 'Blog' : 'Case Study'}</h2>
-                {!isEdit && (
-                    <select
-                        value={contentType}
-                        onChange={(e) => setContentType(e.target.value)}
-                        className="admin-input"
-                        style={{ width: 'auto' }}
-                    >
-                        <option value="blog">Blog</option>
-                        <option value="casestudy">Case Study</option>
-                    </select>
-                )}
-            </div>
-
-            <form onSubmit={handleSubmit} className="blog-form" style={{ backgroundColor: '#1a1a1a', padding: '20px', borderRadius: '10px' }}>
-
-                {/* Simplified Form Fields */}
-                <label className="input-label">Date</label>
-                <input
-                    type="date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleChange}
-                    className="admin-input"
-                    style={{ marginBottom: '20px' }}
-                    required
-                />
-
-                <label className="input-label">Title</label>
-                <input
-                    name="title"
-                    value={formData.title}
-                    onChange={(e) => {
-                        // Auto-generate slug from title
-                        const newSlug = e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-                        setFormData({ ...formData, title: e.target.value, slug: newSlug });
-                    }}
-                    className="admin-input"
-                    required
-                />
-
-                {/* Hidden Slug Input (Auto-generated) */}
-                <input type="hidden" name="slug" value={formData.slug} />
-
-                {/* Description Field (Rich Text for Blog, Textarea for Case Study) */}
-                <label className="input-label">Description</label>
-                {contentType === 'blog' ? (
-                    <div style={{ backgroundColor: 'white', color: 'black', marginBottom: '20px', borderRadius: '5px' }}>
-                        <ReactQuill theme="snow" value={formData.content} onChange={handleContentChange} style={{ height: '200px', marginBottom: '40px' }} />
-                    </div>
-                ) : (
-                    <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        className="admin-input"
-                        style={{ height: '150px', paddingTop: '10px' }}
-                        required
-                    />
-                )}
-
-                {/* Image / Video Upload */}
-                <label className="input-label">Image / Video Upload</label>
-                <div
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    onDrop={handleDrop}
-                    style={{
-                        border: isDragging ? '2px dashed #FF9B50' : '1px dashed #444',
-                        backgroundColor: isDragging ? 'rgba(255, 155, 80, 0.1)' : 'transparent',
-                        padding: '40px',
-                        borderRadius: '10px',
-                        marginBottom: '20px',
-                        textAlign: 'center',
-                        transition: 'all 0.2s',
-                        cursor: 'pointer'
-                    }}
-                >
-                    <p style={{ marginBottom: '10px', fontSize: '1.1rem', fontWeight: 'bold', color: isDragging ? '#FF9B50' : '#888' }}>
-                        {isDragging ? 'Drop Image Here' : 'Drag & Drop Image Here'}
-                    </p>
-                    <p style={{ marginBottom: '20px', fontSize: '0.9rem', color: '#666' }}>OR</p>
-
-                    <input type="file" onChange={handleImageChange} className="admin-input" accept="image/*" style={{ marginBottom: '10px', maxWidth: '300px' }} />
-
-                    <div style={{ margin: '15px 0', borderTop: '1px solid #333', paddingTop: '15px' }}>
-                        <p style={{ marginBottom: '5px', fontSize: '0.9rem', color: '#888' }}>For Video, Paste URL:</p>
-                        <input
-                            name="videoUrl"
-                            value={formData.videoUrl}
-                            onChange={handleChange}
-                            className="admin-input"
-                            placeholder="Video URL (e.g., YouTube)"
-                        />
-                    </div>
-
-                    {imagePreview && (
-                        <div style={{ marginTop: '20px' }}>
-                            <p style={{ fontSize: '0.8rem', marginBottom: '5px', color: '#888' }}>Image Preview:</p>
-                            <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', maxHeight: '300px', borderRadius: '5px', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }} />
+        <div className="admin-layout">
+            <AdminSidebar stats={stats} />
+            <div className="admin-main-content">
+                <div style={{ backgroundColor: '#ffffff', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
+                    {/* Header */}
+                    {/* Header */}
+                    <div className="admin-header">
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <img src="/assets/Melzo_Logo.svg" alt="Melzo" style={{ height: '40px', cursor: 'pointer' }} onClick={() => navigate('/admin/dashboard')} />
                         </div>
-                    )}
+
+                        {/* RIGHT: Nav & Logout Group */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
+                            {/* Nav Links */}
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                {['Analytics', 'Recent Queries', 'Content Management'].map((item) => (
+                                    <button
+                                        key={item}
+                                        onClick={() => {
+                                            const id = item.toLowerCase().replace(/ /g, '-');
+                                            navigate(`/admin/dashboard#${id}`);
+                                        }}
+                                        style={{
+                                            background: 'transparent',
+                                            border: 'none',
+                                            fontSize: '0.95rem',
+                                            fontWeight: 600,
+                                            color: '#666',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                            padding: '8px 20px',
+                                            borderRadius: '50px',
+                                            position: 'relative',
+                                            overflow: 'hidden'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.target.style.color = '#FF9B50';
+                                            e.target.style.background = 'rgba(255, 155, 80, 0.08)';
+                                            e.target.style.transform = 'translateY(-2px)';
+                                            e.target.style.boxShadow = '0 4px 12px rgba(255, 155, 80, 0.15)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.target.style.color = '#666';
+                                            e.target.style.background = 'transparent';
+                                            e.target.style.transform = 'translateY(0)';
+                                            e.target.style.boxShadow = 'none';
+                                        }}
+                                    >
+                                        {item}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <button
+                                onClick={() => {
+                                    localStorage.removeItem('user');
+                                    navigate('/admin/login');
+                                }}
+                                style={{
+                                    background: 'linear-gradient(135deg, #FF9B50 0%, #FF6B00 100%)',
+                                    color: 'white',
+                                    border: 'none',
+                                    padding: '12px 32px',
+                                    borderRadius: '50px',
+                                    cursor: 'pointer',
+                                    fontWeight: 700,
+                                    fontSize: '0.95rem',
+                                    transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                    boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '10px'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.transform = 'translateY(-3px) scale(1.05)';
+                                    e.target.style.boxShadow = '0 10px 25px rgba(255, 155, 80, 0.5)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.transform = 'translateY(0) scale(1)';
+                                    e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
+                                }}
+                            >
+                                <span>Logout</span>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                    <polyline points="16 17 21 12 16 7"></polyline>
+                                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Sub Header for Navigation Back */}
+                    <div style={{ padding: '0 5%', maxWidth: '1400px', margin: '20px auto 0' }}>
+                        <button onClick={() => navigate(`/admin/content/${contentType}`)} style={{ background: 'transparent', border: 'none', color: '#666', cursor: 'pointer', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '5px' }}>
+                            ← Back to {contentType === 'blog' ? 'Blogs' : 'Case Studies'}
+                        </button>
+                    </div>
+
+                    <div className="admin-container" style={{ padding: '40px 5%', maxWidth: '1400px', margin: '0 auto' }}>
+                        <div className="form-header" style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <h2 style={{ color: '#FF9B50', fontSize: '2rem', fontWeight: 900 }}>{isEdit ? 'Edit' : 'Add New'} {contentType === 'blog' ? 'Blog' : 'Case Study'}</h2>
+                            {!isEdit && (
+                                <select
+                                    value={contentType}
+                                    onChange={(e) => setContentType(e.target.value)}
+                                    className="admin-input"
+                                    style={{ width: 'auto' }}
+                                >
+                                    <option value="blog">Blog</option>
+                                    <option value="casestudy">Case Study</option>
+                                </select>
+                            )}
+                        </div>
+
+                        <form onSubmit={handleSubmit} className="blog-form" style={{ backgroundColor: '#fff', padding: '30px', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', border: '1px solid #f1f5f9' }}>
+
+                            {/* Status Bar */}
+                            <div style={{ marginBottom: '2rem', padding: '15px', background: '#f8fafc', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '15px' }}>
+                                <span style={{ fontWeight: 600, color: '#64748b' }}>Status:</span>
+                                <select
+                                    name="status"
+                                    value={formData.status || 'Published'}
+                                    onChange={handleChange}
+                                    style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #cbd5e1', fontWeight: 600, color: formData.status === 'Draft' ? '#ef4444' : '#10b981' }}
+                                >
+                                    <option value="Published">Published</option>
+                                    <option value="Draft">Draft</option>
+                                </select>
+                            </div>
+
+                            {/* Standard Fields */}
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem', marginBottom: '2rem' }}>
+                                <div>
+                                    <div className="admin-input-group">
+                                        <label className="admin-input-label">Date</label>
+                                        <input type="date" name="date" value={formData.date} onChange={handleChange} className="admin-input" required />
+                                    </div>
+                                    <div className="admin-input-group">
+                                        <label className="admin-input-label">Author</label>
+                                        <input
+                                            name="author"
+                                            value={formData.author}
+                                            onChange={handleChange}
+                                            className="admin-input"
+                                            placeholder="Author Name"
+                                        />
+                                    </div>
+                                    <div className="admin-input-group">
+                                        <label className="admin-input-label">Title</label>
+                                        <input
+                                            name="title"
+                                            value={formData.title}
+                                            onChange={(e) => {
+                                                const newSlug = e.target.value
+                                                    .toLowerCase()
+                                                    .replace(/[^a-z0-9]+/g, '-')
+                                                    .replace(/(^-|-$)+/g, '');
+
+                                                if (!isEdit) {
+                                                    setFormData({ ...formData, title: e.target.value, slug: newSlug });
+                                                } else {
+                                                    setFormData({ ...formData, title: e.target.value });
+                                                }
+                                            }}
+                                            className="admin-input"
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="admin-input-group">
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                                            <label className="admin-input-label" style={{ marginBottom: 0 }}>Slug (URL)</label>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    const source = formData.title || '';
+                                                    const newSlug = source.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+                                                    setFormData({ ...formData, slug: newSlug });
+                                                }}
+                                                style={{ fontSize: '0.8rem', color: '#FF9B50', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}
+                                            >
+                                                Generate from Title
+                                            </button>
+                                        </div>
+                                        <input
+                                            name="slug"
+                                            value={formData.slug}
+                                            onChange={handleChange}
+                                            className="admin-input"
+                                            style={{ fontFamily: 'monospace', fontSize: '0.9rem', color: '#666' }}
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className="admin-input-group">
+                                        <label className="admin-input-label">{contentType === 'blog' ? 'Excerpt' : 'Description'}</label>
+                                        <textarea
+                                            name="description"
+                                            value={formData.description}
+                                            onChange={handleChange}
+                                            className="admin-input"
+                                            style={{ height: '100px' }}
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Image Upload */}
+                                <div>
+                                    <div className="admin-input-group" style={{ height: '100%' }}>
+                                        <label className="admin-input-label">Featured Image</label>
+                                        <DragDropFile
+                                            onFileSelect={(dataUrl) => {
+                                                setFeaturedImage(dataUrl);
+                                                setImagePreview(dataUrl);
+                                            }}
+                                            preview={imagePreview}
+                                            accept="image/*"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* BLOCK EDITOR */}
+                            <div className="admin-input-group">
+                                <label className="admin-input-label">Content Blocks</label>
+                                <BlockEditor
+                                    value={formData.content}
+                                    onChange={handleContentChange}
+                                />
+                            </div>
+
+                            {/* SEO SECTION */}
+                            <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '2px dashed #e2e8f0' }}>
+                                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#334155', marginBottom: '1.5rem' }}>SEO Settings</h3>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+                                    <div className="admin-input-group">
+                                        <label className="admin-input-label">Meta Title</label>
+                                        <input
+                                            name="metaTitle"
+                                            value={formData.metaTitle || ''}
+                                            onChange={handleChange}
+                                            className="admin-input"
+                                            placeholder="SEO Title (defaults to Title)"
+                                        />
+                                    </div>
+                                    <div className="admin-input-group">
+                                        <label className="admin-input-label">Meta Keywords</label>
+                                        <input
+                                            name="metaKeywords"
+                                            value={formData.metaKeywords || ''}
+                                            onChange={handleChange}
+                                            className="admin-input"
+                                            placeholder="React, VR, Education, ..."
+                                        />
+                                    </div>
+                                    <div className="admin-input-group" style={{ gridColumn: '1 / -1' }}>
+                                        <label className="admin-input-label">Meta Description</label>
+                                        <textarea
+                                            name="metaDescription"
+                                            value={formData.metaDescription || ''}
+                                            onChange={handleChange}
+                                            className="admin-input"
+                                            placeholder="SEO Description (defaults to Excerpt)"
+                                            rows={3}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '1rem', marginTop: '30px', borderTop: '1px solid #e2e8f0', paddingTop: '20px' }}>
+                                <button type="submit" className="admin-btn" disabled={loading} style={{ background: '#FF9B50', color: 'white', border: 'none', padding: '12px 32px', borderRadius: '50px', fontWeight: 700, cursor: 'pointer', flex: 1 }}>
+                                    {loading ? 'Saving...' : (isEdit ? 'Update' : 'Publish')}
+                                </button>
+                                <button type="button" onClick={() => navigate(`/admin/content/${contentType}`)} style={{ background: 'transparent', border: '1px solid #cbd5e1', color: '#64748b', padding: '12px 32px', borderRadius: '50px', fontWeight: 600, cursor: 'pointer' }}>
+                                    Cancel
+                                </button>
+                                {isEdit && isSuperAdmin && (
+                                    <button
+                                        type="button"
+                                        onClick={handleDelete}
+                                        style={{ background: '#fee2e2', border: 'none', color: '#991b1b', padding: '12px 32px', borderRadius: '50px', fontWeight: 600, cursor: 'pointer' }}
+                                    >
+                                        Delete
+                                    </button>
+                                )}
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
-                {/* Hidden Defaults */}
-                <input type="hidden" name="category" value={formData.category} />
-                <input type="hidden" name="status" value="Published" />
-
-                <button type="submit" className="admin-btn" disabled={loading} style={{ marginTop: '10px' }}>
-                    {loading ? 'Saving...' : (isEdit ? 'Update' : 'Publish')}
-                </button>
-            </form>
+            </div>
         </div>
     );
 };

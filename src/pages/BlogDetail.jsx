@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import AppNav from '../components/AppNav';
-import { blogData } from '../data/blogData';
+import mockStorage from '../services/mockStorage';
 import GridBackground from '../components/GridBackground';
 
 export default function BlogDetail({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
@@ -12,11 +12,18 @@ export default function BlogDetail({ onNavigate, isDarkTheme, onBookDemo, onTogg
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Instant load from static data
-        if (blogData[slug]) {
-            setPost(blogData[slug]);
-        }
-        setLoading(false);
+        const fetchPost = async () => {
+            try {
+                const response = await mockStorage.getBlog(slug);
+                setPost(response.data);
+            } catch (error) {
+                console.error("Failed to load blog post", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPost();
     }, [slug]);
 
     if (!post && !loading) {
@@ -238,6 +245,47 @@ export default function BlogDetail({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                                         </li>
                                                     ))}
                                                 </ul>
+                                            );
+                                        case 'media':
+                                            const imageUrl = typeof block.content === 'object' ? block.content.url : block.content;
+                                            const imageAlt = typeof block.content === 'object' ? block.content.alt : 'Blog Image';
+
+                                            // Simple check if it's a video (though block editor currently forces image/* mostly, data URIs can be checked)
+                                            const isVideo = imageUrl?.startsWith('data:video') || imageUrl?.endsWith('.mp4') || imageUrl?.endsWith('.webm');
+
+                                            if (isVideo) {
+                                                return (
+                                                    <div key={index} style={{ margin: '2.5rem 0', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
+                                                        <video
+                                                            src={imageUrl}
+                                                            controls
+                                                            style={{ width: '100%', height: 'auto', display: 'block' }}
+                                                        />
+                                                    </div>
+                                                );
+                                            }
+
+                                            return (
+                                                <figure key={index} style={{ margin: '2.5rem 0' }}>
+                                                    <div style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
+                                                        <img
+                                                            src={imageUrl}
+                                                            alt={imageAlt}
+                                                            style={{ width: '100%', height: 'auto', display: 'block' }}
+                                                        />
+                                                    </div>
+                                                    {imageAlt && imageAlt !== 'Blog Image' && (
+                                                        <figcaption style={{
+                                                            textAlign: 'center',
+                                                            marginTop: '0.8rem',
+                                                            fontSize: '0.9rem',
+                                                            color: isDarkTheme ? '#888' : '#666',
+                                                            fontStyle: 'italic'
+                                                        }}>
+                                                            {imageAlt}
+                                                        </figcaption>
+                                                    )}
+                                                </figure>
                                             );
                                         default:
                                             return null;

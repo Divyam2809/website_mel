@@ -2,12 +2,25 @@ import React, { useState } from 'react';
 
 import AppNav from './components/AppNav';
 
+import mockStorage from './services/mockStorage';
+
 export default function FAQs({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
-    const [faqs, setFaqs] = useState([
-        { q: 'What hardware is required?', a: 'Our solutions are compatible with major VR headsets like Oculus, HTC Vive, and Pico.' },
-        { q: 'Can I customize the content?', a: 'Yes, we offer tailored content development services to meet specific curriculum or industry needs.' },
-        { q: 'Do you offer on-site support?', a: 'We provide comprehensive installation, training, and 24/7 technical support.' }
-    ]);
+    const [faqs, setFaqs] = useState([]);
+
+    useEffect(() => {
+        const fetchFAQs = async () => {
+            try {
+                const response = await mockStorage.getFAQs();
+                const visible = response.data.filter(f =>
+                    f.status === 'Published' || (!f.status && f.isVisible !== false)
+                );
+                setFaqs(visible);
+            } catch (error) {
+                console.error("Failed to load FAQs", error);
+            }
+        };
+        fetchFAQs();
+    }, []);
 
     return (
         <>
@@ -24,8 +37,8 @@ export default function FAQs({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                 <div style={{ maxWidth: '800px' }}>
                     {faqs.map((item, index) => (
                         <div key={index} style={{ marginBottom: '2rem', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '1rem' }}>
-                            <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', fontWeight: 700 }}>{item.q}</h3>
-                            <p style={{ lineHeight: '1.6', opacity: 0.8 }}>{item.a}</p>
+                            <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', fontWeight: 700 }}>{item.question}</h3>
+                            <p style={{ lineHeight: '1.6', opacity: 0.8 }}>{item.answer}</p>
                         </div>
                     ))}
                 </div>

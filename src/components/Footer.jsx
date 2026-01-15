@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import mockStorage from '../services/mockStorage';
 
 export default function Footer({ isDarkTheme, onNavigate }) {
     const navigate = useNavigate();
@@ -9,12 +10,21 @@ export default function Footer({ isDarkTheme, onNavigate }) {
     const borderColor = isDarkTheme ? 'rgba(255, 155, 80, 0.3)' : 'rgba(255, 155, 80, 0.3)';
     const iconBg = isDarkTheme ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
 
-    const exploreLinks = [
-        { label: 'About Us', id: 'about' },
-        { label: 'Case Study', id: 'casestudies' },
-        { label: 'Blog', id: 'blog' },
-        { label: 'Melzo in News', id: 'melzonews' },
-    ];
+    const [config, setConfig] = useState(null);
+
+    useEffect(() => {
+        const loadFooter = async () => {
+            try {
+                const res = await mockStorage.getFooterConfig();
+                if (res.data) setConfig(res.data);
+            } catch (error) {
+                console.error("Failed to load footer config", error);
+            }
+        };
+        loadFooter();
+    }, []);
+
+    if (!config) return null; // Or a simple loader, or default static fallback if preferred. User asked for dynamic control.
 
     return (
         <footer id="footer-contact" style={{
@@ -76,18 +86,13 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                             marginBottom: '1.5rem',
                             maxWidth: '350px'
                         }}>
-                            Melzo is an Indian EdTech company delivering immersive digital learning solutions for schools and institutions. Through VR Labs and Interactive Learning Platforms, Melzo helps educators simplify operations and enhance student understanding using modern technology.
+                            {config.description}
                         </p>
                         <div style={{
                             display: 'flex',
                             gap: '0.8rem'
                         }}>
-                            {[
-                                { name: 'linkedin', src: '/assets/linkedin.svg', link: 'https://www.linkedin.com/company/melzo/' },
-                                { name: 'instagram', src: '/assets/insta.svg', link: 'https://www.instagram.com/melzoanubhav' },
-                                { name: 'x', src: '/assets/x_logo.svg', link: 'https://x.com/Melzo_E_Learn' },
-                                { name: 'gmail', src: '/assets/gmail.svg', link: 'mailto:contact@melzo.com' }
-                            ].map((social) => (
+                            {config.socialLinks.filter(l => l.isVisible).map((social) => (
                                 <a key={social.name} href={social.link} target="_blank" rel="noopener noreferrer" style={{
                                     width: '40px',
                                     height: '40px',
@@ -122,112 +127,52 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                         </div>
                     </div>
 
-                    {/* Explore Melzo Anubhav */}
-                    <div>
-                        <h4 style={{
-                            fontSize: '1rem',
-                            fontWeight: 700,
-                            marginBottom: '1.2rem',
-                            color: textColor
-                        }}>
-                            Explore Melzo Anubhav
-                        </h4>
-                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                            {exploreLinks.map((item, index) => (
-                                <li key={index} style={{ marginBottom: '0.8rem' }}>
-                                    <a href="#"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            if (item.id && onNavigate) onNavigate(item.id);
-                                        }}
-                                        style={{
-                                            color: subTextColor,
-                                            textDecoration: 'none',
-                                            fontSize: '0.9rem',
-                                            transition: 'color 0.2s ease',
-                                            cursor: item.id ? 'pointer' : 'default',
-                                            opacity: item.id ? 1 : 0.7
-                                        }}
-                                        onMouseEnter={(e) => item.id && (e.target.style.color = '#FF9B50')}
-                                        onMouseLeave={(e) => e.target.style.color = subTextColor}>
-                                        {item.label}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    {/* Policies */}
-                    <div>
-                        <h4 style={{
-                            fontSize: '1rem',
-                            fontWeight: 700,
-                            marginBottom: '1.2rem',
-                            color: textColor
-                        }}>
-                            Policies
-                        </h4>
-                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                            {['Terms of Services', 'Privacy Policy', 'Health & Safety'].map((item, index) => (
-                                <li key={index} style={{ marginBottom: '0.8rem' }}>
-                                    <a href="#" style={{
-                                        color: subTextColor,
-                                        textDecoration: 'none',
-                                        fontSize: '0.9rem',
-                                        transition: 'color 0.2s ease'
-                                    }}
-                                        onMouseEnter={(e) => e.target.style.color = '#FF9B50'}
-                                        onMouseLeave={(e) => e.target.style.color = subTextColor}>
-                                        {item}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    {/* Contact & Offerings Combined for spacing */}
-                    <div>
-                        <h4 style={{
-                            fontSize: '1rem',
-                            fontWeight: 700,
-                            marginBottom: '1.2rem',
-                            color: textColor,
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem'
-                        }}>
-                            Our Offerings
-                        </h4>
-                        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                            {[
-                                'Hardware Solutions',
-                                'Software Solutions',
-                                'Education & Training',
-                                'Industrial & Enterprise',
-                                'Defence Simulation',
-                                'Tourism',
-                                'Emerging Applications'
-                            ].map((item, index) => (
-                                <li key={index} style={{ marginBottom: '0.8rem' }}>
-                                    <a href="#"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            navigate('/products', { state: { category: item } });
-                                        }}
-                                        style={{
-                                            color: subTextColor,
-                                            textDecoration: 'none',
-                                            fontSize: '0.9rem',
-                                            transition: 'color 0.2s ease'
-                                        }}
-                                        onMouseEnter={(e) => e.target.style.color = '#FF9B50'}
-                                        onMouseLeave={(e) => e.target.style.color = subTextColor}>
-                                        {item}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    {/* Dynamic Columns */}
+                    {config.columns.map((col, index) => (
+                        <div key={index}>
+                            <h4 style={{
+                                fontSize: '1rem',
+                                fontWeight: 700,
+                                marginBottom: '1.2rem',
+                                color: textColor,
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem'
+                            }}>
+                                {col.title}
+                            </h4>
+                            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                                {col.links.filter(l => l.isVisible).map((link, lIndex) => (
+                                    <li key={lIndex} style={{ marginBottom: '0.8rem' }}>
+                                        <a href={link.link || '#'}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                if (link.type === 'product') {
+                                                    navigate(link.link, { state: { category: link.label } });
+                                                } else if (link.type === 'internal') {
+                                                    if (onNavigate && link.id) onNavigate(link.id);
+                                                    else navigate(link.link || '/');
+                                                } else {
+                                                    // External or static
+                                                    if (link.link && link.link !== '#') window.open(link.link, '_blank');
+                                                }
+                                            }}
+                                            style={{
+                                                color: subTextColor,
+                                                textDecoration: 'none',
+                                                fontSize: '0.9rem',
+                                                transition: 'color 0.2s ease',
+                                                cursor: 'pointer'
+                                            }}
+                                            onMouseEnter={(e) => e.target.style.color = '#FF9B50'}
+                                            onMouseLeave={(e) => e.target.style.color = subTextColor}>
+                                            {link.label}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
 
                     {/* Contact Us */}
                     <div>
@@ -235,13 +180,13 @@ export default function Footer({ isDarkTheme, onNavigate }) {
 
                         <div style={{ marginBottom: '1rem' }}>
                             <strong style={{ display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem', color: textColor }}>Phone Number -</strong>
-                            <span style={{ color: subTextColor, fontSize: '0.9rem' }}>+91 - 9687588818 / 9687488818</span>
+                            <span style={{ color: subTextColor, fontSize: '0.9rem' }}>{config.contact.phone}</span>
                         </div>
 
                         <div>
                             <strong style={{ display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem', color: textColor }}>Registered Office Address -</strong>
                             <span style={{ color: subTextColor, fontSize: '0.9rem', lineHeight: '1.5', display: 'block' }}>
-                                Ship Maitri House, Bhatar Char Rasta, opp. Shiv Dham Temple, Surat, Gujarat 395017
+                                {config.contact.address}
                             </span>
                         </div>
                     </div>

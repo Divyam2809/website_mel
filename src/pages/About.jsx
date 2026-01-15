@@ -4,51 +4,74 @@ import GridBackground from '../components/GridBackground';
 
 import AppNav from '../components/AppNav';
 
+import mockStorage from '../services/mockStorage';
+
 export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const [isVisible, setIsVisible] = useState(false);
-
-    // Initial Static Data
-    const [awards, setAwards] = useState([
-        {
-            title: "WhatsApp Startup India",
-            subtitle: "Grand Challenge 2019",
-            status: "Winner",
-            prize: "$50,000",
-            image: "/images/whatsapp.webp"
-        },
-        {
-            title: "Vibrant Gujarat",
-            subtitle: "Startup Summit 2018",
-            status: "Winner",
-            prize: "₹30,00,000",
-            image: "/images/gujarat.webp"
-        },
-        {
-            title: "Dubai Future Accelerators",
-            subtitle: "Cohort 7 & 8 (2020)",
-            status: "Finalist",
-            prize: "KHDA Challenge",
-            image: "/images/dubai.webp"
-        },
-        {
-            title: "Data Innovation Bazaar",
-            subtitle: "Western Digital 2020",
-            status: "National Top 5",
-            prize: "₹2,00,000",
-            image: "/images/data.webp"
-        }
-    ]);
-
-    const [team, setTeam] = useState([
-        { firstName: 'HARDIK', surname: 'DESAI', role: 'Founder & CEO', image: '/team/hardiksir.webp' },
-        { firstName: 'BHAVIK', surname: 'MEHTA', role: 'Chief Technology Officer', image: '/team/bhaviksir.webp' },
-        { firstName: 'SOMNATH', surname: 'CHAUDHARI', role: 'Sales Head', image: '/team/somnathsir.webp' },
-        { firstName: 'TAPAN', surname: 'DESAI', role: 'Production Head', image: '/team/tapansir.webp' },
-        { firstName: 'GAYATRI', surname: 'BANSHIWAL', role: 'SR. HR Manager', image: '/team/gayatrimaam.webp' }
-    ]);
+    const [awards, setAwards] = useState([]);
+    const [team, setTeam] = useState([]);
+    const [globalStats, setGlobalStats] = useState([]);
+    const [globalMarquee, setGlobalMarquee] = useState([]);
 
     useEffect(() => {
         setIsVisible(true);
+
+        const fetchData = async () => {
+            try {
+                // Fetch Awards
+                const awardsRes = await mockStorage.getAwards();
+                const visibleAwards = awardsRes.data.filter(a =>
+                    a.status === 'Published' || (!a.status && a.isVisible !== false)
+                ).map(a => ({
+                    ...a,
+                    subtitle: a.organization, // Map organization to subtitle
+                    status: a.awardLevel || 'Recognition', // Map awardLevel to display status
+                    // prize is already prize
+                }));
+                setAwards(visibleAwards);
+
+                // Fetch Team
+                const teamRes = await mockStorage.getTeamDetails();
+                const visibleTeam = teamRes.data.filter(t =>
+                    t.status === 'Published' || (!t.status && t.isVisible !== false)
+                ).map(t => {
+                    const nameParts = (t.name || '').split(' ');
+                    const firstName = nameParts[0] || '';
+                    const surname = nameParts.slice(1).join(' ') || '';
+                    return {
+                        ...t,
+                        firstName: firstName.toUpperCase(),
+                        surname: surname.toUpperCase(),
+                        role: t.position,
+                        image: t.image
+                    };
+                });
+                setTeam(visibleTeam);
+
+                // Fetch Global Momentum
+                const gmRes = await mockStorage.getGlobalMomentum();
+                const visibleGM = gmRes.data.filter(i =>
+                    i.status === 'Published' || (!i.status && i.isVisible !== false)
+                );
+
+                const stats = visibleGM
+                    .filter(i => i.type === 'Stat')
+                    .map(i => ({ num: i.value, label: i.label }));
+
+                // If no stats dynamic, use fallback? User wants dynamic control. 
+                // But let's stick to empty if empty to obey "add / visible invisible" request.
+                setGlobalStats(stats);
+
+                const marquee = visibleGM
+                    .filter(i => i.type === 'Marquee')
+                    .map(i => i.value);
+                setGlobalMarquee(marquee);
+
+            } catch (error) {
+                console.error("Failed to load About page data", error);
+            }
+        };
+        fetchData();
     }, []);
 
     const fadeInUp = {
@@ -676,7 +699,6 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                         <p style={{ opacity: 0.6, fontSize: '1.1rem' }}>Driving the future of education across borders</p>
                     </div>
 
-                    {/* Track 1: Giant Text */}
                     <div className="marquee-container" style={{ marginBottom: '2rem' }}>
                         <div className="marquee-content slow">
                             {[1, 2, 3, 4].map((i) => (
@@ -690,7 +712,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                                     marginRight: '2rem',
                                     fontFamily: 'Outfit, sans-serif'
                                 }}>
-                                    Innovation • Impact • Experience • Scale • Immersive •
+                                    {globalMarquee.join(' • ') + ' • '}
                                 </span>
                             ))}
                         </div>
@@ -701,13 +723,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                     {/* Track 3: Stats */}
                     <div className="marquee-container">
                         <div className="marquee-content medium">
-                            {[
-                                { num: '5+', label: 'Countries' },
-                                { num: '3000+', label: 'Schools' },
-                                { num: '50K+', label: 'Students' },
-                                { num: '1M+', label: 'Sessions' },
-                                { num: '120+', label: 'Partners' }
-                            ].map((stat, i) => (
+                            {globalStats.map((stat, i) => (
                                 <div key={i} style={{
                                     marginRight: '6rem',
                                     display: 'inline-flex',
@@ -719,13 +735,8 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                                     <span style={{ fontSize: '1rem', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '1px' }}>{stat.label}</span>
                                 </div>
                             ))}
-                            {[
-                                { num: '5+', label: 'Countries' },
-                                { num: '3000+', label: 'Schools' },
-                                { num: '50K+', label: 'Students' },
-                                { num: '1M+', label: 'Sessions' },
-                                { num: '120+', label: 'Partners' }
-                            ].map((stat, i) => (
+                            {/* Duplicate for seamless loop */}
+                            {globalStats.map((stat, i) => (
                                 <div key={`dup-${i}`} style={{
                                     marginRight: '6rem',
                                     display: 'inline-flex',

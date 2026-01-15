@@ -7,7 +7,7 @@ import './admin.css';
 const AdminDashboard = () => {
     const [stats, setStats] = useState({
         blogs: 0, news: 0, awards: 0, faqs: 0,
-        teamdetails: 0, caseStudy: 0, testimonials: 0
+        teamdetails: 0, caseStudy: 0, testimonials: 0, industries: 0, ticker: 0, globalMomentum: 0
     });
     const [visitorStats, setVisitorStats] = useState([]);
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ const AdminDashboard = () => {
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
 
-        if (!user || user.role !== 'superadmin') {
+        if (!user || (user.role !== 'superadmin' && user.role !== 'admin')) {
             navigate('/admin/login');
             return;
         }
@@ -26,14 +26,17 @@ const AdminDashboard = () => {
 
     const loadStats = async () => {
         try {
-            const [blogs, news, awards, faqs, team, cases, testimonials] = await Promise.all([
+            const [blogs, news, awards, faqs, team, cases, testimonials, industries, ticker, globalMomentum] = await Promise.all([
                 mockStorage.getBlogs(),
                 mockStorage.getNews(),
                 mockStorage.getAwards(),
                 mockStorage.getFAQs(),
                 mockStorage.getTeamDetails(),
                 mockStorage.getCaseStudies(),
-                mockStorage.getTestimonials()
+                mockStorage.getTestimonials(),
+                mockStorage.getIndustries(),
+                mockStorage.getTicker(),
+                mockStorage.getGlobalMomentum()
             ]);
 
             setStats({
@@ -43,7 +46,10 @@ const AdminDashboard = () => {
                 faqs: faqs.data.length,
                 teamdetails: team.data.length,
                 caseStudy: cases.data.length,
-                testimonials: testimonials.data.length
+                testimonials: testimonials.data.length,
+                industries: industries.data.length,
+                ticker: ticker.data.length,
+                globalMomentum: globalMomentum.data.length
             });
         } catch (error) {
             console.error('Error loading stats:', error);
@@ -90,7 +96,12 @@ const AdminDashboard = () => {
         { name: 'FAQs', path: '/admin/content/faqs', count: stats.faqs },
         { name: 'Team Details', path: '/admin/content/teamdetails', count: stats.teamdetails },
         { name: 'Case Study', path: '/admin/content/casestudy', count: stats.caseStudy },
-        { name: 'Testimonials', path: '/admin/content/testimonials', count: stats.testimonials }
+        { name: 'Industries', path: '/admin/content/industries', count: stats.industries },
+        { name: 'Testimonials', path: '/admin/content/testimonials', count: stats.testimonials },
+        { name: 'Ticker', path: '/admin/content/ticker', count: stats.ticker },
+        { name: 'Global Momentum', path: '/admin/content/globalMomentum', count: stats.globalMomentum },
+        { name: 'Privacy Policy', path: '/admin/content/privacyPolicy', count: stats.privacyPolicy },
+        { name: 'Footer Management', path: '/admin/footer', count: 'Manage' }
     ];
 
     return (
@@ -100,7 +111,7 @@ const AdminDashboard = () => {
                 <div style={{ backgroundColor: '#ffffff', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
                     <div className="admin-header">
                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <img src="/assets/Melzo_Logo.svg" alt="Melzo" style={{ height: '40px' }} />
+                            <img src="/assets/Melzo_Logo.svg" alt="Melzo" style={{ height: '40px', cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} />
                         </div>
 
                         {/* RIGHT: Nav & Logout Group */}
