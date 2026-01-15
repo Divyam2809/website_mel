@@ -1,18 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import mockStorage from '../services/mockStorage';
-
 export default function DataStrip() {
-    const [items, setItems] = useState([]);
 
-    useEffect(() => {
-        mockStorage.getTicker().then(res => {
-            if (res.data) setItems(res.data);
-        }).catch(err => console.error(err));
-    }, []);
-
-    const visibleItems = items.filter(i => i.isVisible);
-
-    const displayItems = visibleItems;
 
     return (
         <section style={{

@@ -53,15 +53,30 @@ export default function BookDemo({ isOpen, onClose, isDarkTheme }) {
         setIsLoading(true);
 
         try {
-            await mockStorage.saveDemoQuery(formData);
 
-            // Simulate network delay
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            // Send data to backend
+            const response = await fetch('http://localhost:3000/api/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...formData,
+                    demo_date: formData.date // Map frontend 'date' to backend 'demo_date'
+                }),
+            });
 
-            // Here you would normally send data to your backend
-            console.log('Form submitted:', formData);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to submit form');
+            }
 
+            // Also keep local mock for fallback if you want, but primarily rely on backend success
+            // await mockStorage.saveDemoQuery(formData); 
+
+            console.log('Form submitted successfully to backend');
             setIsSubmitted(true);
+
         } catch (error) {
             setErrors({ submit: 'Something went wrong. Please try again.' });
         } finally {

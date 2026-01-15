@@ -12,6 +12,17 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
     const [team, setTeam] = useState([]);
     const [timeline, setTimeline] = useState([]);
 
+    const globalMarquee = [
+        "Innovation", "Immersive Learning", "Virtual Reality", "Augmented Reality", "Future of Work", "Education Revolution"
+    ];
+
+    const globalStats = [
+        { num: '500+', label: 'Schools' },
+        { num: '50K+', label: 'Students' },
+        { num: '10+', label: 'Countries' },
+        { num: '100%', label: 'Engagement' }
+    ];
+
     const fetchData = async () => {
         try {
             // Fetch Awards

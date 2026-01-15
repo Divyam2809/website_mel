@@ -35,6 +35,7 @@ const MelzoNews = React.lazy(() => import('./MelzoNews'));
 const BlogDetail = React.lazy(() => import('./pages/BlogDetail'));
 const Careers = React.lazy(() => import('./pages/Careers'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
+const PrivacyPolicy = React.lazy(() => import('./pages/PrivacyPolicy'));
 
 
 // Admin Panel Components

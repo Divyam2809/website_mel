@@ -969,7 +969,27 @@ class MockStorageService {
     }
 
     // --- Demo Queries ---
-    getDemoQueries() {
+    async getDemoQueries() {
+        try {
+            const response = await fetch('http://localhost:3000/api/messages');
+            if (response.ok) {
+                const result = await response.json();
+                // Map backend fields to frontend model
+                const mappedData = result.data.map(item => ({
+                    _id: item.id.toString(),
+                    ...item,
+                    date: item.demo_date,
+                    createdAt: item.created_at,
+                    status: 'Pending', // Default status for now as backend doesn't store it yet
+                    isVisible: true
+                }));
+                return { data: mappedData };
+            }
+        } catch (error) {
+            console.warn("Backend fetch failed, falling back to local storage", error);
+        }
+
+        // Fallback
         return new Promise((resolve) => {
             resolve({ data: this._getAll('demoQueries').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) });
         });
@@ -986,7 +1006,37 @@ class MockStorageService {
     updateDemoQuery(id, data) {
         return this._update('demoQueries', id, data);
     }
+
+    // --- Footer Config ---
+    async getFooterConfig() {
+        try {
+            const response = await fetch('http://localhost:3000/api/footer');
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to fetch footer config from backend:', error);
+        }
+        return { data: null };
+    }
+
+    async saveFooterConfig(data) {
+        try {
+            const response = await fetch('http://localhost:3000/api/footer', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to save footer config to backend:', error);
+            throw error;
+        }
+    }
 }
+
 
 export const mockStorage = new MockStorageService();
 export default mockStorage;

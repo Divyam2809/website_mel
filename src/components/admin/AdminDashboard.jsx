@@ -132,7 +132,7 @@ const AdminDashboard = () => {
     const yAxisMax = Math.ceil(maxVisitors / 50) * 50;
     const yAxisStep = yAxisMax / 5;
 
-    const user = JSON.parse(localStorage.getItem('user'));
+
     const isHR = user?.role === 'HR';
 
     const modules = [
@@ -143,7 +143,8 @@ const AdminDashboard = () => {
         { name: 'Team Details', path: '/admin/content/teamdetails', count: stats.teamdetails },
         { name: 'Case Study', path: '/admin/content/casestudy', count: stats.caseStudy },
         { name: 'Testimonials', path: '/admin/content/testimonials', count: stats.testimonials },
-        { name: 'Timeline', path: '/admin/content/timeline', count: stats.timeline }
+        { name: 'Timeline', path: '/admin/content/timeline', count: stats.timeline },
+        { name: 'Footer', path: '/admin/footer', count: '•' }
     ];
 
     if (!user) return null; // Wait for auth check
