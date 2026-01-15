@@ -42,7 +42,6 @@ const AdminLogin = React.lazy(() => import('./components/admin/AdminLogin'));
 const AdminDashboard = React.lazy(() => import('./components/admin/AdminDashboard'));
 const ContentManager = React.lazy(() => import('./components/admin/ContentManager'));
 const BlogForm = React.lazy(() => import('./components/admin/BlogForm'));
-const FooterManager = React.lazy(() => import('./components/admin/FooterManager'));
 
 import Footer from './components/Footer';
 import BookDemo from './components/BookDemo';
@@ -186,7 +185,6 @@ export default function App() {
                         <Route path="/careers" element={<Careers {...commonProps} />} />
                         <Route path="/guidelines" element={<Guidelines {...commonProps} />} />
                         <Route path="/melzonews" element={<MelzoNews {...commonProps} />} />
-                        <Route path="/privacy-policy" element={<PrivacyPolicy {...commonProps} />} />
 
                         {/* Product Pages Redesigned Route Structure */}
 
@@ -221,7 +219,6 @@ export default function App() {
                         <Route path="/admin/login" element={<AdminLogin />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
                         <Route path="/admin/content/:moduleType" element={<ContentManager />} />
-                        <Route path="/admin/footer" element={<FooterManager />} />
                         <Route path="/admin/editor" element={<BlogForm />} />
                         <Route path="/admin/editor/:slug" element={<BlogForm />} />
 

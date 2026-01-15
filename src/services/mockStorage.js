@@ -418,63 +418,6 @@ const initialAwards = [
     { _id: 'a4', title: "Data Innovation Bazaar", organization: "Western Digital 2020", awardLevel: "National Top 5", prize: "₹2,00,000", image: "/images/data.webp", status: 'Published', slug: 'data-innovation-bazaar', isVisible: true }
 ];
 
-const initialIndustries = [
-    {
-        _id: 'education',
-        title: 'Education',
-        slug: 'education',
-        summary: 'Curriculum-aligned VR labs for Science, Math, History, Geography.',
-        impact: 'Improve student retention rates by up to 75% and save 60% on physical lab infrastructure.',
-        details: '• K-12 Integration\n• STEM Labs\n• Teacher Training',
-        modalTitle: 'Virtual Reality Solutions for Schools, Colleges & Training Institutes',
-        fullSummary: 'Melzo designs VR solutions for education in India that support classroom learning, lab-based subjects, and skill development programs.',
-        targetAudience: 'K–12 schools (CBSE, ICSE, State Boards)\nJunior colleges and degree colleges\nITIs, polytechnics, and vocational institutes\nEdTech and digital learning centers',
-        problemsSolved: 'Limited physical lab access\nSafety risks in experiments\nLow student engagement\nConcept memorization without understanding',
-        useCases: 'LAB|Science lab simulations|Conduct virtual experiments safely without physical lab constraints\nMATH|Mathematics and geometry visualization|Visualize complex 3D shapes and mathematical concepts interactively\nEXPLORE|History and geography immersion|Explore historical events and geographical locations in immersive VR\nCAREER|Career and skill exploration|Experience different careers and develop practical skills virtually',
-        statsString: '120+|Schools\n50K+|Students\n75%|Better Retention',
-        tags: 'K-12, STEM, Labs',
-        image: '/images/education_modal_vr.webp',
-        status: 'Published',
-        isVisible: true
-    },
-    {
-        _id: 'csr',
-        title: 'CSR & Foundations',
-        slug: 'csr',
-        summary: 'Measurable impact, scalable deployment, and comprehensive reporting support.',
-        impact: 'Directly reached 15,000+ beneficiaries in rural sectors with quantifiable skill improvements.',
-        details: '• Rural Development\n• Skill Alignment\n• Impact Reports',
-        tags: 'Impact, Scale, Social Good',
-        image: '/images/csr-bg.webp',
-        status: 'Published',
-        isVisible: true
-    },
-    {
-        _id: 'government',
-        title: 'Government & Public Sector',
-        slug: 'government',
-        summary: 'Skill development, safety training, and immersive awareness programs.',
-        impact: 'Standardized training for 50,000+ personnel with zero safety incidents during simulation.',
-        details: '• Public Safety\n• Urban Planning\n• Civic Awareness',
-        tags: 'Skilling, Safety, Civic',
-        image: '/images/government-bg.webp',
-        status: 'Published',
-        isVisible: true
-    },
-    {
-        _id: 'defence',
-        title: 'Industry & Defence',
-        slug: 'defence',
-        summary: 'Simulation-based training with reduced risk and cost for mission-critical operations.',
-        impact: 'Reduced training costs by 40% while increasing scenario exposure by 300%.',
-        details: '• Tactical Sims\n• Equipment Handling\n• Strategy Planning',
-        tags: 'Simulation, Tactical, Training',
-        image: '/images/defence-bg.webp',
-        status: 'Published',
-        isVisible: true
-    }
-];
-
 const initialTeam = [
     { _id: 't1', name: 'HARDIK DESAI', position: 'Founder & CEO', image: '/team/hardiksir.webp', status: 'Published', slug: 'hardik-desai', isVisible: true },
     { _id: 't2', name: 'BHAVIK MEHTA', position: 'Chief Technology Officer', image: '/team/bhaviksir.webp', status: 'Published', slug: 'bhavik-mehta', isVisible: true },

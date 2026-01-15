@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import mockStorage from '../services/mockStorage';
+import React, { useState } from 'react';
 
 import AppNav from '../components/AppNav';
 import GridBackground from '../components/GridBackground';
@@ -11,18 +10,8 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
     const [showGovernmentModal, setShowGovernmentModal] = useState(false);
     const [showDefenceModal, setShowDefenceModal] = useState(false);
     const [showIndustryModal, setShowIndustryModal] = useState(false);
-    const [activeIndustry, setActiveIndustry] = useState(null);
 
-    const [items, setItems] = useState([]);
-
-    useEffect(() => {
-        mockStorage.getIndustries().then(res => {
-            const visible = res.data.filter(i => i.isVisible !== false && i.status !== 'Draft');
-            setItems(visible);
-        });
-    }, []);
-
-    const defaultIndustries = [
+    const industries = [
         {
             id: 'education',
             title: 'Education',
@@ -56,8 +45,6 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
             size: 'large'
         }
     ];
-
-    const industries = items.length > 0 ? items : defaultIndustries;
 
     return (
         <>
@@ -115,26 +102,62 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                     gap: '3rem'
                 }}>
                     {industries.map((industry, index) => {
-                        // Normalize data for display
-                        const cardData = {
-                            image: industry.image || '/images/default-industry.jpg',
-                            summary: industry.summary || industry.description,
-                            impact: industry.impact || 'Transforming operations through immersive technology.',
-                            details: industry.details || '• Innovation\n• Efficiency\n• Safety',
-                            tags: Array.isArray(industry.tags) ? industry.tags : (industry.tags ? industry.tags.split(',') : [])
-                        };
+                        const bgImage = {
+                            'education': '/images/education_modal_vr.webp',
+                            'csr': '/images/csr-bg.webp',
+                            'government': '/images/government-bg.webp', // Assuming you might have these, or fallback
+                            'defence': '/images/defence-bg.webp'
+                        }[industry.id] || '/images/default-industry.jpg';
 
-                        const id = industry.id || industry.slug || industry._id;
+                        // Specific Content for the new card format
+                        const cardData = {
+                            'education': {
+
+                                image: '/images/education_modal_vr.webp',
+                                summary: 'Curriculum-aligned VR labs for Science, Math, History, Geography.',
+                                impact: 'Improve student retention rates by up to 75% and save 60% on physical lab infrastructure.',
+                                details: '• K-12 Integration\n• STEM Labs\n• Teacher Training'
+                            },
+                            'csr': {
+
+                                image: '/images/csr-bg.webp',
+                                summary: 'Measurable impact, scalable deployment, and comprehensive reporting.',
+                                impact: 'Directly reached 15,000+ beneficiaries in rural sectors with quantifiable skill improvements.',
+                                details: '• Rural Development\n• Skill Alignment\n• Impact Reports'
+                            },
+                            'government': {
+
+                                image: '/images/government-bg.webp',
+                                summary: 'Skill development, safety training, and immersive awareness programs.',
+                                impact: 'Standardized training for 50,000+ personnel with zero safety incidents during simulation.',
+                                details: '• Public Safety\n• Urban Planning\n• Civic Awareness'
+                            },
+                            'defence': {
+
+                                image: '/images/defence-bg.webp',
+                                summary: 'Simulation-based training with reduced risk and cost for mission-critical operations.',
+                                impact: 'Reduced training costs by 40% while increasing scenario exposure by 300%.',
+                                details: '• Tactical Sims\n• Equipment Handling\n• Strategy Planning'
+                            }
+                        }[industry.id] || {
+                            icon: '🏢',
+                            image: '/images/industry-default.jpg',
+                            summary: industry.description,
+                            impact: 'Transforming operations through immersive technology.',
+                            details: '• Innovation\n• Efficiency\n• Safety'
+                        };
 
                         return (
                             <div
-                                key={id}
+                                key={industry.id}
                                 className={`horizontal-card ${!isDarkTheme ? 'light-theme-card' : ''}`}
                                 style={{
+                                    // Override CSS variables for the specific card if needed, e.g. color accents
                                     '--accent': '#FF9B50'
                                 }}
                             >
                                 <div className="image-box">
+                                    {/* Fallback to simple color if image loading fails/doesn't exist, but tries to use bgImage */}
                                     <div style={{
                                         width: '100%',
                                         height: '100%',
@@ -165,17 +188,12 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                     <a
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            setActiveIndustry({ ...industry, ...cardData });
-                                            if (id === 'education') setShowEducationModal(true);
-                                            else if (id === 'csr') setShowCSRModal(true);
-                                            else if (id === 'government') setShowGovernmentModal(true);
-                                            else if (id === 'defence') setShowDefenceModal(true);
-                                            else {
-                                                setShowIndustryModal(true);
-                                            }
+                                            if (industry.id === 'education') setShowEducationModal(true);
+                                            else if (industry.id === 'csr') setShowCSRModal(true);
+                                            else if (industry.id === 'government') setShowGovernmentModal(true);
+                                            else if (industry.id === 'defence') setShowDefenceModal(true);
                                         }}
                                         className="explore-link"
-                                        style={{ cursor: 'pointer' }}
                                     >
                                         Explore possibilities &rarr;
                                     </a>
@@ -320,7 +338,7 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                         color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
                                         lineHeight: '1.2'
                                     }}>
-                                        {activeIndustry?.modalTitle || "Virtual Reality Solutions for Schools, Colleges & Training Institutes"}
+                                        Virtual Reality Solutions for Schools, Colleges & Training Institutes
                                     </h2>
                                     <p style={{
                                         fontSize: '1.1rem',
@@ -330,7 +348,7 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                         maxWidth: '700px',
                                         margin: '1rem auto 0'
                                     }}>
-                                        {activeIndustry?.fullSummary || "Melzo designs VR solutions for education in India that support classroom learning, lab-based subjects, and skill development programs."}
+                                        Melzo designs VR solutions for education in India that support classroom learning, lab-based subjects, and skill development programs.
                                     </p>
                                 </div>
 
@@ -349,15 +367,12 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                         maxWidth: '600px',
                                         margin: '0 auto'
                                     }}>
-                                        {(activeIndustry?.targetAudience
-                                            ? activeIndustry.targetAudience.split('\n').map((text, idx) => ({ number: '0' + (idx + 1), text }))
-                                            : [
-                                                { number: '01', text: 'K–12 schools (CBSE, ICSE, State Boards)' },
-                                                { number: '02', text: 'Junior colleges and degree colleges' },
-                                                { number: '03', text: 'ITIs, polytechnics, and vocational institutes' },
-                                                { number: '04', text: 'EdTech and digital learning centers' }
-                                            ]
-                                        ).map((item, idx) => (
+                                        {[
+                                            { number: '01', text: 'K–12 schools (CBSE, ICSE, State Boards)' },
+                                            { number: '02', text: 'Junior colleges and degree colleges' },
+                                            { number: '03', text: 'ITIs, polytechnics, and vocational institutes' },
+                                            { number: '04', text: 'EdTech and digital learning centers' }
+                                        ].map((item, idx) => (
                                             <div
                                                 key={idx}
                                                 style={{
@@ -427,15 +442,12 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                         maxWidth: '700px',
                                         margin: '0 auto'
                                     }}>
-                                        {(activeIndustry?.problemsSolved
-                                            ? activeIndustry.problemsSolved.split('\n').map(text => ({ text }))
-                                            : [
-                                                { text: 'Limited physical lab access' },
-                                                { text: 'Safety risks in experiments' },
-                                                { text: 'Low student engagement' },
-                                                { text: 'Concept memorization without understanding' }
-                                            ]
-                                        ).map((problem, idx) => (
+                                        {[
+                                            { text: 'Limited physical lab access' },
+                                            { text: 'Safety risks in experiments' },
+                                            { text: 'Low student engagement' },
+                                            { text: 'Concept memorization without understanding' }
+                                        ].map((problem, idx) => (
                                             <div
                                                 key={idx}
                                                 style={{
@@ -496,22 +508,28 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                         maxWidth: '800px',
                                         margin: '0 auto'
                                     }}>
-                                        {(activeIndustry?.useCases
-                                            ? activeIndustry.useCases.split('\n').map(l => {
-                                                const parts = l.split('|');
-                                                return {
-                                                    badge: parts[0] || 'INFO',
-                                                    title: parts[1] || '',
-                                                    description: parts[2] || ''
-                                                };
-                                            })
-                                            : [
-                                                { badge: 'LAB', title: 'Science lab simulations', description: 'Conduct virtual experiments safely without physical lab constraints' },
-                                                { badge: 'MATH', title: 'Mathematics and geometry visualization', description: 'Visualize complex 3D shapes and mathematical concepts interactively' },
-                                                { badge: 'EXPLORE', title: 'History and geography immersion', description: 'Explore historical events and geographical locations in immersive VR' },
-                                                { badge: 'CAREER', title: 'Career and skill exploration', description: 'Experience different careers and develop practical skills virtually' }
-                                            ]
-                                        ).map((useCase, idx) => (
+                                        {[
+                                            {
+                                                badge: 'LAB',
+                                                title: 'Science lab simulations',
+                                                description: 'Conduct virtual experiments safely without physical lab constraints'
+                                            },
+                                            {
+                                                badge: 'MATH',
+                                                title: 'Mathematics and geometry visualization',
+                                                description: 'Visualize complex 3D shapes and mathematical concepts interactively'
+                                            },
+                                            {
+                                                badge: 'EXPLORE',
+                                                title: 'History and geography immersion',
+                                                description: 'Explore historical events and geographical locations in immersive VR'
+                                            },
+                                            {
+                                                badge: 'CAREER',
+                                                title: 'Career and skill exploration',
+                                                description: 'Experience different careers and develop practical skills virtually'
+                                            }
+                                        ].map((useCase, idx) => (
                                             <div
                                                 key={idx}
                                                 style={{
@@ -587,17 +605,11 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                     background: isDarkTheme ? '#262626' : '#f8f8f8',
                                     borderRadius: '12px'
                                 }}>
-                                    {(activeIndustry?.statsString
-                                        ? activeIndustry.statsString.split('\n').map(l => {
-                                            const parts = l.split('|');
-                                            return { value: parts[0] || '0', label: parts[1] || '' };
-                                        })
-                                        : [
-                                            { value: '120+', label: 'Schools' },
-                                            { value: '50K+', label: 'Students' },
-                                            { value: '75%', label: 'Better Retention' }
-                                        ]
-                                    ).map((stat, idx) => (
+                                    {[
+                                        { value: '120+', label: 'Schools' },
+                                        { value: '50K+', label: 'Students' },
+                                        { value: '75%', label: 'Better Retention' }
+                                    ].map((stat, idx) => (
                                         <div key={idx} style={{ textAlign: 'center' }}>
                                             <div style={{
                                                 fontSize: '2rem',
@@ -3030,59 +3042,6 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             }
                         }
                     `}</style>
-                    </div>
-                )}
-                {/* Generic Industry Modal */}
-                {showIndustryModal && activeIndustry && (
-                    <div
-                        onClick={() => setShowIndustryModal(false)}
-                        style={{
-                            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            zIndex: 20000, padding: '2rem',
-                            backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
-                            animation: 'fadeIn 0.3s ease-out'
-                        }}
-                    >
-                        <div
-                            onClick={(e) => e.stopPropagation()}
-                            style={{
-                                background: isDarkTheme ? '#1a1a1a' : '#ffffff',
-                                borderRadius: '20px', maxWidth: '900px', width: '100%', maxHeight: '90vh',
-                                overflow: 'auto', position: 'relative',
-                                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-                                animation: 'slideUp 0.4s ease-out',
-                                padding: '3rem'
-                            }}
-                        >
-                            <button
-                                onClick={() => setShowIndustryModal(false)}
-                                style={{
-                                    position: 'absolute', top: '1.5rem', right: '1.5rem',
-                                    background: 'rgba(255, 155, 80, 0.1)', border: 'none',
-                                    borderRadius: '50%', width: '40px', height: '40px',
-                                    cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    fontSize: '1.5rem', color: '#FF9B50', transition: 'all 0.3s ease', zIndex: 10
-                                }}
-                            >
-                                ×
-                            </button>
-                            <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: '#FF9B50' }}>{activeIndustry.title}</h2>
-                            <p style={{ fontSize: '1.1rem', lineHeight: '1.6', marginBottom: '2rem', opacity: 0.8 }}>
-                                {activeIndustry.summary}
-                            </p>
-
-                            <div style={{ background: isDarkTheme ? '#2d2d2d' : '#f9f9f9', padding: '2rem', borderRadius: '12px' }}>
-                                <h3 style={{ color: '#FF9B50', marginBottom: '1rem' }}>Impact</h3>
-                                <p style={{ marginBottom: '1.5rem' }}>{activeIndustry.impact}</p>
-
-                                <h3 style={{ color: '#FF9B50', marginBottom: '1rem' }}>Key Details</h3>
-                                {activeIndustry.details.split('\n').map((line, i) => (
-                                    <p key={i} style={{ marginBottom: '0.5rem' }}>{line}</p>
-                                ))}
-                            </div>
-                        </div>
                     </div>
                 )}
             </div>
