@@ -1,6 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import mockStorage from '../services/mockStorage';
 
 export default function DataStrip() {
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        mockStorage.getTicker().then(res => {
+            if (res.data) setItems(res.data);
+        }).catch(err => console.error(err));
+    }, []);
+
+    const visibleItems = items.filter(i => i.isVisible);
+
+    const displayItems = visibleItems;
+
     return (
         <section style={{
             backgroundColor: '#1a1a1a',
@@ -18,7 +31,7 @@ export default function DataStrip() {
                 transform: 'translateZ(0)'
             }}>
                 {/* Duplicate content for seamless loop */}
-                {[1, 2, 3].map((_, index) => (
+                {[1, 2, 3, 4, 5, 6].map((_, index) => (
                     <div key={index} style={{
                         display: 'flex',
                         alignItems: 'center',

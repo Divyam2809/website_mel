@@ -683,7 +683,6 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                         <p style={{ opacity: 0.6, fontSize: '1.1rem' }}>Driving the future of education across borders</p>
                     </div>
 
-                    {/* Track 1: Giant Text */}
                     <div className="marquee-container" style={{ marginBottom: '2rem' }}>
                         <div className="marquee-content slow">
                             {[1, 2, 3, 4].map((i) => (
@@ -697,7 +696,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                                     marginRight: '2rem',
                                     fontFamily: 'Outfit, sans-serif'
                                 }}>
-                                    Innovation • Impact • Experience • Scale • Immersive •
+                                    {globalMarquee.join(' • ') + ' • '}
                                 </span>
                             ))}
                         </div>
@@ -708,13 +707,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                     {/* Track 3: Stats */}
                     <div className="marquee-container">
                         <div className="marquee-content medium">
-                            {[
-                                { num: '5+', label: 'Countries' },
-                                { num: '3000+', label: 'Schools' },
-                                { num: '50K+', label: 'Students' },
-                                { num: '1M+', label: 'Sessions' },
-                                { num: '120+', label: 'Partners' }
-                            ].map((stat, i) => (
+                            {globalStats.map((stat, i) => (
                                 <div key={i} style={{
                                     marginRight: '6rem',
                                     display: 'inline-flex',
@@ -726,13 +719,8 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                                     <span style={{ fontSize: '1rem', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '1px' }}>{stat.label}</span>
                                 </div>
                             ))}
-                            {[
-                                { num: '5+', label: 'Countries' },
-                                { num: '3000+', label: 'Schools' },
-                                { num: '50K+', label: 'Students' },
-                                { num: '1M+', label: 'Sessions' },
-                                { num: '120+', label: 'Partners' }
-                            ].map((stat, i) => (
+                            {/* Duplicate for seamless loop */}
+                            {globalStats.map((stat, i) => (
                                 <div key={`dup-${i}`} style={{
                                     marginRight: '6rem',
                                     display: 'inline-flex',

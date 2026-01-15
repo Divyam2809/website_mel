@@ -128,6 +128,33 @@ const ContentManager = () => {
             toggle: (id) => mockStorage.toggleTeamDetailVisibility(id),
             delete: (id) => mockStorage.deleteTeamDetail(id)
         },
+        industries: {
+            title: 'Industries',
+            fields: {
+                title: 'text',
+                slug: 'text',
+                status: 'select:Published,Draft',
+                summary: 'textarea',
+                impact: 'textarea',
+                details: 'textarea',
+                modalTitle: 'text',
+                fullSummary: 'textarea',
+                targetAudience: 'textarea',
+                problemsSolved: 'textarea',
+                useCases: 'textarea',
+                statsString: 'textarea',
+                tags: 'text',
+                image: 'file',
+                metaTitle: 'text',
+                metaDescription: 'textarea',
+                metaKeywords: 'text'
+            },
+            get: () => mockStorage.getIndustries(),
+            save: (data) => mockStorage.saveIndustry(data),
+            update: (id, data) => mockStorage.updateIndustry(id, data),
+            toggle: (id) => mockStorage.toggleIndustryVisibility(id),
+            delete: (id) => mockStorage.deleteIndustry(id)
+        },
         casestudy: {
             title: 'Case Studies',
             fields: {

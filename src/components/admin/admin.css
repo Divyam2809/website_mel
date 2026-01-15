@@ -2201,7 +2201,6 @@ body.admin-dark-mode .theme-toggle-btn:hover {
     display: block;
     font-size: 0.85rem;
     font-weight: 700;
-    text-transform: uppercase;
     color: #475569;
     margin-bottom: 8px;
     letter-spacing: 0.5px;
@@ -2210,8 +2209,8 @@ body.admin-dark-mode .theme-toggle-btn:hover {
 .admin-input {
     width: 100%;
     padding: 14px 16px;
-    background: #eceae8;
-    border: 1px solid #e97c07;
+    background: #fff;
+    border: 1px solid #e2e8f0;
     border-radius: 12px;
     font-size: 1rem;
     color: #334155;
