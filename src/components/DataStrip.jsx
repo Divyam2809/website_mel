@@ -42,7 +42,7 @@ export default function DataStrip() {
                             fontWeight: 600,
                             letterSpacing: '2px',
                             fontFamily: 'Inter, sans-serif'
-                        }}>COVERS K-10 TO HIGHER EDUCATION & INDUSTRIAL TRAINING</span>
+                        }}>COVERS K-12 TO HIGHER EDUCATION & INDUSTRIAL TRAINING</span>
                         <span style={{
                             color: '#FF9B50',
                             fontSize: '0.5rem'

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import mockStorage from '../services/mockStorage';
+import CaseStudyModal from './CaseStudyModal';
 
 export default function CaseStudyHighlights({ isDarkTheme }) {
     const [caseStudies, setCaseStudies] = useState([]);
+    const [selectedStudy, setSelectedStudy] = useState(null);
 
     useEffect(() => {
         const fetchStudies = async () => {
@@ -63,8 +65,11 @@ export default function CaseStudyHighlights({ isDarkTheme }) {
                                 borderRadius: '12px',
                                 border: '1px solid rgba(0,0,0,0.05)',
                                 transition: 'all 0.3s ease',
-                                cursor: 'pointer'
+                                cursor: 'pointer',
+                                display: 'flex',
+                                flexDirection: 'column'
                             }}
+                                onClick={() => setSelectedStudy(study)}
                                 onMouseEnter={(e) => {
                                     e.currentTarget.style.transform = 'translateY(-5px)';
                                     e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 155, 80, 0.15)';
@@ -106,7 +111,8 @@ export default function CaseStudyHighlights({ isDarkTheme }) {
                                     fontSize: '1.05rem',
                                     lineHeight: '1.6',
                                     color: '#FF9B50',
-                                    fontWeight: 600
+                                    fontWeight: 600,
+                                    flex: 1
                                 }}>
                                     {study.description}
                                 </p>
@@ -144,11 +150,18 @@ export default function CaseStudyHighlights({ isDarkTheme }) {
                             e.target.style.transform = 'translateY(0)';
                             e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
                         }}
+                        onClick={() => window.location.href = '/casestudies'}
                     >
                         View All Case Studies →
                     </button>
                 </div>
             </div>
+
+            <CaseStudyModal
+                study={selectedStudy}
+                onClose={() => setSelectedStudy(null)}
+                isDarkTheme={isDarkTheme}
+            />
         </section>
     );
 }

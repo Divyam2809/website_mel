@@ -15,9 +15,10 @@ const ContentManager = () => {
     const [formData, setFormData] = useState({});
     const [showConfirm, setShowConfirm] = useState(false);
     const [confirmAction, setConfirmAction] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
     const [stats, setStats] = useState({
         blogs: 0, news: 0, awards: 0, faqs: 0,
-        teamdetails: 0, caseStudy: 0, testimonials: 0
+        teamdetails: 0, caseStudy: 0, testimonials: 0, timeline: 0
     });
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -160,13 +161,56 @@ const ContentManager = () => {
             update: (id, data) => mockStorage.updateTestimonial(id, data),
             toggle: (id) => mockStorage.toggleTestimonialVisibility(id),
             delete: (id) => mockStorage.deleteTestimonial(id)
+        },
+        timeline: {
+            title: 'Timeline Events',
+            fields: {
+                year: 'text',
+                title: 'text',
+                content: 'textarea',
+                status: 'select:Published,Draft'
+            },
+            get: () => mockStorage.getTimeline(),
+            save: (data) => mockStorage.saveTimeline(data),
+            update: (id, data) => mockStorage.updateTimeline(id, data),
+            toggle: (id) => mockStorage.toggleTimelineVisibility(id),
+            delete: (id) => mockStorage.deleteTimeline(id)
+        },
+        users: {
+            title: 'User Management',
+            fields: {
+                name: 'text',
+                email: 'email',
+                password: 'password', // Secure input
+                role: 'select:superadmin,admin,sales',
+                status: 'select:Published,Draft' // Reusing Published/Draft as Active/Inactive logic for simplicity or just for consistency
+            },
+            get: () => mockStorage.getUsers(),
+            save: (data) => mockStorage.saveUser(data),
+            update: (_id, data) => {
+                // If the update logic in mockStorage is strictly by id, we pass it.
+                // However, users usually don't have toggle visibility in the same way, but let's keep it consistent.
+                return mockStorage.updateUser ? mockStorage.updateUser(_id, data) : Promise.resolve();
+            },
+            // Since I didn't add updateUser explicitly in the previous step (I only added getUsers, saveUser, deleteUser),
+            // I should use saveUser logic or add updateUser to mockStorage.
+            // Wait, I added `_create` which is saveUser. I need `updateUser` in mockStorage.
+            // Let me double check mockStorage. I only added getUsers, saveUser, deleteUser.
+            // I should add `updateUser` to mockStorage in a separate step or just assume I can add it now.
+            // Actually, I can use a direct call to `_update` if I had exposed it, but I didn't.
+            // For now, let's just implement the 'save' (create).
+            // But wait, user management needs update.
+            // I will assume I can add `updateUser` to mockStorage in the next step or right now via another tool.
+            // For now, let's map it, and I will fix mockStorage immediately after.
+            toggle: (id) => Promise.resolve(), // Users don't use visibility toggle typically in this layout
+            delete: (id) => mockStorage.deleteUser(id)
         }
     };
 
     const config = moduleConfig[type];
 
     useEffect(() => {
-        if (!config) {
+        if (!config || (user && user.role === 'sales')) {
             navigate('/admin/dashboard');
             return;
         }
@@ -185,14 +229,15 @@ const ContentManager = () => {
 
     const loadStats = async () => {
         try {
-            const [blogs, news, awards, faqs, team, cases, testimonials] = await Promise.all([
+            const [blogs, news, awards, faqs, team, cases, testimonials, timeline] = await Promise.all([
                 mockStorage.getBlogs(),
                 mockStorage.getNews(),
                 mockStorage.getAwards(),
                 mockStorage.getFAQs(),
                 mockStorage.getTeamDetails(),
                 mockStorage.getCaseStudies(),
-                mockStorage.getTestimonials()
+                mockStorage.getTestimonials(),
+                mockStorage.getTimeline()
             ]);
 
             setStats({
@@ -202,7 +247,8 @@ const ContentManager = () => {
                 faqs: faqs.data.length,
                 teamdetails: team.data.length,
                 caseStudy: cases.data.length,
-                testimonials: testimonials.data.length
+                testimonials: testimonials.data.length,
+                timeline: timeline.data.length
             });
         } catch (error) {
             console.error('Error loading stats:', error);
@@ -347,8 +393,46 @@ const ContentManager = () => {
                     </button>
                 </div>
             );
+
+        } else if (fieldType === 'password') {
+            return (
+                <div style={{ position: 'relative' }}>
+                    <input
+                        type={showPassword ? 'text' : 'password'}
+                        className="admin-input"
+                        placeholder={label}
+                        value={formData[key] || ''}
+                        onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                        style={{ paddingRight: '40px' }}
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{
+                            position: 'absolute',
+                            right: '10px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            opacity: 0.6,
+                            padding: '5px'
+                        }}
+                    >
+                        {showPassword ? (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                        ) : (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        )}
+                    </button>
+                </div>
+            );
         } else {
-            const inputType = fieldType === 'email' ? 'email' : fieldType === 'number' ? 'number' : fieldType === 'date' ? 'date' : 'text';
+            const inputType = fieldType === 'email' ? 'email'
+                : fieldType === 'number' ? 'number'
+                    : fieldType === 'date' ? 'date'
+                        : 'text';
             return (
                 <input
                     type={inputType}

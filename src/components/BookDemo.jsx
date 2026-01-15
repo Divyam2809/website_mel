@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { validators, validateForm } from '../utils/validation';
-import LoadingSpinner from './LoadingSpinner';
+import mockStorage from '../services/mockStorage';
 
 export default function BookDemo({ isOpen, onClose, isDarkTheme }) {
     if (!isOpen) return null;
@@ -53,6 +53,8 @@ export default function BookDemo({ isOpen, onClose, isDarkTheme }) {
         setIsLoading(true);
 
         try {
+            await mockStorage.saveDemoQuery(formData);
+
             // Simulate network delay
             await new Promise(resolve => setTimeout(resolve, 1500));
 
