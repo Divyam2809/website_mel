@@ -182,7 +182,7 @@ const ContentManager = () => {
                 name: 'text',
                 email: 'email',
                 password: 'password', // Secure input
-                role: 'select:superadmin,admin,sales',
+                role: 'select:superadmin,content_manager,sales',
                 status: 'select:Published,Draft' // Reusing Published/Draft as Active/Inactive logic for simplicity or just for consistency
             },
             get: () => mockStorage.getUsers(),

@@ -17,7 +17,7 @@ const AdminDashboard = () => {
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
 
-        if (!storedUser || !['superadmin', 'admin', 'sales'].includes(storedUser.role)) {
+        if (!storedUser || !['superadmin', 'content_manager', 'sales'].includes(storedUser.role)) {
             navigate('/admin/login');
             return;
         }
@@ -145,6 +145,7 @@ const AdminDashboard = () => {
     if (!user) return null; // Wait for auth check
 
     const isSales = user.role === 'sales';
+    const isContentManager = user.role === 'content_manager';
 
     return (
         <div className="admin-layout">
@@ -342,110 +343,112 @@ const AdminDashboard = () => {
                             </div>
                         )}
 
-                        {/* Queries Box - SHOW FOR ALL */}
-                        <div id="recent-queries" style={{ marginBottom: '3rem', scrollMarginTop: '100px' }}>
-                            <h2 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '2rem', color: '#ea6805' }}>
-                                {isSales ? 'Demo Requests' : 'Recent Queries'}
-                            </h2>
-                            <div className="recent-queries-card" style={{ background: 'white', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', border: '1px solid rgba(0,0,0,0.05)', overflow: 'hidden' }}>
-                                {recentQueries.length === 0 ? (
-                                    <p style={{ opacity: 0.6, margin: 0, textAlign: 'center', padding: '3rem' }}>No pending queries at the moment</p>
-                                ) : (
-                                    <div style={{ display: 'flex', flexDirection: 'column', maxHeight: !isSales ? '500px' : 'none', overflowY: !isSales ? 'auto' : 'visible' }}>
-                                        {recentQueries.map((query, index) => (
-                                            <div key={query._id} style={{
-                                                padding: '2rem',
-                                                borderBottom: index !== recentQueries.length - 1 ? '1px solid #FF9B50' : 'none',
-                                                display: 'grid',
-                                                gap: '0.75rem',
-                                                transition: 'background-color 0.2s',
-                                            }}
-                                                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#fafafa'}
-                                                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                                            >
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                                        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', userSelect: 'none' }}>
-                                                            <input
-                                                                type="checkbox"
-                                                                checked={query.status === 'Contacted'}
-                                                                onChange={() => handleStatusChange(query._id, query.status)}
-                                                                style={{ width: '18px', height: '18px', accentColor: '#10b981', cursor: 'pointer' }}
-                                                            />
-                                                            <span style={{ fontSize: '0.85rem', color: query.status === 'Contacted' ? '#10b981' : '#64748b', fontWeight: 500 }}>
-                                                                {query.status === 'Contacted' ? 'Answered' : 'Pending'}
-                                                            </span>
-                                                        </label>
-                                                        <div style={{ width: '1px', height: '20px', background: '#e2e8f0' }}></div>
-                                                        <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 700, color: query.status === 'Contacted' ? '#94a3b8' : '#1e293b', textDecoration: query.status === 'Contacted' ? 'line-through' : 'none' }}>{query.name}</h3>
-                                                    </div>
-                                                    <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '5px' }}>
-                                                        <div style={{ fontSize: '0.9rem', color: '#475569', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                            <span>Demo Date: <span style={{ color: '#FF9B50', fontWeight: 700 }}>{query.date ? new Date(query.date).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) : 'N/A'}</span></span>
-                                                            {query.date && (
-                                                                <button
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation();
-                                                                        addToGoogleCalendar(query);
-                                                                    }}
-                                                                    title="Add to Google Calendar"
-                                                                    style={{
-                                                                        background: '#FF9B50',
-                                                                        border: 'none',
-                                                                        borderRadius: '6px',
-                                                                        color: 'white',
-                                                                        width: '24px',
-                                                                        height: '24px',
-                                                                        display: 'flex',
-                                                                        alignItems: 'center',
-                                                                        justifyContent: 'center',
-                                                                        cursor: 'pointer',
-                                                                        transition: 'transform 0.2s'
-                                                                    }}
-                                                                    onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
-                                                                    onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-                                                                >
-                                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                                                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                                                                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                                                                        <line x1="12" y1="11" x2="12" y2="17"></line>
-                                                                        <line x1="9" y1="14" x2="15" y2="14"></line>
-                                                                    </svg>
-                                                                </button>
-                                                            )}
+                        {/* Queries Box - SHOW FOR ALL except Content Manager */}
+                        {!isContentManager && (
+                            <div id="recent-queries" style={{ marginBottom: '3rem', scrollMarginTop: '100px' }}>
+                                <h2 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '2rem', color: '#ea6805' }}>
+                                    {isSales ? 'Demo Requests' : 'Recent Queries'}
+                                </h2>
+                                <div className="recent-queries-card" style={{ background: 'white', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', border: '1px solid rgba(0,0,0,0.05)', overflow: 'hidden' }}>
+                                    {recentQueries.length === 0 ? (
+                                        <p style={{ opacity: 0.6, margin: 0, textAlign: 'center', padding: '3rem' }}>No pending queries at the moment</p>
+                                    ) : (
+                                        <div style={{ display: 'flex', flexDirection: 'column', maxHeight: !isSales ? '500px' : 'none', overflowY: !isSales ? 'auto' : 'visible' }}>
+                                            {recentQueries.map((query, index) => (
+                                                <div key={query._id} style={{
+                                                    padding: '2rem',
+                                                    borderBottom: index !== recentQueries.length - 1 ? '1px solid #FF9B50' : 'none',
+                                                    display: 'grid',
+                                                    gap: '0.75rem',
+                                                    transition: 'background-color 0.2s',
+                                                }}
+                                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#fafafa'}
+                                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                                                >
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                                                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', userSelect: 'none' }}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={query.status === 'Contacted'}
+                                                                    onChange={() => handleStatusChange(query._id, query.status)}
+                                                                    style={{ width: '18px', height: '18px', accentColor: '#10b981', cursor: 'pointer' }}
+                                                                />
+                                                                <span style={{ fontSize: '0.85rem', color: query.status === 'Contacted' ? '#10b981' : '#64748b', fontWeight: 500 }}>
+                                                                    {query.status === 'Contacted' ? 'Answered' : 'Pending'}
+                                                                </span>
+                                                            </label>
+                                                            <div style={{ width: '1px', height: '20px', background: '#e2e8f0' }}></div>
+                                                            <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 700, color: query.status === 'Contacted' ? '#94a3b8' : '#1e293b', textDecoration: query.status === 'Contacted' ? 'line-through' : 'none' }}>{query.name}</h3>
                                                         </div>
-                                                        <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
-                                                            Received: {new Date(query.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })}
+                                                        <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '5px' }}>
+                                                            <div style={{ fontSize: '0.9rem', color: '#475569', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                                <span>Demo Date: <span style={{ color: '#FF9B50', fontWeight: 700 }}>{query.date ? new Date(query.date).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) : 'N/A'}</span></span>
+                                                                {query.date && (
+                                                                    <button
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            addToGoogleCalendar(query);
+                                                                        }}
+                                                                        title="Add to Google Calendar"
+                                                                        style={{
+                                                                            background: '#FF9B50',
+                                                                            border: 'none',
+                                                                            borderRadius: '6px',
+                                                                            color: 'white',
+                                                                            width: '24px',
+                                                                            height: '24px',
+                                                                            display: 'flex',
+                                                                            alignItems: 'center',
+                                                                            justifyContent: 'center',
+                                                                            cursor: 'pointer',
+                                                                            transition: 'transform 0.2s'
+                                                                        }}
+                                                                        onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
+                                                                        onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+                                                                    >
+                                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                                                            <line x1="12" y1="11" x2="12" y2="17"></line>
+                                                                            <line x1="9" y1="14" x2="15" y2="14"></line>
+                                                                        </svg>
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                            <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
+                                                                Received: {new Date(query.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div style={{ display: 'flex', gap: '2rem', fontSize: '0.9rem', color: '#475569' }}>
+                                                        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                                            {query.email}
+                                                        </span>
+                                                        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                                            {query.phone}
                                                         </span>
                                                     </div>
-                                                </div>
-                                                <div style={{ display: 'flex', gap: '2rem', fontSize: '0.9rem', color: '#475569' }}>
-                                                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                                        {query.email}
-                                                    </span>
-                                                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                                                        {query.phone}
-                                                    </span>
-                                                </div>
-                                                <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.9rem', color: '#475569' }}>
-                                                    <span style={{ fontWeight: 600, color: '#334155' }}>{query.institute}</span>
-                                                    <span style={{ color: '#94a3b8' }}>•</span>
-                                                    <span>{query.designation}</span>
-                                                </div>
-                                                {query.message && (
-                                                    <div style={{ marginTop: '0.75rem', padding: '1rem', background: '#f8fafc', borderRadius: '8px', fontSize: '0.95rem', color: '#334155', lineHeight: '1.5', borderLeft: '3px solid #FF9B50' }}>
-                                                        {query.message}
+                                                    <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.9rem', color: '#475569' }}>
+                                                        <span style={{ fontWeight: 600, color: '#334155' }}>{query.institute}</span>
+                                                        <span style={{ color: '#94a3b8' }}>•</span>
+                                                        <span>{query.designation}</span>
                                                     </div>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
+                                                    {query.message && (
+                                                        <div style={{ marginTop: '0.75rem', padding: '1rem', background: '#f8fafc', borderRadius: '8px', fontSize: '0.95rem', color: '#334155', lineHeight: '1.5', borderLeft: '3px solid #FF9B50' }}>
+                                                            {query.message}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                         {/* Content Management Modules - HIDDEN FOR SALES */}
                         {!isSales && (

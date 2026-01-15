@@ -454,7 +454,7 @@ const initialDemoQueries = [
 
 const ADMIN_USERS = [
     { email: 'superadmin@melzo.com', password: 'superadmin123', role: 'superadmin', name: 'Super Admin' },
-    { email: 'admin@melzo.com', password: 'admin123', role: 'admin', name: 'Admin' },
+    { email: 'contentmanager@melzo.com', password: 'contentmanager123', role: 'content_manager', name: 'Content Manager' },
     { email: 'sales@melzo.com', password: 'sales123', role: 'sales', name: 'Sales Team' }
 ];
 
@@ -615,9 +615,32 @@ class MockStorageService {
             localStorage.setItem('timeline', JSON.stringify(initialTimeline));
         }
 
-        // Initialize Demo Queries
         if (!localStorage.getItem('demoQueries')) {
             localStorage.setItem('demoQueries', JSON.stringify(initialDemoQueries));
+        }
+
+        // --- MIGRATION: Update 'admin' role to 'content_manager' and Update Credentials ---
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        let usersModified = false;
+        users.forEach(u => {
+            // General role migration
+            if (u.role === 'admin') {
+                u.role = 'content_manager';
+                u.name = 'Content Manager';
+                usersModified = true;
+            }
+            // Specific email/password update for the default admin user
+            if (u.email === 'admin@melzo.com') {
+                u.email = 'contentmanager@melzo.com';
+                u.password = 'contentmanager123';
+                u.role = 'content_manager'; // Ensure role is updated
+                u.name = 'Content Manager';
+                usersModified = true;
+            }
+        });
+        if (usersModified) {
+            localStorage.setItem('users', JSON.stringify(users));
+            console.log('Migrated admin user to contentmanager credentials');
         }
     }
 
