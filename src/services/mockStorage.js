@@ -1,0 +1,1067 @@
+
+// Initial Data Seeding
+const initialBlogs = [
+    {
+        _id: 'virtual-characters-and-ip-world',
+        title: "From Mascots to Worlds: Why the Future Belongs to Virtual Characters and IP",
+        slug: 'virtual-characters-and-ip-world',
+        author: {
+            name: "Scene9 Editorial",
+            role: "Virtual IP & World Building"
+        },
+        publishDate: "02 Mar 2025",
+        readTime: 15,
+        category: "Virtual Characters & IP Worlds",
+        excerpt: "For decades, characters have been used as short-term tools—mascots created for campaigns... The future belongs to a different kind of character.",
+        status: 'Published',
+        isVisible: true,
+        image: null,
+        content: [
+            {
+                type: "paragraph",
+                content: "For decades, characters have been used as short-term tools—mascots created for campaigns, cartoons designed for seasons, or avatars built for novelty. Most of them disappear as quickly as they arrive."
+            },
+            {
+                type: "paragraph",
+                content: "The future of storytelling, branding, and digital culture belongs to a different kind of character—one designed not for a moment, but for longevity. Virtual characters are no longer assets. They are intellectual property, cultural interfaces, and living systems."
+            },
+
+            {
+                type: "heading",
+                content: "The Shift from Characters to IP Worlds"
+            },
+            {
+                type: "paragraph",
+                content: "A character becomes powerful not because of how it looks, but because of the world it belongs to. Context gives meaning. Narrative gives continuity."
+            },
+            {
+                type: "paragraph",
+                content: "IP worlds transform isolated characters into evolving entities—capable of existing across platforms, formats, and time. Films, games, education, branding, and immersive media all become expressions of the same universe."
+            },
+            {
+                type: "quote",
+                content: "A character is remembered. A world is returned to."
+            },
+
+            {
+                type: "heading",
+                content: "Global Trends in Virtual Characters"
+            },
+            {
+                type: "paragraph",
+                content: "Globally, virtual characters are increasingly being designed as long-term intellectual property rather than campaign visuals."
+            },
+            {
+                type: "list",
+                items: [
+                    "Virtual Brand Ambassadors: Characters representing brands consistently over years",
+                    "Digital Influencers: Virtual personalities with evolving identities and audiences",
+                    "Transmedia Storytelling: Characters moving across film, social media, games, and XR",
+                    "Education & Training Avatars: Characters designed to teach, guide, and explain",
+                    "Persistent Virtual Worlds: IP designed to scale into platforms and ecosystems"
+                ]
+            },
+
+            {
+                type: "heading",
+                content: "AI and the Flood of Disposable Characters"
+            },
+            {
+                type: "paragraph",
+                content: "AI has made character creation easier than ever. Faces, voices, and animations can be generated instantly. While this lowers barriers, it also creates saturation."
+            },
+            {
+                type: "paragraph",
+                content: "Most AI-generated characters lack continuity, ownership, and narrative responsibility. They exist as outputs, not entities."
+            },
+            {
+                type: "quote",
+                content: "AI can generate characters. It cannot generate legacy."
+            },
+            {
+                type: "paragraph",
+                content: "As volume increases, meaning becomes scarce. The value shifts from creation to curation, evolution, and stewardship."
+            },
+
+            {
+                type: "heading",
+                content: "What Makes a Character Endure"
+            },
+            {
+                type: "paragraph",
+                content: "Enduring virtual characters share a common foundation: clear identity, defined values, and room for growth."
+            },
+            {
+                type: "list",
+                items: [
+                    "Consistent Personality: Predictable behavior without becoming static",
+                    "Narrative Depth: A past, present, and implied future",
+                    "Adaptability: Ability to exist across platforms and contexts",
+                    "Ownership & Control: Clear IP stewardship and evolution strategy",
+                    "Cultural Sensitivity: Awareness of audience, time, and place"
+                ]
+            },
+
+            {
+                type: "heading",
+                content: "Scene9’s Approach to Virtual IP"
+            },
+            {
+                type: "paragraph",
+                content: "At Scene9, we do not design characters in isolation. We design ecosystems. Characters emerge from worlds, and worlds are governed by rules, values, and narrative logic."
+            },
+            {
+                type: "paragraph",
+                content: "Our process treats characters as long-term collaborators—capable of representing brands, teaching ideas, guiding users, and evolving alongside the organizations they serve."
+            },
+
+            {
+                type: "heading",
+                content: "IP Worlds Across Industries"
+            },
+            {
+                type: "paragraph",
+                content: "Virtual characters and IP worlds are no longer limited to entertainment. Their applications span industries."
+            },
+            {
+                type: "list",
+                items: [
+                    "Branding: Long-term brand identity through consistent virtual presence",
+                    "Education: Characters that simplify complex knowledge",
+                    "Healthcare & Training: Simulation guides and procedural assistants",
+                    "Civic Communication: Characters explaining public systems and policy",
+                    "Culture & Storytelling: Original narratives rooted in modern realities"
+                ]
+            },
+
+            {
+                type: "heading",
+                content: "India’s Opportunity in IP Creation"
+            },
+            {
+                type: "paragraph",
+                content: "India possesses one of the world’s richest storytelling traditions, yet its presence in global IP creation remains underrepresented."
+            },
+            {
+                type: "paragraph",
+                content: "As the nation moves toward 2047, virtual characters and IP worlds offer an opportunity to translate cultural depth into global digital presence—without losing authenticity."
+            },
+
+            {
+                type: "heading",
+                content: "From Novelty to Responsibility"
+            },
+            {
+                type: "paragraph",
+                content: "The future of virtual characters demands responsibility. Characters influence behavior, shape perception, and build trust over time."
+            },
+            {
+                type: "paragraph",
+                content: "Designing such entities requires more than tools. It requires ethical thinking, long-term vision, and respect for audience intelligence."
+            },
+            {
+                type: "quote",
+                content: "The most powerful characters are not created. They are cared for."
+            },
+
+            {
+                type: "paragraph",
+                content: "As digital environments become more immersive, virtual characters will increasingly serve as the human interface of technology. The studios that understand this shift will not just create content—they will create culture."
+            }
+        ]
+    }
+];
+
+const initialCaseStudies = [
+    {
+        _id: '1',
+        title: 'Education Revolution: XYZ University',
+        slug: 'xyz-university',
+        description: 'Implemented VR Labs for 500+ students, resulting in 40% improved retention rates.',
+        image: '/images/education_modal_vr.webp',
+        type: 'image',
+        mediaUrl: '',
+        isVisible: true,
+        content: [
+            { type: 'heading', content: 'The Challenge' },
+            { type: 'paragraph', content: 'XYZ University faced a significant bottleneck: limited physical lab resources meant students could only perform experiments once a semester. This led to poor retention of complex scientific concepts.' },
+            { type: 'heading', content: 'The Melzo Solution' },
+            { type: 'paragraph', content: 'We deployed a 50-headset VR Lab pre-loaded with comprehensive Physics, Chemistry, and Biology curriculums. Students can now perform dangerous experiments safely and repeat them endlessly.' },
+            { type: 'quote', content: "VR has transformed our science department. Grades are up by 15% in just one term." },
+            { type: 'heading', content: 'Key Outcomes' },
+            { type: 'list', items: ['40% Improvement in Concept Retention', 'Zero Safety Incidents', '3x More Lab Time Per Student'] }
+        ]
+    },
+    {
+        _id: '2',
+        title: 'Industrial Safety: Global Mfg Corp',
+        slug: 'global-manufacturing-corp',
+        description: 'Reduced safety training costs by 60% using our VR simulation modules.',
+        image: '/images/defence-bg.webp',
+        type: 'image',
+        mediaUrl: '',
+        isVisible: true,
+        content: [
+            { type: 'heading', content: 'The Challenge' },
+            { type: 'paragraph', content: 'Traditional safety training was expensive, risky, and logistically difficult. Organizing live fire drills or machinery failure simulations caused downtime.' },
+            { type: 'heading', content: 'The Melzo Solution' },
+            { type: 'paragraph', content: 'We created a custom "Hazard Awareness" VR module. Employees navigate a virtual factory floor, identifying and fostering risks in a hyper-realistic environment.' },
+            { type: 'quote', content: "Training that used to take days now takes hours, and it sticks." },
+            { type: 'heading', content: 'Key Outcomes' },
+            { type: 'list', items: ['60% Reduction in Training Cost', '100% Compliance Rate', 'Real-time Analytics on Employee Performance'] }
+        ]
+    }
+];
+
+const initialNews = [
+    {
+        _id: '14',
+        category: 'Times of India',
+        date: 'January 10, 2026',
+        title: 'VR chairs bring classrooms to life for SMC students',
+        excerpt: 'The Surat Municipal Corporation (SMC) has introduced high-tech VR chairs and virtual reality headsets in its primary schools to provide students with an immersive, multi-sensory educational experience.',
+        image: '/images/toi-vr-chairs-smc.webp',
+        language: 'English',
+        content: `The Surat Municipal Corporation (SMC) has introduced high-tech VR chairs and virtual reality headsets in its primary schools to provide students with an immersive, multi-sensory educational experience.\n\nThis article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.`,
+        isVisible: true
+    },
+    {
+        _id: '15',
+        category: 'Times of India',
+        date: 'January 10, 2026',
+        title: 'VR chairs bring classrooms to life for SMC students',
+        excerpt: 'In a bid to enhance learning for underprivileged students, Surat Municipal Corporation (SMC) has introduced multidimensional experience chairs in municipal schools, offering students an immersive education through virtual reality.',
+        image: '/images/toi-vr-chairs-smc-full.webp',
+        language: 'English',
+        content: `In a bid to enhance learning for underprivileged students, Surat Municipal Corporation (SMC) has introduced multidimensional experience chairs in municipal schools, offering students an immersive education through virtual reality.\n\nThis article highlights how the Melzo Experience 7D Lab, equipped with VR headsets and motion chairs that blow air and spray mist, is transforming education by allowing students to virtually visit space or historical sites and conduct interactive experiments.`,
+        isVisible: true
+    },
+    {
+        _id: 'new-1',
+        category: 'Divya Bhaskar',
+        date: 'January 2025',
+        title: 'IIT pass Gujarati created 5D lab for children',
+        excerpt: 'Students can see the outside world from a small room with 5D virtual-sensory chair; Education with VR, AR, AI',
+        image: '/images/divya-bhaskar-5d-lab.webp',
+        language: 'Gujarati',
+        content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
+        isVisible: true
+    },
+    {
+        _id: '2',
+        category: 'Indian Express',
+        date: 'January 12, 2025',
+        title: 'In a first, 5D laboratory in Surat school to help students \'hear, visualise\' curriculum',
+        excerpt: 'On Friday, the Sarvoday trust-run school at Bhatar launched the Melzo Anubhav 5D lab, which, the school authorities claimed, is the first initiative of its kind for students.',
+        image: '/images/indian-express-5d-lab.webp',
+        language: 'English',
+        content: `On Friday, the Sarvoday trust-run school at Bhatar launched the Melzo Anubhav 5D lab, which, the school authorities claimed, is the first initiative of its kind for students.\n\nThis article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.`,
+        isVisible: true
+    },
+    {
+        _id: '3',
+        category: 'News18 Gujarat',
+        date: 'January 14, 2025',
+        title: 'Surat student\'s turn! India\'s first 5D lab launched in this school',
+        excerpt: 'IG Desai School in Surat has launched India\'s first 5D lab. This lab will help school students understand science and social science subjects easily and experience subjects in real life with the help of technology.',
+        image: '/images/news18-surat-5d-lab-updated.webp',
+        language: 'Gujarati',
+        content: `IG Desai School in Surat has launched India's first 5D lab. This lab will help school students understand science and social science subjects easily and experience subjects in real life with the help of technology.\n\nThis article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
+        isVisible: true
+    },
+    {
+        _id: '4',
+        category: 'Gujarati Newspaper',
+        date: 'January 2025',
+        title: 'Hardik Software created for free education of Gujarati medium students',
+        excerpt: 'Software benefiting 2.80 lakh students; ranked first among 1200 startups in state government\'s startup scheme',
+        image: '/images/melzo-partners-universities.webp',
+        language: 'Gujarati',
+        content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
+        isVisible: true
+    },
+    {
+        _id: '5',
+        category: 'Gujarati Newspaper',
+        date: 'January 2025',
+        title: 'Country\'s first 5D lab, students will do virtual experiments',
+        excerpt: 'Innovation: Google\'s virtual reality and all technical-non-technical subjects at Surat\'s student media center in 5D',
+        image: '/images/gujarati-newspaper-5d-lab.webp',
+        language: 'Gujarati',
+        content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
+        isVisible: true
+    },
+    {
+        _id: '6',
+        category: 'Gujarati Newspaper',
+        date: 'January 10, 2025',
+        title: 'Sarvoday Charitable Trust\'s IG Desai School in Surat Bhatar launches 5D technology for real education',
+        excerpt: 'Modern technology to provide education to poor, middle-class students; parents also happy with the effort',
+        image: '/images/sarvoday-ig-desai-5d.webp',
+        language: 'Gujarati',
+        content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
+        isVisible: true
+    },
+    {
+        _id: '7',
+        category: 'Hindi Newspaper',
+        date: 'January 2025',
+        title: 'Students in Surat learning complex subjects from India\'s first 5D lab',
+        excerpt: 'The city\'s IT youth developed this with indigenous technology. Students can see biology, physics, chemistry and other subjects in 3D.',
+        image: '/images/hindi-newspaper-5d-lab.webp',
+        language: 'Hindi',
+        content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Hindi. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
+        isVisible: true
+    },
+    {
+        _id: '8',
+        category: 'Gujarati Newspaper',
+        date: 'January 2025',
+        title: 'Melzo Anubhav 5D Lab launched at IG Desai School in Bhatar',
+        excerpt: 'New initiative in education: Country\'s first 5D lab launched to make students\' educational experience more interactive and effective',
+        image: '/images/melzo-anubhav-5d-lab.webp',
+        language: 'Gujarati',
+        content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
+        isVisible: true
+    },
+    {
+        _id: '9',
+        category: 'Gujarati Newspaper',
+        date: 'January 13, 2025',
+        title: 'Launch of India\'s first 5D laboratory for students at IG Desai School',
+        excerpt: 'Developed by Surat youth at a cost equivalent to a laptop; lab costs 50 lakhs to set up in Disney World, Apple Center, and universities',
+        image: '/images/ig-desai-5d-laboratory.webp',
+        language: 'Gujarati',
+        content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
+        isVisible: true
+    },
+    {
+        _id: '10',
+        category: 'Gujarati Newspaper',
+        date: 'January 2025',
+        title: '5D Lab launched to increase student\'s memory power',
+        excerpt: 'This modern lab is a combination of virtual reality and sensory technology that provides a new way of teaching and learning',
+        image: '/images/5d-lab-memory-power.webp',
+        language: 'Gujarati',
+        content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
+        isVisible: true
+    },
+    {
+        _id: '11',
+        category: 'Gujarati Newspaper',
+        date: 'January 12, 2025',
+        title: 'India\'s first 5D lab launched in Surat school',
+        excerpt: 'Students at IG Desai School will now be able to learn and experience various subjects of science and social studies; 80% of students come from economically weaker backgrounds',
+        image: '/images/surat-first-5d-lab.webp',
+        language: 'Gujarati',
+        content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
+        isVisible: true
+    },
+    {
+        _id: '12',
+        category: 'Gujarati Newspaper',
+        date: 'January 10, 2025',
+        title: 'India\'s First 5D Lab Revolutionizing Complex Educational Topics',
+        excerpt: 'The first 5D lab of Melzo Anubhav is offering education to the world. This lab at IG Desai School is transforming how students learn complex subjects through immersive experiences.',
+        image: '/images/5d-lab-revolutionizing-education.webp',
+        language: 'Gujarati',
+        content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Gujarati. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
+        isVisible: true
+    },
+    {
+        _id: '13',
+        category: 'Hindi Newspaper',
+        date: 'January 2025',
+        title: 'Students in Surat Learning Complex Subjects from India\'s First 5D Lab',
+        excerpt: 'Developed by a local IT youth using indigenous technology, this 5D lab is helping students understand difficult subjects through immersive experiences and virtual reality.',
+        image: '/images/hindi-surat-5d-lab-students.webp',
+        language: 'Hindi',
+        content: `This article highlights how Anubhav's 5D lab technology is transforming education across India, providing students with immersive learning experiences that make complex subjects easier to understand and remember.\n\nTranslation Note\nThis article is in Hindi. The title and excerpt have been translated to English for your convenience. The original article discusses the innovative 5D lab technology implemented at IG Desai School in Surat and its positive impact on student learning.`,
+        isVisible: true
+    }
+];
+
+const initialTestimonials = [
+    {
+        _id: 't1',
+        testimonial: "Students understand complex concepts faster with Melzo VR Labs.",
+        name: "Principal",
+        position: "CBSE School, Surat",
+        isVisible: true
+    },
+    {
+        _id: 't2',
+        testimonial: "A game-changer for our technical training program.",
+        name: "Director",
+        position: "Industrial Training Institute",
+        isVisible: true
+    },
+    {
+        _id: 't3',
+        testimonial: "The most affordable and effective VR solution we've found.",
+        name: "HOD",
+        position: "University Engineering Dept",
+        isVisible: true
+    }
+];
+
+const initialFAQs = [
+    { _id: 'f1', question: 'What hardware is required?', answer: 'Our solutions are compatible with major VR headsets like Oculus, HTC Vive, and Pico.', status: 'Published', slug: 'hardware-required', isVisible: true },
+    { _id: 'f2', question: 'Can I customize the content?', answer: 'Yes, we offer tailored content development services to meet specific curriculum or industry needs.', status: 'Published', slug: 'customize-content', isVisible: true },
+    { _id: 'f3', question: 'Do you offer on-site support?', answer: 'We provide comprehensive installation, training, and 24/7 technical support.', status: 'Published', slug: 'onsite-support', isVisible: true }
+];
+
+const initialAwards = [
+    { _id: 'a1', title: "WhatsApp Startup India", organization: "Grand Challenge 2019", awardLevel: "Winner", prize: "$50,000", image: "/images/whatsapp.webp", status: 'Published', slug: 'whatsapp-startup-india', isVisible: true },
+    { _id: 'a2', title: "Vibrant Gujarat", organization: "Startup Summit 2018", awardLevel: "Winner", prize: "₹30,00,000", image: "/images/gujarat.webp", status: 'Published', slug: 'vibrant-gujarat', isVisible: true },
+    { _id: 'a3', title: "Dubai Future Accelerators", organization: "Cohort 7 & 8 (2020)", awardLevel: "Finalist", prize: "KHDA Challenge", image: "/images/dubai.webp", status: 'Published', slug: 'dubai-future-accelerators', isVisible: true },
+    { _id: 'a4', title: "Data Innovation Bazaar", organization: "Western Digital 2020", awardLevel: "National Top 5", prize: "₹2,00,000", image: "/images/data.webp", status: 'Published', slug: 'data-innovation-bazaar', isVisible: true }
+];
+
+const initialIndustries = [
+    {
+        _id: 'education',
+        title: 'Education',
+        slug: 'education',
+        summary: 'Curriculum-aligned VR labs for Science, Math, History, Geography.',
+        impact: 'Improve student retention rates by up to 75% and save 60% on physical lab infrastructure.',
+        details: '• K-12 Integration\n• STEM Labs\n• Teacher Training',
+        modalTitle: 'Virtual Reality Solutions for Schools, Colleges & Training Institutes',
+        fullSummary: 'Melzo designs VR solutions for education in India that support classroom learning, lab-based subjects, and skill development programs.',
+        targetAudience: 'K–12 schools (CBSE, ICSE, State Boards)\nJunior colleges and degree colleges\nITIs, polytechnics, and vocational institutes\nEdTech and digital learning centers',
+        problemsSolved: 'Limited physical lab access\nSafety risks in experiments\nLow student engagement\nConcept memorization without understanding',
+        useCases: 'LAB|Science lab simulations|Conduct virtual experiments safely without physical lab constraints\nMATH|Mathematics and geometry visualization|Visualize complex 3D shapes and mathematical concepts interactively\nEXPLORE|History and geography immersion|Explore historical events and geographical locations in immersive VR\nCAREER|Career and skill exploration|Experience different careers and develop practical skills virtually',
+        statsString: '120+|Schools\n50K+|Students\n75%|Better Retention',
+        tags: 'K-12, STEM, Labs',
+        image: '/images/education_modal_vr.webp',
+        status: 'Published',
+        isVisible: true
+    },
+    {
+        _id: 'csr',
+        title: 'CSR & Foundations',
+        slug: 'csr',
+        summary: 'Measurable impact, scalable deployment, and comprehensive reporting support.',
+        impact: 'Directly reached 15,000+ beneficiaries in rural sectors with quantifiable skill improvements.',
+        details: '• Rural Development\n• Skill Alignment\n• Impact Reports',
+        tags: 'Impact, Scale, Social Good',
+        image: '/images/csr-bg.webp',
+        status: 'Published',
+        isVisible: true
+    },
+    {
+        _id: 'government',
+        title: 'Government & Public Sector',
+        slug: 'government',
+        summary: 'Skill development, safety training, and immersive awareness programs.',
+        impact: 'Standardized training for 50,000+ personnel with zero safety incidents during simulation.',
+        details: '• Public Safety\n• Urban Planning\n• Civic Awareness',
+        tags: 'Skilling, Safety, Civic',
+        image: '/images/government-bg.webp',
+        status: 'Published',
+        isVisible: true
+    },
+    {
+        _id: 'defence',
+        title: 'Industry & Defence',
+        slug: 'defence',
+        summary: 'Simulation-based training with reduced risk and cost for mission-critical operations.',
+        impact: 'Reduced training costs by 40% while increasing scenario exposure by 300%.',
+        details: '• Tactical Sims\n• Equipment Handling\n• Strategy Planning',
+        tags: 'Simulation, Tactical, Training',
+        image: '/images/defence-bg.webp',
+        status: 'Published',
+        isVisible: true
+    }
+];
+
+const initialTeam = [
+    { _id: 't1', name: 'HARDIK DESAI', position: 'Founder & CEO', image: '/team/hardiksir.webp', status: 'Published', slug: 'hardik-desai', isVisible: true },
+    { _id: 't2', name: 'BHAVIK MEHTA', position: 'Chief Technology Officer', image: '/team/bhaviksir.webp', status: 'Published', slug: 'bhavik-mehta', isVisible: true },
+    { _id: 't3', name: 'SOMNATH CHAUDHARI', position: 'Sales Head', image: '/team/somnathsir.webp', status: 'Published', slug: 'somnath-chaudhari', isVisible: true },
+    { _id: 't4', name: 'TAPAN DESAI', position: 'Production Head', image: '/team/tapansir.webp', status: 'Published', slug: 'tapan-desai', isVisible: true },
+    { _id: 't5', name: 'GAYATRI BANSHIWAL', position: 'SR. HR Manager', image: '/team/gayatrimaam.webp', status: 'Published', slug: 'gayatri-banshiwal', isVisible: true }
+];
+
+const initialTicker = [];
+
+const initialGlobalMomentum = [
+    // Marquee Words
+    { _id: 'gm1', type: 'Marquee', value: 'Innovation', isVisible: true, status: 'Published' },
+    { _id: 'gm2', type: 'Marquee', value: 'Impact', isVisible: true, status: 'Published' },
+    { _id: 'gm3', type: 'Marquee', value: 'Experience', isVisible: true, status: 'Published' },
+    { _id: 'gm4', type: 'Marquee', value: 'Scale', isVisible: true, status: 'Published' },
+    { _id: 'gm5', type: 'Marquee', value: 'Immersive', isVisible: true, status: 'Published' },
+    // Stats
+    { _id: 'gm6', type: 'Stat', value: '5+', label: 'Countries', isVisible: true, status: 'Published' },
+    { _id: 'gm7', type: 'Stat', value: '3000+', label: 'Schools', isVisible: true, status: 'Published' },
+    { _id: 'gm8', type: 'Stat', value: '50K+', label: 'Students', isVisible: true, status: 'Published' },
+    { _id: 'gm9', type: 'Stat', value: '1M+', label: 'Sessions', isVisible: true, status: 'Published' },
+    { _id: 'gm10', type: 'Stat', value: '120+', label: 'Partners', isVisible: true, status: 'Published' }
+];
+
+const initialPrivacyPolicy = [
+    {
+        _id: 'pp1',
+        title: '1. Information We Collect',
+        content: 'We may collect the following types of information:\n\n*   **Personal Information:** Name, email address, phone number, and other contact details when you book a demo or contact us.\n*   **Usage Data:** Information about how you use our website, products, and services.\n*   **Technical Data:** IP address, browser type, device information, and operating system.',
+        isVisible: true,
+        status: 'Published',
+        icon: 'doc'
+    },
+    {
+        _id: 'pp2',
+        title: '2. How We Use Your Information',
+        content: 'We use the information we collect for various purposes, including:\n\n*   To provide, maintain, and improve our services.\n*   To communicate with you about updates, offers, and promotions.\n*   To analyze usage patterns and improve user experience.\n*   To comply with legal obligations.',
+        isVisible: true,
+        status: 'Published',
+        icon: 'gear'
+    },
+    {
+        _id: 'pp3',
+        title: '3. Data Security',
+        content: 'We implement appropriate technical and organizational measures to protect your personal data against unauthorized or unlawful processing, accidental loss, destruction, or damage.',
+        isVisible: true,
+        status: 'Published',
+        icon: 'shield'
+    },
+    {
+        _id: 'pp4',
+        title: '4. Third-Party Services',
+        content: 'We may use third-party services (such as analytics providers) that collect, monitor, and analyze this type of information to increase our service\'s functionality. These third-party service providers have their own privacy policies addressing how they use such information.',
+        isVisible: true,
+        status: 'Published',
+        icon: 'users'
+    },
+    {
+        _id: 'pp5',
+        title: '5. Contact Us',
+        content: 'If you have any questions about this Privacy Policy, please contact us at: contact@melzo.com',
+        isVisible: true,
+        status: 'Published',
+        icon: 'mail'
+    }
+];
+
+const initialFooterConfig = {
+    description: 'Melzo is an Indian EdTech company delivering immersive digital learning solutions for schools and institutions. Through VR Labs and Interactive Learning Platforms, Melzo helps educators simplify operations and enhance student understanding using modern technology.',
+    socialLinks: [
+        { name: 'linkedin', src: '/assets/linkedin.svg', link: 'https://www.linkedin.com/company/melzo/', isVisible: true },
+        { name: 'instagram', src: '/assets/insta.svg', link: 'https://www.instagram.com/melzoanubhav', isVisible: true },
+        { name: 'x', src: '/assets/x_logo.svg', link: 'https://x.com/Melzo_E_Learn', isVisible: true },
+        { name: 'gmail', src: '/assets/gmail.svg', link: 'mailto:contact@melzo.com', isVisible: true }
+    ],
+    columns: [
+        {
+            title: 'Explore Melzo Anubhav',
+            links: [
+                { label: 'About Us', id: 'about', type: 'internal', isVisible: true },
+                { label: 'Case Study', id: 'casestudies', type: 'internal', isVisible: true },
+                { label: 'Blog', id: 'blog', type: 'internal', isVisible: true },
+                { label: 'Melzo in News', id: 'melzonews', type: 'internal', isVisible: true }
+            ]
+        },
+        {
+            title: 'Policies',
+            links: [
+                { label: 'Terms of Services', link: '#', type: 'external', isVisible: true },
+                { label: 'Privacy Policy', link: '/privacy-policy', type: 'internal', isVisible: true },
+                { label: 'Health & Safety', link: '#', type: 'external', isVisible: true }
+            ]
+        },
+        {
+            title: 'Our Offerings',
+            links: [
+                { label: 'Hardware Solutions', link: '/products', type: 'product', isVisible: true },
+                { label: 'Software Solutions', link: '/products', type: 'product', isVisible: true },
+                { label: 'Education & Training', link: '/products', type: 'product', isVisible: true },
+                { label: 'Industrial & Enterprise', link: '/products', type: 'product', isVisible: true },
+                { label: 'Defence Simulation', link: '/products', type: 'product', isVisible: true },
+                { label: 'Tourism', link: '/products', type: 'product', isVisible: true },
+                { label: 'Emerging Applications', link: '/products', type: 'product', isVisible: true }
+            ]
+        }
+    ],
+    contact: {
+        phone: '+91 - 9687588818 / 9687488818',
+        address: 'Ship Maitri House, Bhatar Char Rasta, opp. Shiv Dham Temple, Surat, Gujarat 395017'
+    }
+};
+
+const ADMIN_USERS = [
+    { email: 'superadmin@melzo.com', password: 'superadmin123', role: 'superadmin', name: 'Super Admin' },
+    { email: 'admin@melzo.com', password: 'admin123', role: 'admin', name: 'Admin' }
+];
+
+class MockStorageService {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        // ... (Existing initialization code)
+        const existingBlogs = localStorage.getItem('blogs');
+        if (!existingBlogs || existingBlogs === '[]') {
+            localStorage.setItem('blogs', JSON.stringify(initialBlogs));
+        }
+        if (!localStorage.getItem('caseFile')) {
+            localStorage.setItem('caseFile', JSON.stringify(initialCaseStudies));
+        }
+        // Initialize News
+        const existingNews = localStorage.getItem('news');
+        if (!existingNews || existingNews === '[]') {
+            localStorage.setItem('news', JSON.stringify(initialNews));
+        }
+
+        // Initialize Testimonials
+        if (!localStorage.getItem('testimonials')) {
+            localStorage.setItem('testimonials', JSON.stringify(initialTestimonials));
+        }
+
+        // Initialize Awards
+        if (!localStorage.getItem('awards')) {
+            localStorage.setItem('awards', JSON.stringify(initialAwards));
+        }
+
+        // Initialize FAQs
+        if (!localStorage.getItem('faqs')) {
+            localStorage.setItem('faqs', JSON.stringify(initialFAQs));
+        }
+
+        // Initialize Team
+        if (!localStorage.getItem('teamdetails')) {
+            localStorage.setItem('teamdetails', JSON.stringify(initialTeam));
+        }
+
+        // Initialize Industries
+        if (!localStorage.getItem('industries')) {
+            localStorage.setItem('industries', JSON.stringify(initialIndustries));
+        }
+
+        // Initialize Ticker
+        if (!localStorage.getItem('ticker')) {
+            localStorage.setItem('ticker', JSON.stringify(initialTicker));
+        }
+
+        // Initialize Global Momentum
+        if (!localStorage.getItem('globalMomentum')) {
+            localStorage.setItem('globalMomentum', JSON.stringify(initialGlobalMomentum));
+        }
+
+        // Initialize Privacy Policy
+        if (!localStorage.getItem('privacyPolicy')) {
+            localStorage.setItem('privacyPolicy', JSON.stringify(initialPrivacyPolicy));
+        }
+
+        // Initialize Footer Config
+        const savedFooter = localStorage.getItem('footerConfig');
+        if (!savedFooter) {
+            localStorage.setItem('footerConfig', JSON.stringify(initialFooterConfig));
+        } else {
+            // MIGRATION: Update Privacy Policy Link if it's the old default
+            const footerData = JSON.parse(savedFooter);
+            let footerChanged = false;
+            if (footerData.columns) {
+                footerData.columns.forEach(col => {
+                    if (col.title === 'Policies') {
+                        col.links.forEach(link => {
+                            if (link.label === 'Privacy Policy' && link.link === '#') {
+                                link.link = '/privacy-policy';
+                                link.type = 'internal';
+                                footerChanged = true;
+                            }
+                        });
+                    }
+                });
+            }
+            if (footerChanged) {
+                localStorage.setItem('footerConfig', JSON.stringify(footerData));
+            }
+        }
+
+        // --- MIGRATION: Auto-Generate Slugs for Legacy Data ---
+        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials'];
+
+        collections.forEach(key => {
+            const items = JSON.parse(localStorage.getItem(key) || '[]');
+            let modified = false;
+
+            items.forEach(item => {
+                if (!item.slug) {
+                    // Determine source field for slug
+                    const sourceText = item.title || item.name || item.question || 'untitled';
+                    item.slug = sourceText
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/(^-|-$)+/g, '');
+                    modified = true;
+                }
+            });
+
+            if (modified) {
+                localStorage.setItem(key, JSON.stringify(items));
+                console.log(`Migrated slugs for ${key}`);
+            }
+        });
+    }
+
+    // --- Auth ---
+    login(email, password) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                const user = ADMIN_USERS.find(u => u.email === email && u.password === password);
+                if (user) {
+                    const userData = { email: user.email, role: user.role, name: user.name, token: `mock-token-${Date.now()}` };
+                    resolve({ data: userData });
+                } else {
+                    reject({ response: { data: { message: 'Invalid credentials' } } });
+                }
+            }, 500);
+        });
+    }
+
+    // Generic CRUD with Visibility
+    _getAll(key) {
+        return JSON.parse(localStorage.getItem(key) || '[]');
+    }
+
+    _save(key, items) {
+        localStorage.setItem(key, JSON.stringify(items));
+    }
+
+    _create(key, data) {
+        return new Promise((resolve) => {
+            const items = this._getAll(key);
+            const newItem = {
+                ...data,
+                _id: Date.now().toString(),
+                isVisible: true,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            items.push(newItem);
+            this._save(key, items);
+            resolve({ data: newItem });
+        });
+    }
+
+    _update(key, id, data) {
+        return new Promise((resolve, reject) => {
+            const items = this._getAll(key);
+            const index = items.findIndex(i => i._id === id);
+            if (index !== -1) {
+                items[index] = { ...items[index], ...data, updatedAt: new Date().toISOString() };
+                this._save(key, items);
+                resolve({ data: items[index] });
+            } else {
+                reject({ message: 'Not found' });
+            }
+        });
+    }
+
+    _toggleVisibility(key, id) {
+        return new Promise((resolve, reject) => {
+            const items = this._getAll(key);
+            const index = items.findIndex(i => i._id === id);
+            if (index !== -1) {
+                items[index].isVisible = !items[index].isVisible;
+                // Sync status for consistency with Admin Panel filters
+                items[index].status = items[index].isVisible ? 'Published' : 'Draft';
+                items[index].updatedAt = new Date().toISOString();
+                this._save(key, items);
+                resolve({ data: items[index] });
+            } else {
+                reject({ message: 'Not found' });
+            }
+        });
+    }
+
+    _delete(key, id) {
+        return new Promise((resolve, reject) => {
+            const items = this._getAll(key);
+            const filteredItems = items.filter(i => i._id !== id);
+            if (items.length !== filteredItems.length) {
+                this._save(key, filteredItems);
+                resolve({ message: 'Deleted successfully' });
+            } else {
+                reject({ message: 'Not found' });
+            }
+        });
+    }
+
+    // --- Blogs ---
+    getBlogs() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('blogs') });
+        });
+    }
+
+    getBlog(slugOrId) {
+        return new Promise((resolve, reject) => {
+            const blogs = this._getAll('blogs');
+            const blog = blogs.find(b => b.slug === slugOrId || b._id === slugOrId);
+            if (blog) resolve({ data: blog });
+            else reject({ message: 'Blog not found' });
+        });
+    }
+
+    saveBlog(data) {
+        return this._create('blogs', { ...data, date: new Date().toISOString().split('T')[0] });
+    }
+
+    updateBlog(id, data) {
+        return this._update('blogs', id, data);
+    }
+
+    deleteBlog(id) {
+        return this._delete('blogs', id);
+    }
+
+    toggleBlogVisibility(id) {
+        return this._toggleVisibility('blogs', id);
+    }
+
+    // --- Case Studies ---
+    getCaseStudies() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('caseFile') });
+        });
+    }
+
+    saveCaseStudy(data) {
+        return this._create('caseFile', data);
+    }
+
+    updateCaseStudy(id, data) {
+        return this._update('caseFile', id, data);
+    }
+
+    deleteCaseStudy(id) {
+        return this._delete('caseFile', id);
+    }
+
+    toggleCaseStudyVisibility(id) {
+        return this._toggleVisibility('caseFile', id);
+    }
+
+    // --- News ---
+    getNews() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('news') });
+        });
+    }
+
+    saveNews(data) {
+        return this._create('news', data);
+    }
+
+    updateNews(id, data) {
+        return this._update('news', id, data);
+    }
+
+    deleteNews(id) {
+        return this._delete('news', id);
+    }
+
+    toggleNewsVisibility(id) {
+        return this._toggleVisibility('news', id);
+    }
+
+    // --- Awards ---
+    getAwards() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('awards') });
+        });
+    }
+
+    saveAward(data) {
+        return this._create('awards', data);
+    }
+
+    updateAward(id, data) {
+        return this._update('awards', id, data);
+    }
+
+    deleteAward(id) {
+        return this._delete('awards', id);
+    }
+
+    toggleAwardVisibility(id) {
+        return this._toggleVisibility('awards', id);
+    }
+
+    // --- FAQs ---
+    getFAQs() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('faqs') });
+        });
+    }
+
+    saveFAQ(data) {
+        return this._create('faqs', data);
+    }
+
+    updateFAQ(id, data) {
+        return this._update('faqs', id, data);
+    }
+
+    deleteFAQ(id) {
+        return this._delete('faqs', id);
+    }
+
+    toggleFAQVisibility(id) {
+        return this._toggleVisibility('faqs', id);
+    }
+
+    // --- Team Details ---
+    getTeamDetails() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('teamdetails') });
+        });
+    }
+
+    saveTeamDetail(data) {
+        return this._create('teamdetails', data);
+    }
+
+    updateTeamDetail(id, data) {
+        return this._update('teamdetails', id, data);
+    }
+
+    deleteTeamDetail(id) {
+        return this._delete('teamdetails', id);
+    }
+
+    toggleTeamDetailVisibility(id) {
+        return this._toggleVisibility('teamdetails', id);
+    }
+
+    // --- Testimonials ---
+    getTestimonials() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('testimonials') });
+        });
+    }
+
+    saveTestimonial(data) {
+        return this._create('testimonials', data);
+    }
+
+    updateTestimonial(id, data) {
+        return this._update('testimonials', id, data);
+    }
+
+    deleteTestimonial(id) {
+        return this._delete('testimonials', id);
+    }
+
+    toggleTestimonialVisibility(id) {
+        return this._toggleVisibility('testimonials', id);
+    }
+
+    // --- Industries ---
+    getIndustries() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('industries') });
+        });
+    }
+
+    saveIndustry(data) {
+        return this._create('industries', data);
+    }
+
+    updateIndustry(id, data) {
+        return this._update('industries', id, data);
+    }
+
+    deleteIndustry(id) {
+        return this._delete('industries', id);
+    }
+
+    toggleIndustryVisibility(id) {
+        return this._toggleVisibility('industries', id);
+    }
+
+    // --- Ticker ---
+    getTicker() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('ticker') });
+        });
+    }
+
+    saveTickerItem(data) {
+        return this._create('ticker', data);
+    }
+
+    updateTickerItem(id, data) {
+        return this._update('ticker', id, data);
+    }
+
+    deleteTickerItem(id) {
+        return this._delete('ticker', id);
+    }
+
+    toggleTickerVisibility(id) {
+        return this._toggleVisibility('ticker', id);
+    }
+
+    // --- Global Momentum ---
+    getGlobalMomentum() {
+        return Promise.resolve({ data: JSON.parse(localStorage.getItem('globalMomentum') || '[]') });
+    }
+
+    saveGlobalMomentumItem(item) {
+        return this._saveItem('globalMomentum', item);
+    }
+
+    updateGlobalMomentumItem(id, item) {
+        return this._updateItem('globalMomentum', id, item);
+    }
+
+    deleteGlobalMomentumItem(id) {
+        return this._deleteItem('globalMomentum', id);
+    }
+
+    toggleGlobalMomentumVisibility(id) {
+        return this._toggleVisibility('globalMomentum', id);
+    }
+
+    // --- Privacy Policy ---
+    getPrivacyPolicy() {
+        return Promise.resolve({ data: JSON.parse(localStorage.getItem('privacyPolicy') || '[]') });
+    }
+
+    savePrivacyPolicyItem(item) {
+        return this._saveItem('privacyPolicy', item);
+    }
+
+    updatePrivacyPolicyItem(id, item) {
+        return this._updateItem('privacyPolicy', id, item);
+    }
+
+    deletePrivacyPolicyItem(id) {
+        return this._deleteItem('privacyPolicy', id);
+    }
+
+    togglePrivacyPolicyVisibility(id) {
+        return this._toggleVisibility('privacyPolicy', id);
+    }
+
+    // --- Footer Config ---
+    getFooterConfig() {
+        return new Promise((resolve) => {
+            const config = JSON.parse(localStorage.getItem('footerConfig') || '{}');
+            resolve({ data: config });
+        });
+    }
+
+    saveFooterConfig(data) {
+        return new Promise((resolve) => {
+            localStorage.setItem('footerConfig', JSON.stringify(data));
+            resolve({ data });
+        });
+    }
+}
+
+export const mockStorage = new MockStorageService();
+export default mockStorage;
