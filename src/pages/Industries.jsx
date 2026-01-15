@@ -14,7 +14,7 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
     const [activeIndustry, setActiveIndustry] = useState(null);
 
     const [items, setItems] = useState([]);
-
+    //-----
     useEffect(() => {
         mockStorage.getIndustries().then(res => {
             const visible = res.data.filter(i => i.isVisible !== false && i.status !== 'Draft');
