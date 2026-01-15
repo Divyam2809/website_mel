@@ -38,8 +38,7 @@ export default function Footer({ isDarkTheme, onNavigate }) {
             boxShadow: isDarkTheme
                 ? 'none'
                 : '0 -4px 20px rgba(0, 0, 0, 0.05)'
-        }}>
-
+        }} >
 
 
             <hr style={{ borderColor: borderColor, opacity: 0.3, marginBottom: '4rem', maxWidth: '1400px', margin: '0 auto 4rem auto' }} />
@@ -181,6 +180,10 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                         <div style={{ marginBottom: '1rem' }}>
                             <strong style={{ display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem', color: textColor }}>Phone Number -</strong>
                             <span style={{ color: subTextColor, fontSize: '0.9rem' }}>{config.contact.phone}</span>
+                        </div>
+                        <div style={{ marginBottom: '1rem' }}>
+                            <strong style={{ display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem', color: textColor }}>Mail Us -</strong>
+                            <span style={{ color: subTextColor, fontSize: '0.9rem' }}><a href="mailto:contact@melzo.com">contact@melzo.com</a></span>
                         </div>
 
                         <div>

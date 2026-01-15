@@ -38,21 +38,50 @@ export default function DataStrip() {
                         gap: '3rem',
                         paddingRight: '3rem'
                     }}>
-                        {displayItems.map((item, idx) => (
-                            <React.Fragment key={idx}>
-                                <span style={{
-                                    color: '#ffffff',
-                                    fontSize: '0.9rem',
-                                    fontWeight: 600,
-                                    letterSpacing: '2px',
-                                    fontFamily: 'Inter, sans-serif'
-                                }}>{item.text}</span>
-                                <span style={{
-                                    color: '#FF9B50',
-                                    fontSize: '0.5rem'
-                                }}>●</span>
-                            </React.Fragment>
-                        ))}
+                        <span style={{
+                            color: '#ffffff',
+                            fontSize: '0.9rem',
+                            fontWeight: 600,
+                            letterSpacing: '2px',
+                            fontFamily: 'Inter, sans-serif'
+                        }}>USED BY 120+ INSTITUTIONS ACROSS INDIA</span>
+                        <span style={{
+                            color: '#FF9B50',
+                            fontSize: '0.5rem'
+                        }}>●</span>
+                        <span style={{
+                            color: '#ffffff',
+                            fontSize: '0.9rem',
+                            fontWeight: 600,
+                            letterSpacing: '2px',
+                            fontFamily: 'Inter, sans-serif'
+                        }}>COVERS K-12 TO HIGHER EDUCATION & INDUSTRIAL TRAINING</span>
+                        <span style={{
+                            color: '#FF9B50',
+                            fontSize: '0.5rem'
+                        }}>●</span>
+                        <span style={{
+                            color: '#ffffff',
+                            fontSize: '0.9rem',
+                            fontWeight: 600,
+                            letterSpacing: '2px',
+                            fontFamily: 'Inter, sans-serif'
+                        }}>1,200+ STUDENTS IMPACTED PER LAB ANNUALLY</span>
+                        <span style={{
+                            color: '#FF9B50',
+                            fontSize: '0.5rem'
+                        }}>●</span>
+                        <span style={{
+                            color: '#ffffff',
+                            fontSize: '0.9rem',
+                            fontWeight: 600,
+                            letterSpacing: '2px',
+                            fontFamily: 'Inter, sans-serif'
+                        }}>WORKS WITH CSR, GOVERNMENT & PRIVATE INSTITUTIONS</span>
+                        <span style={{
+                            color: '#FF9B50',
+                            fontSize: '0.5rem'
+                        }}>●</span>
                     </div>
                 ))}
             </div>

@@ -483,114 +483,36 @@ const initialTeam = [
     { _id: 't5', name: 'GAYATRI BANSHIWAL', position: 'SR. HR Manager', image: '/team/gayatrimaam.webp', status: 'Published', slug: 'gayatri-banshiwal', isVisible: true }
 ];
 
-const initialTicker = [];
-
-const initialGlobalMomentum = [
-    // Marquee Words
-    { _id: 'gm1', type: 'Marquee', value: 'Innovation', isVisible: true, status: 'Published' },
-    { _id: 'gm2', type: 'Marquee', value: 'Impact', isVisible: true, status: 'Published' },
-    { _id: 'gm3', type: 'Marquee', value: 'Experience', isVisible: true, status: 'Published' },
-    { _id: 'gm4', type: 'Marquee', value: 'Scale', isVisible: true, status: 'Published' },
-    { _id: 'gm5', type: 'Marquee', value: 'Immersive', isVisible: true, status: 'Published' },
-    // Stats
-    { _id: 'gm6', type: 'Stat', value: '5+', label: 'Countries', isVisible: true, status: 'Published' },
-    { _id: 'gm7', type: 'Stat', value: '3000+', label: 'Schools', isVisible: true, status: 'Published' },
-    { _id: 'gm8', type: 'Stat', value: '50K+', label: 'Students', isVisible: true, status: 'Published' },
-    { _id: 'gm9', type: 'Stat', value: '1M+', label: 'Sessions', isVisible: true, status: 'Published' },
-    { _id: 'gm10', type: 'Stat', value: '120+', label: 'Partners', isVisible: true, status: 'Published' }
+const initialTimeline = [
+    { _id: 'tl1', year: '2017', title: 'Inception', content: 'Founded in 2017, ShilpMIS Technologies Private Limited began its journey as India\'s pioneer in immersive technology.', isVisible: true, status: 'Published' },
+    { _id: 'tl2', year: '2019', title: 'First Lab', content: 'Launched our first fully immersive VR lab in Gujarat.', isVisible: true, status: 'Published' },
+    { _id: 'tl3', year: '2021', title: 'Expansion', content: 'Expanded operations to cover Education, CSR, and Enterprise training.', isVisible: true, status: 'Published' },
+    { _id: 'tl4', year: '2023', title: 'Innovation', content: 'Developed proprietary VR hardware and software ecosystem.', isVisible: true, status: 'Published' },
+    { _id: 'tl5', year: '2024', title: 'Global Reach', content: 'Partnered with international institutions for content exchange.', isVisible: true, status: 'Published' },
+    { _id: 'tl6', year: 'Future', title: 'Next Gen', content: 'Building the metaverse of education.', isVisible: true, status: 'Published' }
 ];
 
-const initialPrivacyPolicy = [
+const initialDemoQueries = [
     {
-        _id: 'pp1',
-        title: '1. Information We Collect',
-        content: 'We may collect the following types of information:\n\n*   **Personal Information:** Name, email address, phone number, and other contact details when you book a demo or contact us.\n*   **Usage Data:** Information about how you use our website, products, and services.\n*   **Technical Data:** IP address, browser type, device information, and operating system.',
-        isVisible: true,
-        status: 'Published',
-        icon: 'doc'
-    },
-    {
-        _id: 'pp2',
-        title: '2. How We Use Your Information',
-        content: 'We use the information we collect for various purposes, including:\n\n*   To provide, maintain, and improve our services.\n*   To communicate with you about updates, offers, and promotions.\n*   To analyze usage patterns and improve user experience.\n*   To comply with legal obligations.',
-        isVisible: true,
-        status: 'Published',
-        icon: 'gear'
-    },
-    {
-        _id: 'pp3',
-        title: '3. Data Security',
-        content: 'We implement appropriate technical and organizational measures to protect your personal data against unauthorized or unlawful processing, accidental loss, destruction, or damage.',
-        isVisible: true,
-        status: 'Published',
-        icon: 'shield'
-    },
-    {
-        _id: 'pp4',
-        title: '4. Third-Party Services',
-        content: 'We may use third-party services (such as analytics providers) that collect, monitor, and analyze this type of information to increase our service\'s functionality. These third-party service providers have their own privacy policies addressing how they use such information.',
-        isVisible: true,
-        status: 'Published',
-        icon: 'users'
-    },
-    {
-        _id: 'pp5',
-        title: '5. Contact Us',
-        content: 'If you have any questions about this Privacy Policy, please contact us at: contact@melzo.com',
-        isVisible: true,
-        status: 'Published',
-        icon: 'mail'
+        _id: 'dq1',
+        name: 'Rahul Verma',
+        email: 'rahul.verma@example.com',
+        phone: '9876543210',
+        institute: 'Delhi Public School',
+        designation: 'Principal',
+        date: '2026-02-15',
+        message: 'Interested in VR labs for grades 9-12.',
+        agreeToTerms: true,
+        status: 'Pending',
+        createdAt: '2026-01-14T10:00:00.000Z',
+        isVisible: true
     }
 ];
-
-const initialFooterConfig = {
-    description: 'Melzo is an Indian EdTech company delivering immersive digital learning solutions for schools and institutions. Through VR Labs and Interactive Learning Platforms, Melzo helps educators simplify operations and enhance student understanding using modern technology.',
-    socialLinks: [
-        { name: 'linkedin', src: '/assets/linkedin.svg', link: 'https://www.linkedin.com/company/melzo/', isVisible: true },
-        { name: 'instagram', src: '/assets/insta.svg', link: 'https://www.instagram.com/melzoanubhav', isVisible: true },
-        { name: 'x', src: '/assets/x_logo.svg', link: 'https://x.com/Melzo_E_Learn', isVisible: true },
-        { name: 'gmail', src: '/assets/gmail.svg', link: 'mailto:contact@melzo.com', isVisible: true }
-    ],
-    columns: [
-        {
-            title: 'Explore Melzo Anubhav',
-            links: [
-                { label: 'About Us', id: 'about', type: 'internal', isVisible: true },
-                { label: 'Case Study', id: 'casestudies', type: 'internal', isVisible: true },
-                { label: 'Blog', id: 'blog', type: 'internal', isVisible: true },
-                { label: 'Melzo in News', id: 'melzonews', type: 'internal', isVisible: true }
-            ]
-        },
-        {
-            title: 'Policies',
-            links: [
-                { label: 'Terms of Services', link: '#', type: 'external', isVisible: true },
-                { label: 'Privacy Policy', link: '/privacy-policy', type: 'internal', isVisible: true },
-                { label: 'Health & Safety', link: '#', type: 'external', isVisible: true }
-            ]
-        },
-        {
-            title: 'Our Offerings',
-            links: [
-                { label: 'Hardware Solutions', link: '/products', type: 'product', isVisible: true },
-                { label: 'Software Solutions', link: '/products', type: 'product', isVisible: true },
-                { label: 'Education & Training', link: '/products', type: 'product', isVisible: true },
-                { label: 'Industrial & Enterprise', link: '/products', type: 'product', isVisible: true },
-                { label: 'Defence Simulation', link: '/products', type: 'product', isVisible: true },
-                { label: 'Tourism', link: '/products', type: 'product', isVisible: true },
-                { label: 'Emerging Applications', link: '/products', type: 'product', isVisible: true }
-            ]
-        }
-    ],
-    contact: {
-        phone: '+91 - 9687588818 / 9687488818',
-        address: 'Ship Maitri House, Bhatar Char Rasta, opp. Shiv Dham Temple, Surat, Gujarat 395017'
-    }
-};
 
 const ADMIN_USERS = [
     { email: 'superadmin@melzo.com', password: 'superadmin123', role: 'superadmin', name: 'Super Admin' },
-    { email: 'admin@melzo.com', password: 'admin123', role: 'admin', name: 'Admin' }
+    { email: 'contentmanager@melzo.com', password: 'contentmanager123', role: 'content_manager', name: 'Content Manager' },
+    { email: 'sales@melzo.com', password: 'sales123', role: 'sales', name: 'Sales Team' }
 ];
 
 class MockStorageService {
@@ -633,54 +555,18 @@ class MockStorageService {
             localStorage.setItem('teamdetails', JSON.stringify(initialTeam));
         }
 
-        // Initialize Industries
-        if (!localStorage.getItem('industries')) {
-            localStorage.setItem('industries', JSON.stringify(initialIndustries));
+        // Initialize Timeline
+        if (!localStorage.getItem('timeline')) {
+            localStorage.setItem('timeline', JSON.stringify(initialTimeline));
         }
 
-        // Initialize Ticker
-        if (!localStorage.getItem('ticker')) {
-            localStorage.setItem('ticker', JSON.stringify(initialTicker));
-        }
-
-        // Initialize Global Momentum
-        if (!localStorage.getItem('globalMomentum')) {
-            localStorage.setItem('globalMomentum', JSON.stringify(initialGlobalMomentum));
-        }
-
-        // Initialize Privacy Policy
-        if (!localStorage.getItem('privacyPolicy')) {
-            localStorage.setItem('privacyPolicy', JSON.stringify(initialPrivacyPolicy));
-        }
-
-        // Initialize Footer Config
-        const savedFooter = localStorage.getItem('footerConfig');
-        if (!savedFooter) {
-            localStorage.setItem('footerConfig', JSON.stringify(initialFooterConfig));
-        } else {
-            // MIGRATION: Update Privacy Policy Link if it's the old default
-            const footerData = JSON.parse(savedFooter);
-            let footerChanged = false;
-            if (footerData.columns) {
-                footerData.columns.forEach(col => {
-                    if (col.title === 'Policies') {
-                        col.links.forEach(link => {
-                            if (link.label === 'Privacy Policy' && link.link === '#') {
-                                link.link = '/privacy-policy';
-                                link.type = 'internal';
-                                footerChanged = true;
-                            }
-                        });
-                    }
-                });
-            }
-            if (footerChanged) {
-                localStorage.setItem('footerConfig', JSON.stringify(footerData));
-            }
+        // Initialize Demo Queries
+        if (!localStorage.getItem('demoQueries')) {
+            localStorage.setItem('demoQueries', JSON.stringify(initialDemoQueries));
         }
 
         // --- MIGRATION: Auto-Generate Slugs for Legacy Data ---
-        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials'];
+        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials', 'jobs', 'employeeStories', 'jobApplications'];
 
         collections.forEach(key => {
             const items = JSON.parse(localStorage.getItem(key) || '[]');
@@ -709,7 +595,14 @@ class MockStorageService {
     login(email, password) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                const user = ADMIN_USERS.find(u => u.email === email && u.password === password);
+                let users = this._getAll('users');
+                if (users.length === 0) {
+                    // Seed seed users if missing
+                    users = ADMIN_USERS.map((u, i) => ({ ...u, _id: `u${i}`, isVisible: true, status: 'Published' }));
+                    this._save('users', users);
+                }
+
+                const user = users.find(u => u.email === email && u.password === password);
                 if (user) {
                     const userData = { email: user.email, role: user.role, name: user.name, token: `mock-token-${Date.now()}` };
                     resolve({ data: userData });
@@ -718,6 +611,94 @@ class MockStorageService {
                 }
             }, 500);
         });
+    }
+
+    getUsers() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('users') });
+        });
+    }
+
+    saveUser(data) {
+        return this._create('users', data);
+    }
+
+    updateUser(id, data) {
+        return this._update('users', id, data);
+    }
+
+    deleteUser(id) {
+        return this._delete('users', id);
+    }
+
+    init() {
+        if (!localStorage.getItem('users')) {
+            localStorage.setItem('users', JSON.stringify(ADMIN_USERS.map((u, i) => ({ ...u, _id: `u${i}`, isVisible: true, status: 'Published' }))));
+        }
+        if (!localStorage.getItem('blogs')) {
+            localStorage.setItem('blogs', JSON.stringify(initialBlogs));
+        }
+        if (!localStorage.getItem('caseFile')) {
+            localStorage.setItem('caseFile', JSON.stringify(initialCaseStudies));
+        }
+        // Initialize News
+        const existingNews = localStorage.getItem('news');
+        if (!existingNews || existingNews === '[]') {
+            localStorage.setItem('news', JSON.stringify(initialNews));
+        }
+
+        // Initialize Testimonials
+        if (!localStorage.getItem('testimonials')) {
+            localStorage.setItem('testimonials', JSON.stringify(initialTestimonials));
+        }
+
+        // Initialize Awards
+        if (!localStorage.getItem('awards')) {
+            localStorage.setItem('awards', JSON.stringify(initialAwards));
+        }
+
+        // Initialize FAQs
+        if (!localStorage.getItem('faqs')) {
+            localStorage.setItem('faqs', JSON.stringify(initialFAQs));
+        }
+
+        // Initialize Team Details
+        if (!localStorage.getItem('teamdetails')) {
+            localStorage.setItem('teamdetails', JSON.stringify(initialTeamDetails));
+        }
+
+        // Initialize Timeline
+        if (!localStorage.getItem('timeline')) {
+            localStorage.setItem('timeline', JSON.stringify(initialTimeline));
+        }
+
+        if (!localStorage.getItem('demoQueries')) {
+            localStorage.setItem('demoQueries', JSON.stringify(initialDemoQueries));
+        }
+
+        // --- MIGRATION: Update 'admin' role to 'content_manager' and Update Credentials ---
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        let usersModified = false;
+        users.forEach(u => {
+            // General role migration
+            if (u.role === 'admin') {
+                u.role = 'content_manager';
+                u.name = 'Content Manager';
+                usersModified = true;
+            }
+            // Specific email/password update for the default admin user
+            if (u.email === 'admin@melzo.com') {
+                u.email = 'contentmanager@melzo.com';
+                u.password = 'contentmanager123';
+                u.role = 'content_manager'; // Ensure role is updated
+                u.name = 'Content Manager';
+                usersModified = true;
+            }
+        });
+        if (usersModified) {
+            localStorage.setItem('users', JSON.stringify(users));
+            console.log('Migrated admin user to contentmanager credentials');
+        }
     }
 
     // Generic CRUD with Visibility
@@ -764,9 +745,14 @@ class MockStorageService {
             const items = this._getAll(key);
             const index = items.findIndex(i => i._id === id);
             if (index !== -1) {
-                items[index].isVisible = !items[index].isVisible;
-                // Sync status for consistency with Admin Panel filters
-                items[index].status = items[index].isVisible ? 'Published' : 'Draft';
+                const newVisibility = !items[index].isVisible;
+                items[index].isVisible = newVisibility;
+
+                // Sync status if it exists
+                if (items[index].status) {
+                    items[index].status = newVisibility ? 'Published' : 'Draft';
+                }
+
                 items[index].updatedAt = new Date().toISOString();
                 this._save(key, items);
                 resolve({ data: items[index] });
@@ -959,107 +945,46 @@ class MockStorageService {
         return this._toggleVisibility('testimonials', id);
     }
 
-    // --- Industries ---
-    getIndustries() {
+    // --- Timeline ---
+    getTimeline() {
         return new Promise((resolve) => {
-            resolve({ data: this._getAll('industries') });
+            resolve({ data: this._getAll('timeline') });
         });
     }
 
-    saveIndustry(data) {
-        return this._create('industries', data);
+    saveTimeline(data) {
+        return this._create('timeline', data);
     }
 
-    updateIndustry(id, data) {
-        return this._update('industries', id, data);
+    updateTimeline(id, data) {
+        return this._update('timeline', id, data);
     }
 
-    deleteIndustry(id) {
-        return this._delete('industries', id);
+    deleteTimeline(id) {
+        return this._delete('timeline', id);
     }
 
-    toggleIndustryVisibility(id) {
-        return this._toggleVisibility('industries', id);
+    toggleTimelineVisibility(id) {
+        return this._toggleVisibility('timeline', id);
     }
 
-    // --- Ticker ---
-    getTicker() {
+    // --- Demo Queries ---
+    getDemoQueries() {
         return new Promise((resolve) => {
-            resolve({ data: this._getAll('ticker') });
+            resolve({ data: this._getAll('demoQueries').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) });
         });
     }
 
-    saveTickerItem(data) {
-        return this._create('ticker', data);
-    }
-
-    updateTickerItem(id, data) {
-        return this._update('ticker', id, data);
-    }
-
-    deleteTickerItem(id) {
-        return this._delete('ticker', id);
-    }
-
-    toggleTickerVisibility(id) {
-        return this._toggleVisibility('ticker', id);
-    }
-
-    // --- Global Momentum ---
-    getGlobalMomentum() {
-        return Promise.resolve({ data: JSON.parse(localStorage.getItem('globalMomentum') || '[]') });
-    }
-
-    saveGlobalMomentumItem(item) {
-        return this._saveItem('globalMomentum', item);
-    }
-
-    updateGlobalMomentumItem(id, item) {
-        return this._updateItem('globalMomentum', id, item);
-    }
-
-    deleteGlobalMomentumItem(id) {
-        return this._deleteItem('globalMomentum', id);
-    }
-
-    toggleGlobalMomentumVisibility(id) {
-        return this._toggleVisibility('globalMomentum', id);
-    }
-
-    // --- Privacy Policy ---
-    getPrivacyPolicy() {
-        return Promise.resolve({ data: JSON.parse(localStorage.getItem('privacyPolicy') || '[]') });
-    }
-
-    savePrivacyPolicyItem(item) {
-        return this._saveItem('privacyPolicy', item);
-    }
-
-    updatePrivacyPolicyItem(id, item) {
-        return this._updateItem('privacyPolicy', id, item);
-    }
-
-    deletePrivacyPolicyItem(id) {
-        return this._deleteItem('privacyPolicy', id);
-    }
-
-    togglePrivacyPolicyVisibility(id) {
-        return this._toggleVisibility('privacyPolicy', id);
-    }
-
-    // --- Footer Config ---
-    getFooterConfig() {
-        return new Promise((resolve) => {
-            const config = JSON.parse(localStorage.getItem('footerConfig') || '{}');
-            resolve({ data: config });
+    saveDemoQuery(data) {
+        return this._create('demoQueries', {
+            ...data,
+            status: 'Pending', // New, Contacted, Closed
+            notes: ''
         });
     }
 
-    saveFooterConfig(data) {
-        return new Promise((resolve) => {
-            localStorage.setItem('footerConfig', JSON.stringify(data));
-            resolve({ data });
-        });
+    updateDemoQuery(id, data) {
+        return this._update('demoQueries', id, data);
     }
 }
 

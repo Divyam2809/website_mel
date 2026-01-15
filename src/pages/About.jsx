@@ -10,68 +10,59 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
     const [isVisible, setIsVisible] = useState(false);
     const [awards, setAwards] = useState([]);
     const [team, setTeam] = useState([]);
-    const [globalStats, setGlobalStats] = useState([]);
-    const [globalMarquee, setGlobalMarquee] = useState([]);
+    const [timeline, setTimeline] = useState([]);
+
+    const fetchData = async () => {
+        try {
+            // Fetch Awards
+            const awardsRes = await mockStorage.getAwards();
+            const visibleAwards = awardsRes.data.filter(a =>
+                (a.status === 'Published' || !a.status) && a.isVisible !== false
+            ).map(a => ({
+                ...a,
+                subtitle: a.organization,
+                status: a.awardLevel || 'Recognition',
+            }));
+            setAwards(visibleAwards);
+
+            // Fetch Team
+            const teamRes = await mockStorage.getTeamDetails();
+            const visibleTeam = teamRes.data.filter(t =>
+                (t.status === 'Published' || !t.status) && t.isVisible !== false
+            ).map(t => {
+                const nameParts = (t.name || '').split(' ');
+                const firstName = nameParts[0] || '';
+                const surname = nameParts.slice(1).join(' ') || '';
+                return {
+                    ...t,
+                    firstName: firstName.toUpperCase(),
+                    surname: surname.toUpperCase(),
+                    role: t.position,
+                    image: t.image
+                };
+            });
+            setTeam(visibleTeam);
+
+            // Fetch Timeline
+            const timelineRes = await mockStorage.getTimeline();
+            const visibleTimeline = timelineRes.data.filter(t =>
+                (t.status === 'Published' || !t.status) && t.isVisible !== false
+            );
+            setTimeline(visibleTimeline);
+
+        } catch (error) {
+            console.error("Failed to load About page data", error);
+        }
+    };
 
     useEffect(() => {
         setIsVisible(true);
-
-        const fetchData = async () => {
-            try {
-                // Fetch Awards
-                const awardsRes = await mockStorage.getAwards();
-                const visibleAwards = awardsRes.data.filter(a =>
-                    a.status === 'Published' || (!a.status && a.isVisible !== false)
-                ).map(a => ({
-                    ...a,
-                    subtitle: a.organization, // Map organization to subtitle
-                    status: a.awardLevel || 'Recognition', // Map awardLevel to display status
-                    // prize is already prize
-                }));
-                setAwards(visibleAwards);
-
-                // Fetch Team
-                const teamRes = await mockStorage.getTeamDetails();
-                const visibleTeam = teamRes.data.filter(t =>
-                    t.status === 'Published' || (!t.status && t.isVisible !== false)
-                ).map(t => {
-                    const nameParts = (t.name || '').split(' ');
-                    const firstName = nameParts[0] || '';
-                    const surname = nameParts.slice(1).join(' ') || '';
-                    return {
-                        ...t,
-                        firstName: firstName.toUpperCase(),
-                        surname: surname.toUpperCase(),
-                        role: t.position,
-                        image: t.image
-                    };
-                });
-                setTeam(visibleTeam);
-
-                // Fetch Global Momentum
-                const gmRes = await mockStorage.getGlobalMomentum();
-                const visibleGM = gmRes.data.filter(i =>
-                    i.status === 'Published' || (!i.status && i.isVisible !== false)
-                );
-
-                const stats = visibleGM
-                    .filter(i => i.type === 'Stat')
-                    .map(i => ({ num: i.value, label: i.label }));
-
-                // If no stats dynamic, use fallback? User wants dynamic control. 
-                // But let's stick to empty if empty to obey "add / visible invisible" request.
-                setGlobalStats(stats);
-
-                const marquee = visibleGM
-                    .filter(i => i.type === 'Marquee')
-                    .map(i => i.value);
-                setGlobalMarquee(marquee);
-
-            } catch (error) {
-                console.error("Failed to load About page data", error);
-            }
-        };
         fetchData();
+
+        // Refetch on window focus to ensure data freshness from Admin updates
+        const onFocus = () => fetchData();
+        window.addEventListener('focus', onFocus);
+        return () => window.removeEventListener('focus', onFocus);
     }, []);
 
     const fadeInUp = {
@@ -167,7 +158,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                             ...fadeInUp,
                             transitionDelay: '0.3s'
                         }}>
-                            Melzo Anubhav is a product initiative by <strong style={{ color: '#FF9B50' }}>ShilpMIS Technologies Pvt. Ltd.</strong> We architect Virtual Reality systems that don't just teach, but immerse.
+                            Melzo is a product initiative by <strong style={{ color: '#FF9B50' }}>ShilpMIS Technologies Pvt. Ltd.</strong> We architect Virtual Reality systems that don't just teach, but immerse.
                         </p>
                     </div>
                 </section>
@@ -329,14 +320,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
 
                         <Timeline
                             isDarkTheme={isDarkTheme}
-                            items={[
-                                { year: '2017', title: 'Inception', content: 'Founded in 2017, ShilpMIS Technologies Private Limited began its journey as India\'s pioneer in immersive technology.' },
-                                { year: '2019', title: 'First Lab', content: 'Launched our first fully immersive VR lab in Gujarat.' },
-                                { year: '2021', title: 'Expansion', content: 'Expanded operations to cover Education, CSR, and Enterprise training.' },
-                                { year: '2023', title: 'Innovation', content: 'Developed proprietary VR hardware and software ecosystem.' },
-                                { year: '2024', title: 'Global Reach', content: 'Partnered with international institutions for content exchange.' },
-                                { year: 'Future', title: 'Next Gen', content: 'Building the metaverse of education.' }
-                            ]}
+                            items={timeline}
                         />
                     </div>
                 </section>
@@ -356,7 +340,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
 
                         <div style={{
                             display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
                             gap: '2rem'
                         }}>
                             {awards.map((award, index) => (

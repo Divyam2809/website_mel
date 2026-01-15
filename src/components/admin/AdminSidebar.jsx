@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './admin.css';
 
 const AdminSidebar = ({ stats = {} }) => {
     const navigate = useNavigate();
     const location = useLocation();
+    const [expandedMenu, setExpandedMenu] = useState({});
 
+    const toggleMenu = (name) => {
+        setExpandedMenu(prev => ({
+            ...prev,
+            [name]: !prev[name]
+        }));
+    };
+
+    // ... Icons object ...
     // Professional Inline SVGs (Lucide-style)
     const Icons = {
+        // ... existing icons ...
         Blog: (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -52,40 +62,24 @@ const AdminSidebar = ({ stats = {} }) => {
                 <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
             </svg>
         ),
-        Industries: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-            </svg>
-        ),
-        Ticker: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-            </svg>
-        ),
-        Global: (
+        Timeline: (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
-                <line x1="2" y1="12" x2="22" y2="12"></line>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
         ),
-        Footer: (
+        Users: (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
-                <line x1="2" y1="15" x2="22" y2="15"></line>
-                <line x1="6" y1="22" x2="6" y2="15"></line>
-                <line x1="10" y1="22" x2="10" y2="15"></line>
-                <line x1="14" y1="22" x2="14" y2="15"></line>
-                <line x1="18" y1="22" x2="18" y2="15"></line>
-            </svg>
-        ),
-        Policy: (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
         )
     };
+
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const isSuperAdmin = user.role === 'superadmin';
 
     const menuItems = [
         { name: 'Blog', path: '/admin/content/blog', icon: Icons.Blog },
@@ -94,17 +88,29 @@ const AdminSidebar = ({ stats = {} }) => {
         { name: 'FAQs', path: '/admin/content/faqs', icon: Icons.FAQs },
         { name: 'Team Details', path: '/admin/content/teamdetails', icon: Icons.Team },
         { name: 'Case Study', path: '/admin/content/casestudy', icon: Icons.CaseStudy },
-        { name: 'Industries', path: '/admin/content/industries', icon: Icons.Industries },
         { name: 'Testimonials', path: '/admin/content/testimonials', icon: Icons.Testimonials },
-        { name: 'Ticker', path: '/admin/content/ticker', icon: Icons.Ticker },
-        { name: 'Global Momentum', path: '/admin/content/globalMomentum', icon: Icons.Global },
-        { name: 'Privacy Policy', path: '/admin/content/privacyPolicy', icon: Icons.Policy },
-        { name: 'Footer Manager', path: '/admin/footer', icon: Icons.Footer }
+        { name: 'Timeline', path: '/admin/content/timeline', icon: Icons.Timeline }
     ];
+
+    if (isSuperAdmin) {
+        menuItems.push({ name: 'Users', path: '/admin/content/users', icon: Icons.Users });
+    }
 
     const isActive = (path) => {
         return location.pathname === path;
     };
+
+    // Auto-expand menu if active child
+    React.useEffect(() => {
+        menuItems.forEach(item => {
+            if (item.children) {
+                const hasActiveChild = item.children.some(child => isActive(child.path));
+                if (hasActiveChild) {
+                    setExpandedMenu(prev => ({ ...prev, [item.name]: true }));
+                }
+            }
+        });
+    }, [location.pathname]);
 
     return (
         <div className="admin-sidebar">
@@ -113,17 +119,58 @@ const AdminSidebar = ({ stats = {} }) => {
             </div>
             <nav className="sidebar-nav">
                 {menuItems.map((item, index) => (
-                    <div
-                        key={index}
-                        className={`sidebar-item ${isActive(item.path) ? 'active' : ''}`}
-                        onClick={() => navigate(item.path)}
-                    >
-                        <div className="sidebar-item-content">
-                            <span className="sidebar-icon">{item.icon}</span>
-                            <span className="sidebar-label">{item.name}</span>
-                        </div>
-                        {/* Count badge removed as per request */}
-                    </div>
+                    <React.Fragment key={index}>
+                        {item.children ? (
+                            <>
+                                <div
+                                    className={`sidebar-item ${location.pathname.startsWith('/admin/content/jobs') || location.pathname.startsWith('/admin/content/employeeStories') ? 'active-parent' : ''}`}
+                                    onClick={() => toggleMenu(item.name)}
+                                    style={{ justifyContent: 'space-between', cursor: 'pointer' }}
+                                >
+                                    <div className="sidebar-item-content">
+                                        <span className="sidebar-icon">{item.icon}</span>
+                                        <span className="sidebar-label">{item.name}</span>
+                                    </div>
+                                    <span style={{
+                                        transform: expandedMenu[item.name] ? 'rotate(180deg)' : 'rotate(0deg)',
+                                        transition: 'transform 0.3s ease',
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    }}>
+                                        {Icons.ChevronDown}
+                                    </span>
+                                </div>
+                                <div className={`sidebar-submenu ${expandedMenu[item.name] ? 'expanded' : ''}`}
+                                    style={{
+                                        maxHeight: expandedMenu[item.name] ? '200px' : '0',
+                                        overflow: 'hidden',
+                                        transition: 'max-height 0.3s ease-in-out',
+                                        opacity: expandedMenu[item.name] ? 1 : 0
+                                    }}>
+                                    {item.children.map((child, cIdx) => (
+                                        <div
+                                            key={cIdx}
+                                            className={`sidebar-item sub-item ${isActive(child.path) ? 'active' : ''}`}
+                                            onClick={() => navigate(child.path)}
+                                            style={{ paddingLeft: '3.5rem' }}
+                                        >
+                                            <span className="sidebar-label" style={{ fontSize: '0.9rem' }}>{child.name}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
+                        ) : (
+                            <div
+                                className={`sidebar-item ${isActive(item.path) ? 'active' : ''}`}
+                                onClick={() => navigate(item.path)}
+                            >
+                                <div className="sidebar-item-content">
+                                    <span className="sidebar-icon">{item.icon}</span>
+                                    <span className="sidebar-label">{item.name}</span>
+                                </div>
+                            </div>
+                        )}
+                    </React.Fragment>
                 ))}
             </nav>
         </div>

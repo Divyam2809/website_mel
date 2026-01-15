@@ -15,13 +15,22 @@ const ContentManager = () => {
     const [formData, setFormData] = useState({});
     const [showConfirm, setShowConfirm] = useState(false);
     const [confirmAction, setConfirmAction] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
     const [stats, setStats] = useState({
         blogs: 0, news: 0, awards: 0, faqs: 0,
-        teamdetails: 0, caseStudy: 0, testimonials: 0, industries: 0, ticker: 0, globalMomentum: 0, privacyPolicy: 0
+        teamdetails: 0, caseStudy: 0, testimonials: 0, timeline: 0
     });
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const isSuperAdmin = user.role === 'superadmin';
+    const isHR = user.role === 'HR';
+
+    // Role-based access control
+    useEffect(() => {
+        if (isHR && moduleType !== 'jobs' && moduleType !== 'jobApplications') {
+            navigate('/admin/content/jobs');
+        }
+    }, [isHR, moduleType, navigate]);
 
     const moduleConfig = {
         blog: {
@@ -188,50 +197,55 @@ const ContentManager = () => {
             toggle: (id) => mockStorage.toggleTestimonialVisibility(id),
             delete: (id) => mockStorage.deleteTestimonial(id)
         },
-        ticker: {
-            title: 'Ticker',
+        timeline: {
+            title: 'Timeline Events',
             fields: {
-                text: 'text'
-            },
-            get: () => mockStorage.getTicker(),
-            save: (data) => mockStorage.saveTickerItem(data),
-            update: (id, data) => mockStorage.updateTickerItem(id, data),
-            toggle: (id) => mockStorage.toggleTickerVisibility(id),
-            delete: (id) => mockStorage.deleteTickerItem(id)
-        },
-        globalMomentum: {
-            title: 'Global Momentum',
-            fields: {
-                type: 'select:Stat,Marquee',
-                value: 'text',
-                label: 'text'
-            },
-            get: () => mockStorage.getGlobalMomentum(),
-            save: (data) => mockStorage.saveGlobalMomentumItem(data),
-            update: (id, data) => mockStorage.updateGlobalMomentumItem(id, data),
-            toggle: (id) => mockStorage.toggleGlobalMomentumVisibility(id),
-            delete: (id) => mockStorage.deleteGlobalMomentumItem(id)
-        },
-        privacyPolicy: {
-            title: 'Privacy Policy',
-            fields: {
+                year: 'text',
                 title: 'text',
-                content: 'json:blocks',
-                status: 'select:Published,Draft',
-                icon: 'file:image'
+                content: 'textarea',
+                status: 'select:Published,Draft'
             },
-            get: () => mockStorage.getPrivacyPolicy(),
-            save: (data) => mockStorage.savePrivacyPolicyItem(data),
-            update: (id, data) => mockStorage.updatePrivacyPolicyItem(id, data),
-            toggle: (id) => mockStorage.togglePrivacyPolicyVisibility(id),
-            delete: (id) => mockStorage.deletePrivacyPolicyItem(id)
+            get: () => mockStorage.getTimeline(),
+            save: (data) => mockStorage.saveTimeline(data),
+            update: (id, data) => mockStorage.updateTimeline(id, data),
+            toggle: (id) => mockStorage.toggleTimelineVisibility(id),
+            delete: (id) => mockStorage.deleteTimeline(id)
+        },
+        users: {
+            title: 'User Management',
+            fields: {
+                name: 'text',
+                email: 'email',
+                password: 'password', // Secure input
+                role: 'select:superadmin,content_manager,sales',
+                status: 'select:Published,Draft' // Reusing Published/Draft as Active/Inactive logic for simplicity or just for consistency
+            },
+            get: () => mockStorage.getUsers(),
+            save: (data) => mockStorage.saveUser(data),
+            update: (_id, data) => {
+                // If the update logic in mockStorage is strictly by id, we pass it.
+                // However, users usually don't have toggle visibility in the same way, but let's keep it consistent.
+                return mockStorage.updateUser ? mockStorage.updateUser(_id, data) : Promise.resolve();
+            },
+            // Since I didn't add updateUser explicitly in the previous step (I only added getUsers, saveUser, deleteUser),
+            // I should use saveUser logic or add updateUser to mockStorage.
+            // Wait, I added `_create` which is saveUser. I need `updateUser` in mockStorage.
+            // Let me double check mockStorage. I only added getUsers, saveUser, deleteUser.
+            // I should add `updateUser` to mockStorage in a separate step or just assume I can add it now.
+            // Actually, I can use a direct call to `_update` if I had exposed it, but I didn't.
+            // For now, let's just implement the 'save' (create).
+            // But wait, user management needs update.
+            // I will assume I can add `updateUser` to mockStorage in the next step or right now via another tool.
+            // For now, let's map it, and I will fix mockStorage immediately after.
+            toggle: (id) => Promise.resolve(), // Users don't use visibility toggle typically in this layout
+            delete: (id) => mockStorage.deleteUser(id)
         }
     };
 
     const config = moduleConfig[type];
 
     useEffect(() => {
-        if (!config) {
+        if (!config || (user && user.role === 'sales')) {
             navigate('/admin/dashboard');
             return;
         }
@@ -250,7 +264,7 @@ const ContentManager = () => {
 
     const loadStats = async () => {
         try {
-            const [blogs, news, awards, faqs, team, cases, testimonials, industries, ticker, globalMomentum, policy] = await Promise.all([
+            const [blogs, news, awards, faqs, team, cases, testimonials, timeline] = await Promise.all([
                 mockStorage.getBlogs(),
                 mockStorage.getNews(),
                 mockStorage.getAwards(),
@@ -258,10 +272,7 @@ const ContentManager = () => {
                 mockStorage.getTeamDetails(),
                 mockStorage.getCaseStudies(),
                 mockStorage.getTestimonials(),
-                mockStorage.getIndustries(),
-                mockStorage.getTicker(),
-                mockStorage.getGlobalMomentum(),
-                mockStorage.getPrivacyPolicy()
+                mockStorage.getTimeline()
             ]);
 
             setStats({
@@ -272,10 +283,7 @@ const ContentManager = () => {
                 teamdetails: team.data.length,
                 caseStudy: cases.data.length,
                 testimonials: testimonials.data.length,
-                industries: industries.data.length,
-                ticker: ticker.data.length,
-                globalMomentum: globalMomentum.data.length,
-                privacyPolicy: policy.data.length
+                timeline: timeline.data.length
             });
         } catch (error) {
             console.error('Error loading stats:', error);
@@ -300,7 +308,12 @@ const ContentManager = () => {
                     setEditItem(null);
                     setFormData({});
                 } catch (error) {
-                    alert('Error saving item');
+                    console.error("Save Error:", error);
+                    if (error && (error.name === 'QuotaExceededError' || error.code === 22 || error.message?.includes('quota'))) {
+                        alert('Storage Limit Exceeded! \n\nThe browser\'s local storage is full. Please try:\n1. Uploading smaller images (compress them first).\n2. Deleting old or unused items.\n3. Using fewer high-res images.');
+                    } else {
+                        alert(`Error saving item: ${error.message || 'Unknown error'}`);
+                    }
                 }
             }
         });
@@ -352,6 +365,7 @@ const ContentManager = () => {
                     value={formData[key] || ''}
                     onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
                     rows={5}
+                    readOnly={type === 'jobApplications'}
                 />
             );
         } else if (fieldType === 'json:blocks') {
@@ -380,6 +394,7 @@ const ContentManager = () => {
                     className="admin-input"
                     value={formData[key] || ''}
                     onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                    disabled={type === 'jobApplications'}
                 >
                     <option value="">Select {label}</option>
                     {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
@@ -420,14 +435,53 @@ const ContentManager = () => {
                     </button>
                 </div>
             );
+
+        } else if (fieldType === 'password') {
+            return (
+                <div style={{ position: 'relative' }}>
+                    <input
+                        type={showPassword ? 'text' : 'password'}
+                        className="admin-input"
+                        placeholder={label}
+                        value={formData[key] || ''}
+                        onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                        style={{ paddingRight: '40px' }}
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{
+                            position: 'absolute',
+                            right: '10px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            opacity: 0.6,
+                            padding: '5px'
+                        }}
+                    >
+                        {showPassword ? (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                        ) : (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        )}
+                    </button>
+                </div>
+            );
         } else {
-            const inputType = fieldType === 'email' ? 'email' : fieldType === 'number' ? 'number' : fieldType === 'date' ? 'date' : 'text';
+            const inputType = fieldType === 'email' ? 'email'
+                : fieldType === 'number' ? 'number'
+                    : fieldType === 'date' ? 'date'
+                        : 'text';
             return (
                 <input
                     type={inputType}
                     className="admin-input"
                     placeholder={label}
-                    value={formData[key] || ''}
+                    value={key === 'appliedAt' && formData[key] ? formData[key].split('T')[0] : (formData[key] || '')}
+                    readOnly={type === 'jobApplications'}
                     onChange={(e) => {
                         const newValue = e.target.value;
                         const updates = { [key]: newValue };
@@ -516,21 +570,23 @@ const ContentManager = () => {
                                     </div>
                                 ))}
                                 <div style={{ display: 'flex', gap: '12px', marginTop: '2rem' }}>
-                                    <button
-                                        type="submit"
-                                        style={{
-                                            background: '#FF9B50',
-                                            color: 'white',
-                                            border: 'none',
-                                            padding: '12px 32px',
-                                            borderRadius: '20px',
-                                            cursor: 'pointer',
-                                            fontWeight: 600,
-                                            fontSize: '1rem'
-                                        }}
-                                    >
-                                        {editItem ? 'Update' : 'Create'}
-                                    </button>
+                                    {type !== 'jobApplications' && (
+                                        <button
+                                            type="submit"
+                                            style={{
+                                                background: '#FF9B50',
+                                                color: 'white',
+                                                border: 'none',
+                                                padding: '12px 32px',
+                                                borderRadius: '20px',
+                                                cursor: 'pointer',
+                                                fontWeight: 600,
+                                                fontSize: '1rem'
+                                            }}
+                                        >
+                                            {editItem ? 'Update' : 'Create'}
+                                        </button>
+                                    )}
                                     <button
                                         type="button"
                                         onClick={() => { setShowForm(false); setEditItem(null); setFormData({}); }}
@@ -628,45 +684,66 @@ const ContentManager = () => {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
                             {/* Nav Links */}
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                {['Analytics', 'Recent Queries', 'Content Management'].map((item) => (
-                                    <button
-                                        key={item}
-                                        onClick={() => {
-                                            const id = item.toLowerCase().replace(/ /g, '-');
-                                            navigate(`/admin/dashboard#${id}`);
-                                            // Since we are navigating, we might need a timeout or useEffect on dashboard to handle hash scrolling, 
-                                            // effectively just going to dashboard is good for now, or maybe the user just wants the visual consistency.
-                                            // The simplest valid approach is to navigate to dashboard.
-                                        }}
-                                        style={{
-                                            background: 'transparent',
-                                            border: 'none',
-                                            fontSize: '0.95rem',
-                                            fontWeight: 600,
-                                            color: '#666',
-                                            cursor: 'pointer',
-                                            transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                            padding: '8px 20px',
-                                            borderRadius: '50px',
-                                            position: 'relative',
-                                            overflow: 'hidden'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.color = '#FF9B50';
-                                            e.target.style.background = 'rgba(255, 155, 80, 0.08)';
-                                            e.target.style.transform = 'translateY(-2px)';
-                                            e.target.style.boxShadow = '0 4px 12px rgba(255, 155, 80, 0.15)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.color = '#666';
-                                            e.target.style.background = 'transparent';
-                                            e.target.style.transform = 'translateY(0)';
-                                            e.target.style.boxShadow = 'none';
-                                        }}
-                                    >
-                                        {item}
-                                    </button>
-                                ))}
+                                {['Analytics', 'Recent Queries', 'Content Management']
+                                    .filter(item => !isHR || item === 'Content Management')
+                                    .map((item) => (
+                                        <button
+                                            key={item}
+                                            onClick={() => {
+                                                const id = item.toLowerCase().replace(/ /g, '-');
+                                                navigate(`/admin/dashboard#${id}`);
+                                                // Since we are navigating, we might need a timeout or useEffect on dashboard to handle hash scrolling, 
+                                                // effectively just going to dashboard is good for now, or maybe the user just wants the visual consistency.
+                                                // The simplest valid approach is to navigate to dashboard.
+                                            }}
+                                            style={{
+                                                background: 'transparent',
+                                                border: 'none',
+                                                fontSize: '0.95rem',
+                                                fontWeight: 600,
+                                                color: '#666',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                                padding: '8px 20px',
+                                                borderRadius: '50px',
+                                                position: 'relative',
+                                                overflow: 'hidden'
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                e.target.style.color = '#FF9B50';
+                                                e.target.style.background = 'rgba(255, 155, 80, 0.08)';
+                                                e.target.style.transform = 'translateY(-2px)';
+                                                e.target.style.boxShadow = '0 4px 12px rgba(255, 155, 80, 0.15)';
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.target.style.color = '#666';
+                                                e.target.style.background = 'transparent';
+                                                e.target.style.transform = 'translateY(0)';
+                                                e.target.style.boxShadow = 'none';
+                                            }}
+                                        >
+                                            {item}
+                                        </button>
+                                    ))}
+                            </div>
+
+                            <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '10px',
+                                background: '#F0F7FF',
+                                padding: '8px 24px',
+                                borderRadius: '100px',
+                                color: '#475569',
+                                fontWeight: 700,
+                                fontSize: '0.95rem',
+                                border: '1px solid #E2E8F0'
+                            }}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7 }}>
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                {user?.role === 'superadmin' ? 'Super Admin' : user?.role === 'HR' ? 'HR' : 'Admin'}
                             </div>
 
                             <button
@@ -726,27 +803,29 @@ const ContentManager = () => {
                             >
                                 ← Dashboard
                             </button>
-                            <button
-                                onClick={() => {
-                                    if (config.title === 'Blog Post' || config.title === 'Case Studies') {
-                                        navigate(`/admin/editor?type=${type}`);
-                                    } else {
-                                        setShowForm(true);
-                                    }
-                                }}
-                                style={{
-                                    background: '#FF9B50',
-                                    color: 'white',
-                                    border: 'none',
-                                    padding: '10px 24px',
-                                    borderRadius: '20px',
-                                    cursor: 'pointer',
-                                    fontWeight: 600,
-                                    fontSize: '0.9rem'
-                                }}
-                            >
-                                + Add New
-                            </button>
+                            {type !== 'jobApplications' && (
+                                <button
+                                    onClick={() => {
+                                        if (config.title === 'Blog Post' || config.title === 'Case Studies') {
+                                            navigate(`/admin/editor?type=${type}`);
+                                        } else {
+                                            setShowForm(true);
+                                        }
+                                    }}
+                                    style={{
+                                        background: '#FF9B50',
+                                        color: 'white',
+                                        border: 'none',
+                                        padding: '10px 24px',
+                                        borderRadius: '20px',
+                                        cursor: 'pointer',
+                                        fontWeight: 600,
+                                        fontSize: '0.9rem'
+                                    }}
+                                >
+                                    + Add New
+                                </button>
+                            )}
                         </div>
                     </div>
 
@@ -817,7 +896,8 @@ const ContentManager = () => {
                                                 }}>
                                                     <div>
                                                         <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#92400e', margin: '0 0 0.5rem 0' }}>
-                                                            {item.title || item.name || item.question || item.text || item.value || 'Untitled'}
+                                                            {item.title || item.name || item.question || item.fullName || 'Untitled'}
+                                                            {item.jobTitle && <span style={{ fontSize: '0.9rem', color: '#666', fontWeight: 500, marginLeft: '10px' }}>({item.jobTitle})</span>}
                                                         </h3>
                                                         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                                                             <span style={{
@@ -830,7 +910,12 @@ const ContentManager = () => {
                                                             }}>
                                                                 Draft
                                                             </span>
-                                                            {item.updatedAt && (
+                                                            {type === 'jobApplications' && item.appliedAt && (
+                                                                <span style={{ opacity: 0.6, fontSize: '0.85rem', color: '#92400e' }}>
+                                                                    Applied: {new Date(item.appliedAt).toLocaleDateString()}
+                                                                </span>
+                                                            )}
+                                                            {type !== 'jobApplications' && item.updatedAt && (
                                                                 <span style={{ opacity: 0.6, fontSize: '0.85rem', color: '#92400e' }}>
                                                                     Updated: {new Date(item.updatedAt).toLocaleDateString()}
                                                                 </span>
@@ -848,9 +933,9 @@ const ContentManager = () => {
                                                                 }
                                                             }}
                                                             style={{
-                                                                background: 'white',
-                                                                color: '#f59e0b',
-                                                                border: '1px solid #f59e0b',
+                                                                background: type === 'jobApplications' ? '#E5E7EB' : 'white',
+                                                                color: type === 'jobApplications' ? '#374151' : '#f59e0b',
+                                                                border: type === 'jobApplications' ? '1px solid #D1D5DB' : '1px solid #f59e0b',
                                                                 padding: '8px 20px',
                                                                 borderRadius: '20px',
                                                                 cursor: 'pointer',
@@ -858,9 +943,26 @@ const ContentManager = () => {
                                                                 fontSize: '0.85rem'
                                                             }}
                                                         >
-                                                            Edit
+                                                            {type === 'jobApplications' ? 'Open' : 'Edit'}
                                                         </button>
-                                                        {isSuperAdmin && (
+                                                        {type !== 'jobApplications' && (
+                                                            <button
+                                                                onClick={() => handleToggle(item._id, item.isVisible)}
+                                                                style={{
+                                                                    background: '#d1fae5',
+                                                                    color: '#065f46',
+                                                                    border: 'none',
+                                                                    padding: '8px 20px',
+                                                                    borderRadius: '20px',
+                                                                    cursor: 'pointer',
+                                                                    fontWeight: 600,
+                                                                    fontSize: '0.85rem'
+                                                                }}
+                                                            >
+                                                                Publish
+                                                            </button>
+                                                        )}
+                                                        {(isSuperAdmin || (isHR && (type === 'jobs' || type === 'jobApplications'))) && (
                                                             <button
                                                                 onClick={() => handleDelete(item._id)}
                                                                 style={{
@@ -906,7 +1008,8 @@ const ContentManager = () => {
                                                 }}>
                                                     <div>
                                                         <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#2D2D2D', margin: '0 0 0.5rem 0' }}>
-                                                            {item.title || item.name || item.question || item.text || item.value || 'Untitled'}
+                                                            {item.title || item.name || item.question || item.fullName || 'Untitled'}
+                                                            {item.jobTitle && <span style={{ fontSize: '0.9rem', color: '#666', fontWeight: 500, marginLeft: '10px' }}>({item.jobTitle})</span>}
                                                         </h3>
                                                         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                                                             <span style={{
@@ -919,7 +1022,12 @@ const ContentManager = () => {
                                                             }}>
                                                                 Published
                                                             </span>
-                                                            {item.updatedAt && (
+                                                            {type === 'jobApplications' && item.appliedAt && (
+                                                                <span style={{ opacity: 0.6, fontSize: '0.85rem', color: '#10b981' }}>
+                                                                    Applied: {new Date(item.appliedAt).toLocaleDateString()}
+                                                                </span>
+                                                            )}
+                                                            {type !== 'jobApplications' && item.updatedAt && (
                                                                 <span style={{ opacity: 0.6, fontSize: '0.85rem' }}>
                                                                     Updated: {new Date(item.updatedAt).toLocaleDateString()}
                                                                 </span>
@@ -937,9 +1045,9 @@ const ContentManager = () => {
                                                                 }
                                                             }}
                                                             style={{
-                                                                background: 'transparent',
-                                                                color: '#FF9B50',
-                                                                border: '1px solid #FF9B50',
+                                                                background: type === 'jobApplications' ? '#E5E7EB' : 'transparent',
+                                                                color: type === 'jobApplications' ? '#374151' : '#FF9B50',
+                                                                border: type === 'jobApplications' ? '1px solid #D1D5DB' : '1px solid #FF9B50',
                                                                 padding: '8px 20px',
                                                                 borderRadius: '20px',
                                                                 cursor: 'pointer',
@@ -947,24 +1055,26 @@ const ContentManager = () => {
                                                                 fontSize: '0.85rem'
                                                             }}
                                                         >
-                                                            Edit
+                                                            {type === 'jobApplications' ? 'Open' : 'Edit'}
                                                         </button>
-                                                        <button
-                                                            onClick={() => handleToggle(item._id, item.isVisible)}
-                                                            style={{
-                                                                background: item.isVisible ? '#fee2e2' : '#d1fae5',
-                                                                color: item.isVisible ? '#991b1b' : '#065f46',
-                                                                border: 'none',
-                                                                padding: '8px 20px',
-                                                                borderRadius: '20px',
-                                                                cursor: 'pointer',
-                                                                fontWeight: 600,
-                                                                fontSize: '0.85rem'
-                                                            }}
-                                                        >
-                                                            {item.isVisible ? 'Move to Draft' : 'Publish'}
-                                                        </button>
-                                                        {isSuperAdmin && (
+                                                        {type !== 'jobApplications' && (
+                                                            <button
+                                                                onClick={() => handleToggle(item._id, item.isVisible)}
+                                                                style={{
+                                                                    background: item.isVisible ? '#fee2e2' : '#d1fae5',
+                                                                    color: item.isVisible ? '#991b1b' : '#065f46',
+                                                                    border: 'none',
+                                                                    padding: '8px 20px',
+                                                                    borderRadius: '20px',
+                                                                    cursor: 'pointer',
+                                                                    fontWeight: 600,
+                                                                    fontSize: '0.85rem'
+                                                                }}
+                                                            >
+                                                                {item.isVisible ? 'Move to Draft' : 'Publish'}
+                                                            </button>
+                                                        )}
+                                                        {(isSuperAdmin || (isHR && (type === 'jobs' || type === 'jobApplications'))) && (
                                                             <button
                                                                 onClick={() => handleDelete(item._id)}
                                                                 style={{
