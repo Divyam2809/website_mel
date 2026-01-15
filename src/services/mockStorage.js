@@ -426,9 +426,120 @@ const initialTeam = [
     { _id: 't5', name: 'GAYATRI BANSHIWAL', position: 'SR. HR Manager', image: '/team/gayatrimaam.webp', status: 'Published', slug: 'gayatri-banshiwal', isVisible: true }
 ];
 
+const initialJobs = [
+    {
+        _id: 'j1',
+        title: 'Unity Developer',
+        dept: 'Engineering',
+        loc: 'On-site',
+        tags: ['C#', 'Unity 3D', 'VR/AR'],
+        purpose: "Build immersive VR experiences that push the boundaries of what's possible in education and training.",
+        mission: [
+            "Develop and optimize high-fidelity VR applications using Unity.",
+            "Implement interactive game play mechanics and physics simulations.",
+            "Integrate with backend APIs for real-time multi-user experiences.",
+            "Collaborate with 3D artists to integrate assets seamlessly."
+        ],
+        requirements: [
+            "3+ years of experience with Unity 3D and C#.",
+            "Experience developing for Oculus/Meta Quest or similar headsets.",
+            "Strong understanding of 3D math and physics.",
+            "Portfolio of shipped games or VR applications."
+        ],
+        status: 'Published',
+        slug: 'unity-developer',
+        isVisible: true
+    },
+    {
+        _id: 'j2',
+        title: 'Full-stack Developer',
+        dept: 'Engineering',
+        loc: 'Remote / Hybrid',
+        tags: ['React', 'Node.js', 'PostgreSQL'],
+        purpose: "Architect the scalable cloud infrastructure that powers our global VR learning platform.",
+        mission: [
+            "Design and build robust APIs and microservices.",
+            "Develop responsive web interfaces for platform management.",
+            "Optimize database performance and data architecture.",
+            "Ensure security and compliance of user data."
+        ],
+        requirements: [
+            "Proficiency in React (Frontend) and Node.js (Backend).",
+            "Experience with relational databases (PostgreSQL/MySQL).",
+            "Familiarity with cloud platforms (AWS/Azure).",
+            "Knowledge of WebSocket or real-time communication is a plus."
+        ],
+        status: 'Published',
+        slug: 'full-stack-developer',
+        isVisible: true
+    },
+    {
+        _id: 'j3',
+        title: 'Marketing Manager',
+        dept: 'Growth',
+        loc: 'Hybrid',
+        tags: ['Strategy', 'B2B', 'Content'],
+        purpose: "Craft the narrative of the 'Melzoverse' and lead our growth in new markets.",
+        mission: [
+            "Develop and execute comprehensive marketing strategies.",
+            "Manage social media presence and content calendar.",
+            "Coordinate product launches and PR campaigns.",
+            "Analyze market trends and competitor activities to adjust strategy."
+        ],
+        requirements: [
+            "4+ years of experience in B2B tech marketing.",
+            "Strong copywriting and storytelling skills.",
+            "Experience with digital ad platforms and analytics tools.",
+            "Passion for education technology and innovation."
+        ],
+        status: 'Published',
+        slug: 'marketing-manager',
+        isVisible: true
+    }
+];
+
+
+
+const initialEmployeeStories = [
+    {
+        _id: 'es1',
+        quote: "Great work atmosphere with young, optimistic, and like-minded coworkers together with awesome learning opportunities – there are helpful experienced colleagues and a variety of projects for all modern AR and VR platforms plus access to the newest hardware is guaranteed!",
+        name: "Jarek Polak",
+        role: "VR/AR Developer",
+        tenure: "4 years at Melzo",
+        image: "https://randomuser.me/api/portraits/men/32.jpg",
+        status: 'Published',
+        slug: 'jarek-polak',
+        isVisible: true
+    },
+    {
+        _id: 'es2',
+        quote: "Melzo isn't just a workplace; it's a playground for innovators. The freedom to experiment with the latest tech stack and the support from leadership to pursue bold ideas is unmatched. Every day is a new challenge in the best possible way.",
+        name: "Sarah Jenkins",
+        role: "Senior UI/UX Designer",
+        tenure: "3 years at Melzo",
+        image: "https://randomuser.me/api/portraits/women/44.jpg",
+        status: 'Published',
+        slug: 'sarah-jenkins',
+        isVisible: true
+    },
+    {
+        _id: 'es3',
+        quote: "I joined as a junior dev and have grown into a lead role. The mentorship culture here is real. You are pushed to be your best, but you are never alone. The collaborative spirit is the secret sauce behind our products.",
+        name: "Amit Patel",
+        role: "Full Stack Engineer",
+        tenure: "5 years at Melzo",
+        image: "https://randomuser.me/api/portraits/men/86.jpg",
+        status: 'Published',
+        slug: 'amit-patel',
+        isVisible: true
+    }
+];
+
 const ADMIN_USERS = [
     { email: 'superadmin@melzo.com', password: 'superadmin123', role: 'superadmin', name: 'Super Admin' },
-    { email: 'admin@melzo.com', password: 'admin123', role: 'admin', name: 'Admin' }
+    { email: 'admin@melzo.com', password: 'admin123', role: 'admin', name: 'Admin' },
+    { email: 'hr@melzo.com', password: 'hr123', role: 'HR', name: 'Human Resources' }
 ];
 
 class MockStorageService {
@@ -471,8 +582,22 @@ class MockStorageService {
             localStorage.setItem('teamdetails', JSON.stringify(initialTeam));
         }
 
+        // Initialize Jobs
+        if (!localStorage.getItem('jobs')) {
+            localStorage.setItem('jobs', JSON.stringify(initialJobs));
+        }
+
+        // Initialize Employee Stories
+        if (!localStorage.getItem('employeeStories')) {
+            localStorage.setItem('employeeStories', JSON.stringify(initialEmployeeStories));
+        }
+
+        if (!localStorage.getItem('jobApplications')) {
+            localStorage.setItem('jobApplications', JSON.stringify([]));
+        }
+
         // --- MIGRATION: Auto-Generate Slugs for Legacy Data ---
-        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials'];
+        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials', 'jobs', 'employeeStories', 'jobApplications'];
 
         collections.forEach(key => {
             const items = JSON.parse(localStorage.getItem(key) || '[]');
@@ -556,7 +681,14 @@ class MockStorageService {
             const items = this._getAll(key);
             const index = items.findIndex(i => i._id === id);
             if (index !== -1) {
-                items[index].isVisible = !items[index].isVisible;
+                const newVisibility = !items[index].isVisible;
+                items[index].isVisible = newVisibility;
+
+                // Sync status if it exists
+                if (items[index].status) {
+                    items[index].status = newVisibility ? 'Published' : 'Draft';
+                }
+
                 items[index].updatedAt = new Date().toISOString();
                 this._save(key, items);
                 resolve({ data: items[index] });
@@ -747,6 +879,70 @@ class MockStorageService {
 
     toggleTestimonialVisibility(id) {
         return this._toggleVisibility('testimonials', id);
+    }
+
+    // --- Jobs ---
+    getJobs() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('jobs') });
+        });
+    }
+
+    saveJob(data) {
+        return this._create('jobs', data);
+    }
+
+    updateJob(id, data) {
+        return this._update('jobs', id, data);
+    }
+
+    deleteJob(id) {
+        return this._delete('jobs', id);
+    }
+
+    toggleJobVisibility(id) {
+        return this._toggleVisibility('jobs', id);
+    }
+
+    // --- Employee Stories ---
+    getEmployeeStories() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('employeeStories') });
+        });
+    }
+
+    saveEmployeeStory(data) {
+        return this._create('employeeStories', data);
+    }
+
+    updateEmployeeStory(id, data) {
+        return this._update('employeeStories', id, data);
+    }
+
+    deleteEmployeeStory(id) {
+        return this._delete('employeeStories', id);
+    }
+
+    toggleEmployeeStoryVisibility(id) {
+        return this._toggleVisibility('employeeStories', id);
+    }
+
+    // --- Job Applications ---
+    getJobApplications() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('jobApplications') });
+        });
+    }
+
+    saveJobApplication(data) {
+        return this._create('jobApplications', {
+            appliedAt: new Date().toISOString(), // Default
+            ...data
+        });
+    }
+
+    deleteJobApplication(id) {
+        return this._delete('jobApplications', id);
     }
 }
 

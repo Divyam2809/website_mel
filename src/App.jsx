@@ -33,6 +33,7 @@ const VirtualHeritage = React.lazy(() => import('./pages/VirtualHeritage'));
 const CityGuides = React.lazy(() => import('./pages/CityGuides'));
 const MelzoNews = React.lazy(() => import('./MelzoNews'));
 const BlogDetail = React.lazy(() => import('./pages/BlogDetail'));
+const Careers = React.lazy(() => import('./pages/Careers'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
 
 
@@ -112,6 +113,7 @@ export default function App() {
             'casestudies',
             'faqs',
             'about',
+            'careers',
             'guidelines',
             'melzonews'
         ];
@@ -180,6 +182,7 @@ export default function App() {
                         <Route path="/casestudies" element={<CaseStudies {...commonProps} />} />
                         <Route path="/faqs" element={<FAQs {...commonProps} />} />
                         <Route path="/about" element={<About {...commonProps} />} />
+                        <Route path="/careers" element={<Careers {...commonProps} />} />
                         <Route path="/guidelines" element={<Guidelines {...commonProps} />} />
                         <Route path="/melzonews" element={<MelzoNews {...commonProps} />} />
 
@@ -296,11 +299,12 @@ function ScrollToTopButton({ isDarkTheme }) {
             {isVisible && (
                 <button
                     onClick={scrollToTop}
+                    title="Back to top"
                     style={{
                         position: 'fixed',
                         bottom: '30px',
                         right: '30px',
-                        backgroundColor: 'transparent',
+                        backgroundColor: '#FFFFFF',
                         color: '#FF9B50',
                         width: '50px',
                         height: '50px',
@@ -311,12 +315,18 @@ function ScrollToTopButton({ isDarkTheme }) {
                         alignItems: 'center',
                         justifyContent: 'center',
                         fontSize: '1.5rem',
-                        boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-                        zIndex: 1000,
-                        transition: 'transform 0.3s ease'
+                        boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
+                        zIndex: 10000, // Elevated z-index
+                        transition: 'all 0.3s ease'
                     }}
-                    onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
-                    onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.1) translateY(-5px)';
+                        e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.2)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1) translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+                    }}
                 >
                     ↑
                 </button>

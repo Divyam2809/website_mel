@@ -154,6 +154,7 @@ export default function AppNav({ onNavigate, isDarkTheme, onToggleTheme, onBookD
                     </div>
 
                     <NavLink label="About Us" id="about" />
+                    <NavLink label="Careers" id="careers" />
                 </div>
 
                 {/* RIGHT: Actions */}
@@ -290,6 +291,7 @@ export default function AppNav({ onNavigate, isDarkTheme, onToggleTheme, onBookD
                     </div>
 
                     <h2 onClick={() => { onNavigate('about'); setIsMobileMenuOpen(false); }} style={{ fontSize: '2rem', fontWeight: 700, color: isDarkTheme ? '#fff' : '#333', cursor: 'pointer' }}>About</h2>
+                    <h2 onClick={() => { onNavigate('careers'); setIsMobileMenuOpen(false); }} style={{ fontSize: '2rem', fontWeight: 700, color: isDarkTheme ? '#fff' : '#333', cursor: 'pointer' }}>Careers</h2>
                     <h2 onClick={() => { onBookDemo(); setIsMobileMenuOpen(false); }} style={{ fontSize: '2rem', fontWeight: 700, color: isDarkTheme ? '#fff' : '#333', cursor: 'pointer' }}>Contact</h2>
                 </div>
             </nav>
