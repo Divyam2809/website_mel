@@ -1,0 +1,74 @@
+{
+    "hero": {
+        "badge": "VR E-Learning Platform",
+        "title": "Education Beyond the Classroom",
+        "subtitle": "Transform online learning with immersive VR experiences that boost engagement and retention across all subjects.",
+        "primaryBtn": "Explore VR Learning",
+        "secondaryBtn": "View Course Library"
+    },
+    "learningExperience": {
+        "title": "The Learning Experience",
+        "subtitle": "Immersive education for the digital age",
+        "features": [
+            {
+                "title": "Interactive Lessons",
+                "desc": "Engage with 3D models, simulations, and virtual environments that make abstract concepts tangible.",
+                "number": "01"
+            },
+            {
+                "title": "Collaborative Spaces",
+                "desc": "Join classmates in virtual study rooms for group projects and peer learning experiences.",
+                "number": "02"
+            },
+            {
+                "title": "Gamified Learning",
+                "desc": "Earn achievements, track progress, and compete in educational challenges that motivate students.",
+                "number": "03"
+            }
+        ]
+    },
+    "benefits": {
+        "title": "Who Benefits",
+        "subtitle": "Solutions for modern education",
+        "features": [
+            {
+                "audience": "Schools & Universities",
+                "focus": "Enhanced Learning",
+                "benefit": "Boost student engagement and comprehension with immersive educational experiences."
+            },
+            {
+                "audience": "Online Course Providers",
+                "focus": "Premium Content",
+                "benefit": "Differentiate your platform with cutting-edge VR learning modules."
+            },
+            {
+                "audience": "Corporate Training",
+                "focus": "Skill Development",
+                "benefit": "Deliver effective professional development programs with measurable outcomes."
+            }
+        ]
+    },
+    "stats": {
+        "title": "Why Melzo E-Learning",
+        "subtitle": "Increase learning retention by 75% and student engagement by 90% with our immersive VR education platform.",
+        "cta": "Revolutionize Learning →",
+        "items": [
+            {
+                "label": "Retention Improvement",
+                "value": "75%"
+            },
+            {
+                "label": "Student Engagement",
+                "value": "90%"
+            },
+            {
+                "label": "Course Completion",
+                "value": "85%"
+            },
+            {
+                "label": "Learning Satisfaction",
+                "value": "95%"
+            }
+        ]
+    }
+}

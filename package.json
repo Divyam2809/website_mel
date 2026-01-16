@@ -6,7 +6,25 @@
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sync-mela": "node src/scripts/sync-mela.js",
+    "sync-vrlab": "node -e \"import('./src/scripts/sync-vrlab.js').then(m => m.syncVRLabContent())\"",
+    "sync-vrkala": "node -e \"import('./src/scripts/sync-vrkala.js').then(m => m.syncVRKalaContent())\"",
+    "sync-vr-elearning": "node -e \"import('./src/scripts/sync-vr-elearning.js').then(m => m.syncVRELearningContent())\"",
+    "sync-vr-animal-surgery": "node -e \"import('./src/scripts/sync-vr-animal-surgery.js').then(m => m.syncVRAnimalSurgeryContent())\"",
+    "sync-vr-udyog": "node -e \"import('./src/scripts/sync-vr-udyog.js').then(m => m.syncVRUdyogContent())\"",
+    "sync-vr-realestate": "node -e \"import('./src/scripts/sync-vr-realestate.js').then(m => m.syncVRRealEstateContent())\"",
+    "sync-vr-hospitality": "node -e \"import('./src/scripts/sync-vr-hospitality.js').then(m => m.syncVRHospitalityContent())\"",
+    "sync-vr-exhibition": "node -e \"import('./src/scripts/sync-vr-exhibition.js').then(m => m.syncVRExhibitionContent())\"",
+    "sync-vr-crimescene": "node -e \"import('./src/scripts/sync-vr-crimescene.js').then(m => m.syncVRCrimeSceneContent())\"",
+    "sync-drone-simulator": "node -e \"import('./src/scripts/sync-drone-simulator.js').then(m => m.syncDroneSimulatorContent())\"",
+    "sync-aircraft-simulation": "node -e \"import('./src/scripts/sync-aircraft-simulation.js').then(m => m.syncAircraftSimulationContent())\"",
+    "sync-vr-defence": "node -e \"import('./src/scripts/sync-vr-defence.js').then(m => m.syncVRDefenceContent())\"",
+    "sync-vr-tourism": "node -e \"import('./src/scripts/sync-vr-tourism.js').then(m => m.syncVRTourismContent())\"",
+    "sync-virtual-heritage": "node -e \"import('./src/scripts/sync-virtual-heritage.js').then(m => m.syncVirtualHeritageContent())\"",
+    "sync-city-guide": "node -e \"import('./src/scripts/sync-city-guide.js').then(m => m.syncCityGuideContent())\"",
+    "sync-vr-livestream": "node -e \"import('./src/scripts/sync-vr-livestream.js').then(m => m.syncVRLiveStreamContent())\"",
+    "sync-others-custom": "node -e \"import('./src/scripts/sync-others-custom.js').then(m => m.syncOthersCustomContent())\""
   },
   "dependencies": {
     "@react-three/drei": "^9.88.0",
@@ -21,6 +39,8 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^4.2.0",
+    "docx": "^9.5.1",
+    "mammoth": "^1.11.0",
     "vite": "^5.0.0"
   }
 }

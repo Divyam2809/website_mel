@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/VRLiveStream.css';
+import '../styles/OthersCustom.css';
 import AppNav from '../components/AppNav';
 import LoadingSpinner from '../components/LoadingSpinner';
-import initialContent from '../data/vrLiveStreamContent.json';
+import initialContent from '../data/othersCustomContent.json';
 
-export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
+export default function OthersCustom({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const [content, setContent] = useState(initialContent);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         window.scrollTo(0, 0);
         // Fetch LIVE data immediately on page load
-        fetch('/api/vr-livestream-live')
+        fetch('/api/others-custom-live')
             .then(res => res.json())
             .then(data => {
                 if (data && Object.keys(data.hero || {}).length > 0) {
                     setContent(data);
                 }
             })
-            .catch(err => console.error('[VRLiveStream] Error fetching live data:', err))
+            .catch(err => console.error('[OthersCustom] Error fetching live data:', err))
             .finally(() => setIsLoading(false));
     }, []);
 
@@ -32,7 +32,7 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                     isDarkTheme={isDarkTheme}
                     onToggleTheme={onToggleTheme}
                     onBookDemo={onBookDemo}
-                    currentPage="vrlivestream"
+                    currentPage="product-custom-solutions"
                 />
                 <div style={{
                     height: '100vh',
@@ -54,18 +54,18 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                 isDarkTheme={isDarkTheme}
                 onToggleTheme={onToggleTheme}
                 onBookDemo={onBookDemo}
-                currentPage="vrlivestream"
+                currentPage="product-custom-solutions"
             />
-            <div className={`vr-livestream-container ${themeClass}`}>
+            <div className={`others-custom-container ${themeClass}`}>
                 {/* Hero Section */}
                 <section
-                    className="vr-livestream-hero"
+                    className="others-custom-hero"
                     style={{
-                        backgroundImage: `url('/images/vr_livestream_hero.webp')`
+                        backgroundImage: `url('/images/custom_solutions_hero.webp')`
                     }}
                 >
-                    <div className="vr-livestream-hero-content">
-                        <div className="vr-livestream-badge">
+                    <div className="others-custom-hero-content">
+                        <div className="others-custom-badge">
                             {content.hero.badge}
                         </div>
                         <h1>
@@ -74,14 +74,14 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                         <p>
                             {content.hero.subtitle}
                         </p>
-                        <div className="vr-livestream-hero-buttons">
+                        <div className="others-custom-hero-buttons">
                             <button
                                 onClick={onBookDemo}
-                                className="vr-livestream-btn-primary"
+                                className="others-custom-btn-primary"
                             >
                                 {content.hero.primaryBtn}
                             </button>
-                            <button className="vr-livestream-btn-secondary">
+                            <button className="others-custom-btn-secondary">
                                 {content.hero.secondaryBtn}
                             </button>
                         </div>
@@ -89,19 +89,19 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                 </section>
 
 
-                {/* The Connectivity Trio */}
-                <section className="vr-livestream-section">
-                    <h2 className="vr-livestream-section-title">
+                {/* Process Trio */}
+                <section className="others-custom-section">
+                    <h2 className="others-custom-section-title">
                         {content.trio.title}
                     </h2>
-                    <p className="vr-livestream-section-subtitle">
+                    <p className="others-custom-section-subtitle">
                         {content.trio.subtitle}
                     </p>
 
-                    <div className="vr-livestream-feature-grid">
+                    <div className="others-custom-feature-grid">
                         {content.trio.features.map((feature, idx) => (
-                            <div key={idx} className="vr-livestream-feature-card">
-                                <div className="vr-livestream-feature-icon" style={{
+                            <div key={idx} className="others-custom-feature-card">
+                                <div className="others-custom-feature-icon" style={{
                                     fontSize: '2rem',
                                     fontWeight: '900',
                                     color: '#FF9B50',
@@ -109,10 +109,10 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                                 }}>
                                     {feature.number}
                                 </div>
-                                <h3 className="vr-livestream-feature-title">
+                                <h3 className="others-custom-feature-title">
                                     {feature.title}
                                 </h3>
-                                <p className="vr-livestream-feature-desc">
+                                <p className="others-custom-feature-desc">
                                     {feature.desc}
                                 </p>
                             </div>
@@ -122,27 +122,27 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
 
 
 
-                {/* The Expansion Pillars */}
-                <section className="vr-livestream-section alt-bg">
+                {/* Why Pick Us Pillars */}
+                <section className="others-custom-section alt-bg">
                     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-                        <h2 className="vr-livestream-section-title">
+                        <h2 className="others-custom-section-title">
                             {content.pillars.title}
                         </h2>
-                        <p className="vr-livestream-section-subtitle">
+                        <p className="others-custom-section-subtitle">
                             {content.pillars.subtitle}
                         </p>
 
-                        <div className="vr-livestream-pillar-list">
+                        <div className="others-custom-pillar-list">
                             {content.pillars.items.map((pillar, idx) => (
-                                <div key={idx} className="vr-livestream-pillar-card">
-                                    <div className="vr-livestream-pillar-number">
+                                <div key={idx} className="others-custom-pillar-card">
+                                    <div className="others-custom-pillar-number">
                                         {pillar.num}
                                     </div>
                                     <div>
-                                        <h3 className="vr-livestream-pillar-title">
+                                        <h3 className="others-custom-pillar-title">
                                             {pillar.title}
                                         </h3>
-                                        <p className="vr-livestream-pillar-desc">
+                                        <p className="others-custom-pillar-desc">
                                             {pillar.desc}
                                         </p>
                                     </div>
@@ -154,25 +154,25 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
 
 
 
-                {/* Target Audience Value Props */}
-                <section className="vr-livestream-section">
-                    <h2 className="vr-livestream-section-title">
+                {/* Industry Audience */}
+                <section className="others-custom-section">
+                    <h2 className="others-custom-section-title">
                         {content.audience.title}
                     </h2>
-                    <p className="vr-livestream-section-subtitle">
+                    <p className="others-custom-section-subtitle">
                         {content.audience.subtitle}
                     </p>
 
-                    <div className="vr-livestream-feature-grid">
+                    <div className="others-custom-feature-grid">
                         {content.audience.items.map((segment, idx) => (
-                            <div key={idx} className="vr-livestream-audience-card">
-                                <div className="vr-livestream-audience-badge">
+                            <div key={idx} className="others-custom-audience-card">
+                                <div className="others-custom-audience-badge">
                                     {segment.focus}
                                 </div>
-                                <h3 className="vr-livestream-audience-title">
+                                <h3 className="others-custom-audience-title">
                                     {segment.audience}
                                 </h3>
-                                <p className="vr-livestream-audience-desc">
+                                <p className="others-custom-audience-desc">
                                     {segment.benefit}
                                 </p>
                             </div>
@@ -182,23 +182,23 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
 
 
 
-                {/* Global Connection Map */}
-                <section className="vr-livestream-section alt-bg">
+                {/* Global Stats */}
+                <section className="others-custom-section alt-bg">
                     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-                        <h2 className="vr-livestream-section-title">
+                        <h2 className="others-custom-section-title">
                             {content.reach.title}
                         </h2>
-                        <p className="vr-livestream-section-subtitle">
+                        <p className="others-custom-section-subtitle">
                             {content.reach.subtitle}
                         </p>
 
-                        <div className="vr-livestream-stats-grid">
+                        <div className="others-custom-stats-grid">
                             {content.reach.stats.map((stat, idx) => (
-                                <div key={idx} className="vr-livestream-stat-card">
-                                    <div className="vr-livestream-stat-value">
+                                <div key={idx} className="others-custom-stat-card">
+                                    <div className="others-custom-stat-value">
                                         {stat.connections}
                                     </div>
-                                    <div className="vr-livestream-stat-label">
+                                    <div className="others-custom-stat-label">
                                         {stat.region}
                                     </div>
                                 </div>
@@ -208,38 +208,38 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                 </section>
 
                 {/* Engagement Comparison */}
-                <section className="vr-livestream-section">
-                    <h2 className="vr-livestream-section-title">
+                <section className="others-custom-section">
+                    <h2 className="others-custom-section-title">
                         {content.engagement.title}
                     </h2>
-                    <p className="vr-livestream-section-subtitle">
+                    <p className="others-custom-section-subtitle">
                         {content.engagement.subtitle}
                     </p>
 
-                    <div className="vr-livestream-comparison-grid">
+                    <div className="others-custom-comparison-grid">
                         {content.engagement.items.map((comparison, idx) => (
-                            <div key={idx} className="vr-livestream-comparison-card">
-                                <h3 className="vr-livestream-comparison-metric">
+                            <div key={idx} className="others-custom-comparison-card">
+                                <h3 className="others-custom-comparison-metric">
                                     {comparison.metric}
                                 </h3>
-                                <div className="vr-livestream-comparison-values">
-                                    <div className="vr-livestream-comparison-item">
-                                        <div className="vr-livestream-comparison-vr">
+                                <div className="others-custom-comparison-values">
+                                    <div className="others-custom-comparison-item">
+                                        <div className="others-custom-comparison-vr">
                                             {comparison.vr}
                                         </div>
-                                        <div className="vr-livestream-comparison-label">
-                                            VR Stream
+                                        <div className="others-custom-comparison-label">
+                                            Custom VR
                                         </div>
                                     </div>
-                                    <div className="vr-livestream-comparison-vs">
+                                    <div className="others-custom-comparison-vs">
                                         vs
                                     </div>
-                                    <div className="vr-livestream-comparison-item">
-                                        <div className="vr-livestream-comparison-video">
+                                    <div className="others-custom-comparison-item">
+                                        <div className="others-custom-comparison-video">
                                             {comparison.video}
                                         </div>
-                                        <div className="vr-livestream-comparison-label">
-                                            Video Call
+                                        <div className="others-custom-comparison-label">
+                                            Generic
                                         </div>
                                     </div>
                                 </div>
@@ -248,23 +248,23 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                     </div>
                 </section>
 
-                {/* Why Melzo Live Section */}
-                <section className="vr-livestream-why-melzo">
-                    <div className="vr-livestream-why-melzo-content">
-                        <h2 className="vr-livestream-section-title">
+                {/* Why Melzo Custom Section */}
+                <section className="others-custom-why-melzo">
+                    <div className="others-custom-why-melzo-content">
+                        <h2 className="others-custom-section-title">
                             {content.why.title}
                         </h2>
-                        <p className="vr-livestream-why-melzo-text">
+                        <p className="others-custom-why-melzo-text">
                             {content.why.subtitle}
                         </p>
 
-                        <div className="vr-livestream-why-melzo-stats">
+                        <div className="others-custom-why-melzo-stats">
                             {content.why.stats.map((stat, idx) => (
-                                <div key={idx} className="vr-livestream-why-melzo-stat">
-                                    <div className="vr-livestream-why-melzo-stat-value">
+                                <div key={idx} className="others-custom-why-melzo-stat">
+                                    <div className="others-custom-why-melzo-stat-value">
                                         {stat.value}
                                     </div>
-                                    <div className="vr-livestream-why-melzo-stat-label">
+                                    <div className="others-custom-why-melzo-stat-label">
                                         {stat.label}
                                     </div>
                                 </div>
@@ -273,7 +273,7 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
 
                         <button
                             onClick={onBookDemo}
-                            className="vr-livestream-btn-primary"
+                            className="others-custom-btn-primary"
                         >
                             {content.why.cta}
                         </button>

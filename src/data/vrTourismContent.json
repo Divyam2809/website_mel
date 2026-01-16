@@ -1,0 +1,74 @@
+{
+  "hero": {
+    "badge": "VIRTUAL TRAVEL EXPERIENCES",
+    "title": "DEMO",
+    "subtitle": "Travel the world from your home. Our VR tourism experiences invoke wanderlust and allow users to explore destinations before they travel.",
+    "primaryBtn": "Book A Demo",
+    "secondaryBtn": "Explore Destinations"
+  },
+  "experience": {
+    "features": [
+      {
+        "number": "01",
+        "title": "Virtual Destinations",
+        "desc": "Explore iconic landmarks and hidden gems from around the world in stunning virtual reality."
+      },
+      {
+        "number": "02",
+        "title": "Cultural Experiences",
+        "desc": "Immerse yourself in local cultures, traditions, and authentic experiences."
+      },
+      {
+        "number": "03",
+        "title": "Adventure Tours",
+        "desc": "Experience thrilling adventures and outdoor activities in a safe virtual environment."
+      }
+    ],
+    "title": "The Tourism Experience",
+    "subtitle": "Immersive virtual travel destinations"
+  },
+  "stakeholders": {
+    "items": [
+      {
+        "audience": "Travel Agencies",
+        "focus": "Enhanced Marketing",
+        "benefit": "Showcase destinations to potential travelers with immersive virtual tours that inspire bookings."
+      },
+      {
+        "audience": "Tourism Boards",
+        "focus": "Destination Promotion",
+        "benefit": "Promote your region globally with engaging VR experiences that highlight unique attractions."
+      },
+      {
+        "audience": "Hotels & Resorts",
+        "focus": "Virtual Previews",
+        "benefit": "Allow guests to explore your property and surroundings before making reservations."
+      }
+    ],
+    "title": "Who Benefits",
+    "subtitle": "Perfect for travel enthusiasts and industry professionals"
+  },
+  "whyMelzo": {
+    "stats": [
+      {
+        "label": "Engagement Increase",
+        "value": "300%"
+      },
+      {
+        "label": "Booking Confidence",
+        "value": "95%"
+      },
+      {
+        "label": "Destinations Available",
+        "value": "100+"
+      },
+      {
+        "label": "User Satisfaction",
+        "value": "98%"
+      }
+    ],
+    "title": "Why Melzo Tourism",
+    "subtitle": "Transform how people discover and experience destinations. Our VR tourism solutions increase engagement by 300% and help travelers make confident booking decisions.",
+    "cta": "Explore Virtual Destinations →"
+  }
+}

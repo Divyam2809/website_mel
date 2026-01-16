@@ -1,0 +1,147 @@
+{
+  "hero": {
+    "badge": "Tactical Defense Solutions",
+    "title": "DEMO",
+    "subtitle": "Zero-risk tactical mastery for the modern operator. Rehearse complex maneuvers, master sophisticated weaponry, and synchronize squad dynamics in a hyper-realistic VR theater.",
+    "primaryBtn": "Request a Classified Demo",
+    "secondaryBtn": "Consult with a Defense Specialist"
+  },
+  "suite": {
+    "features": [
+      {
+        "number": "01",
+        "title": "Mission-Specific Rehearsals",
+        "desc": "Upload 1:1 geospatial data to recreate real-world terrain and urban environments for specific operations."
+      },
+      {
+        "number": "02",
+        "title": "Advanced Equipment Handling",
+        "desc": "Virtual interaction with complex systems—from drone-interface HUDs to armored vehicle controls."
+      },
+      {
+        "number": "03",
+        "title": "Squad-Level Synchronization",
+        "desc": "Multi-user environment where team members communicate and coordinate in real-time within the same simulation."
+      }
+    ],
+    "title": "The Tactical Suite",
+    "subtitle": "Elite-level simulation technology for modern warfare training"
+  },
+  "pillars": {
+    "items": [
+      {
+        "num": "01",
+        "title": "Risk-Free Tactical Failure",
+        "desc": "Allowing for 'After Action Reviews' (AAR) where mistakes are analyzed in 3D to ensure they aren't repeated in theater."
+      },
+      {
+        "num": "02",
+        "title": "Physiological Conditioning",
+        "desc": "Using motion and stress-induction scenarios to train operators to maintain focus under combat-induced pressure."
+      },
+      {
+        "num": "03",
+        "title": "Logistical Efficiency",
+        "desc": "Reducing the 'cost-per-soldier' for training by eliminating the need for live ammunition, fuel, and transport during foundational drills."
+      }
+    ],
+    "title": "The Combat Pillars",
+    "subtitle": "Building operational excellence through immersive training"
+  },
+  "stakeholders": {
+    "items": [
+      {
+        "audience": "Military Academies & Bootcamps",
+        "focus": "Standardized Training",
+        "benefit": "Accelerating the learning curve for recruits in a standardized, safe environment with consistent quality."
+      },
+      {
+        "audience": "Special Operations Forces",
+        "focus": "Black Site Rehearsal",
+        "benefit": "High-precision tactical planning and mission rehearsal for classified operations in secure environments."
+      },
+      {
+        "audience": "Logistics & Support Units",
+        "focus": "Equipment Mastery",
+        "benefit": "Practicing the handling of hazardous materials or complex maintenance of frontline equipment safely."
+      }
+    ],
+    "title": "Who Benefits from VR Tactical Training",
+    "subtitle": "Specialized solutions for defense and military organizations"
+  },
+  "scorecard": {
+    "items": [
+      {
+        "metric": "Situational Awareness",
+        "value": "96%",
+        "desc": "Threat detection rate"
+      },
+      {
+        "metric": "Target Accuracy",
+        "value": "94%",
+        "desc": "Precision under stress"
+      },
+      {
+        "metric": "Reaction Speed",
+        "value": "0.6s",
+        "desc": "Response to contact"
+      },
+      {
+        "metric": "Team Coordination",
+        "value": "98%",
+        "desc": "Squad synchronization"
+      }
+    ],
+    "title": "Combat Readiness Scorecard",
+    "subtitle": "Quantifiable metrics tracking operational readiness"
+  },
+  "security": {
+    "features": [
+      {
+        "number": "01",
+        "title": "Air-Gapped Systems",
+        "desc": "Isolated networks for classified operations"
+      },
+      {
+        "number": "02",
+        "title": "Encrypted Data Storage",
+        "desc": "Military-grade AES-256 encryption"
+      },
+      {
+        "number": "03",
+        "title": "Secure Authentication",
+        "desc": "Multi-factor biometric access control"
+      },
+      {
+        "number": "04",
+        "title": "Audit Trail Logging",
+        "desc": "Complete session recording and tracking"
+      }
+    ],
+    "title": "Security & Data Protection",
+    "subtitle": "Military-grade security for classified training operations"
+  },
+  "whyMelzo": {
+    "stats": [
+      {
+        "label": "Training Cost Reduction",
+        "value": "80%"
+      },
+      {
+        "label": "Operational Readiness",
+        "value": "99%"
+      },
+      {
+        "label": "Mission Success Rate",
+        "value": "95%"
+      },
+      {
+        "label": "Security Compliance",
+        "value": "100%"
+      }
+    ],
+    "title": "Why Melzo Defense",
+    "subtitle": "Secure, air-gapped data capabilities combined with the Combat Readiness Scorecard that tracks situational awareness, accuracy, and reaction speed. Every training session provides quantifiable metrics for operational readiness assessment.",
+    "cta": "Deploy Tactical Training →"
+  }
+}

@@ -1,0 +1,83 @@
+{
+    "hero": {
+        "badge": "VR Hospitality Training",
+        "title": "Service Excellence Through Immersive Training",
+        "subtitle": "Provide the ideal customer experience and market your business globally with VR solutions that cater to your creatives needs.",
+        "primaryBtn": "Request Training Demo",
+        "secondaryBtn": "View Training Modules"
+    },
+    "hospitalitySuite": {
+        "title": "Comprehensive VR Hospitality Suite",
+        "subtitle": "Discover, share & create immersive VR content easily.",
+        "features": [
+            {
+                "title": "The marketing tool you need",
+                "desc": "Rather than reading advertising descriptions and 2D images, offer customers a chance to experience things for themselves with Virtual Reality Walkthrough of a suite, a particular room, or the hotel as a whole."
+            },
+            {
+                "title": "Get actionable insights",
+                "desc": "Get 100% data of visitors inside virtual reality walkthroughs of your locations. With VR Analytics, you can get actionable insights on top-selling rooms and location performance."
+            },
+            {
+                "title": "Immerse and convert",
+                "desc": "With 360 photography you can provide customers with an immersive look at your hotels and outside locations. Melzo's 360 photography helps you create the most realistic imagery that helps you upsell your services."
+            },
+            {
+                "title": "Provide customer support 24x7x365",
+                "desc": "Engage visitors with AI-enabled Talkbot that can provide visitors with key information about your hotels and booking processes."
+            },
+            {
+                "title": "Integrate virtual ordering system",
+                "desc": "With virtual menus, you can let customers see what a meal looks like in a 3D 360 environment on their phones and place orders using virtual ordering services."
+            },
+            {
+                "title": "Achieve a 360 digital transformation",
+                "desc": "Attract new customers using immersive and interactive VR experiences. With a 360 Website, you can embed VR tools for marketing and advertising on your company website."
+            }
+        ]
+    },
+    "benefits": {
+        "title": "Who Benefits",
+        "subtitle": "Tailored solutions for hospitality professionals",
+        "features": [
+            {
+                "audience": "Hotels & Resorts",
+                "focus": "Staff Excellence",
+                "benefit": "Ensure consistent service quality across all touchpoints with standardized VR training programs."
+            },
+            {
+                "audience": "Restaurants & Catering",
+                "focus": "Service Mastery",
+                "benefit": "Train waitstaff on table service, wine pairing, and customer interaction in realistic dining scenarios."
+            },
+            {
+                "audience": "Tourism & Events",
+                "focus": "Experience Management",
+                "benefit": "Prepare tour guides and event staff for diverse situations and guest expectations."
+            }
+        ]
+    },
+    "stats": {
+        "title": "Why Melzo Hospitality",
+        "subtitle": "Reduce training time by 50% while improving service quality and guest satisfaction scores. Our VR platform delivers consistent, measurable training outcomes.",
+        "cta": "Elevate Your Service →",
+        "items": [
+            {
+                "label": "Training Time Reduction",
+                "value": "50%"
+            },
+            {
+                "label": "Service Quality Improvement",
+                "value": "85%"
+            },
+            {
+                "label": "Staff Retention",
+                "value": "+40%"
+            },
+            {
+                "label": "Guest Satisfaction",
+                "value": "95%"
+            }
+        ]
+    }
+}

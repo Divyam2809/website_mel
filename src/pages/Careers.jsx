@@ -397,19 +397,15 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                     backgroundImage: isDarkTheme
                         ? `linear-gradient(115deg, #CC5500 29%, transparent 29%),
                            linear-gradient(115deg, transparent 29%, #121212 29%, #121212 30%, transparent 30%),
-                           linear-gradient(135deg, rgba(255, 155, 80, 0.15) 40%, transparent 40%),
                            linear-gradient(115deg, transparent 70%, #121212 70%, #121212 71%, transparent 71%),
                            linear-gradient(115deg, transparent 71%, #CC5500 71%),
-                           linear-gradient(135deg, transparent 60%, rgba(255, 155, 80, 0.15) 60%),
                            radial-gradient(rgba(255, 155, 80, 0.08) 1.5px, transparent 1.5px)`
                         : `linear-gradient(115deg, #FF9B50 29%, transparent 29%),
                            linear-gradient(115deg, transparent 29%, #ffffff 29%, #ffffff 30%, transparent 30%),
-                           linear-gradient(135deg, #FFD180 40%, transparent 40%),
                            linear-gradient(115deg, transparent 70%, #ffffff 70%, #ffffff 71%, transparent 71%),
                            linear-gradient(115deg, transparent 71%, #FF9B50 71%),
-                           linear-gradient(135deg, transparent 60%, #FFD180 60%),
                            radial-gradient(rgba(255, 155, 80, 0.3) 1.5px, transparent 1.5px)`,
-                    backgroundSize: '100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 30px 30px',
+                    backgroundSize: '100% 100%, 100% 100%, 100% 100%, 100% 100%, 30px 30px',
                     backgroundAttachment: 'fixed',
                     overflow: 'hidden'
                 }}>
