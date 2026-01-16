@@ -21,6 +21,8 @@ import { syncCityGuideContent } from './src/scripts/sync-city-guide.js'
 import { syncVRLiveStreamContent } from './src/scripts/sync-vr-livestream.js'
 import { syncOthersCustomContent } from './src/scripts/sync-others-custom.js'
 import { syncCareersContent } from './src/scripts/sync-careers.js'
+import { syncHomeContent } from './src/scripts/sync-home.js'
+import { syncNineDChairContent } from './src/scripts/sync-nined-chair.js'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -230,6 +232,28 @@ export default defineConfig({
                 server.middlewares.use('/api/careers-live', async (req, res) => {
                     try {
                         const data = await syncCareersContent(false);
+                        res.setHeader('Content-Type', 'application/json');
+                        res.end(JSON.stringify(data));
+                    } catch (err) {
+                        res.statusCode = 500;
+                        res.end(JSON.stringify({ error: err.message }));
+                    }
+                });
+
+                server.middlewares.use('/api/home-live', async (req, res) => {
+                    try {
+                        const data = await syncHomeContent(false);
+                        res.setHeader('Content-Type', 'application/json');
+                        res.end(JSON.stringify(data));
+                    } catch (err) {
+                        res.statusCode = 500;
+                        res.end(JSON.stringify({ error: err.message }));
+                    }
+                });
+
+                server.middlewares.use('/api/nined-chair-live', async (req, res) => {
+                    try {
+                        const data = await syncNineDChairContent(false);
                         res.setHeader('Content-Type', 'application/json');
                         res.end(JSON.stringify(data));
                     } catch (err) {

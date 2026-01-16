@@ -1,19 +1,24 @@
 import fs from 'fs';
 import path from 'path';
 
-// PLACE YOUR GOOGLE DOC ID HERE for Home Page
-const GOOGLE_DOC_ID = 'YOUR_HOME_GOOGLE_DOC_ID_HERE';
+// PLACE YOUR GOOGLE DOC ID HERE
+// Open your Google Doc -> File -> Share -> Publish to web (optional, but standard ID works too if shared publicly)
+// OR just get the ID from the URL: docs.google.com/document/d/THIS_IS_THE_ID/edit
+const GOOGLE_DOC_ID = '1Hcd0d8LP8ECRDeyelrzgbX2fA26zwZcv2B_iyThwWWY';
 
 export async function syncHomeContent(shouldWrite = true) {
     const rootDir = process.cwd();
     const JSON_FILE = path.join(rootDir, 'src/data/homeContent.json');
 
-    if (!GOOGLE_DOC_ID || GOOGLE_DOC_ID === 'YOUR_HOME_GOOGLE_DOC_ID_HERE') {
-        console.log('[HomeSync] No valid Doc ID provided.');
+    // If no ID is set, return default/fallback structure so the app doesn't crash
+    if (!GOOGLE_DOC_ID || GOOGLE_DOC_ID === 'YOUR_GOOGLE_DOC_ID_HERE') {
+        if (shouldWrite) console.warn('Google Doc ID not set for Home Page.');
+        // Return existing file content if available to avoid breaking existing data
+        if (fs.existsSync(JSON_FILE)) {
+            return JSON.parse(fs.readFileSync(JSON_FILE, 'utf-8'));
+        }
         return null;
     }
-
-    console.log('[HomeSync] Starting sync for:', GOOGLE_DOC_ID);
 
     const url = `https://docs.google.com/document/d/${GOOGLE_DOC_ID}/export?format=txt`;
 
@@ -22,14 +27,11 @@ export async function syncHomeContent(shouldWrite = true) {
         if (!response.ok) throw new Error('Failed to fetch Google Doc');
 
         const text = await response.text();
-        // Normalize line endings and split
-        const lines = text.replace(/\r\n/g, '\n').split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
         const data = {
             hero: {},
-            carousel: {},
-            whyVR: { boards: [] },
-            stats: []
+            whyVr: {}
         };
 
         let currentSection = '';
@@ -38,49 +40,54 @@ export async function syncHomeContent(shouldWrite = true) {
             const line = lines[i];
 
             if (line.includes('--- HERO ---')) currentSection = 'hero';
-            else if (line.includes('--- CAROUSEL ---')) currentSection = 'carousel';
-            else if (line.includes('--- WHY VR ---')) currentSection = 'whyVR';
-            else if (line.includes('--- STATS ---')) currentSection = 'stats';
+            else if (line.includes('--- WHY_VR ---')) currentSection = 'whyVr';
             else if (line.includes(':')) {
-                const [key, ...valParts] = line.split(':');
-                const k = key.trim().toLowerCase();
-                const v = valParts.join(':').trim();
+                // Split by first colon only
+                const splitIndex = line.indexOf(':');
+                const key = line.substring(0, splitIndex).trim().toLowerCase(); // Normalize key
+                // Keep the rest of the line as value, spaces included if needed (though we trim)
+                const val = line.substring(splitIndex + 1).trim();
 
                 if (currentSection === 'hero') {
-                    if (k === 'title') data.hero.title = v;
-                    if (k === 'subtitle') data.hero.subtitle = v;
-                    if (k === 'primarybtn') data.hero.primaryBtn = v;
-                    if (k === 'secondarybtn') data.hero.secondaryBtn = v;
-                } else if (currentSection === 'carousel') {
-                    if (k === 'title') data.carousel.title = v;
-                } else if (currentSection === 'whyVR') {
-                    if (k === 'title') data.whyVR.title = v;
-                    if (k === 'subtitle') data.whyVR.subtitle = v;
-                    if (k === 'boards') {
-                        data.whyVR.boards = v.split(',').map(s => s.trim());
-                    }
-                } else if (currentSection === 'stats') {
-                    if (k.startsWith('stat')) {
-                        const parts = v.split('|');
-                        if (parts.length >= 3) {
-                            data.stats.push({
-                                value: parts[0].trim(),
-                                suffix: parts[1].trim(),
-                                label: parts[2].trim()
-                            });
-                        }
-                    }
+                    if (key === 'titleline1') data.hero.titleLine1 = val;
+                    if (key === 'titlehighlight') data.hero.titleHighlight = val;
+                    if (key === 'description') data.hero.description = val;
+                    if (key === 'primarybtn') data.hero.primaryBtn = val;
+                    if (key === 'secondarybtn') data.hero.secondaryBtn = val;
+                } else if (currentSection === 'whyVr') {
+                    if (key === 'titleline1') data.whyVr.titleLine1 = val;
+                    if (key === 'titlehighlight') data.whyVr.titleHighlight = val;
+                    if (key === 'description') data.whyVr.description = val;
                 }
             }
         }
 
-        if (shouldWrite && Object.keys(data.hero).length > 0) {
-            fs.writeFileSync(JSON_FILE, JSON.stringify(data, null, 2));
-            console.log('[HomeSync] Data saved to:', JSON_FILE);
+        // Validate basic data presence
+        if (Object.keys(data.hero).length > 0) {
+            if (shouldWrite) {
+                // Create dir if not exists
+                const dir = path.dirname(JSON_FILE);
+                if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+
+                fs.writeFileSync(JSON_FILE, JSON.stringify(data, null, 2));
+                console.log('Successfully synced Home content from Google Doc.');
+            }
+            return data;
+        } else {
+            if (shouldWrite) console.warn('Parsed data was empty. Check Google Doc format.');
+            // Return existing if parse failed
+            if (fs.existsSync(JSON_FILE)) {
+                return JSON.parse(fs.readFileSync(JSON_FILE, 'utf-8'));
+            }
+            return null;
         }
-        return Object.keys(data.hero).length > 0 ? data : null;
+
     } catch (err) {
-        console.error('[HomeSync] Error:', err.message);
+        console.error('[Sync-Home] Error:', err.message);
+        // Fallback to local file
+        if (fs.existsSync(JSON_FILE)) {
+            return JSON.parse(fs.readFileSync(JSON_FILE, 'utf-8'));
+        }
         return null;
     }
 }
