@@ -75,6 +75,24 @@ const AdminSidebar = ({ stats = {} }) => {
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
+        ),
+        Footer: (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="15" width="20" height="7" rx="2" ry="2"></rect>
+                <line x1="2" y1="9" x2="22" y2="9"></line>
+            </svg>
+        ),
+        DataStrip: (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        ),
+        GlobalMomentum: (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M2 12h20"></path>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
         )
     };
 
@@ -89,7 +107,10 @@ const AdminSidebar = ({ stats = {} }) => {
         { name: 'Team Details', path: '/admin/content/teamdetails', icon: Icons.Team },
         { name: 'Case Study', path: '/admin/content/casestudy', icon: Icons.CaseStudy },
         { name: 'Testimonials', path: '/admin/content/testimonials', icon: Icons.Testimonials },
-        { name: 'Timeline', path: '/admin/content/timeline', icon: Icons.Timeline }
+        { name: 'Timeline', path: '/admin/content/timeline', icon: Icons.Timeline },
+        { name: 'Footer', path: '/admin/footer', icon: Icons.Footer },
+        { name: 'Data Strip', path: '/admin/data-strip', icon: Icons.DataStrip },
+        { name: 'Global Momentum', path: '/admin/global-momentum', icon: Icons.GlobalMomentum }
     ];
 
     if (isSuperAdmin) {

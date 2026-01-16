@@ -16,16 +16,24 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
     const [items, setItems] = useState([]);
 
     useEffect(() => {
-        mockStorage.getIndustries().then(res => {
-            const visible = res.data.filter(i => i.isVisible !== false && i.status !== 'Draft');
-            setItems(visible);
-        });
+        mockStorage.getIndustries()
+            .then(res => {
+                if (res && res.data && Array.isArray(res.data)) {
+                    const visible = res.data.filter(i => i.isVisible !== false && i.status !== 'Draft');
+                    setItems(visible);
+                }
+            })
+            .catch(err => {
+                console.error('Error loading industries:', err);
+                setItems([]); // Fallback to empty array on error
+            });
     }, []);
 
     const defaultIndustries = [
         {
             id: 'education',
             title: 'Education',
+            image: '/images/education_modal_vr.webp',
 
             description: 'Curriculum-aligned VR labs for Science, Math, History, Geography.',
             tags: ['K-12', 'STEM', 'Labs'],
@@ -34,6 +42,7 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
         {
             id: 'csr',
             title: 'CSR & Foundations',
+            image: '/images/csr-bg.webp',
 
             description: 'Measurable impact, scalable deployment, and comprehensive reporting support.',
             tags: ['Impact', 'Scale', 'Social Good'],
@@ -42,6 +51,7 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
         {
             id: 'government',
             title: 'Government & Public Sector',
+            image: '/images/government-bg.webp',
 
             description: 'Skill development, safety training, and immersive awareness programs.',
             tags: ['Skilling', 'Safety', 'Civic'],
@@ -50,6 +60,7 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
         {
             id: 'defence',
             title: 'Industry & Defence',
+            image: '/images/defence-bg.webp',
 
             description: 'Simulation-based training with reduced risk and cost for mission-critical operations.',
             tags: ['Simulation', 'Tactical', 'Training'],
@@ -3068,17 +3079,17 @@ export default function Industries({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             >
                                 ×
                             </button>
-                            <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: '#FF9B50' }}>{activeIndustry.title}</h2>
+                            <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: '#FF9B50' }}>{activeIndustry?.title}</h2>
                             <p style={{ fontSize: '1.1rem', lineHeight: '1.6', marginBottom: '2rem', opacity: 0.8 }}>
-                                {activeIndustry.summary}
+                                {activeIndustry?.summary}
                             </p>
 
                             <div style={{ background: isDarkTheme ? '#2d2d2d' : '#f9f9f9', padding: '2rem', borderRadius: '12px' }}>
                                 <h3 style={{ color: '#FF9B50', marginBottom: '1rem' }}>Impact</h3>
-                                <p style={{ marginBottom: '1.5rem' }}>{activeIndustry.impact}</p>
+                                <p style={{ marginBottom: '1.5rem' }}>{activeIndustry?.impact}</p>
 
                                 <h3 style={{ color: '#FF9B50', marginBottom: '1rem' }}>Key Details</h3>
-                                {activeIndustry.details.split('\n').map((line, i) => (
+                                {(activeIndustry.details || '').split('\n').map((line, i) => (
                                     <p key={i} style={{ marginBottom: '0.5rem' }}>{line}</p>
                                 ))}
                             </div>

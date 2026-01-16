@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import mockStorage from '../../services/mockStorage';
+import footerService from '../../services/footerService';
 import AdminSidebar from './AdminSidebar';
+import AdminNav from './AdminNav';
 import DragDropFile from './DragDropFile';
 
 export default function FooterManager() {
@@ -20,7 +21,10 @@ export default function FooterManager() {
 
     const loadConfig = async () => {
         try {
-            const res = await mockStorage.getFooterConfig();
+            const res = await footerService.getFooterConfig();
+            // The backend returns { data: configObject }, and axios wraps it in { data: { data: configObject } }
+            // footerService.getFooterConfig() returns response.data which is { data: configObject }
+            // so res.data is the config object.
             setConfig(res.data);
             setLoading(false);
         } catch (error) {
@@ -32,7 +36,7 @@ export default function FooterManager() {
     const handleSave = async (e) => {
         e.preventDefault();
         try {
-            await mockStorage.saveFooterConfig(config);
+            await footerService.saveFooterConfig(config);
             alert('Footer updated successfully!');
         } catch (error) {
             alert('Error updating footer');
@@ -100,10 +104,7 @@ export default function FooterManager() {
     };
 
 
-    const logout = () => {
-        localStorage.removeItem('user');
-        navigate('/admin/login');
-    };
+
 
     if (loading || !config) return <div>Loading...</div>;
 
@@ -112,83 +113,8 @@ export default function FooterManager() {
             <AdminSidebar />
             <div className="admin-main-content">
                 <div style={{ backgroundColor: '#ffffff', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
-                    <div className="admin-header">
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <img src="/assets/Melzo_Logo.svg" alt="Melzo" style={{ height: '40px', cursor: 'pointer' }} onClick={() => navigate('/admin/dashboard')} />
-                        </div>
-
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                {['Analytics', 'Recent Queries', 'Content Management'].map((item) => (
-                                    <button
-                                        key={item}
-                                        onClick={() => navigate('/admin/dashboard')}
-                                        style={{
-                                            background: 'transparent',
-                                            border: 'none',
-                                            fontSize: '0.95rem',
-                                            fontWeight: 600,
-                                            color: '#666',
-                                            cursor: 'pointer',
-                                            transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                            padding: '8px 20px',
-                                            borderRadius: '50px',
-                                            position: 'relative',
-                                            overflow: 'hidden'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.color = '#FF9B50';
-                                            e.target.style.background = 'rgba(255, 155, 80, 0.08)';
-                                            e.target.style.transform = 'translateY(-2px)';
-                                            e.target.style.boxShadow = '0 4px 12px rgba(255, 155, 80, 0.15)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.color = '#666';
-                                            e.target.style.background = 'transparent';
-                                            e.target.style.transform = 'translateY(0)';
-                                            e.target.style.boxShadow = 'none';
-                                        }}
-                                    >
-                                        {item}
-                                    </button>
-                                ))}
-                            </div>
-
-                            <button
-                                onClick={logout}
-                                style={{
-                                    background: 'linear-gradient(135deg, #FF9B50 0%, #FF6B00 100%)',
-                                    color: 'white',
-                                    border: 'none',
-                                    padding: '12px 32px',
-                                    borderRadius: '50px',
-                                    cursor: 'pointer',
-                                    fontWeight: 700,
-                                    fontSize: '0.95rem',
-                                    transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                    boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '10px'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.target.style.transform = 'translateY(-3px) scale(1.05)';
-                                    e.target.style.boxShadow = '0 10px 25px rgba(255, 155, 80, 0.5)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.target.style.transform = 'translateY(0) scale(1)';
-                                    e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                                }}
-                            >
-                                <span>Logout</span>
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                                    <polyline points="16 17 21 12 16 7"></polyline>
-                                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+                    <AdminNav />
+                    <div style={{ height: '100px' }}></div>
 
                     <div style={{ padding: '0 5% 40px 5%', maxWidth: '1200px', margin: '0 auto' }}>
                         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', margin: '20px 0 30px', gap: '15px' }}>
@@ -235,7 +161,6 @@ export default function FooterManager() {
                             <h1 style={{ fontSize: '2rem', fontWeight: 900, color: '#FF9B50', margin: 0 }}>Footer Management</h1>
                             <p style={{ opacity: 0.6, marginTop: '10px' }}>
                                 Manage footer content, links, and visibility.
-                                {!isSuperAdmin && <span style={{ color: '#ea6805' }}> (Super Admin access required to add/remove structure)</span>}
                             </p>
                         </div>
 

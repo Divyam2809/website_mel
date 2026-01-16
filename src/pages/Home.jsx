@@ -172,7 +172,7 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                 </section>
 
                 {/* Data Strip */}
-                <DataStrip />
+                <DataStrip section="home" />
 
                 {/* About Section */}
                 {/* <section style={{

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import AppNav from './components/AppNav';
-import mockStorage from './services/mockStorage';
+import caseStudyService from './services/caseStudyService';
 import CaseStudyModal from './components/CaseStudyModal';
 import './styles/Industries.css'; // Using the Industry Card styles
 
@@ -12,13 +12,14 @@ export default function CaseStudies({ onNavigate, isDarkTheme, onBookDemo, onTog
     useEffect(() => {
         const fetchCaseStudies = async () => {
             try {
-                const response = await mockStorage.getCaseStudies();
-                const visible = response.data.filter(s =>
-                    s.status === 'Published' || (!s.status && s.isVisible !== false)
-                ).map(s => ({
-                    ...s,
-                    summary: s.description || s.summary // Handle both fields
+                const response = await caseStudyService.getAll();
+                // Ensure IDs are consistent
+                const normalizedData = (response.data || []).map(item => ({
+                    ...item,
+                    _id: item._id || item.id,
+                    summary: item.description || item.summary // Handle both fields
                 }));
+                const visible = normalizedData.filter(s => s.isVisible);
                 setCaseStudies(visible);
             } catch (error) {
                 console.error("Failed to load case studies", error);

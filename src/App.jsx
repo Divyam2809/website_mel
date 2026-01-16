@@ -44,6 +44,8 @@ const AdminDashboard = React.lazy(() => import('./components/admin/AdminDashboar
 const ContentManager = React.lazy(() => import('./components/admin/ContentManager'));
 const BlogForm = React.lazy(() => import('./components/admin/BlogForm'));
 const FooterManager = React.lazy(() => import('./components/admin/FooterManager'));
+const DataStripManager = React.lazy(() => import('./components/admin/DataStripManager'));
+const GlobalMomentumManager = React.lazy(() => import('./components/admin/GlobalMomentumManager'));
 
 import Footer from './components/Footer';
 import BookDemo from './components/BookDemo';
@@ -223,6 +225,8 @@ export default function App() {
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
                         <Route path="/admin/content/:moduleType" element={<ContentManager />} />
                         <Route path="/admin/footer" element={<FooterManager />} />
+                        <Route path="/admin/data-strip" element={<DataStripManager />} />
+                        <Route path="/admin/global-momentum" element={<GlobalMomentumManager />} />
                         <Route path="/admin/editor" element={<BlogForm />} />
                         <Route path="/admin/editor/:slug" element={<BlogForm />} />
 

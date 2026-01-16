@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import AppNav from './components/AppNav';
 
-import mockStorage from './services/mockStorage';
+import faqService from './services/faqService';
 
 export default function FAQs({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const [faqs, setFaqs] = useState([]);
@@ -10,9 +10,9 @@ export default function FAQs({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
     useEffect(() => {
         const fetchFAQs = async () => {
             try {
-                const response = await mockStorage.getFAQs();
-                const visible = response.data.filter(f =>
-                    f.status === 'Published' || (!f.status && f.isVisible !== false)
+                const response = await faqService.getAll();
+                const visible = (response.data || []).filter(f =>
+                    f.isVisible && f.status !== 'Draft'
                 );
                 setFaqs(visible);
             } catch (error) {

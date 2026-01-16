@@ -5,31 +5,69 @@ import GridBackground from '../components/GridBackground';
 import AppNav from '../components/AppNav';
 
 import mockStorage from '../services/mockStorage';
+import awardsService from '../services/awardsService';
+import teamService from '../services/teamService';
+import timelineService from '../services/timelineService';
+import globalMomentumService from '../services/globalMomentumService';
 
 export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const [isVisible, setIsVisible] = useState(false);
     const [awards, setAwards] = useState([]);
     const [team, setTeam] = useState([]);
     const [timeline, setTimeline] = useState([]);
-
-    const globalMarquee = [
+    const [globalMarquee, setGlobalMarquee] = useState([
         "Innovation", "Immersive Learning", "Virtual Reality", "Augmented Reality", "Future of Work", "Education Revolution"
-    ];
-
-    const globalStats = [
+    ]);
+    const [globalStats, setGlobalStats] = useState([
         { num: '500+', label: 'Schools' },
         { num: '50K+', label: 'Students' },
         { num: '10+', label: 'Countries' },
         { num: '100%', label: 'Engagement' }
-    ];
+    ]);
 
     const fetchData = async () => {
         try {
+            // Fetch Global Momentum
+            const globalMomentumRes = await globalMomentumService.getConfig();
+
+            // Filter only published marquee items
+            if (globalMomentumRes.marqueeItems && globalMomentumRes.marqueeItems.length > 0) {
+                const firstItem = globalMomentumRes.marqueeItems[0];
+                if (typeof firstItem === 'object' && firstItem.text !== undefined) {
+                    // New format with status
+                    const publishedItems = globalMomentumRes.marqueeItems
+                        .filter(item => item.status === 'Published')
+                        .map(item => item.text);
+                    if (publishedItems.length > 0) {
+                        setGlobalMarquee(publishedItems);
+                    }
+                } else {
+                    // Legacy format: array of strings (all considered published)
+                    setGlobalMarquee(globalMomentumRes.marqueeItems);
+                }
+            }
+
+            // Filter only published stats
+            if (globalMomentumRes.stats && globalMomentumRes.stats.length > 0) {
+                const firstStat = globalMomentumRes.stats[0];
+                if (firstStat.status !== undefined) {
+                    // New format with status
+                    const publishedStats = globalMomentumRes.stats.filter(stat => stat.status === 'Published');
+                    if (publishedStats.length > 0) {
+                        setGlobalStats(publishedStats);
+                    }
+                } else {
+                    // Legacy format: objects without status (all considered published)
+                    setGlobalStats(globalMomentumRes.stats);
+                }
+            }
+
             // Fetch Awards
-            const awardsRes = await mockStorage.getAwards();
-            const visibleAwards = awardsRes.data.filter(a =>
-                (a.status === 'Published' || !a.status) && a.isVisible !== false
-            ).map(a => ({
+            const awardsRes = await awardsService.getAll();
+            const visibleAwards = (awardsRes.data || []).map(a => ({
+                ...a,
+                _id: a._id || a.id
+            })).filter(a => a.isVisible && a.status !== 'Draft').map(a => ({
                 ...a,
                 subtitle: a.organization,
                 status: a.awardLevel || 'Recognition',
@@ -37,9 +75,12 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
             setAwards(visibleAwards);
 
             // Fetch Team
-            const teamRes = await mockStorage.getTeamDetails();
-            const visibleTeam = teamRes.data.filter(t =>
-                (t.status === 'Published' || !t.status) && t.isVisible !== false
+            const teamRes = await teamService.getAll();
+            const visibleTeam = (teamRes.data || []).map(t => ({
+                ...t,
+                _id: t._id || t.id
+            })).filter(t =>
+                t.isVisible && t.status !== 'Draft'
             ).map(t => {
                 const nameParts = (t.name || '').split(' ');
                 const firstName = nameParts[0] || '';
@@ -55,9 +96,9 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
             setTeam(visibleTeam);
 
             // Fetch Timeline
-            const timelineRes = await mockStorage.getTimeline();
-            const visibleTimeline = timelineRes.data.filter(t =>
-                (t.status === 'Published' || !t.status) && t.isVisible !== false
+            const timelineRes = await timelineService.getAll();
+            const visibleTimeline = (timelineRes.data || []).filter(t =>
+                t.isVisible && t.status !== 'Draft'
             );
             setTimeline(visibleTimeline);
 
@@ -85,8 +126,6 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
     // Filter Logic for Render
     const ceo = team.find(m => m.role.toLowerCase().includes('ceo') || m.role.toLowerCase().includes('founder'));
     const otherTeam = team.filter(m => m !== ceo);
-
-
     return (
         <>
             <AppNav
@@ -173,6 +212,8 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                         </p>
                     </div>
                 </section>
+
+
 
                 {/* Mission Vision Values - Minimal Text Layout */}
                 <section style={{ padding: '0 5% 8rem', position: 'relative', zIndex: 1 }}>

@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import mockStorage from '../../services/mockStorage';
+import blogService from '../../services/blogService';
+import newsService from '../../services/newsService';
+import caseStudyService from '../../services/caseStudyService';
+import awardsService from '../../services/awardsService';
+import faqService from '../../services/faqService';
+import teamService from '../../services/teamService';
+import testimonialService from '../../services/testimonialService';
+import timelineService from '../../services/timelineService';
 import DragDropFile from './DragDropFile';
 import BlockEditor from './BlockEditor';
 import AdminSidebar from './AdminSidebar';
+import AdminNav from './AdminNav';
 import './admin.css';
 
 const ContentManager = () => {
@@ -36,11 +45,11 @@ const ContentManager = () => {
         blog: {
             title: 'Blog Post',
             fields: { title: 'text', slug: 'text', excerpt: 'textarea', content: 'json:blocks', category: 'text', status: 'select:Published,Draft', image: 'file:image', metaTitle: 'text', metaDescription: 'textarea', metaKeywords: 'text' },
-            get: () => mockStorage.getBlogs(),
-            save: (data) => mockStorage.saveBlog(data),
-            update: (id, data) => mockStorage.updateBlog(id, data),
-            toggle: (id) => mockStorage.toggleBlogVisibility(id),
-            delete: (id) => mockStorage.deleteBlog(id)
+            get: () => blogService.getAll(),
+            save: (data) => blogService.create(data),
+            update: (id, data) => blogService.update(id, data),
+            toggle: (id) => blogService.toggleVisibility(id),
+            delete: (id) => blogService.delete(id)
         },
         news: {
             title: 'News Articles',
@@ -58,11 +67,11 @@ const ContentManager = () => {
                 metaDescription: 'textarea',
                 metaKeywords: 'text'
             },
-            get: () => mockStorage.getNews(),
-            save: (data) => mockStorage.saveNews(data),
-            update: (id, data) => mockStorage.updateNews(id, data),
-            toggle: (id) => mockStorage.toggleNewsVisibility(id),
-            delete: (id) => mockStorage.deleteNews(id)
+            get: () => newsService.getAll(),
+            save: (data) => newsService.create(data),
+            update: (id, data) => newsService.update(id, data),
+            toggle: (id) => newsService.toggleVisibility(id),
+            delete: (id) => newsService.delete(id)
         },
         awards: {
             title: 'Awards & Recognition',
@@ -80,11 +89,11 @@ const ContentManager = () => {
                 metaDescription: 'textarea',
                 metaKeywords: 'text'
             },
-            get: () => mockStorage.getAwards(),
-            save: (data) => mockStorage.saveAward(data),
-            update: (id, data) => mockStorage.updateAward(id, data),
-            toggle: (id) => mockStorage.toggleAwardVisibility(id),
-            delete: (id) => mockStorage.deleteAward(id)
+            get: () => awardsService.getAll(),
+            save: (data) => awardsService.create(data),
+            update: (id, data) => awardsService.update(id, data),
+            toggle: (id) => awardsService.toggleVisibility(id),
+            delete: (id) => awardsService.delete(id)
         },
         faqs: {
             title: 'FAQs',
@@ -94,16 +103,16 @@ const ContentManager = () => {
                 status: 'select:Published,Draft',
                 answer: 'textarea',
                 category: 'text',
-                order: 'number',
+                sort_order: 'number',
                 metaTitle: 'text',
                 metaDescription: 'textarea',
                 metaKeywords: 'text'
             },
-            get: () => mockStorage.getFAQs(),
-            save: (data) => mockStorage.saveFAQ(data),
-            update: (id, data) => mockStorage.updateFAQ(id, data),
-            toggle: (id) => mockStorage.toggleFAQVisibility(id),
-            delete: (id) => mockStorage.deleteFAQ(id)
+            get: () => faqService.getAll(),
+            save: (data) => faqService.create(data),
+            update: (id, data) => faqService.update(id, data),
+            toggle: (id) => faqService.toggleVisibility(id),
+            delete: (id) => faqService.delete(id)
         },
         teamdetails: {
             title: 'Team Members',
@@ -117,16 +126,16 @@ const ContentManager = () => {
                 phone: 'text',
                 linkedin: 'text',
                 image: 'file',
-                order: 'number',
+                sort_order: 'number',
                 metaTitle: 'text',
                 metaDescription: 'textarea',
                 metaKeywords: 'text'
             },
-            get: () => mockStorage.getTeamDetails(),
-            save: (data) => mockStorage.saveTeamDetail(data),
-            update: (id, data) => mockStorage.updateTeamDetail(id, data),
-            toggle: (id) => mockStorage.toggleTeamDetailVisibility(id),
-            delete: (id) => mockStorage.deleteTeamDetail(id)
+            get: () => teamService.getAll(),
+            save: (data) => teamService.create(data),
+            update: (id, data) => teamService.update(id, data),
+            toggle: (id) => teamService.toggleVisibility(id),
+            delete: (id) => teamService.delete(id)
         },
         industries: {
             title: 'Industries',
@@ -170,11 +179,11 @@ const ContentManager = () => {
                 metaDescription: 'textarea',
                 metaKeywords: 'text'
             },
-            get: () => mockStorage.getCaseStudies(),
-            save: (data) => mockStorage.saveCaseStudy(data),
-            update: (id, data) => mockStorage.updateCaseStudy(id, data),
-            toggle: (id) => mockStorage.toggleCaseStudyVisibility(id),
-            delete: (id) => mockStorage.deleteCaseStudy(id)
+            get: () => caseStudyService.getAll(),
+            save: (data) => caseStudyService.create(data),
+            update: (id, data) => caseStudyService.update(id, data),
+            toggle: (id) => caseStudyService.toggleVisibility(id),
+            delete: (id) => caseStudyService.delete(id)
         },
         testimonials: {
             title: 'Testimonials',
@@ -191,11 +200,11 @@ const ContentManager = () => {
                 metaDescription: 'textarea',
                 metaKeywords: 'text'
             },
-            get: () => mockStorage.getTestimonials(),
-            save: (data) => mockStorage.saveTestimonial(data),
-            update: (id, data) => mockStorage.updateTestimonial(id, data),
-            toggle: (id) => mockStorage.toggleTestimonialVisibility(id),
-            delete: (id) => mockStorage.deleteTestimonial(id)
+            get: () => testimonialService.getAll(),
+            save: (data) => testimonialService.create(data),
+            update: (id, data) => testimonialService.update(id, data),
+            toggle: (id) => testimonialService.toggleVisibility(id),
+            delete: (id) => testimonialService.delete(id)
         },
         timeline: {
             title: 'Timeline Events',
@@ -205,11 +214,11 @@ const ContentManager = () => {
                 content: 'textarea',
                 status: 'select:Published,Draft'
             },
-            get: () => mockStorage.getTimeline(),
-            save: (data) => mockStorage.saveTimeline(data),
-            update: (id, data) => mockStorage.updateTimeline(id, data),
-            toggle: (id) => mockStorage.toggleTimelineVisibility(id),
-            delete: (id) => mockStorage.deleteTimeline(id)
+            get: () => timelineService.getAll(),
+            save: (data) => timelineService.create(data),
+            update: (id, data) => timelineService.update(id, data),
+            toggle: (id) => timelineService.toggleVisibility(id),
+            delete: (id) => timelineService.delete(id)
         },
         users: {
             title: 'User Management',
@@ -256,9 +265,16 @@ const ContentManager = () => {
     const loadItems = async () => {
         try {
             const response = await config.get();
-            setItems(response.data);
+            // Normalize IDs: ensure _id exists (use id if _id is missing)
+            const normalizedData = (response.data || []).map(item => ({
+                ...item,
+                _id: item._id || item.id
+            }));
+            setItems(normalizedData);
         } catch (error) {
             console.error('Error loading items:', error);
+            // Handle case where response.data might be undefined
+            setItems([]);
         }
     };
 
@@ -291,24 +307,40 @@ const ContentManager = () => {
     };
 
     const handleSubmit = () => {
+        alert('🟢 handleSubmit called!');
         const action = editItem ? 'update' : 'create';
         setConfirmAction({
             title: `Confirm ${action.charAt(0).toUpperCase() + action.slice(1)} `,
             message: `Are you sure you want to ${action} this ${type}?`,
             onConfirm: async () => {
                 try {
+                    console.log('=== SAVE STARTING ===');
+                    console.log('Action:', action);
+                    console.log('Form Data:', formData);
+                    console.log('Config:', { type, hasConfig: !!config });
+
                     if (editItem) {
+                        console.log('Updating item with ID:', editItem._id);
                         await config.update(editItem._id, formData);
                     } else {
-                        await config.save(formData);
+                        console.log('Creating new item');
+                        const result = await config.save(formData);
+                        console.log('Save result:', result);
                     }
+
+                    console.log('=== SAVE SUCCESSFUL ===');
                     await loadItems();
                     await loadStats();
                     setShowForm(false);
                     setEditItem(null);
                     setFormData({});
                 } catch (error) {
-                    console.error("Save Error:", error);
+                    console.error("=== SAVE ERROR ===", error);
+                    console.error("Error details:", {
+                        name: error.name,
+                        message: error.message,
+                        stack: error.stack
+                    });
                     if (error && (error.name === 'QuotaExceededError' || error.code === 22 || error.message?.includes('quota'))) {
                         alert('Storage Limit Exceeded! \n\nThe browser\'s local storage is full. Please try:\n1. Uploading smaller images (compress them first).\n2. Deleting old or unused items.\n3. Using fewer high-res images.');
                     } else {
@@ -330,7 +362,8 @@ const ContentManager = () => {
                     await loadItems();
                     await loadStats();
                 } catch (error) {
-                    alert('Error toggling visibility');
+                    console.error('Toggle error in component:', error);
+                    alert(`Error toggling visibility: ${error.message || 'Unknown error'}`);
                 }
             }
         });
@@ -514,27 +547,9 @@ const ContentManager = () => {
                 <div className="admin-main-content">
                     <div style={{ backgroundColor: '#ffffff', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
                         {/* Fixed Top Navbar */}
-                        <div className="admin-header">
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <img src="/assets/Melzo_Logo.svg" alt="Melzo" style={{ height: '40px', cursor: 'pointer' }} onClick={() => navigate('/admin/dashboard')} />
-                            </div>
-                            <button
-                                onClick={() => navigate('/admin/login')}
-                                style={{
-                                    background: 'linear-gradient(135deg, #FF9B50 0%, #FF6B00 100%)',
-                                    color: 'white',
-                                    border: 'none',
-                                    padding: '10px 24px',
-                                    borderRadius: '50px',
-                                    cursor: 'pointer',
-                                    fontWeight: 600,
-                                    fontSize: '0.9rem',
-                                    boxShadow: '0 4px 12px rgba(255, 155, 80, 0.2)'
-                                }}
-                            >
-                                Logout
-                            </button>
-                        </div>
+                        <AdminNav />
+                        <div style={{ height: '100px' }}></div>
+
 
                         {/* Page Header */}
                         <div className="content-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', padding: '30px 5%' }}>
@@ -675,115 +690,9 @@ const ContentManager = () => {
             <div className="admin-main-content">
                 <div style={{ backgroundColor: '#ffffff', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
                     {/* Fixed Top Navbar */}
-                    <div className="admin-header">
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <img src="/assets/Melzo_Logo.svg" alt="Melzo" style={{ height: '40px', cursor: 'pointer' }} onClick={() => navigate('/admin/dashboard')} />
-                        </div>
-
-                        {/* RIGHT: Nav & Logout Group */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
-                            {/* Nav Links */}
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                {['Analytics', 'Recent Queries', 'Content Management']
-                                    .filter(item => !isHR || item === 'Content Management')
-                                    .map((item) => (
-                                        <button
-                                            key={item}
-                                            onClick={() => {
-                                                const id = item.toLowerCase().replace(/ /g, '-');
-                                                navigate(`/admin/dashboard#${id}`);
-                                                // Since we are navigating, we might need a timeout or useEffect on dashboard to handle hash scrolling, 
-                                                // effectively just going to dashboard is good for now, or maybe the user just wants the visual consistency.
-                                                // The simplest valid approach is to navigate to dashboard.
-                                            }}
-                                            style={{
-                                                background: 'transparent',
-                                                border: 'none',
-                                                fontSize: '0.95rem',
-                                                fontWeight: 600,
-                                                color: '#666',
-                                                cursor: 'pointer',
-                                                transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                                padding: '8px 20px',
-                                                borderRadius: '50px',
-                                                position: 'relative',
-                                                overflow: 'hidden'
-                                            }}
-                                            onMouseEnter={(e) => {
-                                                e.target.style.color = '#FF9B50';
-                                                e.target.style.background = 'rgba(255, 155, 80, 0.08)';
-                                                e.target.style.transform = 'translateY(-2px)';
-                                                e.target.style.boxShadow = '0 4px 12px rgba(255, 155, 80, 0.15)';
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                e.target.style.color = '#666';
-                                                e.target.style.background = 'transparent';
-                                                e.target.style.transform = 'translateY(0)';
-                                                e.target.style.boxShadow = 'none';
-                                            }}
-                                        >
-                                            {item}
-                                        </button>
-                                    ))}
-                            </div>
-
-                            <div style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '10px',
-                                background: '#F0F7FF',
-                                padding: '8px 24px',
-                                borderRadius: '100px',
-                                color: '#475569',
-                                fontWeight: 700,
-                                fontSize: '0.95rem',
-                                border: '1px solid #E2E8F0'
-                            }}>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7 }}>
-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="12" cy="7" r="4"></circle>
-                                </svg>
-                                {user?.role === 'superadmin' ? 'Super Admin' : user?.role === 'HR' ? 'HR' : 'Admin'}
-                            </div>
-
-                            <button
-                                onClick={() => {
-                                    localStorage.removeItem('user');
-                                    navigate('/admin/login');
-                                }}
-                                style={{
-                                    background: 'linear-gradient(135deg, #FF9B50 0%, #FF6B00 100%)',
-                                    color: 'white',
-                                    border: 'none',
-                                    padding: '12px 32px',
-                                    borderRadius: '50px',
-                                    cursor: 'pointer',
-                                    fontWeight: 700,
-                                    fontSize: '0.95rem',
-                                    transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                    boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '10px'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.target.style.transform = 'translateY(-3px) scale(1.05)';
-                                    e.target.style.boxShadow = '0 10px 25px rgba(255, 155, 80, 0.5)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.target.style.transform = 'translateY(0) scale(1)';
-                                    e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                                }}
-                            >
-                                <span>Logout</span>
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                                    <polyline points="16 17 21 12 16 7"></polyline>
-                                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+                    {/* Fixed Top Navbar */}
+                    <AdminNav />
+                    <div style={{ height: '100px' }}></div>
 
                     <div className="content-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '30px 5%' }}>
                         <h1 style={{ fontSize: '2rem', fontWeight: 900, color: '#FF9B50', margin: 0 }}>{config.title}</h1>
@@ -839,11 +748,11 @@ const ContentManager = () => {
                             </div>
                             <div>
                                 <div style={{ fontSize: '0.9rem', color: '#10b981', fontWeight: 600 }}>Published</div>
-                                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#10b981' }}>{items.filter(i => i.status === 'Published' || (i.isVisible && !i.status)).length}</div>
+                                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#10b981' }}>{items.filter(i => i.status !== 'Draft' && i.isVisible !== false && i.isVisible !== 0).length}</div>
                             </div>
                             <div>
                                 <div style={{ fontSize: '0.9rem', color: '#f59e0b', fontWeight: 600 }}>Drafts</div>
-                                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#f59e0b' }}>{items.filter(i => i.status === 'Draft' || (!i.isVisible && !i.status)).length}</div>
+                                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#f59e0b' }}>{items.filter(i => i.status === 'Draft' || i.isVisible === false || i.isVisible === 0).length}</div>
                             </div>
                         </div>
 
@@ -877,13 +786,13 @@ const ContentManager = () => {
                                 {/* DRAFTS SECTION */}
                                 <div style={{ marginBottom: '4rem' }}>
                                     <h2 style={{ fontSize: '1.5rem', fontWeight: 900, marginBottom: '1.5rem', color: '#f59e0b', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                        Drafts <span style={{ fontSize: '0.9rem', opacity: 0.7, fontWeight: 500 }}>({items.filter(i => i.status === 'Draft' || (!i.isVisible && !i.status)).length})</span>
+                                        Drafts <span style={{ fontSize: '0.9rem', opacity: 0.7, fontWeight: 500 }}>({items.filter(i => i.status === 'Draft' || i.isVisible === false || i.isVisible === 0).length})</span>
                                     </h2>
-                                    {items.filter(i => i.status === 'Draft' || (!i.isVisible && !i.status)).length === 0 ? (
+                                    {items.filter(i => i.status === 'Draft' || i.isVisible === false || i.isVisible === 0).length === 0 ? (
                                         <p style={{ opacity: 0.5, fontStyle: 'italic' }}>No drafts available.</p>
                                     ) : (
                                         <div style={{ display: 'grid', gap: '1.5rem' }}>
-                                            {items.filter(i => i.status === 'Draft' || (!i.isVisible && !i.status)).map(item => (
+                                            {items.filter(i => i.status === 'Draft' || i.isVisible === false || i.isVisible === 0).map(item => (
                                                 <div key={item._id} style={{
                                                     padding: '1.5rem',
                                                     background: '#fffbeb',
@@ -989,13 +898,13 @@ const ContentManager = () => {
                                 {/* PUBLISHED SECTION */}
                                 <div>
                                     <h2 style={{ fontSize: '1.5rem', fontWeight: 900, marginBottom: '1.5rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                        Published <span style={{ fontSize: '0.9rem', opacity: 0.7, fontWeight: 500 }}>({items.filter(i => i.status === 'Published' || (i.isVisible && !i.status)).length})</span>
+                                        Published <span style={{ fontSize: '0.9rem', opacity: 0.7, fontWeight: 500 }}>({items.filter(i => i.status !== 'Draft' && i.isVisible !== false && i.isVisible !== 0).length})</span>
                                     </h2>
-                                    {items.filter(i => i.status === 'Published' || (i.isVisible && !i.status)).length === 0 ? (
+                                    {items.filter(i => i.status !== 'Draft' && i.isVisible !== false && i.isVisible !== 0).length === 0 ? (
                                         <p style={{ opacity: 0.5, fontStyle: 'italic' }}>No published items yet.</p>
                                     ) : (
                                         <div style={{ display: 'grid', gap: '1.5rem' }}>
-                                            {items.filter(i => i.status === 'Published' || (i.isVisible && !i.status)).map(item => (
+                                            {items.filter(i => i.status !== 'Draft' && i.isVisible !== false && i.isVisible !== 0).map(item => (
                                                 <div key={item._id} style={{
                                                     padding: '1.5rem',
                                                     background: '#fcfcfc',

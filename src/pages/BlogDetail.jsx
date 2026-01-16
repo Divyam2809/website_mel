@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import AppNav from '../components/AppNav';
-import mockStorage from '../services/mockStorage';
+import blogService from '../services/blogService';
 import GridBackground from '../components/GridBackground';
 
 export default function BlogDetail({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
@@ -14,7 +14,8 @@ export default function BlogDetail({ onNavigate, isDarkTheme, onBookDemo, onTogg
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await mockStorage.getBlog(slug);
+                // Use blogService to fetch by slug (which maps to getById/getBlog in backend)
+                const response = await blogService.getById(slug);
                 setPost(response.data);
             } catch (error) {
                 console.error("Failed to load blog post", error);
@@ -78,9 +79,20 @@ export default function BlogDetail({ onNavigate, isDarkTheme, onBookDemo, onTogg
     const isSanity = !!post.body;
 
     // Normalize props
+    const parseJSON = (data) => {
+        try {
+            return typeof data === 'string' ? JSON.parse(data) : data;
+        } catch (e) {
+            return data;
+        }
+    };
+
+    const author = parseJSON(post.author);
+    const content = parseJSON(post.content);
+
     const title = post.title;
-    const authorName = post.name || (post.author && post.author.name) || 'Scene9 Editorial';
-    const authorRole = post.author && post.author.role ? post.author.role : 'Contributor';
+    const authorName = post.name || (author && author.name) || 'Scene9 Editorial';
+    const authorRole = author && author.role ? author.role : 'Contributor';
     const date = post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : post.publishDate;
     const readTime = post.readTime || 5;
     const category = Array.isArray(post.categories) ? post.categories[0] : (post.category || 'Opinion');
@@ -181,7 +193,7 @@ export default function BlogDetail({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                 />
                             ) : (
                                 // Fallback Static Renderer
-                                post.content?.map((block, index) => {
+                                content?.map((block, index) => {
                                     switch (block.type) {
                                         case 'paragraph':
                                             return (

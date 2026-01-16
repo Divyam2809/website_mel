@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import mockStorage from '../services/mockStorage';
+import caseStudyService from '../services/caseStudyService';
 import CaseStudyModal from './CaseStudyModal';
 
 export default function CaseStudyHighlights({ isDarkTheme }) {
@@ -9,11 +9,15 @@ export default function CaseStudyHighlights({ isDarkTheme }) {
     useEffect(() => {
         const fetchStudies = async () => {
             try {
-                const response = await mockStorage.getCaseStudies();
+                const response = await caseStudyService.getAll();
+                // Ensure IDs are consistent
+                const normalizedData = (response.data || []).map(item => ({
+                    ...item,
+                    _id: item._id || item.id,
+                    summary: item.description || item.summary
+                }));
                 // Take first 4 visible case studies
-                const visible = response.data.filter(s =>
-                    s.status === 'Published' || (!s.status && s.isVisible !== false)
-                ).slice(0, 4);
+                const visible = normalizedData.filter(s => s.isVisible).slice(0, 4);
                 setCaseStudies(visible);
             } catch (error) {
                 console.error("Failed to load case studies", error);

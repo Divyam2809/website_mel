@@ -565,8 +565,13 @@ class MockStorageService {
             localStorage.setItem('demoQueries', JSON.stringify(initialDemoQueries));
         }
 
+        // Initialize Industries
+        if (!localStorage.getItem('industries')) {
+            localStorage.setItem('industries', JSON.stringify(initialIndustries));
+        }
+
         // --- MIGRATION: Auto-Generate Slugs for Legacy Data ---
-        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials', 'jobs', 'employeeStories', 'jobApplications'];
+        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials', 'jobs', 'employeeStories', 'jobApplications', 'industries'];
 
         collections.forEach(key => {
             const items = JSON.parse(localStorage.getItem(key) || '[]');
@@ -589,6 +594,37 @@ class MockStorageService {
                 console.log(`Migrated slugs for ${key}`);
             }
         });
+
+        // --- MIGRATION: Fix Industries Images ---
+        try {
+            const storedIndustries = JSON.parse(localStorage.getItem('industries') || '[]');
+            let indModified = false;
+            const imageMap = {
+                'education': '/images/education_modal_vr.webp',
+                'csr': '/images/csr-bg.webp',
+                'government': '/images/government-bg.webp',
+                'defence': '/images/defence-bg.webp'
+            };
+
+            storedIndustries.forEach(ind => {
+                const id = ind._id || ind.id;
+                // Force update if image matches map target to ensure correctness, or if missing
+                if (imageMap[id]) {
+                    // Check if image is correct, if not update it
+                    if (ind.image !== imageMap[id]) {
+                        ind.image = imageMap[id];
+                        indModified = true;
+                    }
+                }
+            });
+
+            if (indModified) {
+                localStorage.setItem('industries', JSON.stringify(storedIndustries));
+                console.log('Migrated industries images');
+            }
+        } catch (e) {
+            console.error('Error migrating industries images', e);
+        }
     }
 
     // --- Auth ---
@@ -966,6 +1002,29 @@ class MockStorageService {
 
     toggleTimelineVisibility(id) {
         return this._toggleVisibility('timeline', id);
+    }
+
+    // --- Industries ---
+    getIndustries() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('industries') });
+        });
+    }
+
+    saveIndustry(data) {
+        return this._create('industries', data);
+    }
+
+    updateIndustry(id, data) {
+        return this._update('industries', id, data);
+    }
+
+    deleteIndustry(id) {
+        return this._delete('industries', id);
+    }
+
+    toggleIndustryVisibility(id) {
+        return this._toggleVisibility('industries', id);
     }
 
     // --- Demo Queries ---
