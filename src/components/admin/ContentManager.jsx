@@ -8,6 +8,7 @@ import awardsService from '../../services/awardsService';
 import faqService from '../../services/faqService';
 import teamService from '../../services/teamService';
 import testimonialService from '../../services/testimonialService';
+import employeeTestimonialService from '../../services/employeeTestimonialService';
 import timelineService from '../../services/timelineService';
 import DragDropFile from './DragDropFile';
 import BlockEditor from './BlockEditor';
@@ -206,6 +207,21 @@ const ContentManager = () => {
             toggle: (id) => testimonialService.toggleVisibility(id),
             delete: (id) => testimonialService.delete(id)
         },
+        employeeTestimonial: {
+            title: 'Employee Testimonials',
+            fields: {
+                name: 'text',
+                status: 'select:Published,Draft',
+                position: 'text',
+                testimonial: 'textarea',
+                image: 'file'
+            },
+            get: () => employeeTestimonialService.getAll(),
+            save: (data) => employeeTestimonialService.create(data),
+            update: (id, data) => employeeTestimonialService.update(id, data),
+            toggle: (id) => employeeTestimonialService.toggleVisibility(id),
+            delete: (id) => employeeTestimonialService.delete(id)
+        },
         timeline: {
             title: 'Timeline Events',
             fields: {
@@ -299,7 +315,8 @@ const ContentManager = () => {
                 teamdetails: team.data.length,
                 caseStudy: cases.data.length,
                 testimonials: testimonials.data.length,
-                timeline: timeline.data.length
+                timeline: timeline.data.length,
+                employeeTestimonial: 0 // Placeholder until we fetch it properly or add to loadStats
             });
         } catch (error) {
             console.error('Error loading stats:', error);

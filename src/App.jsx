@@ -39,6 +39,7 @@ const PrivacyPolicy = React.lazy(() => import('./pages/PrivacyPolicy'));
 
 
 // Admin Panel Components
+// Admin Panel Components
 const AdminLogin = React.lazy(() => import('./components/admin/AdminLogin'));
 const AdminDashboard = React.lazy(() => import('./components/admin/AdminDashboard'));
 const ContentManager = React.lazy(() => import('./components/admin/ContentManager'));
@@ -46,6 +47,8 @@ const BlogForm = React.lazy(() => import('./components/admin/BlogForm'));
 const FooterManager = React.lazy(() => import('./components/admin/FooterManager'));
 const DataStripManager = React.lazy(() => import('./components/admin/DataStripManager'));
 const GlobalMomentumManager = React.lazy(() => import('./components/admin/GlobalMomentumManager'));
+const JobManager = React.lazy(() => import('./components/admin/JobManager'));
+const JobApplications = React.lazy(() => import('./components/admin/JobApplications'));
 
 import Footer from './components/Footer';
 import BookDemo from './components/BookDemo';
@@ -223,6 +226,8 @@ export default function App() {
                         <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
                         <Route path="/admin/login" element={<AdminLogin />} />
                         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                        <Route path="/admin/content/jobs" element={<JobManager />} />
+                        <Route path="/admin/content/job-applications" element={<JobApplications />} />
                         <Route path="/admin/content/:moduleType" element={<ContentManager />} />
                         <Route path="/admin/footer" element={<FooterManager />} />
                         <Route path="/admin/data-strip" element={<DataStripManager />} />

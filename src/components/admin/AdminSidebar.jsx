@@ -93,6 +93,12 @@ const AdminSidebar = ({ stats = {} }) => {
                 <path d="M2 12h20"></path>
                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
             </svg>
+        ),
+        Careers: (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 7h-3a2 2 0 0 0-2-2h-6a2 2 0 0 0-2 2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"></path>
+                <path d="M16 21V7a4 4 0 0 0-4-4H4"></path>
+            </svg>
         )
     };
 
@@ -108,6 +114,14 @@ const AdminSidebar = ({ stats = {} }) => {
         { name: 'Case Study', path: '/admin/content/casestudy', icon: Icons.CaseStudy },
         { name: 'Testimonials', path: '/admin/content/testimonials', icon: Icons.Testimonials },
         { name: 'Timeline', path: '/admin/content/timeline', icon: Icons.Timeline },
+        {
+            name: 'Careers', icon: Icons.Careers,
+            children: [
+                { name: 'Job Board', path: '/admin/content/jobs' },
+                { name: 'Applications', path: '/admin/content/job-applications' },
+                { name: 'Employee Testimony', path: '/admin/content/employeeTestimonial' }
+            ]
+        },
         { name: 'Footer', path: '/admin/footer', icon: Icons.Footer },
         { name: 'Data Strip', path: '/admin/data-strip', icon: Icons.DataStrip },
         { name: 'Global Momentum', path: '/admin/global-momentum', icon: Icons.GlobalMomentum }
@@ -144,7 +158,7 @@ const AdminSidebar = ({ stats = {} }) => {
                         {item.children ? (
                             <>
                                 <div
-                                    className={`sidebar-item ${location.pathname.startsWith('/admin/content/jobs') || location.pathname.startsWith('/admin/content/employeeStories') ? 'active-parent' : ''}`}
+                                    className={`sidebar-item ${item.children.some(child => isActive(child.path)) ? 'active-parent' : ''}`}
                                     onClick={() => toggleMenu(item.name)}
                                     style={{ justifyContent: 'space-between', cursor: 'pointer' }}
                                 >

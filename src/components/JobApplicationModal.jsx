@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import mockStorage from '../services/mockStorage';
+import jobService from '../services/jobService';
 
 export default function JobApplicationModal({ job, isOpen, onClose, isDarkTheme }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,20 +43,22 @@ export default function JobApplicationModal({ job, isOpen, onClose, isDarkTheme 
         try {
             // Include job info in application
             const applicationData = {
-                ...formData,
-                jobId: job._id,
-                jobTitle: job.title,
-                appliedAt: new Date().toISOString(),
-                // Resume would usually be a file, for mock we just store name
-                resume: formData.resume ? formData.resume.name : null
+                job_id: job.id || job._id,
+                applicant_name: formData.fullName,
+                email: formData.email,
+                phone: formData.phone,
+                portfolio_link: formData.linkedin,
+                cover_letter: formData.note,
+                resume_link: formData.resume ? formData.resume.name : null // In real app, upload file and get link
             };
 
-            await mockStorage.saveJobApplication(applicationData);
+            await jobService.createApplication(applicationData);
             alert('Application submitted successfully!');
             onClose();
         } catch (error) {
             console.error('Error submitting application:', error);
-            alert('Failed to submit application. Please try again.');
+            const errorMessage = error.response?.data?.error || error.message || 'Failed to submit application.';
+            alert(`Failed to submit application: ${errorMessage}`);
         } finally {
             setIsSubmitting(false);
         }

@@ -76,20 +76,8 @@ export default function GlobalMomentumManager() {
         } catch (error) {
             console.error('Error loading global momentum config:', error);
             // Set defaults on error
-            setMarqueeItems([
-                { text: "Innovation", status: 'Published' },
-                { text: "Immersive Learning", status: 'Published' },
-                { text: "Virtual Reality", status: 'Published' },
-                { text: "Augmented Reality", status: 'Published' },
-                { text: "Future of Work", status: 'Published' },
-                { text: "Education Revolution", status: 'Published' }
-            ]);
-            setStatsData([
-                { num: '500+', label: 'Schools', status: 'Published' },
-                { num: '50K+', label: 'Students', status: 'Published' },
-                { num: '10+', label: 'Countries', status: 'Published' },
-                { num: '100%', label: 'Engagement', status: 'Published' }
-            ]);
+            setMarqueeItems([]);
+            setStatsData([]);
         } finally {
             setLoading(false);
         }

@@ -15,15 +15,8 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
     const [awards, setAwards] = useState([]);
     const [team, setTeam] = useState([]);
     const [timeline, setTimeline] = useState([]);
-    const [globalMarquee, setGlobalMarquee] = useState([
-        "Innovation", "Immersive Learning", "Virtual Reality", "Augmented Reality", "Future of Work", "Education Revolution"
-    ]);
-    const [globalStats, setGlobalStats] = useState([
-        { num: '500+', label: 'Schools' },
-        { num: '50K+', label: 'Students' },
-        { num: '10+', label: 'Countries' },
-        { num: '100%', label: 'Engagement' }
-    ]);
+    const [globalMarquee, setGlobalMarquee] = useState([]);
+    const [globalStats, setGlobalStats] = useState([]);
 
     const fetchData = async () => {
         try {
@@ -748,7 +741,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                                     marginRight: '2rem',
                                     fontFamily: 'Outfit, sans-serif'
                                 }}>
-                                    {globalMarquee.join(' • ') + ' • '}
+                                    {globalMarquee.length > 0 ? globalMarquee.join(' • ') + ' • ' : ''}
                                 </span>
                             ))}
                         </div>

@@ -3,7 +3,7 @@ import AppNav from '../components/AppNav';
 import JobApplicationModal from '../components/JobApplicationModal';
 import EmployeeTestimonials from '../components/EmployeeTestimonials';
 import GridBackground from '../components/GridBackground';
-import mockStorage from '../services/mockStorage';
+import jobService from '../services/jobService';
 
 // Internal JobCard Component for Hover Logic
 const JobCard = ({ job, isDarkTheme, onSelect }) => {
@@ -133,9 +133,19 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const response = await mockStorage.getJobs();
+                const response = await jobService.getAllJobs();
                 if (response.data) {
-                    setJobs(response.data.filter(job => job.status === 'Published' || job.isVisible));
+                    // Map backend fields to frontend expectations
+                    const formattedJobs = response.data
+                        .filter(job => job.status === 'Published' || job.isVisible)
+                        .map(job => ({
+                            ...job,
+                            purpose: job.description,
+                            mission: job.responsibilities ? job.responsibilities.split('\n') : [],
+                            requirements: job.requirements ? job.requirements.split('\n') : [],
+                            tags: job.type ? [job.type, job.location, job.department].filter(Boolean) : []
+                        }));
+                    setJobs(formattedJobs);
                 }
             } catch (error) {
                 console.error("Failed to fetch jobs", error);
