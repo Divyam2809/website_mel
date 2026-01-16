@@ -3,7 +3,9 @@ import AppNav from '../components/AppNav';
 import JobApplicationModal from '../components/JobApplicationModal';
 import EmployeeTestimonials from '../components/EmployeeTestimonials';
 import GridBackground from '../components/GridBackground';
+import LoadingSpinner from '../components/LoadingSpinner';
 import mockStorage from '../services/mockStorage';
+import initialContent from '../data/careersContent.json';
 
 // Internal JobCard Component for Hover Logic
 const JobCard = ({ job, isDarkTheme, onSelect }) => {
@@ -129,6 +131,8 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
     const [selectedJob, setSelectedJob] = useState(null);
     const [jobs, setJobs] = useState([]);
     const [showContainerScrollTop, setShowContainerScrollTop] = useState(false);
+    const [content, setContent] = useState(initialContent);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchJobs = async () => {
@@ -141,6 +145,18 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                 console.error("Failed to fetch jobs", error);
             }
         };
+
+        // Fetch LIVE data immediately on page load
+        fetch('/api/careers-live')
+            .then(res => res.json())
+            .then(data => {
+                if (data && Object.keys(data.hero || {}).length > 0) {
+                    setContent(data);
+                }
+            })
+            .catch(err => console.error('[Careers] Error fetching live data:', err))
+            .finally(() => setIsLoading(false));
+
         fetchJobs();
     }, []);
 
@@ -176,6 +192,29 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
             jobsRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     };
+
+    if (isLoading) {
+        return (
+            <>
+                <AppNav
+                    onNavigate={onNavigate}
+                    isDarkTheme={isDarkTheme}
+                    onToggleTheme={onToggleTheme}
+                    onBookDemo={onBookDemo}
+                    currentPage="careers"
+                />
+                <div style={{
+                    height: '100vh',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: isDarkTheme ? '#0A0A0A' : '#fff'
+                }}>
+                    <LoadingSpinner />
+                </div>
+            </>
+        );
+    }
 
     return (
         <>
@@ -240,8 +279,7 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                             marginBottom: '1.5rem',
                             letterSpacing: '-2px'
                         }}>
-                            We don't just build VR.<br />
-                            We build <span style={gradientText}>Reality.</span>
+                            {content.hero.title}
                         </h1>
 
                         <p style={{
@@ -251,7 +289,7 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                             margin: '0 auto 2.5rem',
                             opacity: 0.8
                         }}>
-                            If you thrive on big challenges, cutting-edge tech, and shaping the future of education and enterprise—this is your launchpad.
+                            {content.hero.subtitle}
                         </p>
 
                         <button
@@ -271,7 +309,7 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                             onMouseEnter={(e) => e.target.style.transform = 'translateY(-2px)'}
                             onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
                         >
-                            View Open Positions
+                            {content.hero.button || 'View Open Positions'}
                         </button>
                     </div>
                 </section>
@@ -282,8 +320,8 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                 <section style={{ padding: '8rem 5%' }}>
                     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
                         <div style={{ marginBottom: '4rem', textAlign: 'center' }}>
-                            <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem' }}>What we seek in you</h2>
-                            <p style={{ opacity: 0.7, fontSize: '1.2rem' }}>Our culture is built on these four pillars.</p>
+                            <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem' }}>{content.values.title}</h2>
+                            <p style={{ opacity: 0.7, fontSize: '1.2rem' }}>{content.values.subtitle}</p>
                         </div>
 
                         <div style={{
@@ -291,12 +329,7 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                             gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
                             gap: '2rem'
                         }}>
-                            {[
-                                { title: 'Innovation', desc: 'We don\'t just follow trends, we set them. We architect systems that structure experience over memorization.' },
-                                { title: 'Impact', desc: 'We are on a mission to democratize education. Accessible, high-quality learning for everyone, everywhere.' },
-                                { title: 'Empathy', desc: 'We build for the learner. User experience isn\'t an afterthought, it\'s our foundation.' },
-                                { title: 'Scale', desc: 'Thinking big is in our DNA. We build solutions designed to reach millions of students.' }
-                            ].map((value, i) => (
+                            {(content.values.items || []).map((value, i) => (
                                 <div key={i} style={{
                                     padding: '2rem',
                                     borderRadius: '24px',
@@ -346,16 +379,9 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                 {/* --- Perks Section --- */}
                 <section style={{ padding: '6rem 5%', textAlign: 'center' }}>
                     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-                        <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '3rem' }}>Perks & Benefits</h2>
+                        <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '3rem' }}>{content.perks.title}</h2>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-                            {[
-                                { title: 'Flexible Working Hours', desc: 'The company offers flexible working hours to support better work-life balance.' },
-                                { title: 'Bonuses & Rewards', desc: 'There are performance-based bonuses and rewards for good work.' },
-                                { title: 'Fun Culture', desc: 'The workplace promotes a fun and friendly culture with team activities and events.' },
-                                { title: 'Recreational Facilities', desc: 'Employees have access to recreational and wellness facilities like games or fitness options.' },
-                                { title: 'Learning & Growth', desc: 'The environment encourages learning, innovation, and growth in emerging tech like VR and EdTech.' },
-                                { title: 'Leaves & Encashment', desc: 'Employees get paid leaves and leave encashment options.' },
-                            ].map((perk, i) => (
+                            {(content.perks.items || []).map((perk, i) => (
                                 <div key={i} style={{
                                     textAlign: 'left',
                                     padding: '2rem',
@@ -397,19 +423,15 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                     backgroundImage: isDarkTheme
                         ? `linear-gradient(115deg, #CC5500 29%, transparent 29%),
                            linear-gradient(115deg, transparent 29%, #121212 29%, #121212 30%, transparent 30%),
-                           linear-gradient(135deg, rgba(255, 155, 80, 0.15) 40%, transparent 40%),
                            linear-gradient(115deg, transparent 70%, #121212 70%, #121212 71%, transparent 71%),
                            linear-gradient(115deg, transparent 71%, #CC5500 71%),
-                           linear-gradient(135deg, transparent 60%, rgba(255, 155, 80, 0.15) 60%),
                            radial-gradient(rgba(255, 155, 80, 0.08) 1.5px, transparent 1.5px)`
                         : `linear-gradient(115deg, #FF9B50 29%, transparent 29%),
                            linear-gradient(115deg, transparent 29%, #ffffff 29%, #ffffff 30%, transparent 30%),
-                           linear-gradient(135deg, #FFD180 40%, transparent 40%),
                            linear-gradient(115deg, transparent 70%, #ffffff 70%, #ffffff 71%, transparent 71%),
                            linear-gradient(115deg, transparent 71%, #FF9B50 71%),
-                           linear-gradient(135deg, transparent 60%, #FFD180 60%),
                            radial-gradient(rgba(255, 155, 80, 0.3) 1.5px, transparent 1.5px)`,
-                    backgroundSize: '100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 30px 30px',
+                    backgroundSize: '100% 100%, 100% 100%, 100% 100%, 100% 100%, 30px 30px',
                     backgroundAttachment: 'fixed',
                     overflow: 'hidden'
                 }}>
@@ -524,9 +546,9 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                     onClick={scrollToContainerTop}
                     style={{
                         position: 'fixed',
-                        bottom: '90px', // Positioned above the page scroll button
+                        bottom: '100px', // Positioned above the page scroll button
                         right: '30px',
-                        backgroundColor: '#FFFFFF',
+                        backgroundColor: isDarkTheme ? '#1A1A1A' : '#FFFFFF',
                         color: '#FF9B50',
                         width: '55px',
                         height: '55px',
@@ -537,17 +559,17 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                         alignItems: 'center',
                         justifyContent: 'center',
                         fontSize: '1.8rem',
-                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
+                        boxShadow: isDarkTheme ? '0 10px 30px rgba(0, 0, 0, 0.4)' : '0 10px 30px rgba(0, 0, 0, 0.15)',
                         zIndex: 99999,
                         transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
                     }}
                     onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'scale(1.1) translateY(-5px)';
-                        e.currentTarget.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.2)';
+                        e.currentTarget.style.boxShadow = isDarkTheme ? '0 15px 35px rgba(0, 0, 0, 0.6)' : '0 15px 35px rgba(0, 0, 0, 0.2)';
                     }}
                     onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'scale(1) translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.15)';
+                        e.currentTarget.style.boxShadow = isDarkTheme ? '0 10px 30px rgba(0, 0, 0, 0.4)' : '0 10px 30px rgba(0, 0, 0, 0.15)';
                     }}
                 >
                     ↑

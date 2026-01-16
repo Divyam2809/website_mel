@@ -1,0 +1,143 @@
+{
+    "hero": {
+        "badge": "Live Stream Simulation",
+        "title": "Democratizing the VR Experience: Stream Beyond the Lab",
+        "subtitle": "Breaking the walls of the physical classroom. Broadcast your immersive VR sessions to a global audience with real-time interactivity and zero geographical limits.",
+        "primaryBtn": "Launch Your Global Stream",
+        "secondaryBtn": "Watch a Live Demo"
+    },
+    "trio": {
+        "title": "The Connectivity Trio",
+        "subtitle": "Revolutionary streaming technology for global VR experiences",
+        "features": [
+            {
+                "title": "Low-Latency 360° Broadcasting",
+                "desc": "Technology that allows viewers to look around the virtual environment in real-time without lag.",
+                "number": "01"
+            },
+            {
+                "title": "Bi-Directional Interaction",
+                "desc": "Remote participants can influence the VR environment, ask questions, or trigger events within the simulation.",
+                "number": "02"
+            },
+            {
+                "title": "Universal Access",
+                "desc": "Compatible with browsers, mobile devices, and standalone headsets—no high-end PC required for the audience.",
+                "number": "03"
+            }
+        ]
+    },
+    "pillars": {
+        "title": "The Expansion Pillars",
+        "subtitle": "Scaling immersive experiences beyond physical boundaries",
+        "items": [
+            {
+                "num": "01",
+                "title": "The Infinite Classroom",
+                "desc": "Turning a 20-person physical VR lab into a 2,000-person global seminar."
+            },
+            {
+                "num": "02",
+                "title": "Hybrid Event Mastery",
+                "desc": "Host physical exhibitions while allowing virtual attendees to 'walk' the floor and interact with speakers."
+            },
+            {
+                "num": "03",
+                "title": "Remote Expert Guidance",
+                "desc": "Allowing a specialist in one country to lead a hands-on technical training session for a team in another."
+            }
+        ]
+    },
+    "audience": {
+        "title": "Who Benefits from VR Live Streaming",
+        "subtitle": "Transforming how organizations connect and educate globally",
+        "items": [
+            {
+                "audience": "Higher Education & MOOCs",
+                "focus": "Massive Scale",
+                "benefit": "Scaling specialized labs to thousands of remote students simultaneously, democratizing access to premium education."
+            },
+            {
+                "audience": "Corporate HR & L&D",
+                "focus": "Global Consistency",
+                "benefit": "Consistent, high-impact 'Town Hall' training for decentralized, global workforces with unified messaging."
+            },
+            {
+                "audience": "Event & Media Agencies",
+                "focus": "Virtual Front-Row",
+                "benefit": "Offering virtual front-row seats for product launches or cultural performances to unlimited audiences worldwide."
+            }
+        ]
+    },
+    "reach": {
+        "title": "Global Reach, Local Impact",
+        "subtitle": "Connect with audiences across continents in real-time",
+        "stats": [
+            {
+                "region": "North America",
+                "connections": "5,000+"
+            },
+            {
+                "region": "Europe",
+                "connections": "3,500+"
+            },
+            {
+                "region": "Asia Pacific",
+                "connections": "8,000+"
+            },
+            {
+                "region": "Global Total",
+                "connections": "20K+"
+            }
+        ]
+    },
+    "engagement": {
+        "title": "10x the Engagement",
+        "subtitle": "VR live streaming vs. traditional video conferencing",
+        "items": [
+            {
+                "metric": "Attention Retention",
+                "vr": "92%",
+                "video": "35%"
+            },
+            {
+                "metric": "Active Participation",
+                "vr": "85%",
+                "video": "20%"
+            },
+            {
+                "metric": "Knowledge Retention",
+                "vr": "75%",
+                "video": "25%"
+            },
+            {
+                "metric": "Session Completion",
+                "vr": "88%",
+                "video": "45%"
+            }
+        ]
+    },
+    "why": {
+        "title": "Why Melzo Live: Simplicity and Engagement",
+        "subtitle": "Melzo removes the 'technical barrier' of VR, making it as easy to join an immersive 3D world as it is to join a standard video call, while maintaining 10x the engagement. No downloads, no complex setup—just click and immerse.",
+        "cta": "Start Broadcasting Today →",
+        "stats": [
+            {
+                "label": "Setup Time",
+                "value": "< 30s"
+            },
+            {
+                "label": "Concurrent Viewers",
+                "value": "10K+"
+            },
+            {
+                "label": "Platform Compatibility",
+                "value": "100%"
+            },
+            {
+                "label": "Engagement Boost",
+                "value": "10x"
+            }
+        ]
+    }
+}

@@ -1,0 +1,74 @@
+{
+    "hero": {
+        "badge": "HISTORICAL EXPLORATION",
+        "title": "Virtual Heritage Tours",
+        "subtitle": "Explore historical sites and monuments virtually. Experience the grandeur of the past with detailed 3D reconstructions and guided tours.",
+        "primaryBtn": "Book A Demo",
+        "secondaryBtn": "View Heritage Sites"
+    },
+    "experience": {
+        "title": "The Heritage Experience",
+        "subtitle": "Preserving history through immersive technology",
+        "features": [
+            {
+                "number": "01",
+                "title": "3D Reconstructions",
+                "desc": "Detailed digital recreations of historical monuments and archaeological sites with accurate architectural details."
+            },
+            {
+                "number": "02",
+                "title": "Audio Guides",
+                "desc": "Expert narration and historical context provided by historians and archaeologists."
+            },
+            {
+                "number": "03",
+                "title": "Interactive Exploration",
+                "desc": "Walk through ancient civilizations and interact with historical artifacts in virtual space."
+            }
+        ]
+    },
+    "stakeholders": {
+        "title": "Who Benefits",
+        "subtitle": "Bringing history to life for everyone",
+        "items": [
+            {
+                "audience": "Museums & Galleries",
+                "focus": "Digital Preservation",
+                "benefit": "Preserve and showcase historical artifacts and sites for future generations with digital archives."
+            },
+            {
+                "audience": "Educational Institutions",
+                "focus": "Immersive Learning",
+                "benefit": "Bring history lessons to life with virtual field trips to ancient civilizations and monuments."
+            },
+            {
+                "audience": "Cultural Organizations",
+                "focus": "Heritage Promotion",
+                "benefit": "Promote cultural heritage and attract global audiences to historical sites and traditions."
+            }
+        ]
+    },
+    "whyMelzo": {
+        "title": "Why Melzo Heritage",
+        "subtitle": "Preserve cultural heritage and make history accessible to everyone. Our virtual heritage tours reach 10x more visitors than physical sites and ensure preservation for future generations.",
+        "cta": "Explore Heritage Sites →",
+        "stats": [
+            {
+                "label": "Visitor Reach",
+                "value": "10x"
+            },
+            {
+                "label": "Heritage Sites",
+                "value": "50+"
+            },
+            {
+                "label": "Educational Impact",
+                "value": "95%"
+            },
+            {
+                "label": "Preservation Quality",
+                "value": "100%"
+            }
+        ]
+    }
+}

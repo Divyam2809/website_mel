@@ -1,11 +1,52 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import '../styles/VRProduct.css';
 import AppNav from '../components/AppNav';
+import LoadingSpinner from '../components/LoadingSpinner';
+import initialContent from '../data/virtualHeritageContent.json';
 
 export default function VirtualHeritage({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
-    useEffect(() => { window.scrollTo(0, 0); }, []);
-    const themeClass = isDarkTheme ? 'theme-dark' : 'theme-light';
+    const [content, setContent] = useState(initialContent);
+    const [isLoading, setIsLoading] = useState(true);
     const videoRef = useRef(null);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        // Fetch LIVE data immediately on page load
+        fetch('/api/virtual-heritage-live')
+            .then(res => res.json())
+            .then(data => {
+                if (data && Object.keys(data.hero || {}).length > 0) {
+                    setContent(data);
+                }
+            })
+            .catch(err => console.error('[VirtualHeritage] Error fetching live data:', err))
+            .finally(() => setIsLoading(false));
+    }, []);
+
+    const themeClass = isDarkTheme ? 'theme-dark' : 'theme-light';
+
+    if (isLoading) {
+        return (
+            <>
+                <AppNav
+                    onNavigate={onNavigate}
+                    isDarkTheme={isDarkTheme}
+                    onToggleTheme={onToggleTheme}
+                    onBookDemo={onBookDemo}
+                    currentPage="virtualheritage"
+                />
+                <div style={{
+                    height: '100vh',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: isDarkTheme ? '#0A0A0A' : '#fff'
+                }}>
+                    <LoadingSpinner />
+                </div>
+            </>
+        );
+    }
 
     return (
         <>
@@ -54,25 +95,21 @@ export default function VirtualHeritage({ onNavigate, isDarkTheme, onBookDemo, o
                     </div>
 
                     <div className="vr-product-hero-content" style={{ position: 'relative', zIndex: 1 }}>
-                        <div className="vr-product-badge">HISTORICAL EXPLORATION</div>
-                        <h1>Virtual Heritage Tours</h1>
-                        <p>Explore historical sites and monuments virtually. Experience the grandeur of the past with detailed 3D reconstructions and guided tours.</p>
+                        <div className="vr-product-badge">{content.hero.badge}</div>
+                        <h1>{content.hero.title}</h1>
+                        <p>{content.hero.subtitle}</p>
                         <div className="vr-product-hero-buttons">
-                            <button onClick={onBookDemo} className="vr-product-btn-primary">Book A Demo</button>
-                            <button className="vr-product-btn-secondary">View Heritage Sites</button>
+                            <button onClick={onBookDemo} className="vr-product-btn-primary">{content.hero.primaryBtn}</button>
+                            <button className="vr-product-btn-secondary">{content.hero.secondaryBtn}</button>
                         </div>
                     </div>
                 </section>
 
                 <section className="vr-product-section">
-                    <h2 className="vr-product-section-title">The Heritage Experience</h2>
-                    <p className="vr-product-section-subtitle">Preserving history through immersive technology</p>
+                    <h2 className="vr-product-section-title">{content.experience.title}</h2>
+                    <p className="vr-product-section-subtitle">{content.experience.subtitle}</p>
                     <div className="vr-product-feature-grid">
-                        {[
-                            { title: '3D Reconstructions', desc: 'Detailed digital recreations of historical monuments and archaeological sites with accurate architectural details.', number: '01' },
-                            { title: 'Audio Guides', desc: 'Expert narration and historical context provided by historians and archaeologists.', number: '02' },
-                            { title: 'Interactive Exploration', desc: 'Walk through ancient civilizations and interact with historical artifacts in virtual space.', number: '03' }
-                        ].map((feature, idx) => (
+                        {content.experience.features.map((feature, idx) => (
                             <div key={idx} className="vr-product-feature-card">
                                 <div className="vr-product-feature-icon" style={{
                                     fontSize: '2rem',
@@ -88,14 +125,10 @@ export default function VirtualHeritage({ onNavigate, isDarkTheme, onBookDemo, o
                 </section>
 
                 <section className="vr-product-section alt-bg">
-                    <h2 className="vr-product-section-title">Who Benefits</h2>
-                    <p className="vr-product-section-subtitle">Bringing history to life for everyone</p>
+                    <h2 className="vr-product-section-title">{content.stakeholders.title}</h2>
+                    <p className="vr-product-section-subtitle">{content.stakeholders.subtitle}</p>
                     <div className="vr-product-feature-grid">
-                        {[
-                            { audience: 'Museums & Galleries', focus: 'Digital Preservation', benefit: 'Preserve and showcase historical artifacts and sites for future generations with digital archives.' },
-                            { audience: 'Educational Institutions', focus: 'Immersive Learning', benefit: 'Bring history lessons to life with virtual field trips to ancient civilizations and monuments.' },
-                            { audience: 'Cultural Organizations', focus: 'Heritage Promotion', benefit: 'Promote cultural heritage and attract global audiences to historical sites and traditions.' }
-                        ].map((segment, idx) => (
+                        {content.stakeholders.items.map((segment, idx) => (
                             <div key={idx} className="vr-product-feature-card">
                                 <div className="vr-product-badge">{segment.focus}</div>
                                 <h3 className="vr-product-feature-title">{segment.audience}</h3>
@@ -106,22 +139,17 @@ export default function VirtualHeritage({ onNavigate, isDarkTheme, onBookDemo, o
                 </section>
 
                 <section className="vr-product-cta">
-                    <h2>Why Melzo Heritage</h2>
-                    <p>Preserve cultural heritage and make history accessible to everyone. Our virtual heritage tours reach 10x more visitors than physical sites and ensure preservation for future generations.</p>
+                    <h2>{content.whyMelzo.title}</h2>
+                    <p>{content.whyMelzo.subtitle}</p>
                     <div className="vr-product-stats-grid" style={{ marginBottom: '3rem' }}>
-                        {[
-                            { label: 'Visitor Reach', value: '10x' },
-                            { label: 'Heritage Sites', value: '50+' },
-                            { label: 'Educational Impact', value: '95%' },
-                            { label: 'Preservation Quality', value: '100%' }
-                        ].map((stat, idx) => (
+                        {content.whyMelzo.stats.map((stat, idx) => (
                             <div key={idx} className="vr-product-stat-card" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.2)' }}>
                                 <div className="vr-product-stat-value" style={{ color: '#FFFFFF' }}>{stat.value}</div>
                                 <div className="vr-product-stat-label" style={{ color: '#FFFFFF' }}>{stat.label}</div>
                             </div>
                         ))}
                     </div>
-                    <button onClick={onBookDemo} className="vr-product-btn-secondary">Explore Heritage Sites →</button>
+                    <button onClick={onBookDemo} className="vr-product-btn-secondary">{content.whyMelzo.cta}</button>
                 </section>
             </div>
         </>

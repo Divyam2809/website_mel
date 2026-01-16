@@ -59,7 +59,14 @@ const AdminSidebar = ({ stats = {} }) => {
         ),
         Testimonials: (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                <path d="M10 8h4"></path>
+                <path d="M10 12h4"></path>
+            </svg>
+        ),
+        MessageSquare: (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
             </svg>
         ),
         Timeline: (
@@ -76,6 +83,7 @@ const AdminSidebar = ({ stats = {} }) => {
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
         ),
+<<<<<<< HEAD
         Footer: (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="15" width="20" height="7" rx="2" ry="2"></rect>
@@ -92,14 +100,26 @@ const AdminSidebar = ({ stats = {} }) => {
                 <circle cx="12" cy="12" r="10"></circle>
                 <path d="M2 12h20"></path>
                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+=======
+        Briefcase: (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+        ),
+        ChevronDown: (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 9l6 6 6-6"></path>
+>>>>>>> home-ka
             </svg>
         )
     };
 
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const isSuperAdmin = user.role === 'superadmin';
+    const isHR = user.role === 'HR';
 
-    const menuItems = [
+    let menuItems = [
         { name: 'Blog', path: '/admin/content/blog', icon: Icons.Blog },
         { name: 'News', path: '/admin/content/news', icon: Icons.News },
         { name: 'Awards', path: '/admin/content/awards', icon: Icons.Awards },
@@ -108,13 +128,34 @@ const AdminSidebar = ({ stats = {} }) => {
         { name: 'Case Study', path: '/admin/content/casestudy', icon: Icons.CaseStudy },
         { name: 'Testimonials', path: '/admin/content/testimonials', icon: Icons.Testimonials },
         { name: 'Timeline', path: '/admin/content/timeline', icon: Icons.Timeline },
+<<<<<<< HEAD
         { name: 'Footer', path: '/admin/footer', icon: Icons.Footer },
         { name: 'Data Strip', path: '/admin/data-strip', icon: Icons.DataStrip },
         { name: 'Global Momentum', path: '/admin/global-momentum', icon: Icons.GlobalMomentum }
+=======
+        {
+            name: 'Careers',
+            icon: Icons.Briefcase,
+            children: [
+                { name: 'Job Openings', path: '/admin/content/jobs' },
+                { name: 'Job Applications', path: '/admin/content/jobApplications' },
+                { name: 'Employee Stories', path: '/admin/content/employeeStories' }
+            ]
+        },
+        { name: 'Leads', path: '/admin/content/demoQueries', icon: Icons.MessageSquare }
+>>>>>>> home-ka
     ];
 
     if (isSuperAdmin) {
         menuItems.push({ name: 'Users', path: '/admin/content/users', icon: Icons.Users });
+    }
+
+    if (isHR) {
+        menuItems = menuItems.filter(item => item.name === 'Careers');
+    }
+
+    if (user?.role === 'sales') {
+        menuItems = menuItems.filter(item => item.name === 'Leads');
     }
 
     const isActive = (path) => {

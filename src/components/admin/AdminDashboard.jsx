@@ -8,7 +8,8 @@ import './admin.css';
 const AdminDashboard = () => {
     const [stats, setStats] = useState({
         blogs: 0, news: 0, awards: 0, faqs: 0,
-        teamdetails: 0, caseStudy: 0, testimonials: 0, timeline: 0
+        teamdetails: 0, caseStudy: 0, testimonials: 0, timeline: 0,
+        jobs: 0, jobApplications: 0, employeeStories: 0, demoQueries: 0
     });
     const [visitorStats, setVisitorStats] = useState([]);
     const [recentQueries, setRecentQueries] = useState([]);
@@ -19,7 +20,7 @@ const AdminDashboard = () => {
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
 
-        if (!storedUser || !['superadmin', 'content_manager', 'sales'].includes(storedUser.role)) {
+        if (!storedUser || !['superadmin', 'content_manager', 'sales', 'HR'].includes(storedUser.role)) {
             navigate('/admin/login');
             return;
         }
@@ -74,7 +75,7 @@ const AdminDashboard = () => {
 
     const loadStats = async () => {
         try {
-            const [blogs, news, awards, faqs, team, cases, testimonials, timeline] = await Promise.all([
+            const [blogs, news, awards, faqs, team, cases, testimonials, timeline, jobs, applications, stories, queries] = await Promise.all([
                 mockStorage.getBlogs(),
                 mockStorage.getNews(),
                 mockStorage.getAwards(),
@@ -82,7 +83,11 @@ const AdminDashboard = () => {
                 mockStorage.getTeamDetails(),
                 mockStorage.getCaseStudies(),
                 mockStorage.getTestimonials(),
-                mockStorage.getTimeline()
+                mockStorage.getTimeline(),
+                mockStorage.getJobs(),
+                mockStorage.getJobApplications(),
+                mockStorage.getEmployeeStories(),
+                mockStorage.getDemoQueries()
             ]);
 
             setStats({
@@ -93,7 +98,11 @@ const AdminDashboard = () => {
                 teamdetails: team.data.length,
                 caseStudy: cases.data.length,
                 testimonials: testimonials.data.length,
-                timeline: timeline.data.length
+                timeline: timeline.data.length,
+                jobs: jobs.data.length,
+                jobApplications: applications.data.length,
+                employeeStories: stories.data.length,
+                demoQueries: queries.data.length
             });
         } catch (error) {
             console.error('Error loading stats:', error);
@@ -133,7 +142,10 @@ const AdminDashboard = () => {
     const yAxisMax = Math.ceil(maxVisitors / 50) * 50;
     const yAxisStep = yAxisMax / 5;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> home-ka
     const isHR = user?.role === 'HR';
 
     const modules = [
@@ -145,8 +157,22 @@ const AdminDashboard = () => {
         { name: 'Case Study', path: '/admin/content/casestudy', count: stats.caseStudy },
         { name: 'Testimonials', path: '/admin/content/testimonials', count: stats.testimonials },
         { name: 'Timeline', path: '/admin/content/timeline', count: stats.timeline },
+<<<<<<< HEAD
         { name: 'Footer', path: '/admin/footer', count: '•' }
     ];
+=======
+        ...(isHR || user?.role === 'superadmin' ? [
+            { name: 'Jobs', path: '/admin/content/jobs', count: stats.jobs || 0 },
+            { name: 'Applications', path: '/admin/content/jobApplications', count: stats.jobApplications || 0 },
+            { name: 'Employee Stories', path: '/admin/content/employeeStories', count: stats.employeeStories || 0 }
+        ] : []),
+        { name: 'Leads', path: '/admin/content/demoQueries', count: stats.demoQueries || 0 }
+    ].filter(m => {
+        if (isHR) return ['Jobs', 'Applications', 'Employee Stories'].includes(m.name);
+        if (user?.role === 'sales') return m.name === 'Leads';
+        return true;
+    });
+>>>>>>> home-ka
 
     if (!user) return null; // Wait for auth check
 
@@ -171,6 +197,7 @@ const AdminDashboard = () => {
                                             <p className="graph-subtitle">DAILY TRAFFIC</p>
                                         </div>
 
+<<<<<<< HEAD
                                         {/* Line Graph */}
                                         <div className="graph-wrapper" style={{ paddingLeft: '20px' }}>
                                             <svg className="visitor-graph" width="100%" height="300" viewBox="0 0 1000 300" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
@@ -187,6 +214,42 @@ const AdminDashboard = () => {
                                                             strokeDasharray="6 6"
                                                         />
                                                     ))}
+=======
+                        {/* RIGHT: Nav & Logout Group */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
+                            {/* Nav Links */}
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                {!isSales && ['Analytics', 'Recent Queries', 'Content Management']
+                                    .filter(item => !isHR || item !== 'Recent Queries')
+                                    .map((item) => (
+                                        <button
+                                            key={item}
+                                            onClick={() => {
+                                                const id = item.toLowerCase().replace(/ /g, '-');
+                                                const element = document.getElementById(id);
+                                                if (element) {
+                                                    const yOffset = -100;
+                                                    const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+                                                    window.scrollTo({ top: y, behavior: 'smooth' });
+                                                }
+                                            }}
+                                            style={{
+                                                background: 'transparent',
+                                                border: 'none',
+                                                fontSize: '0.95rem',
+                                                fontWeight: 600,
+                                                color: '#666',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                                padding: '8px 20px',
+                                                borderRadius: '50px'
+                                            }}
+                                        >
+                                            {item}
+                                        </button>
+                                    ))}
+                            </div>
+>>>>>>> home-ka
 
                                                     {/* Horizontal Grid Dashed + Y Labels */}
                                                     {[0, 1, 2, 3, 4, 5].map((step) => {
@@ -268,6 +331,7 @@ const AdminDashboard = () => {
                                 </div>
                             )}
 
+<<<<<<< HEAD
                             {/* Queries Box - SHOW FOR ALL except Content Manager */}
                             {!isContentManager && (
                                 <div id="recent-queries" style={{ marginBottom: '3rem', scrollMarginTop: '100px' }}>
@@ -305,6 +369,81 @@ const AdminDashboard = () => {
                                                                 </label>
                                                                 <div style={{ width: '1px', height: '20px', background: '#e2e8f0' }}></div>
                                                                 <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 700, color: query.status === 'Contacted' ? '#94a3b8' : '#1e293b', textDecoration: query.status === 'Contacted' ? 'line-through' : 'none' }}>{query.name}</h3>
+=======
+                        {/* Queries Box - SHOW FOR ALL except Content Manager and HR */}
+                        {!isContentManager && !isHR && (
+                            <div id="recent-queries" style={{ marginBottom: '3rem', scrollMarginTop: '100px' }}>
+                                <h2 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '2rem', color: '#ea6805' }}>
+                                    {isSales ? 'Demo Requests' : 'Recent Queries'}
+                                </h2>
+                                <div className="recent-queries-card" style={{ background: 'white', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', border: '1px solid rgba(0,0,0,0.05)', overflow: 'hidden' }}>
+                                    {recentQueries.length === 0 ? (
+                                        <p style={{ opacity: 0.6, margin: 0, textAlign: 'center', padding: '3rem' }}>No pending queries at the moment</p>
+                                    ) : (
+                                        <div style={{ display: 'flex', flexDirection: 'column', maxHeight: !isSales ? '500px' : 'none', overflowY: !isSales ? 'auto' : 'visible' }}>
+                                            {recentQueries.map((query, index) => (
+                                                <div key={query._id} style={{
+                                                    padding: '2rem',
+                                                    borderBottom: index !== recentQueries.length - 1 ? '1px solid #FF9B50' : 'none',
+                                                    display: 'grid',
+                                                    gap: '0.75rem',
+                                                    transition: 'background-color 0.2s',
+                                                }}
+                                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#fafafa'}
+                                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                                                >
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                                                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', userSelect: 'none' }}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={query.status === 'Contacted'}
+                                                                    onChange={() => handleStatusChange(query._id, query.status)}
+                                                                    style={{ width: '18px', height: '18px', accentColor: '#10b981', cursor: 'pointer' }}
+                                                                />
+                                                                <span style={{ fontSize: '0.85rem', color: query.status === 'Contacted' ? '#10b981' : '#64748b', fontWeight: 500 }}>
+                                                                    {query.status === 'Contacted' ? 'Answered' : 'Pending'}
+                                                                </span>
+                                                            </label>
+                                                            <div style={{ width: '1px', height: '20px', background: '#e2e8f0' }}></div>
+                                                            <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 700, color: query.status === 'Contacted' ? '#94a3b8' : '#1e293b', textDecoration: query.status === 'Contacted' ? 'line-through' : 'none' }}>{query.name}</h3>
+                                                        </div>
+                                                        <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '5px' }}>
+                                                            <div style={{ fontSize: '0.9rem', color: '#475569', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                                <span>Demo Date: <span style={{ color: '#FF9B50', fontWeight: 700 }}>{query.date ? new Date(query.date).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) : 'N/A'}</span></span>
+                                                                {query.date && (
+                                                                    <button
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation();
+                                                                            addToGoogleCalendar(query);
+                                                                        }}
+                                                                        title="Add to Google Calendar"
+                                                                        style={{
+                                                                            background: '#FF9B50',
+                                                                            border: 'none',
+                                                                            borderRadius: '6px',
+                                                                            color: 'white',
+                                                                            width: '24px',
+                                                                            height: '24px',
+                                                                            display: 'flex',
+                                                                            alignItems: 'center',
+                                                                            justifyContent: 'center',
+                                                                            cursor: 'pointer',
+                                                                            transition: 'transform 0.2s'
+                                                                        }}
+                                                                        onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'}
+                                                                        onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+                                                                    >
+                                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                                                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                                                                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                                                                            <line x1="12" y1="11" x2="12" y2="17"></line>
+                                                                            <line x1="9" y1="14" x2="15" y2="14"></line>
+                                                                        </svg>
+                                                                    </button>
+                                                                )}
+>>>>>>> home-ka
                                                             </div>
                                                             <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '5px' }}>
                                                                 <div style={{ fontSize: '0.9rem', color: '#475569', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '8px' }}>

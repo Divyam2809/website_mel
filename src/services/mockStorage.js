@@ -512,7 +512,8 @@ const initialDemoQueries = [
 const ADMIN_USERS = [
     { email: 'superadmin@melzo.com', password: 'superadmin123', role: 'superadmin', name: 'Super Admin' },
     { email: 'contentmanager@melzo.com', password: 'contentmanager123', role: 'content_manager', name: 'Content Manager' },
-    { email: 'sales@melzo.com', password: 'sales123', role: 'sales', name: 'Sales Team' }
+    { email: 'sales@melzo.com', password: 'sales123', role: 'sales', name: 'Sales Team' },
+    { email: 'hr@melzo.com', password: 'hr123', role: 'HR', name: 'HR Manager' }
 ];
 
 class MockStorageService {
@@ -520,144 +521,6 @@ class MockStorageService {
         this.init();
     }
 
-    init() {
-        // ... (Existing initialization code)
-        const existingBlogs = localStorage.getItem('blogs');
-        if (!existingBlogs || existingBlogs === '[]') {
-            localStorage.setItem('blogs', JSON.stringify(initialBlogs));
-        }
-        if (!localStorage.getItem('caseFile')) {
-            localStorage.setItem('caseFile', JSON.stringify(initialCaseStudies));
-        }
-        // Initialize News
-        const existingNews = localStorage.getItem('news');
-        if (!existingNews || existingNews === '[]') {
-            localStorage.setItem('news', JSON.stringify(initialNews));
-        }
-
-        // Initialize Testimonials
-        if (!localStorage.getItem('testimonials')) {
-            localStorage.setItem('testimonials', JSON.stringify(initialTestimonials));
-        }
-
-        // Initialize Awards
-        if (!localStorage.getItem('awards')) {
-            localStorage.setItem('awards', JSON.stringify(initialAwards));
-        }
-
-        // Initialize FAQs
-        if (!localStorage.getItem('faqs')) {
-            localStorage.setItem('faqs', JSON.stringify(initialFAQs));
-        }
-
-        // Initialize Team
-        if (!localStorage.getItem('teamdetails')) {
-            localStorage.setItem('teamdetails', JSON.stringify(initialTeam));
-        }
-
-        // Initialize Timeline
-        if (!localStorage.getItem('timeline')) {
-            localStorage.setItem('timeline', JSON.stringify(initialTimeline));
-        }
-
-        // Initialize Demo Queries
-        if (!localStorage.getItem('demoQueries')) {
-            localStorage.setItem('demoQueries', JSON.stringify(initialDemoQueries));
-        }
-
-        // Initialize Industries
-        if (!localStorage.getItem('industries')) {
-            localStorage.setItem('industries', JSON.stringify(initialIndustries));
-        }
-
-        // --- MIGRATION: Auto-Generate Slugs for Legacy Data ---
-        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials', 'jobs', 'employeeStories', 'jobApplications', 'industries'];
-
-        collections.forEach(key => {
-            const items = JSON.parse(localStorage.getItem(key) || '[]');
-            let modified = false;
-
-            items.forEach(item => {
-                if (!item.slug) {
-                    // Determine source field for slug
-                    const sourceText = item.title || item.name || item.question || 'untitled';
-                    item.slug = sourceText
-                        .toLowerCase()
-                        .replace(/[^a-z0-9]+/g, '-')
-                        .replace(/(^-|-$)+/g, '');
-                    modified = true;
-                }
-            });
-
-            if (modified) {
-                localStorage.setItem(key, JSON.stringify(items));
-                console.log(`Migrated slugs for ${key}`);
-            }
-        });
-
-        // --- MIGRATION: Fix Industries Images ---
-        try {
-            const storedIndustries = JSON.parse(localStorage.getItem('industries') || '[]');
-            let indModified = false;
-            const imageMap = {
-                'education': '/images/education_modal_vr.webp',
-                'csr': '/images/csr-bg.webp',
-                'government': '/images/government-bg.webp',
-                'defence': '/images/defence-bg.webp'
-            };
-
-            storedIndustries.forEach(ind => {
-                const id = ind._id || ind.id;
-                // Force update if image matches map target to ensure correctness, or if missing
-                if (imageMap[id]) {
-                    // Check if image is correct, if not update it
-                    if (ind.image !== imageMap[id]) {
-                        ind.image = imageMap[id];
-                        indModified = true;
-                    }
-                }
-            });
-
-            if (indModified) {
-                localStorage.setItem('industries', JSON.stringify(storedIndustries));
-                console.log('Migrated industries images');
-            }
-        } catch (e) {
-            console.error('Error migrating industries images', e);
-        }
-    }
-
-    // --- Auth ---
-    login(email, password) {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                let users = this._getAll('users');
-                if (users.length === 0) {
-                    // Seed seed users if missing
-                    users = ADMIN_USERS.map((u, i) => ({ ...u, _id: `u${i}`, isVisible: true, status: 'Published' }));
-                    this._save('users', users);
-                }
-
-                const user = users.find(u => u.email === email && u.password === password);
-                if (user) {
-                    const userData = { email: user.email, role: user.role, name: user.name, token: `mock-token-${Date.now()}` };
-                    resolve({ data: userData });
-                } else {
-                    reject({ response: { data: { message: 'Invalid credentials' } } });
-                }
-            }, 500);
-        });
-    }
-
-    getUsers() {
-        return new Promise((resolve) => {
-            resolve({ data: this._getAll('users') });
-        });
-    }
-
-    saveUser(data) {
-        return this._create('users', data);
-    }
 
     updateUser(id, data) {
         return this._update('users', id, data);
@@ -670,6 +533,15 @@ class MockStorageService {
     init() {
         if (!localStorage.getItem('users')) {
             localStorage.setItem('users', JSON.stringify(ADMIN_USERS.map((u, i) => ({ ...u, _id: `u${i}`, isVisible: true, status: 'Published' }))));
+        }
+        if (!localStorage.getItem('jobs')) {
+            localStorage.setItem('jobs', JSON.stringify([]));
+        }
+        if (!localStorage.getItem('jobApplications')) {
+            localStorage.setItem('jobApplications', JSON.stringify([]));
+        }
+        if (!localStorage.getItem('employeeStories')) {
+            localStorage.setItem('employeeStories', JSON.stringify([]));
         }
         if (!localStorage.getItem('blogs')) {
             localStorage.setItem('blogs', JSON.stringify(initialBlogs));
@@ -700,7 +572,7 @@ class MockStorageService {
 
         // Initialize Team Details
         if (!localStorage.getItem('teamdetails')) {
-            localStorage.setItem('teamdetails', JSON.stringify(initialTeamDetails));
+            localStorage.setItem('teamdetails', JSON.stringify(initialTeam));
         }
 
         // Initialize Timeline
@@ -710,6 +582,63 @@ class MockStorageService {
 
         if (!localStorage.getItem('demoQueries')) {
             localStorage.setItem('demoQueries', JSON.stringify(initialDemoQueries));
+        }
+
+        // Initialize Industries (From HEAD)
+        if (!localStorage.getItem('industries')) {
+            localStorage.setItem('industries', JSON.stringify(initialIndustries));
+        }
+
+        // --- MIGRATION: Auto-Generate Slugs for Legacy Data (From HEAD) ---
+        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials', 'jobs', 'employeeStories', 'jobApplications', 'industries'];
+
+        collections.forEach(key => {
+            const items = JSON.parse(localStorage.getItem(key) || '[]');
+            let modified = false;
+
+            items.forEach(item => {
+                if (!item.slug) {
+                    // Determine source field for slug
+                    const sourceText = item.title || item.name || item.question || 'untitled';
+                    item.slug = sourceText
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/(^-|-$)+/g, '');
+                    modified = true;
+                }
+            });
+
+            if (modified) {
+                localStorage.setItem(key, JSON.stringify(items));
+                console.log(`Migrated slugs for ${key}`);
+            }
+        });
+
+        // --- MIGRATION: Fix Industries Images (From HEAD) ---
+        try {
+            const storedIndustries = JSON.parse(localStorage.getItem('industries') || '[]');
+            let indModified = false;
+            const imageMap = {
+                'education': '/images/education_modal_vr.webp',
+                'csr': '/images/csr-bg.webp',
+                'government': '/images/government-bg.webp',
+                'defence': '/images/defence-bg.webp'
+            };
+
+            storedIndustries.forEach(ind => {
+                const id = ind._id || ind.id;
+                if (imageMap[id] && ind.image !== imageMap[id]) {
+                    ind.image = imageMap[id];
+                    indModified = true;
+                }
+            });
+
+            if (indModified) {
+                localStorage.setItem('industries', JSON.stringify(storedIndustries));
+                console.log('Migrated industries images');
+            }
+        } catch (e) {
+            console.error('Error migrating industries images', e);
         }
 
         // --- MIGRATION: Update 'admin' role to 'content_manager' and Update Credentials ---
@@ -731,6 +660,15 @@ class MockStorageService {
                 usersModified = true;
             }
         });
+
+        // Ensure HR and Sales users exist
+        ADMIN_USERS.forEach(adminUser => {
+            if (!users.find(u => u.email === adminUser.email)) {
+                users.push({ ...adminUser, _id: `u${users.length}`, isVisible: true, status: 'Published' });
+                usersModified = true;
+            }
+        });
+
         if (usersModified) {
             localStorage.setItem('users', JSON.stringify(users));
             console.log('Migrated admin user to contentmanager credentials');
@@ -1093,6 +1031,78 @@ class MockStorageService {
             console.error('Failed to save footer config to backend:', error);
             throw error;
         }
+    }
+
+    deleteDemoQuery(id) {
+        return this._delete('demoQueries', id);
+    }
+
+    // --- Careers/Jobs ---
+    getJobs() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('jobs') });
+        });
+    }
+
+    saveJob(data) {
+        return this._create('jobs', {
+            ...data,
+            mission: data.mission || [],
+            requirements: data.requirements || []
+        });
+    }
+
+    updateJob(id, data) {
+        return this._update('jobs', id, data);
+    }
+
+    deleteJob(id) {
+        return this._delete('jobs', id);
+    }
+
+    toggleJobVisibility(id) {
+        return this._toggleVisibility('jobs', id);
+    }
+
+    // --- Job Applications ---
+    getJobApplications() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('jobApplications') });
+        });
+    }
+
+    saveJobApplication(data) {
+        return this._create('jobApplications', {
+            ...data,
+            appliedAt: data.appliedAt || new Date().toISOString()
+        });
+    }
+
+    deleteJobApplication(id) {
+        return this._delete('jobApplications', id);
+    }
+
+    // --- Employee Stories ---
+    getEmployeeStories() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('employeeStories') });
+        });
+    }
+
+    saveEmployeeStory(data) {
+        return this._create('employeeStories', data);
+    }
+
+    updateEmployeeStory(id, data) {
+        return this._update('employeeStories', id, data);
+    }
+
+    deleteEmployeeStory(id) {
+        return this._delete('employeeStories', id);
+    }
+
+    toggleEmployeeStoryVisibility(id) {
+        return this._toggleVisibility('employeeStories', id);
     }
 }
 
