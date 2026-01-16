@@ -24,7 +24,8 @@
     "sync-virtual-heritage": "node -e \"import('./src/scripts/sync-virtual-heritage.js').then(m => m.syncVirtualHeritageContent())\"",
     "sync-city-guide": "node -e \"import('./src/scripts/sync-city-guide.js').then(m => m.syncCityGuideContent())\"",
     "sync-vr-livestream": "node -e \"import('./src/scripts/sync-vr-livestream.js').then(m => m.syncVRLiveStreamContent())\"",
-    "sync-others-custom": "node -e \"import('./src/scripts/sync-others-custom.js').then(m => m.syncOthersCustomContent())\""
+    "sync-others-custom": "node -e \"import('./src/scripts/sync-others-custom.js').then(m => m.syncOthersCustomContent())\"",
+    "sync-careers": "node -e \"import('./src/scripts/sync-careers.js').then(m => m.syncCareersContent())\""
   },
   "dependencies": {
     "@react-three/drei": "^9.88.0",
