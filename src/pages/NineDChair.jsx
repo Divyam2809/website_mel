@@ -19,7 +19,7 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
         document.title = "Melzo VR Lab - Transforming Education";
 
         // Fetch Live Content
-        fetch('/api/nined-chair-live')
+        fetch('/api/page-content/nineDChair_live')
             .then(res => res.json())
             .then(data => {
                 if (data && data.hero) {

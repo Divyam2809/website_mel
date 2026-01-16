@@ -18,7 +18,7 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
     const [content, setContent] = useState(initialContent);
 
     useEffect(() => {
-        fetch('/api/home-live')
+        fetch('/api/page-content/home_live')
             .then(res => res.json())
             .then(data => {
                 if (data && data.hero) {
