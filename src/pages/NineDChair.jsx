@@ -1,4 +1,6 @@
-import React, { useEffect, Suspense } from 'react';
+import React, { useEffect, Suspense, useState } from 'react';
+import initialContent from '../data/nineDChairContent.json';
+import LoadingSpinner from '../components/LoadingSpinner';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Environment } from '@react-three/drei';
 import AppNav from '../components/AppNav';
@@ -10,9 +12,22 @@ function ChairModel({ modelPath }) {
 }
 
 export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
+    const [content, setContent] = useState(initialContent);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         document.title = "Melzo VR Lab - Transforming Education";
+
+        // Fetch Live Content
+        fetch('/api/nined-chair-live')
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.hero) {
+                    setContent(data);
+                }
+            })
+            .catch(err => console.error('Error fetching 9D Chair data:', err))
+            .finally(() => setIsLoading(false));
     }, []);
 
     const theme = {
@@ -30,6 +45,29 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent'
     };
+
+    if (isLoading) {
+        return (
+            <>
+                <AppNav
+                    onNavigate={onNavigate}
+                    isDarkTheme={isDarkTheme}
+                    onToggleTheme={onToggleTheme}
+                    onBookDemo={onBookDemo}
+                    currentPage="ninedchair"
+                />
+                <div style={{
+                    height: '100vh',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: theme.bg
+                }}>
+                    <LoadingSpinner />
+                </div>
+            </>
+        );
+    }
 
     return (
         <>
@@ -101,7 +139,7 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             textTransform: 'uppercase',
                             backdropFilter: 'blur(10px)'
                         }}>
-                            Melzo 9D Chair
+                            {content.hero.badge}
                         </div>
                         <h1 style={{
                             fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
@@ -110,8 +148,8 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             marginBottom: '1.5rem',
                             letterSpacing: '-2px'
                         }}>
-                            Ultimate Motion Simulation <br />
-                            <span style={{ color: theme.accent }}>For Next-Level Education.</span>
+                            {content.hero.titleLine1} <br />
+                            <span style={{ color: theme.accent }}>{content.hero.titleHighlight}</span>
                         </h1>
                         <p style={{
                             fontSize: '1.1rem',
@@ -120,7 +158,7 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             marginBottom: '2.5rem',
                             maxWidth: '600px'
                         }}>
-                            The 9D VR Chair offers advanced motion simulation with haptic feedback and immersive visuals for higher education and industrial training labs. Compatible with top VR headsets, combining technology, comfort, and experiential learning.
+                            {content.hero.description}
                         </p>
                         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                             <button style={{
@@ -139,7 +177,7 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                 onMouseEnter={e => e.target.style.transform = 'scale(1.05)'}
                                 onMouseLeave={e => e.target.style.transform = 'scale(1)'}
                             >
-                                Experience 9D VR
+                                {content.hero.primaryBtn}
                             </button>
                             <button style={{
                                 background: 'transparent',
@@ -155,7 +193,7 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                 onMouseEnter={e => e.target.style.borderColor = theme.accent}
                                 onMouseLeave={e => e.target.style.borderColor = isDarkTheme ? '#333' : '#eee'}
                             >
-                                Learn More
+                                {content.hero.secondaryBtn}
                             </button>
                         </div>
                     </div>
@@ -219,18 +257,14 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             textAlign: 'center',
                             marginBottom: '4rem',
                             letterSpacing: '-1px'
-                        }}>The Hardware Trio</h2>
+                        }}>{content.hardwareTrio.title}</h2>
 
                         <div style={{
                             display: 'grid',
                             gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
                             gap: '2.5rem'
                         }}>
-                            {[
-                                { title: 'Interactive Chairs', number: '01', desc: 'Ergonomic 9D chairs designed for extended learning sessions with built-in haptics.' },
-                                { title: 'Motion Systems', number: '02', desc: 'Advanced 6DOF motion platforms that simulate real-world physics and movement.' },
-                                { title: 'VR Headsets', number: '03', desc: 'High-fidelity, wireless headsets delivering crystal clear 4K visuals.' }
-                            ].map((item, idx) => (
+                            {content.hardwareTrio.items.map((item, idx) => (
                                 <div key={idx} style={{
                                     backgroundColor: theme.cardBg,
                                     padding: '2.5rem',
@@ -272,41 +306,40 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                 }}>
                     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
                         <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
-                            <span style={{ color: theme.accent, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase' }}>Our Foundation</span>
-                            <h2 style={{ fontSize: '3rem', fontWeight: 900, marginTop: '1rem' }}>Core Pillars of Simulation</h2>
+                            <span style={{ color: theme.accent, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase' }}>{content.corePillars.label}</span>
+                            <h2 style={{ fontSize: '3rem', fontWeight: 900, marginTop: '1rem' }}>{content.corePillars.title}</h2>
                         </div>
 
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem' }}>
-                            {[
-                                { title: 'Science Experiments', desc: 'Conduct dangerous or expensive experiments in a perfectly safe, virtual environment.', color: '#FF9B50' },
-                                { title: 'Interactive Simulations', desc: 'Complex concepts visualized through manipulatable 3D models and real-time physics.', color: '#FF9B50' },
-                                { title: 'Experiential Learning', desc: 'Learning by doing. Retain 75% more information through active participation.', color: '#FF9B50' }
-                            ].map((pillar, idx) => (
-                                <div key={idx} style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
-                                    <div style={{
-                                        width: '50px',
-                                        height: '50px',
-                                        borderRadius: '12px',
-                                        backgroundColor: pillar.color,
-                                        opacity: 0.2, // background opacity
-                                        flexShrink: 0,
-                                        position: 'relative'
-                                    }}>
+                            {content.corePillars.items.map((pillar, idx) => {
+                                const pillarColor = '#FF9B50'; // Default color since we simplified the JSON model
+                                return (
+                                    <div key={idx} style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
                                         <div style={{
-                                            position: 'absolute',
-                                            top: 0, left: 0, width: '100%', height: '100%',
-                                            backgroundColor: pillar.color,
-                                            opacity: 0.8, // foreground dot
+                                            width: '50px',
+                                            height: '50px',
                                             borderRadius: '12px',
-                                            transform: 'scale(0.4)'
-                                        }}></div>
+                                            backgroundColor: pillarColor,
+                                            opacity: 0.2, // background opacity
+                                            flexShrink: 0,
+                                            position: 'relative'
+                                        }}>
+                                            <div style={{
+                                                position: 'absolute',
+                                                top: 0, left: 0, width: '100%', height: '100%',
+                                                backgroundColor: pillarColor,
+                                                opacity: 0.8, // foreground dot
+                                                borderRadius: '12px',
+                                                transform: 'scale(0.4)'
+                                            }}></div>
+                                        </div>
+                                        <div>
+                                            <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.8rem' }}>{pillar.title}</h3>
+                                            <p style={{ color: theme.subText, lineHeight: '1.6' }}>{pillar.desc}</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.8rem' }}>{pillar.title}</h3>
-                                        <p style={{ color: theme.subText, lineHeight: '1.6' }}>{pillar.desc}</p>
-                                    </div>
-                                </div>
-                            ))}
+                                )
+                            })}
                         </div>
                     </div>
                 </section>
@@ -317,14 +350,10 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                     backgroundColor: isDarkTheme ? '#202020' : '#F5F5F5'
                 }}>
                     <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-                        <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '4rem', textAlign: 'center' }}>Who We Empower</h2>
+                        <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '4rem', textAlign: 'center' }}>{content.audience.title}</h2>
 
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-                            {[
-                                { title: 'K-12 Schools', text: 'Engage young minds with immersive biology, physics, and history lessons that spark curiosity.' },
-                                { title: 'Universities', text: 'Advanced engineering and medical simulations for higher education and practical training.' },
-                                { title: 'CSR Programs', text: 'Bringing world-class education infrastructure to under-resourced communities.' }
-                            ].map((audience, idx) => (
+                            {content.audience.items.map((audience, idx) => (
                                 <div key={idx} style={{
                                     padding: '3rem',
                                     background: theme.cardBg,
@@ -373,9 +402,9 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                     textAlign: 'center'
                 }}>
                     <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                        <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '2rem' }}>Safe. Proven. Authoritative.</h2>
+                        <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '2rem' }}>{content.stats.title}</h2>
                         <p style={{ fontSize: '1.25rem', lineHeight: '1.8', color: theme.subText, marginBottom: '3rem' }}>
-                            We don't just provide equipment; we provide peace of mind. Our labs are built with student safety as the #1 priority, ensuring a risk-free environment for handling hazardous virtual chemicals or complex machinery.
+                            {content.stats.description}
                         </p>
                         <div style={{
                             display: 'grid',
@@ -383,26 +412,18 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             gap: '2rem',
                             textAlign: 'left',
                         }}>
-                            <div style={{
-                                backgroundColor: theme.cardBg,
-                                padding: '3rem',
-                                borderRadius: '24px',
-                                border: theme.border,
-                                textAlign: 'center'
-                            }}>
-                                <h4 style={{ color: theme.accent, fontSize: '3rem', fontWeight: 900, marginBottom: '0.5rem' }}>100%</h4>
-                                <p style={{ fontWeight: 600 }}>Student Safety Record</p>
-                            </div>
-                            <div style={{
-                                backgroundColor: theme.cardBg,
-                                padding: '3rem',
-                                borderRadius: '24px',
-                                border: theme.border,
-                                textAlign: 'center'
-                            }}>
-                                <h4 style={{ color: theme.accent, fontSize: '3rem', fontWeight: 900, marginBottom: '0.5rem' }}>2X</h4>
-                                <p style={{ fontWeight: 600 }}>Faster Learning Retention</p>
-                            </div>
+                            {content.stats.items.map((stat, idx) => (
+                                <div key={idx} style={{
+                                    backgroundColor: theme.cardBg,
+                                    padding: '3rem',
+                                    borderRadius: '24px',
+                                    border: theme.border,
+                                    textAlign: 'center'
+                                }}>
+                                    <h4 style={{ color: theme.accent, fontSize: '3rem', fontWeight: 900, marginBottom: '0.5rem' }}>{stat.value}</h4>
+                                    <p style={{ fontWeight: 600 }}>{stat.label}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </section>

@@ -471,7 +471,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                 </section>
 
                 {/* Team - Duotone Reveal */}
-                <section style={{
+                {otherTeam.length > 0 && ceo && (<section style={{
                     padding: '8rem 0',
                     background: isDarkTheme ? '#000000' : '#FFFFFF',
                     overflow: 'hidden',
@@ -711,7 +711,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                         }
                     `}</style>
                     </div>
-                </section>
+                </section>)}
 
                 {/* Global Recognition - Infinite Flow Marquee */}
                 <div style={{ marginTop: '0', overflow: 'hidden', padding: '6rem 0', position: 'relative' }}>

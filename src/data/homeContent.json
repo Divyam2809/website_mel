@@ -1,0 +1,14 @@
+{
+    "hero": {
+        "titleLine1": "Virtual Reality Labs That Transform",
+        "titleHighlight": "Learning, Training, and Experience",
+        "description": "Curriculum-aligned VR Labs, simulators, and immersive training systems for schools, institutions, industries, and government programs across India.",
+        "primaryBtn": "Explore Our Products",
+        "secondaryBtn": "Contact Us"
+    },
+    "whyVr": {
+        "titleLine1": "Why Virtual Reality Works in",
+        "titleHighlight": "Classrooms & Training",
+        "description": "Virtual Reality enables learners to see, interact, and practice instead of only reading or listening. Melzo VR Labs are designed to support CBSE, ICSE, State Boards, vocational training, and enterprise skill development."
+    }
+}

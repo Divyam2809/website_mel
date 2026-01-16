@@ -1,0 +1,79 @@
+{
+    "hero": {
+        "badge": "Melzo 9D Chair",
+        "titleLine1": "Ultimate Motion Simulation",
+        "titleHighlight": "For Next-Level Education.",
+        "description": "The 9D VR Chair offers advanced motion simulation with haptic feedback and immersive visuals for higher education and industrial training labs. Compatible with top VR headsets, combining technology, comfort, and experiential learning.",
+        "primaryBtn": "Experience 9D VR",
+        "secondaryBtn": "Learn More"
+    },
+    "hardwareTrio": {
+        "title": "The Hardware Trio",
+        "items": [
+            {
+                "title": "Interactive Chairs",
+                "number": "01",
+                "desc": "Ergonomic 9D chairs designed for extended learning sessions with built-in haptics."
+            },
+            {
+                "title": "Motion Systems",
+                "number": "02",
+                "desc": "Advanced 6DOF motion platforms that simulate real-world physics and movement."
+            },
+            {
+                "title": "VR Headsets",
+                "number": "03",
+                "desc": "High-fidelity, wireless headsets delivering crystal clear 4K visuals."
+            }
+        ]
+    },
+    "corePillars": {
+        "label": "Our Foundation",
+        "title": "Core Pillars of Simulation",
+        "items": [
+            {
+                "title": "Science Experiments",
+                "desc": "Conduct dangerous or expensive experiments in a perfectly safe, virtual environment."
+            },
+            {
+                "title": "Interactive Simulations",
+                "desc": "Complex concepts visualized through manipulatable 3D models and real-time physics."
+            },
+            {
+                "title": "Experiential Learning",
+                "desc": "Learning by doing. Retain 75% more information through active participation."
+            }
+        ]
+    },
+    "audience": {
+        "title": "Who We Empower",
+        "items": [
+            {
+                "title": "K-12 Schools",
+                "text": "Engage young minds with immersive biology, physics, and history lessons that spark curiosity."
+            },
+            {
+                "title": "Universities",
+                "text": "Advanced engineering and medical simulations for higher education and practical training."
+            },
+            {
+                "title": "CSR Programs",
+                "text": "Bringing world-class education infrastructure to under-resourced communities."
+            }
+        ]
+    },
+    "stats": {
+        "title": "Safe. Proven. Authoritative.",
+        "description": "We don't just provide equipment; we provide peace of mind. Our labs are built with student safety as the #1 priority, ensuring a risk-free environment for handling hazardous virtual chemicals or complex machinery.",
+        "items": [
+            {
+                "value": "100%",
+                "label": "Student Safety Record"
+            },
+            {
+                "value": "2X",
+                "label": "Faster Learning Retention"
+            }
+        ]
+    }
+}
