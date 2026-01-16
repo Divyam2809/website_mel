@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 export default function AdminNav() {
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 
     const handleLogout = () => {
-        localStorage.removeItem('user');
+        sessionStorage.removeItem('user');
         navigate('/admin/login');
     };
 
@@ -43,7 +43,7 @@ export default function AdminNav() {
                 gap: '2rem',
                 alignItems: 'center'
             }}>
-                {user?.role !== 'HR' && user?.role !== 'sales' && (
+                {user?.role !== 'hr' && user?.role !== 'sales' && (
                     <NavLink
                         label="Analytics"
                         onClick={() => {
@@ -57,7 +57,7 @@ export default function AdminNav() {
                         }}
                     />
                 )}
-                {user?.role !== 'HR' && (
+                {user?.role !== 'hr' && (
                     <NavLink
                         label="Recent Queries"
                         onClick={() => {
@@ -107,7 +107,7 @@ export default function AdminNav() {
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                     <span>
-                        Admin
+                        {user.username || user.role || 'Admin'}
                     </span>
                 </div>
                 <button

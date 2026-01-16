@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3000/api/employee-testimonials';
+const BASE_URL = '/api/employee-testimonials';
 
 class EmployeeTestimonialService {
     async getAll() {

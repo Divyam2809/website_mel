@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import jobService from '../../services/jobService';
 import AdminNav from './AdminNav';
 import AdminSidebar from './AdminSidebar';
 import ApplicationViewModal from './ApplicationViewModal';
 
 export default function JobApplications() {
+    const navigate = useNavigate();
     const [applications, setApplications] = useState([]);
     const [loading, setLoading] = useState(true);
     const [viewingApp, setViewingApp] = useState(null);
     const statuses = ['Pending', 'Reviewed', 'Interviewed', 'Hired', 'Rejected'];
 
     useEffect(() => {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        if (!user || (user.role !== 'superadmin' && user.role !== 'hr')) {
+            navigate('/admin/login');
+            return;
+        }
         fetchApplications();
     }, []);
 

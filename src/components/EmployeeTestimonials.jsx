@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import mockStorage from '../services/mockStorage';
+import employeeTestimonialService from '../services/employeeTestimonialService';
 
 export default function EmployeeTestimonials({ isDarkTheme }) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -9,9 +9,9 @@ export default function EmployeeTestimonials({ isDarkTheme }) {
     useEffect(() => {
         const fetchStories = async () => {
             try {
-                const response = await mockStorage.getEmployeeStories();
+                const response = await employeeTestimonialService.getAll();
                 if (response.data) {
-                    setTestimonials(response.data.filter(s => s.status === 'Published' || s.isVisible));
+                    setTestimonials(response.data.filter(s => s.status === 'Published'));
                 }
             } catch (error) {
                 console.error("Failed to fetch employee stories", error);
@@ -103,7 +103,7 @@ export default function EmployeeTestimonials({ isDarkTheme }) {
                                     opacity: 0.8,
                                     marginBottom: '1rem'
                                 }}>
-                                    "{testimonials[currentIndex].quote}"
+                                    "{testimonials[currentIndex].testimonial}"
                                 </div>
                             </div>
 
@@ -115,13 +115,15 @@ export default function EmployeeTestimonials({ isDarkTheme }) {
                                     fontWeight: 800,
                                     color: isDarkTheme ? '#FFF' : '#333'
                                 }}>
-                                    {testimonials[currentIndex].role}
+                                    {testimonials[currentIndex].position}
                                 </div>
 
                                 <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', justifyContent: 'flex-end' }}>
                                     <div style={{ textAlign: 'right' }}>
                                         <div style={{ fontWeight: 700, fontSize: '1.5rem' }}>{testimonials[currentIndex].name}</div>
-                                        <div style={{ fontSize: '1.1rem', opacity: 0.6 }}>{testimonials[currentIndex].tenure}</div>
+                                        {testimonials[currentIndex].tenure && (
+                                            <div style={{ fontSize: '1.1rem', opacity: 0.6 }}>{testimonials[currentIndex].tenure}</div>
+                                        )}
                                     </div>
                                     <img
                                         src={testimonials[currentIndex].image}

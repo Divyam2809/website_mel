@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import mockStorage from '../../services/mockStorage';
+import blogService from '../../services/blogService';
+import newsService from '../../services/newsService';
+import awardsService from '../../services/awardsService';
+import faqService from '../../services/faqService';
+import teamService from '../../services/teamService';
+import caseStudyService from '../../services/caseStudyService';
+import testimonialService from '../../services/testimonialService';
+import timelineService from '../../services/timelineService';
+import employeeTestimonialService from '../../services/employeeTestimonialService';
 import AdminSidebar from './AdminSidebar';
 import AdminNav from './AdminNav';
 import './admin.css';
@@ -8,7 +17,8 @@ import './admin.css';
 const AdminDashboard = () => {
     const [stats, setStats] = useState({
         blogs: 0, news: 0, awards: 0, faqs: 0,
-        teamdetails: 0, caseStudy: 0, testimonials: 0, timeline: 0
+        teamdetails: 0, caseStudy: 0, testimonials: 0, timeline: 0,
+        jobs: 0, jobApplications: 0, employeeStories: 0, demoQueries: 0
     });
     const [visitorStats, setVisitorStats] = useState([]);
     const [recentQueries, setRecentQueries] = useState([]);
@@ -17,9 +27,9 @@ const AdminDashboard = () => {
 
 
     useEffect(() => {
-        const storedUser = JSON.parse(localStorage.getItem('user'));
+        const storedUser = JSON.parse(sessionStorage.getItem('user'));
 
-        if (!storedUser || !['superadmin', 'content_manager', 'sales'].includes(storedUser.role)) {
+        if (!storedUser || !['superadmin', 'content_manager', 'sales', 'hr'].includes(storedUser.role)) {
             navigate('/admin/login');
             return;
         }
@@ -74,26 +84,34 @@ const AdminDashboard = () => {
 
     const loadStats = async () => {
         try {
-            const [blogs, news, awards, faqs, team, cases, testimonials, timeline] = await Promise.all([
-                mockStorage.getBlogs(),
-                mockStorage.getNews(),
-                mockStorage.getAwards(),
-                mockStorage.getFAQs(),
-                mockStorage.getTeamDetails(),
-                mockStorage.getCaseStudies(),
-                mockStorage.getTestimonials(),
-                mockStorage.getTimeline()
+            const [blogs, news, awards, faqs, team, cases, testimonials, timeline, jobs, applications, stories, queries] = await Promise.all([
+                blogService.getAll(),
+                newsService.getAll(),
+                awardsService.getAll(),
+                faqService.getAll(),
+                teamService.getAll(),
+                caseStudyService.getAll(),
+                testimonialService.getAll(),
+                timelineService.getAll(),
+                mockStorage.getJobs(),
+                mockStorage.getJobApplications(),
+                employeeTestimonialService.getAll(),
+                mockStorage.getDemoQueries()
             ]);
 
             setStats({
-                blogs: blogs.data.length,
-                news: news.data.length,
-                awards: awards.data.length,
-                faqs: faqs.data.length,
-                teamdetails: team.data.length,
-                caseStudy: cases.data.length,
-                testimonials: testimonials.data.length,
-                timeline: timeline.data.length
+                blogs: (blogs.data || []).length,
+                news: (news.data || []).length,
+                awards: (awards.data || []).length,
+                faqs: (faqs.data || []).length,
+                teamdetails: (team.data || []).length,
+                caseStudy: (cases.data || []).length,
+                testimonials: (testimonials.data || []).length,
+                timeline: (timeline.data || []).length,
+                jobs: (jobs.data || []).length,
+                jobApplications: (applications.data || []).length,
+                employeeStories: (stories.data || []).length,
+                demoQueries: (queries.data || []).length
             });
         } catch (error) {
             console.error('Error loading stats:', error);
@@ -121,7 +139,7 @@ const AdminDashboard = () => {
     };
 
     const logout = () => {
-        localStorage.removeItem('user');
+        sessionStorage.removeItem('user');
         navigate('/admin/login');
     };
 
@@ -133,10 +151,11 @@ const AdminDashboard = () => {
     const yAxisMax = Math.ceil(maxVisitors / 50) * 50;
     const yAxisStep = yAxisMax / 5;
 
+    const isHR = user?.role === 'hr';
+    const isSales = user?.role === 'sales';
+    const isContentManager = user?.role === 'content_manager';
 
-    const isHR = user?.role === 'HR';
-
-    const modules = [
+    const baseModules = [
         { name: 'Blog', path: '/admin/content/blog', count: stats.blogs },
         { name: 'News', path: '/admin/content/news', count: stats.news },
         { name: 'Awards', path: '/admin/content/awards', count: stats.awards },
@@ -148,10 +167,27 @@ const AdminDashboard = () => {
         { name: 'Footer', path: '/admin/footer', count: '•' }
     ];
 
-    if (!user) return null; // Wait for auth check
+    const allModules = [
+        ...baseModules,
+        ...(!isHR && !isSales ? [
+            { name: 'Data Strip', path: '/admin/data-strip', count: '•' },
+            { name: 'Global Momentum', path: '/admin/global-momentum', count: '•' }
+        ] : []),
+        ...(isHR || user?.role === 'superadmin' ? [
+            { name: 'Jobs', path: '/admin/content/jobs', count: stats.jobs || 0 },
+            { name: 'Applications', path: '/admin/content/jobApplications', count: stats.jobApplications || 0 },
+            { name: 'Employee Stories', path: '/admin/content/employeeStories', count: stats.employeeStories || 0 }
+        ] : []),
+        { name: 'Leads', path: '/admin/content/demoQueries', count: stats.demoQueries || 0 }
+    ];
 
-    const isSales = user.role === 'sales';
-    const isContentManager = user.role === 'content_manager';
+    const filteredModules = allModules.filter(m => {
+        if (isHR) return ['Jobs', 'Applications', 'Employee Stories'].includes(m.name);
+        if (isSales) return m.name === 'Leads';
+        return true;
+    });
+
+    if (!user) return null; // Wait for auth check
 
     return (
         <>
@@ -268,8 +304,8 @@ const AdminDashboard = () => {
                                 </div>
                             )}
 
-                            {/* Queries Box - SHOW FOR ALL except Content Manager */}
-                            {!isContentManager && (
+                            {/* Queries Box - SHOW FOR ALL except Content Manager and HR */}
+                            {!isContentManager && !isHR && (
                                 <div id="recent-queries" style={{ marginBottom: '3rem', scrollMarginTop: '100px' }}>
                                     <h2 style={{ fontSize: '1.8rem', fontWeight: 900, marginBottom: '2rem', color: '#ea6805' }}>
                                         {isSales ? 'Demo Requests' : 'Recent Queries'}
@@ -280,7 +316,7 @@ const AdminDashboard = () => {
                                         ) : (
                                             <div style={{ display: 'flex', flexDirection: 'column', maxHeight: !isSales ? '500px' : 'none', overflowY: !isSales ? 'auto' : 'visible' }}>
                                                 {recentQueries.map((query, index) => (
-                                                    <div key={query._id} style={{
+                                                    <div key={query._id || index} style={{
                                                         padding: '2rem',
                                                         borderBottom: index !== recentQueries.length - 1 ? '1px solid #FF9B50' : 'none',
                                                         display: 'grid',
@@ -382,7 +418,7 @@ const AdminDashboard = () => {
                                         Content Management
                                     </h2>
                                     <div className="content-modules-grid">
-                                        {modules.map((module, idx) => (
+                                        {filteredModules.map((module, idx) => (
                                             <div
                                                 key={idx}
                                                 onClick={() => navigate(module.path)}

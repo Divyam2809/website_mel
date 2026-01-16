@@ -321,19 +321,19 @@ export default function JobApplicationModal({ job, isOpen, onClose, isDarkTheme 
                                 width: '100%',
                                 padding: '1.2rem',
                                 borderRadius: '12px',
-                                backgroundColor: isSubmitting ? '#666' : '#000',
-                                color: '#fff',
+                                backgroundColor: isSubmitting ? '#666' : (isDarkTheme ? '#FF9B50' : '#000'),
+                                color: (isDarkTheme && !isSubmitting) ? '#000' : '#fff',
                                 fontWeight: 700,
                                 fontSize: '1.1rem',
                                 border: 'none',
                                 cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                                transition: 'transform 0.2s',
-                                boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+                                transition: 'all 0.2s',
+                                boxShadow: isDarkTheme ? '0 4px 20px rgba(255, 155, 80, 0.4)' : '0 4px 15px rgba(0,0,0,0.2)'
                             }}
                             onMouseEnter={(e) => !isSubmitting && (e.currentTarget.style.transform = 'translateY(-2px)')}
                             onMouseLeave={(e) => !isSubmitting && (e.currentTarget.style.transform = 'translateY(0)')}
                         >
-                            {isSubmitting ? 'Submitting...' : 'Apply Application'}
+                            {isSubmitting ? 'Submitting...' : 'Apply Now'}
                         </button>
 
                         <p style={{ marginTop: '1rem', fontSize: '0.75rem', opacity: 0.5, textAlign: 'center' }}>

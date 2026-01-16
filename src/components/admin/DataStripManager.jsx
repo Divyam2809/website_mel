@@ -15,6 +15,11 @@ const DataStripManager = () => {
     const [stats, setStats] = useState({});
 
     useEffect(() => {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        if (!user || user.status === 'Draft' || !['superadmin', 'content_manager'].includes(user.role)) {
+            navigate('/admin/login');
+            return;
+        }
         loadData();
     }, []);
 

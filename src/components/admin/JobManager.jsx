@@ -24,6 +24,24 @@ export default function JobManager() {
     });
 
     useEffect(() => {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        if (!user || user.status === 'Draft') {
+            navigate('/admin/login');
+            return;
+        }
+        // Basic role check, though sidebar also hides things.
+        // Jobs are for HR and SuperAdmin. Content Manager usually doesn't manage jobs? Checks earlier context...
+        // "HR: Access restricted to the Careers tab"
+        // "SuperAdmin: Full system access"
+        // Content Manager? "Access to Analytics, Statistics, and Content Management tabs." -> Does Content Manager manage jobs?
+        // Implementation plan says: "Content Manager: Access to Analytics, Statistics, and Content Management tabs."
+        // User rules: "HR: Access restricted to the Careers tab (Job Openings and Job Applications)."
+        // SuperAdmin has everything.
+        // It implies Content Manager does NOT manage jobs.
+        if (user.role !== 'superadmin' && user.role !== 'hr') {
+            navigate('/admin/dashboard');
+            return;
+        }
         fetchJobs();
     }, []);
 

@@ -1,0 +1,117 @@
+{
+    "hero": {
+        "badge": "Forensics & Tactical Investigation",
+        "title": "Mastering the Scene Before the First Tape is Laid",
+        "subtitle": "High-stakes forensic training in a zero-risk environment. Develop precision, maintain chain-of-custody protocols, and sharpen investigative instincts through hyper-realistic simulations.",
+        "primaryBtn": "Request a Tactical Briefing",
+        "secondaryBtn": "Download Training Modules"
+    },
+    "toolkit": {
+        "title": "The Investigative Toolkit",
+        "subtitle": "Advanced VR technology for precision forensic training",
+        "features": [
+            {
+                "number": "01",
+                "title": "Haptic Evidence Collection",
+                "desc": "Using specialized controllers to feel the 'weight' and 'resistance' of objects to practice delicate recovery techniques."
+            },
+            {
+                "number": "02",
+                "title": "Dynamic Motion Effects",
+                "desc": "Simulating environmental stressors (shifting ground, unstable structures) to train focus under pressure."
+            },
+            {
+                "number": "03",
+                "title": "Procedural Accuracy",
+                "desc": "Built-in checklists that track if a participant follows legal and safety protocols in real-time."
+            }
+        ]
+    },
+    "pillars": {
+        "title": "The Tactical Pillars",
+        "subtitle": "Building investigative excellence through immersive training",
+        "items": [
+            {
+                "num": "01",
+                "title": "Risk-Free Error Correction",
+                "desc": "Allowing trainees to make 'fatal' procedural mistakes in VR so they never make them in the field."
+            },
+            {
+                "num": "02",
+                "title": "Infinite Scene Variability",
+                "desc": "Generating thousands of randomized crime scene layouts—from residential to industrial—ensuring officers never 'memorize' the test."
+            },
+            {
+                "num": "03",
+                "title": "Performance Playback",
+                "desc": "A 'Review Mode' where instructors can fly through the scene and point out missed evidence or safety lapses."
+            }
+        ]
+    },
+    "stakeholders": {
+        "title": "Who Benefits from Tactical VR Training",
+        "subtitle": "Specialized solutions for law enforcement and forensic professionals",
+        "items": [
+            {
+                "audience": "Police Academies",
+                "focus": "Standardized Testing",
+                "benefit": "Accelerating the 'rookie' learning curve with consistent, repeatable training scenarios that build foundational investigative skills."
+            },
+            {
+                "audience": "Forensic Specialists",
+                "focus": "Niche Skills Development",
+                "benefit": "Mastering specialized techniques like blood-spatter analysis or ballistics in a controlled 3D space with unlimited practice opportunities."
+            },
+            {
+                "audience": "Federal & Specialized Agencies",
+                "focus": "Rare Scenario Training",
+                "benefit": "Preparing for high-risk warrants, chemical scenes, and other critical situations that are too dangerous or rare to practice in real life."
+            }
+        ]
+    },
+    "metrics": {
+        "title": "Real-Time Performance Tracking",
+        "subtitle": "Dashboard overlay showing critical metrics for every training session",
+        "items": [
+            {
+                "metric": "Clarity Score",
+                "value": "94%"
+            },
+            {
+                "metric": "Evidence Recovery Rate",
+                "value": "87%"
+            },
+            {
+                "metric": "Protocol Compliance",
+                "value": "98%"
+            },
+            {
+                "metric": "Time to Secure Scene",
+                "value": "12:34"
+            }
+        ]
+    },
+    "whyMelzo": {
+        "title": "Why Melzo: Legally Defensible Training",
+        "subtitle": "Melzo's data tracking provides a verifiable audit trail of an officer's competency and adherence to standard operating procedures (SOPs). Every action is logged, timestamped, and available for review—ensuring training meets legal and departmental standards.",
+        "cta": "Begin Tactical Training →",
+        "stats": [
+            {
+                "label": "Audit Trail Accuracy",
+                "value": "100%"
+            },
+            {
+                "label": "SOP Compliance Tracking",
+                "value": "Real-Time"
+            },
+            {
+                "label": "Training Scenarios",
+                "value": "1000+"
+            },
+            {
+                "label": "Certification Ready",
+                "value": "Yes"
+            }
+        ]
+    }
+}

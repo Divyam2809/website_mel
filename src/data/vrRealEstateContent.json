@@ -1,0 +1,80 @@
+{
+    "hero": {
+        "badge": "Melzo 7D Real Estate VR",
+        "title": "Selling the Vision,",
+        "accent": "Not Just the Blueprint.",
+        "subtitle": "Giving buyers the ‘Try before you buy’ experience of your properties, VR can help you turn your properties into immersive experiences, engage with visitors inside VR, and get real-time data insights.",
+        "primaryBtn": "Schedule a Virtual Tour",
+        "secondaryBtn": "Request Developer Portfolio"
+    },
+    "interactiveFeatures": {
+        "features": [
+            {
+                "title": "Take clients on a virtual journey of your properties",
+                "desc": "Increase your sales turnover time by marketing commercial properties even before they're built. With Virtual Walkthrough realtors can take clients on a virtual journey of their properties, from the comfort of their home, anywhere, anytime."
+            },
+            {
+                "title": "Get multi-functional insights",
+                "desc": "Get 100% data of visitors inside virtual reality walkthroughs of the properties. With VR Analytics, you can get actionable insights on top-selling properties and location performance."
+            },
+            {
+                "title": "Increase engagement with AI Talkbot",
+                "desc": "Engage visitors in a virtual walkthrough of your properties with AI-enabled Talkbot and create the ultimate customer experience. With an AI Talkbot, you can provide customer service anywhere, 24x7x365."
+            },
+            {
+                "title": "Value realization",
+                "desc": "Turn your ideas into reality with 3D 360 rendering of your projects. With our 3D rendering software, you can create a down to the details, scalable design of your project, and make your wildest imagination come true."
+            },
+            {
+                "title": "Harness the power of creation",
+                "desc": "Let clients experience both the digital and physical qualities of your project by designing holographic displays of your properties. With Melzo's VR technology you can create next-generation showcases that help you promote your brand."
+            },
+            {
+                "title": "Virtual sales tool",
+                "desc": "Interact with customers inside a virtual tour of your projects. Melzo's VR system lets you communicate to your customers via audio and video conferences while they're in a VR experience of your properties."
+            }
+        ]
+    },
+    "stakeholders": {
+        "title": "Built for Every Stakeholder",
+        "items": [
+            {
+                "audience": "Real Estate Developers",
+                "focus": "ROI Acceleration",
+                "benefit": "Eliminate the cost of physical sample flats. A single VR setup replaces dozens of model units, speeding up ROI on large-scale projects."
+            },
+            {
+                "audience": "Architects & Designers",
+                "focus": "Design Approval",
+                "benefit": "Get clients to approve designs faster with 100% clarity. No more \"I thought it would be bigger\" after construction starts."
+            },
+            {
+                "audience": "Sales Agents",
+                "focus": "The Wow Factor",
+                "benefit": "Close deals in a competitive market with an experience that competitors can't match. Be the agent with the future-tech advantage."
+            }
+        ]
+    },
+    "salesGallery": {
+        "title": "The Future-Proof Sales Gallery.",
+        "subtitle": "A Melzo VR setup transforms a standard sales office into a high-tech destination. Position your brand as a market leader with an experience that buyers remember—and talk about.",
+        "cta": "Transform Your Sales Gallery",
+        "items": [
+            {
+                "number": "01",
+                "title": "Premium Positioning",
+                "desc": "Stand out in a crowded market with technology that screams innovation and quality."
+            },
+            {
+                "number": "02",
+                "title": "Faster Decision Cycles",
+                "desc": "Reduce the time from first viewing to contract signing by eliminating uncertainty."
+            },
+            {
+                "number": "03",
+                "title": "Luxury Brand Appeal",
+                "desc": "Attract high-net-worth buyers who expect cutting-edge experiences in every interaction."
+            }
+        ]
+    }
+}

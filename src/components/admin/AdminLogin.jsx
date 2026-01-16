@@ -13,7 +13,9 @@ const AdminLogin = () => {
         e.preventDefault();
         try {
             const { data } = await mockStorage.login(email, password);
-            localStorage.setItem('user', JSON.stringify(data));
+            sessionStorage.setItem('user', JSON.stringify(data));
+            // Ensure no legacy localstorage session
+            localStorage.removeItem('user');
             navigate('/admin/dashboard');
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed');

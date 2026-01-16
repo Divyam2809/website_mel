@@ -1,0 +1,121 @@
+{
+    "hero": {
+        "badge": "Professional Flight Training",
+        "title": "Earn Your Wings in a World Without Gravity",
+        "subtitle": "Bridging the gap between theory and the cockpit. Master complex flight dynamics and emergency protocols in a hyper-realistic VR environment designed for the next generation of aviators.",
+        "primaryBtn": "Request a Simulator Walkthrough",
+        "secondaryBtn": "Download Training Curriculum"
+    },
+    "trio": {
+        "title": "The Cockpit Trio",
+        "subtitle": "Professional-grade simulation technology for authentic flight training",
+        "features": [
+            {
+                "number": "01",
+                "title": "Full Cockpit Replication",
+                "desc": "1:1 mapping of dials, switches, and HUDs that respond to virtual touch with precision accuracy."
+            },
+            {
+                "number": "02",
+                "title": "Kinetic Motion Systems",
+                "desc": "Hardware mimics G-force, turbulence, and landing impact to build physiological readiness."
+            },
+            {
+                "number": "03",
+                "title": "Variable Weather & Lighting",
+                "desc": "Toggle zero-visibility, night flights, and extreme storm conditions at the click of a button."
+            }
+        ]
+    },
+    "pillars": {
+        "title": "The Aviation Pillars",
+        "subtitle": "Building flight excellence through immersive training",
+        "items": [
+            {
+                "num": "01",
+                "title": "Drill-Down Emergency Training",
+                "desc": "Practicing engine failures, hydraulic loss, and bird strikes in a repeatable, safe loop."
+            },
+            {
+                "num": "02",
+                "title": "Cost-Efficient Flight Hours",
+                "desc": "Reducing the financial barrier to entry by replacing expensive fuel and maintenance hours with high-fidelity VR sessions."
+            },
+            {
+                "num": "03",
+                "title": "Procedural Mastery",
+                "desc": "Ensuring 'Checklist Discipline' is second nature before a student ever enters a physical aircraft."
+            }
+        ]
+    },
+    "stakeholders": {
+        "title": "Who Benefits from VR Flight Training",
+        "subtitle": "Specialized solutions for aviation professionals and institutions",
+        "items": [
+            {
+                "audience": "Flight Schools & Academies",
+                "focus": "Student Throughput",
+                "benefit": "Increasing student throughput and improving safety records through consistent, repeatable training scenarios."
+            },
+            {
+                "audience": "Commercial Airlines",
+                "focus": "Recurrent Training",
+                "benefit": "Assessing pilot reflexes in rare, high-risk scenarios and maintaining proficiency without aircraft downtime."
+            },
+            {
+                "audience": "Defense & Government",
+                "focus": "Mission Rehearsals",
+                "benefit": "Mission-specific rehearsals and tactical navigation training in classified or sensitive scenarios."
+            }
+        ]
+    },
+    "metrics": {
+        "title": "Data-Logged Competency Tracking",
+        "subtitle": "Instructor dashboard providing scientific basis for flight readiness",
+        "items": [
+            {
+                "metric": "Response Time",
+                "value": "0.8s",
+                "desc": "Average reaction to emergencies"
+            },
+            {
+                "metric": "Path Deviation",
+                "value": "±2°",
+                "desc": "Navigation accuracy"
+            },
+            {
+                "metric": "Landing Accuracy",
+                "value": "98%",
+                "desc": "Touchdown precision"
+            },
+            {
+                "metric": "Checklist Compliance",
+                "value": "100%",
+                "desc": "Procedural adherence"
+            }
+        ]
+    },
+    "whyMelzo": {
+        "title": "Why Melzo Aviation",
+        "subtitle": "The instructor dashboard tracks Response Time, Path Deviation, and Landing Accuracy, providing a scientific basis for flight readiness. Every maneuver is logged, analyzed, and available for comprehensive review—ensuring training meets the highest aviation standards.",
+        "cta": "Begin Flight Training →",
+        "stats": [
+            {
+                "label": "Training Cost Reduction",
+                "value": "75%"
+            },
+            {
+                "label": "Safety Incident Prevention",
+                "value": "95%"
+            },
+            {
+                "label": "Certified Flight Hours",
+                "value": "500+"
+            },
+            {
+                "label": "Pilot Readiness",
+                "value": "100%"
+            }
+        ]
+    }
+}

@@ -16,7 +16,6 @@ const FiveDChair = React.lazy(() => import('./pages/FiveDChair'));
 const VRLab = React.lazy(() => import('./pages/VRLab'));
 const VRElearning = React.lazy(() => import('./pages/VRElearning'));
 const VRERP = React.lazy(() => import('./pages/VRERP'));
-const VRIndustrial = React.lazy(() => import('./pages/VRIndustrial'));
 const VRAnimalSurgery = React.lazy(() => import('./pages/VRAnimalSurgery'));
 const VRUdyog = React.lazy(() => import('./pages/VRUdyog'));
 const VRRealEstate = React.lazy(() => import('./pages/VRRealEstate'));
@@ -31,6 +30,7 @@ const VRLiveStream = React.lazy(() => import('./pages/VRLiveStream'));
 const VRTourism = React.lazy(() => import('./pages/VRTourism'));
 const VirtualHeritage = React.lazy(() => import('./pages/VirtualHeritage'));
 const CityGuides = React.lazy(() => import('./pages/CityGuides'));
+const OthersCustom = React.lazy(() => import('./pages/OthersCustom'));
 const MelzoNews = React.lazy(() => import('./MelzoNews'));
 const BlogDetail = React.lazy(() => import('./pages/BlogDetail'));
 const Careers = React.lazy(() => import('./pages/Careers'));
@@ -49,11 +49,13 @@ const DataStripManager = React.lazy(() => import('./components/admin/DataStripMa
 const GlobalMomentumManager = React.lazy(() => import('./components/admin/GlobalMomentumManager'));
 const JobManager = React.lazy(() => import('./components/admin/JobManager'));
 const JobApplications = React.lazy(() => import('./components/admin/JobApplications'));
+const LoginLogs = React.lazy(() => import('./components/admin/LoginLogs'));
 
 import Footer from './components/Footer';
 import BookDemo from './components/BookDemo';
 import Toast from './components/Toast';
 import ProductComparison from './components/ProductComparison';
+import VRIndustrial from './pages/VRIndustrial';
 
 import { Routes, Route, useNavigate, useLocation, Navigate, useParams } from 'react-router-dom';
 
@@ -68,7 +70,17 @@ const GenericProductWrapper = (props) => {
 };
 
 export default function App() {
-    const [isDarkTheme, setIsDarkTheme] = useState(false);
+    const [isDarkTheme, setIsDarkTheme] = useState(() => {
+        // Initialize from localStorage or default to false
+        const savedTheme = localStorage.getItem('isDarkTheme');
+        return savedTheme ? JSON.parse(savedTheme) : false;
+    });
+
+    // Update localStorage whenever theme changes
+    useEffect(() => {
+        localStorage.setItem('isDarkTheme', JSON.stringify(isDarkTheme));
+    }, [isDarkTheme]);
+
     const [isDemoOpen, setIsDemoOpen] = useState(false);
     const [isComparisonOpen, setIsComparisonOpen] = useState(false);
 
@@ -196,9 +208,6 @@ export default function App() {
 
                         {/* Product Pages Redesigned Route Structure */}
 
-                        {/* Dynamic Generic Product Route */}
-                        <Route path="/products/:productId" element={<GenericProductWrapper {...commonProps} />} />
-
                         {/* Specific Product Routes (Nested under /products/ for cleaner browsing) */}
                         <Route path="/products/anubhav" element={<AnubhavProduct {...commonProps} />} />
                         <Route path="/products/ninedchair" element={<NineDChair {...commonProps} />} />
@@ -221,6 +230,10 @@ export default function App() {
                         <Route path="/products/vrtourism" element={<VRTourism {...commonProps} />} />
                         <Route path="/products/virtualheritage" element={<VirtualHeritage {...commonProps} />} />
                         <Route path="/products/cityguides" element={<CityGuides {...commonProps} />} />
+                        <Route path="/products/custom-solutions" element={<OthersCustom {...commonProps} />} />
+
+                        {/* Dynamic Generic Product Route */}
+                        <Route path="/products/:productId" element={<GenericProductWrapper {...commonProps} />} />
 
                         {/* Admin Panel Routes */}
                         <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
@@ -232,6 +245,7 @@ export default function App() {
                         <Route path="/admin/footer" element={<FooterManager />} />
                         <Route path="/admin/data-strip" element={<DataStripManager />} />
                         <Route path="/admin/global-momentum" element={<GlobalMomentumManager />} />
+                        <Route path="/admin/logs" element={<LoginLogs />} />
                         <Route path="/admin/editor" element={<BlogForm />} />
                         <Route path="/admin/editor/:slug" element={<BlogForm />} />
 
@@ -317,28 +331,28 @@ function ScrollToTopButton({ isDarkTheme }) {
                         position: 'fixed',
                         bottom: '30px',
                         right: '30px',
-                        backgroundColor: '#FFFFFF',
+                        backgroundColor: isDarkTheme ? '#1A1A1A' : '#FFFFFF',
                         color: '#FF9B50',
                         width: '50px',
                         height: '50px',
                         borderRadius: '50%',
-                        border: '2px solid #FF9B50',
+                        border: `2px solid ${isDarkTheme ? '#FF9B50' : '#FF9B50'}`, // Updated border color
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         fontSize: '1.5rem',
-                        boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
-                        zIndex: 10000, // Elevated z-index
+                        boxShadow: isDarkTheme ? '0 8px 25px rgba(0,0,0,0.4)' : '0 8px 25px rgba(0,0,0,0.15)',
+                        zIndex: 10000,
                         transition: 'all 0.3s ease'
                     }}
                     onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'scale(1.1) translateY(-5px)';
-                        e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.2)';
+                        e.currentTarget.style.boxShadow = isDarkTheme ? '0 12px 30px rgba(0,0,0,0.6)' : '0 12px 30px rgba(0,0,0,0.2)';
                     }}
                     onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'scale(1) translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+                        e.currentTarget.style.boxShadow = isDarkTheme ? '0 8px 25px rgba(0,0,0,0.4)' : '0 8px 25px rgba(0,0,0,0.15)';
                     }}
                 >
                     ↑

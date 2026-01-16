@@ -12,7 +12,7 @@ export default function FooterManager() {
     const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem('user'));
+        const user = JSON.parse(sessionStorage.getItem('user'));
         if (user && user.role === 'superadmin') {
             setIsSuperAdmin(true);
         }

@@ -14,6 +14,11 @@ export default function GlobalMomentumManager() {
     const [statsData, setStatsData] = useState([]);
 
     useEffect(() => {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        if (!user || user.status === 'Draft' || !['superadmin', 'content_manager'].includes(user.role || '')) {
+            navigate('/admin/login'); // Or dashboard, but login is safer if no user
+            return;
+        }
         loadData();
     }, []);
 

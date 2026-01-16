@@ -1,0 +1,93 @@
+{
+  "hero": {
+    "badge": "VR Industrial Training",
+    "title": "HHHHHH",
+    "subtitle": "Train workers on complex industrial processes and equipment without production downtime or safety risks.",
+    "primaryBtn": "Request Industrial Demo",
+    "secondaryBtn": "View Training Modules"
+  },
+  "industrialSuite": {
+    "features": [
+      {
+        "number": "01",
+        "title": "Process Simulation",
+        "desc": "Practice complex manufacturing processes in a virtual environment before touching real equipment."
+      },
+      {
+        "number": "02",
+        "title": "Maintenance Training",
+        "desc": "Learn preventive maintenance, troubleshooting, and repair procedures on virtual machinery."
+      },
+      {
+        "number": "03",
+        "title": "Safety Compliance",
+        "desc": "Master OSHA regulations, lockout/tagout procedures, and emergency response protocols."
+      },
+      {
+        "number": "04",
+        "title": "Safety Compliance",
+        "desc": "Master OSHA regulations, lockout/tagout procedures, and emergency response protocols."
+      },
+      {
+        "number": "05",
+        "title": "Safety Compliance",
+        "desc": "Master OSHA regulations, lockout/tagout procedures, and emergency response protocols."
+      },
+      {
+        "number": "06",
+        "title": "Safety Compliance",
+        "desc": "Master OSHA regulations, lockout/tagout procedures, and emergency response protocols."
+      }
+    ],
+    "title": "The Industrial Suite",
+    "subtitle": "Comprehensive training for industrial operations"
+  },
+  "applications": {
+    "features": [
+      {
+        "focus": "Production Excellence",
+        "audience": "Manufacturing",
+        "benefit": "Train operators on assembly lines, CNC machines, and quality control without halting production."
+      },
+      {
+        "focus": "High-Risk Training",
+        "audience": "Oil & Gas",
+        "benefit": "Practice drilling operations, pipeline maintenance, and emergency procedures in a safe environment."
+      },
+      {
+        "focus": "Process Safety",
+        "audience": "Chemical Processing",
+        "benefit": "Master hazardous material handling and process control without exposure to dangerous chemicals."
+      },
+      {
+        "focus": "Process Safety",
+        "audience": "Chemical Processing",
+        "benefit": "Master hazardous material handling and process control without exposure to dangerous chemicals."
+      }
+    ],
+    "title": "Industry Applications"
+  },
+  "stats": {
+    "items": [
+      {
+        "value": "0%",
+        "label": "Cost Reduction"
+      },
+      {
+        "value": "0%",
+        "label": "Incident Prevention"
+      },
+      {
+        "value": "0x",
+        "label": "Training Efficiency"
+      },
+      {
+        "value": "0%",
+        "label": "Skill Retention"
+      }
+    ],
+    "title": "Why Melzo Industrial",
+    "subtitle": "Reduce training costs by 65% and workplace incidents by 80% with our comprehensive industrial VR training platform.",
+    "cta": "Modernize Your Training →"
+  }
+}

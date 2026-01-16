@@ -15,9 +15,9 @@ const BlogForm = () => {
     const initialType = searchParams.get('type') || 'blog';
 
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const user = JSON.parse(sessionStorage.getItem('user') || '{}');
     const isSuperAdmin = user.role === 'superadmin';
-    const isHR = user.role === 'HR';
+    const isHR = user.role === 'hr';
     const [contentType, setContentType] = useState(initialType);
     const isEdit = !!slug;
 

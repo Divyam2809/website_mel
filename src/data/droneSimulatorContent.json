@@ -1,0 +1,128 @@
+{
+  "hero": {
+    "badge": "VR Drone Flight Academy",
+    "title": "Master the Skies Before You Touch the Controller",
+    "subtitle": "Zero-risk, high-fidelity drone training. From basic flight controls to complex obstacle navigation, build professional-grade pilot intuition without the cost of a single crash.",
+    "primaryBtn": "Start Your Flight Training",
+    "secondaryBtn": "Inquire for Schools"
+  },
+  "deck": {
+    "features": [
+      {
+        "number": "01",
+        "title": "Realistic Physics Engine",
+        "desc": "Simulation of wind resistance, battery gravity shifts, and momentum for authentic flight dynamics."
+      },
+      {
+        "number": "02",
+        "title": "Haptic Motion Feedback",
+        "desc": "The Melzo system mimics the 'feel' of flight and environmental tilt during maneuvers."
+      },
+      {
+        "number": "03",
+        "title": "Multi-Environment Arenas",
+        "desc": "Diverse training grounds—from industrial warehouses and construction sites to open-world landscapes."
+      }
+    ],
+    "title": "demo",
+    "subtitle": "Cutting-edge simulation technology for realistic flight training"
+  },
+  "pillars": {
+    "items": [
+      {
+        "num": "01",
+        "title": "Risk-Free Obstacle Courses",
+        "desc": "Practicing tight-cornering and indoor flight without damaging expensive hardware."
+      },
+      {
+        "num": "02",
+        "title": "Emergency Protocol Training",
+        "desc": "Simulating signal loss, motor failure, or sudden weather changes to build calm under pressure."
+      },
+      {
+        "num": "03",
+        "title": "Aerial Precision Mastery",
+        "desc": "Training for specific industries like cinematography, thermal inspection, or search and rescue."
+      }
+    ],
+    "title": "The Skill-Building Pillars",
+    "subtitle": "Comprehensive training for every skill level"
+  },
+  "stakeholders": {
+    "items": [
+      {
+        "audience": "K-12 & STEM Programs",
+        "focus": "Gamified Learning",
+        "benefit": "Sparking interest in aviation and engineering through interactive, engaging flight simulations that make learning fun."
+      },
+      {
+        "audience": "Industrial Inspection Firms",
+        "focus": "High-Asset Certifications",
+        "benefit": "Certifying workers in safe inspections of power lines, bridges, and infrastructure without real-world risks."
+      },
+      {
+        "audience": "Hobbyist & Racing Leagues",
+        "focus": "Performance Optimization",
+        "benefit": "Shaving seconds off lap times through repeatable, high-speed virtual practice in competitive racing scenarios."
+      }
+    ],
+    "title": "Who Benefits from VR Drone Training",
+    "subtitle": "Tailored solutions for every pilot and organization"
+  },
+  "levels": {
+    "tiers": [
+      {
+        "level": "Beginner",
+        "features": [
+          "Guided Flight Paths",
+          "Auto-Stabilization",
+          "Collision Warnings",
+          "Speed Limiters"
+        ]
+      },
+      {
+        "level": "Intermediate",
+        "features": [
+          "Manual Controls",
+          "Weather Simulation",
+          "Obstacle Courses",
+          "Battery Management"
+        ]
+      },
+      {
+        "level": "Advanced",
+        "features": [
+          "FPV Racing Mode",
+          "Acrobatic Maneuvers",
+          "Multi-Drone Control",
+          "Custom Scenarios"
+        ]
+      }
+    ],
+    "title": "Progressive Skill Development",
+    "subtitle": "From beginner-friendly interfaces to advanced FPV racing HUDs"
+  },
+  "whyMelzo": {
+    "stats": [
+      {
+        "label": "Accident Reduction",
+        "value": "90%"
+      },
+      {
+        "label": "Training Cost Savings",
+        "value": "85%"
+      },
+      {
+        "label": "Fleet Lifespan Extension",
+        "value": "3x"
+      },
+      {
+        "label": "Pilot Confidence",
+        "value": "100%"
+      }
+    ],
+    "title": "Why Melzo: Hardware Longevity",
+    "subtitle": "Training in VR first extends the lifespan of a physical drone fleet by reducing rookie accidents by up to 90%. Master the fundamentals in a safe environment before risking expensive equipment.",
+    "cta": "Take Flight Today →"
+  }
+}

@@ -512,7 +512,8 @@ const initialDemoQueries = [
 const ADMIN_USERS = [
     { email: 'superadmin@melzo.com', password: 'superadmin123', role: 'superadmin', name: 'Super Admin' },
     { email: 'contentmanager@melzo.com', password: 'contentmanager123', role: 'content_manager', name: 'Content Manager' },
-    { email: 'sales@melzo.com', password: 'sales123', role: 'sales', name: 'Sales Team' }
+    { email: 'sales@melzo.com', password: 'sales123', role: 'sales', name: 'Sales Team' },
+    { email: 'hr@melzo.com', password: 'hr123', role: 'HR', name: 'HR Manager' }
 ];
 
 class MockStorageService {
@@ -520,144 +521,6 @@ class MockStorageService {
         this.init();
     }
 
-    init() {
-        // ... (Existing initialization code)
-        const existingBlogs = localStorage.getItem('blogs');
-        if (!existingBlogs || existingBlogs === '[]') {
-            localStorage.setItem('blogs', JSON.stringify(initialBlogs));
-        }
-        if (!localStorage.getItem('caseFile')) {
-            localStorage.setItem('caseFile', JSON.stringify(initialCaseStudies));
-        }
-        // Initialize News
-        const existingNews = localStorage.getItem('news');
-        if (!existingNews || existingNews === '[]') {
-            localStorage.setItem('news', JSON.stringify(initialNews));
-        }
-
-        // Initialize Testimonials
-        if (!localStorage.getItem('testimonials')) {
-            localStorage.setItem('testimonials', JSON.stringify(initialTestimonials));
-        }
-
-        // Initialize Awards
-        if (!localStorage.getItem('awards')) {
-            localStorage.setItem('awards', JSON.stringify(initialAwards));
-        }
-
-        // Initialize FAQs
-        if (!localStorage.getItem('faqs')) {
-            localStorage.setItem('faqs', JSON.stringify(initialFAQs));
-        }
-
-        // Initialize Team
-        if (!localStorage.getItem('teamdetails')) {
-            localStorage.setItem('teamdetails', JSON.stringify(initialTeam));
-        }
-
-        // Initialize Timeline
-        if (!localStorage.getItem('timeline')) {
-            localStorage.setItem('timeline', JSON.stringify(initialTimeline));
-        }
-
-        // Initialize Demo Queries
-        if (!localStorage.getItem('demoQueries')) {
-            localStorage.setItem('demoQueries', JSON.stringify(initialDemoQueries));
-        }
-
-        // Initialize Industries
-        if (!localStorage.getItem('industries')) {
-            localStorage.setItem('industries', JSON.stringify(initialIndustries));
-        }
-
-        // --- MIGRATION: Auto-Generate Slugs for Legacy Data ---
-        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials', 'jobs', 'employeeStories', 'jobApplications', 'industries'];
-
-        collections.forEach(key => {
-            const items = JSON.parse(localStorage.getItem(key) || '[]');
-            let modified = false;
-
-            items.forEach(item => {
-                if (!item.slug) {
-                    // Determine source field for slug
-                    const sourceText = item.title || item.name || item.question || 'untitled';
-                    item.slug = sourceText
-                        .toLowerCase()
-                        .replace(/[^a-z0-9]+/g, '-')
-                        .replace(/(^-|-$)+/g, '');
-                    modified = true;
-                }
-            });
-
-            if (modified) {
-                localStorage.setItem(key, JSON.stringify(items));
-                console.log(`Migrated slugs for ${key}`);
-            }
-        });
-
-        // --- MIGRATION: Fix Industries Images ---
-        try {
-            const storedIndustries = JSON.parse(localStorage.getItem('industries') || '[]');
-            let indModified = false;
-            const imageMap = {
-                'education': '/images/education_modal_vr.webp',
-                'csr': '/images/csr-bg.webp',
-                'government': '/images/government-bg.webp',
-                'defence': '/images/defence-bg.webp'
-            };
-
-            storedIndustries.forEach(ind => {
-                const id = ind._id || ind.id;
-                // Force update if image matches map target to ensure correctness, or if missing
-                if (imageMap[id]) {
-                    // Check if image is correct, if not update it
-                    if (ind.image !== imageMap[id]) {
-                        ind.image = imageMap[id];
-                        indModified = true;
-                    }
-                }
-            });
-
-            if (indModified) {
-                localStorage.setItem('industries', JSON.stringify(storedIndustries));
-                console.log('Migrated industries images');
-            }
-        } catch (e) {
-            console.error('Error migrating industries images', e);
-        }
-    }
-
-    // --- Auth ---
-    login(email, password) {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                let users = this._getAll('users');
-                if (users.length === 0) {
-                    // Seed seed users if missing
-                    users = ADMIN_USERS.map((u, i) => ({ ...u, _id: `u${i}`, isVisible: true, status: 'Published' }));
-                    this._save('users', users);
-                }
-
-                const user = users.find(u => u.email === email && u.password === password);
-                if (user) {
-                    const userData = { email: user.email, role: user.role, name: user.name, token: `mock-token-${Date.now()}` };
-                    resolve({ data: userData });
-                } else {
-                    reject({ response: { data: { message: 'Invalid credentials' } } });
-                }
-            }, 500);
-        });
-    }
-
-    getUsers() {
-        return new Promise((resolve) => {
-            resolve({ data: this._getAll('users') });
-        });
-    }
-
-    saveUser(data) {
-        return this._create('users', data);
-    }
 
     updateUser(id, data) {
         return this._update('users', id, data);
@@ -667,9 +530,60 @@ class MockStorageService {
         return this._delete('users', id);
     }
 
+    async login(email, password) {
+        let username = email.split('@')[0];
+        // Mapping for SuperAdmin seeded in DB
+        if (email === 'superadmin@melzo.com' || email === 'admin@melzo.com') username = 'admin';
+
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (!response.ok) {
+                const err = await response.json();
+                throw { response: { data: { message: err.error || 'Login failed' } } };
+            }
+
+            const result = await response.json();
+            return { data: { ...result.user, token: result.token } };
+        } catch (e) {
+            console.error("Login error", e);
+            throw e;
+        }
+    }
+
+    async getLoginLogs() {
+        try {
+            const user = JSON.parse(sessionStorage.getItem('user'));
+            const response = await fetch('/api/auth/logs', {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to fetch logs:', error);
+        }
+        return [];
+    }
+
     init() {
         if (!localStorage.getItem('users')) {
             localStorage.setItem('users', JSON.stringify(ADMIN_USERS.map((u, i) => ({ ...u, _id: `u${i}`, isVisible: true, status: 'Published' }))));
+        }
+        if (!localStorage.getItem('jobs')) {
+            localStorage.setItem('jobs', JSON.stringify([]));
+        }
+        if (!localStorage.getItem('jobApplications')) {
+            localStorage.setItem('jobApplications', JSON.stringify([]));
+        }
+        if (!localStorage.getItem('employeeStories')) {
+            localStorage.setItem('employeeStories', JSON.stringify([]));
         }
         if (!localStorage.getItem('blogs')) {
             localStorage.setItem('blogs', JSON.stringify(initialBlogs));
@@ -700,7 +614,7 @@ class MockStorageService {
 
         // Initialize Team Details
         if (!localStorage.getItem('teamdetails')) {
-            localStorage.setItem('teamdetails', JSON.stringify(initialTeamDetails));
+            localStorage.setItem('teamdetails', JSON.stringify(initialTeam));
         }
 
         // Initialize Timeline
@@ -710,6 +624,63 @@ class MockStorageService {
 
         if (!localStorage.getItem('demoQueries')) {
             localStorage.setItem('demoQueries', JSON.stringify(initialDemoQueries));
+        }
+
+        // Initialize Industries (From HEAD)
+        if (!localStorage.getItem('industries')) {
+            localStorage.setItem('industries', JSON.stringify(initialIndustries));
+        }
+
+        // --- MIGRATION: Auto-Generate Slugs for Legacy Data (From HEAD) ---
+        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials', 'jobs', 'employeeStories', 'jobApplications', 'industries'];
+
+        collections.forEach(key => {
+            const items = JSON.parse(localStorage.getItem(key) || '[]');
+            let modified = false;
+
+            items.forEach(item => {
+                if (!item.slug) {
+                    // Determine source field for slug
+                    const sourceText = item.title || item.name || item.question || 'untitled';
+                    item.slug = sourceText
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/(^-|-$)+/g, '');
+                    modified = true;
+                }
+            });
+
+            if (modified) {
+                localStorage.setItem(key, JSON.stringify(items));
+                console.log(`Migrated slugs for ${key}`);
+            }
+        });
+
+        // --- MIGRATION: Fix Industries Images (From HEAD) ---
+        try {
+            const storedIndustries = JSON.parse(localStorage.getItem('industries') || '[]');
+            let indModified = false;
+            const imageMap = {
+                'education': '/images/education_modal_vr.webp',
+                'csr': '/images/csr-bg.webp',
+                'government': '/images/government-bg.webp',
+                'defence': '/images/defence-bg.webp'
+            };
+
+            storedIndustries.forEach(ind => {
+                const id = ind._id || ind.id;
+                if (imageMap[id] && ind.image !== imageMap[id]) {
+                    ind.image = imageMap[id];
+                    indModified = true;
+                }
+            });
+
+            if (indModified) {
+                localStorage.setItem('industries', JSON.stringify(storedIndustries));
+                console.log('Migrated industries images');
+            }
+        } catch (e) {
+            console.error('Error migrating industries images', e);
         }
 
         // --- MIGRATION: Update 'admin' role to 'content_manager' and Update Credentials ---
@@ -731,6 +702,15 @@ class MockStorageService {
                 usersModified = true;
             }
         });
+
+        // Ensure HR and Sales users exist
+        ADMIN_USERS.forEach(adminUser => {
+            if (!users.find(u => u.email === adminUser.email)) {
+                users.push({ ...adminUser, _id: `u${users.length}`, isVisible: true, status: 'Published' });
+                usersModified = true;
+            }
+        });
+
         if (usersModified) {
             localStorage.setItem('users', JSON.stringify(users));
             console.log('Migrated admin user to contentmanager credentials');
@@ -1027,10 +1007,10 @@ class MockStorageService {
         return this._toggleVisibility('industries', id);
     }
 
-    // --- Demo Queries ---
+    // --- Demo Queries / Leads ---
     async getDemoQueries() {
         try {
-            const response = await fetch('http://localhost:3000/api/messages');
+            const response = await fetch('/api/messages');
             if (response.ok) {
                 const result = await response.json();
                 // Map backend fields to frontend model
@@ -1039,7 +1019,7 @@ class MockStorageService {
                     ...item,
                     date: item.demo_date,
                     createdAt: item.created_at,
-                    status: 'Pending', // Default status for now as backend doesn't store it yet
+                    status: 'Pending', // TODO: Backend should store status
                     isVisible: true
                 }));
                 return { data: mappedData };
@@ -1054,22 +1034,43 @@ class MockStorageService {
         });
     }
 
-    saveDemoQuery(data) {
+    async saveDemoQuery(data) {
+        try {
+            const response = await fetch('/api/messages', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to save demo query:', error);
+            throw error;
+        }
+
+        // Fallback
         return this._create('demoQueries', {
             ...data,
-            status: 'Pending', // New, Contacted, Closed
+            status: 'Pending',
             notes: ''
         });
     }
 
     updateDemoQuery(id, data) {
+        // Backend currently doesn't support PATCH/PUT for messages. Stick to local or do nothing.
         return this._update('demoQueries', id, data);
+    }
+
+    deleteDemoQuery(id) {
+        // Backend currently doesn't support DELETE for messages.
+        return this._delete('demoQueries', id);
     }
 
     // --- Footer Config ---
     async getFooterConfig() {
         try {
-            const response = await fetch('http://localhost:3000/api/footer');
+            const response = await fetch('/api/footer');
             if (response.ok) {
                 return await response.json();
             }
@@ -1081,7 +1082,7 @@ class MockStorageService {
 
     async saveFooterConfig(data) {
         try {
-            const response = await fetch('http://localhost:3000/api/footer', {
+            const response = await fetch('/api/footer', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -1091,6 +1092,124 @@ class MockStorageService {
             }
         } catch (error) {
             console.error('Failed to save footer config to backend:', error);
+            throw error;
+        }
+    }
+
+    // --- Careers/Jobs ---
+    getJobs() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('jobs') });
+        });
+    }
+
+    saveJob(data) {
+        return this._create('jobs', {
+            ...data,
+            mission: data.mission || [],
+            requirements: data.requirements || []
+        });
+    }
+
+    updateJob(id, data) {
+        return this._update('jobs', id, data);
+    }
+
+    deleteJob(id) {
+        return this._delete('jobs', id);
+    }
+
+    toggleJobVisibility(id) {
+        return this._toggleVisibility('jobs', id);
+    }
+
+    // --- Job Applications ---
+    getJobApplications() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('jobApplications') });
+        });
+    }
+
+    saveJobApplication(data) {
+        return this._create('jobApplications', {
+            ...data,
+            appliedAt: data.appliedAt || new Date().toISOString()
+        });
+    }
+
+    deleteJobApplication(id) {
+        return this._delete('jobApplications', id);
+    }
+
+    // --- Employee Stories ---
+    async getEmployeeStories() {
+        try {
+            const response = await fetch('/api/employee-testimonials');
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to fetch employee stories:', error);
+        }
+        return { data: [] };
+    }
+
+    async saveEmployeeStory(data) {
+        try {
+            const response = await fetch('/api/employee-testimonials', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to save employee story:', error);
+            throw error;
+        }
+    }
+
+    async updateEmployeeStory(id, data) {
+        try {
+            const response = await fetch(`/api/employee-testimonials/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to update employee story:', error);
+            throw error;
+        }
+    }
+
+    async deleteEmployeeStory(id) {
+        try {
+            const response = await fetch(`/api/employee-testimonials/${id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                return { message: 'Deleted successfully' };
+            }
+        } catch (error) {
+            console.error('Failed to delete employee story:', error);
+            throw error;
+        }
+    }
+
+    async toggleEmployeeStoryVisibility(id) {
+        try {
+            const response = await fetch(`/api/employee-testimonials/${id}/visibility`, {
+                method: 'PATCH'
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to toggle visibility:', error);
             throw error;
         }
     }

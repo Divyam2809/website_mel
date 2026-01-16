@@ -1,0 +1,73 @@
+{
+    "hero": {
+        "badge": "VR Science Lab",
+        "title": "Conduct Experiments Without the Lab",
+        "subtitle": "Perform chemistry, physics, and biology experiments in a safe, cost-effective virtual laboratory environment.",
+        "primaryBtn": "Explore Virtual Lab",
+        "secondaryBtn": "View Experiment Catalog"
+    },
+    "theLab": {
+        "title": "The Virtual Laboratory",
+        "subtitle": "Complete science education platform",
+        "features": [
+            {
+                "number": "01",
+                "title": "Safe Experimentation",
+                "desc": "Conduct dangerous experiments with hazardous chemicals and equipment without any safety risks."
+            },
+            {
+                "number": "02",
+                "title": "Unlimited Resources",
+                "desc": "Access expensive equipment and rare materials without budget constraints or supply limitations."
+            },
+            {
+                "number": "03",
+                "title": "Repeatable Learning",
+                "desc": "Repeat experiments unlimited times to master concepts and perfect techniques."
+            }
+        ]
+    },
+    "benefits": {
+        "title": "Who Benefits",
+        "features": [
+            {
+                "focus": "Enhanced Learning",
+                "audience": "Schools & Colleges",
+                "benefit": "Provide hands-on lab experience to all students without expensive equipment or safety concerns."
+            },
+            {
+                "focus": "Practical Skills",
+                "audience": "Online Education",
+                "benefit": "Offer lab components for distance learning programs with full experimental capabilities."
+            },
+            {
+                "focus": "Technique Mastery",
+                "audience": "Research Training",
+                "benefit": "Train researchers on advanced techniques before working with expensive or dangerous materials."
+            }
+        ]
+    },
+    "stats": {
+        "title": "Why Melzo VR Lab",
+        "subtitle": "Reduce lab costs by 80% while providing unlimited experimental opportunities and perfect safety compliance.",
+        "cta": "Transform Science Education →",
+        "items": [
+            {
+                "value": "80%",
+                "label": "Cost Reduction"
+            },
+            {
+                "value": "Zero",
+                "label": "Safety Incidents"
+            },
+            {
+                "value": "95%",
+                "label": "Student Engagement"
+            },
+            {
+                "value": "85%",
+                "label": "Concept Retention"
+            }
+        ]
+    }
+}

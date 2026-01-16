@@ -1,0 +1,58 @@
+{
+    "hero": {
+        "title": "We don't just build VR. We build Reality.",
+        "subtitle": "If you thrive on big challenges, cutting-edge tech, and shaping the future of education and enterprise—this is your launchpad.",
+        "button": "View Open Positions"
+    },
+    "values": {
+        "title": "What we seek in you",
+        "subtitle": "Our culture is built on these four pillars.",
+        "items": [
+            {
+                "title": "Innovation",
+                "desc": "We don't just follow trends, we set them. We architect systems that structure experience over memorization."
+            },
+            {
+                "title": "Impact",
+                "desc": "We are on a mission to democratize education. Accessible, high-quality learning for everyone, everywhere."
+            },
+            {
+                "title": "Empathy",
+                "desc": "We build for the learner. User experience isn't an afterthought, it's our foundation."
+            },
+            {
+                "title": "Scale",
+                "desc": "Thinking big is in our DNA. We build solutions designed to reach millions of students."
+            }
+        ]
+    },
+    "perks": {
+        "title": "Perks & Benefits",
+        "items": [
+            {
+                "title": "Flexible Working Hours",
+                "desc": "The company offers flexible working hours to support better work-life balance."
+            },
+            {
+                "title": "Bonuses & Rewards",
+                "desc": "There are performance-based bonuses and rewards for good work."
+            },
+            {
+                "title": "Fun Culture",
+                "desc": "The workplace promotes a fun and friendly culture with team activities and events."
+            },
+            {
+                "title": "Recreational Facilities",
+                "desc": "Employees have access to recreational and wellness facilities like games or fitness options."
+            },
+            {
+                "title": "Learning & Growth",
+                "desc": "The environment encourages learning, innovation, and growth in emerging tech like VR and EdTech."
+            },
+            {
+                "title": "Leaves & Encashment",
+                "desc": "Employees get paid leaves and leave encashment options."
+            }
+        ]
+    }
+}
