@@ -227,7 +227,7 @@ export default function Guidelines({ onNavigate, isDarkTheme, onBookDemo, onTogg
                 opacity: 0.7
             }}>
                 <button
-                    onClick={() => onNavigate('home')}
+                    onClick={() => window.history.back()}
                     style={{
                         background: 'none',
                         border: 'none',
@@ -237,7 +237,7 @@ export default function Guidelines({ onNavigate, isDarkTheme, onBookDemo, onTogg
                         fontWeight: 600
                     }}
                 >
-                    &larr; Back to Home
+                    &larr; Back
                 </button>
             </footer>
         </div>

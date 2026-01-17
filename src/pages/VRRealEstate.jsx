@@ -116,7 +116,7 @@ export default function VRRealEstate({ onNavigate, isDarkTheme, onBookDemo, onTo
                         <p>{content.hero.subtitle}</p>
                         <div className="vr-product-hero-buttons">
                             <button onClick={onBookDemo} className="vr-product-btn-primary">{content.hero.primaryBtn}</button>
-                            <button onClick={onBookDemo} className="vr-product-btn-secondary">{content.hero.secondaryBtn}</button>
+                            {/* <button onClick={onBookDemo} className="vr-product-btn-secondary">{content.hero.secondaryBtn}</button> */}
                         </div>
                     </div>
                 </section>

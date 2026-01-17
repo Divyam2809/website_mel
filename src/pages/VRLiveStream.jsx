@@ -81,9 +81,9 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                             >
                                 {content.hero.primaryBtn}
                             </button>
-                            <button className="vr-livestream-btn-secondary">
+                            {/* <button className="vr-livestream-btn-secondary">
                                 {content.hero.secondaryBtn}
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 </section>

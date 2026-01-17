@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+    import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 // Icon Component for rendering SVG icons
@@ -57,6 +57,14 @@ const Icon = ({ type, color = '#FF9B50' }) => {
                 <path d="M12 17v-1" />
                 <path d="M2 2v6a5 5 0 0 0 10 0V4" />
                 <path d="M22 2v6a5 5 0 0 1-10 0V4" />
+            </svg>
+        ),
+        paw: (
+            <svg viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 14c-4 0-7 2.5-7 6s3 5.5 7 5.5 7-2 7-5.5-3-6-7-6Z" />
+                <circle cx="12" cy="7" r="2.5" />
+                <circle cx="18" cy="10" r="2.5" />
+                <circle cx="6" cy="10" r="2.5" />
             </svg>
         ),
 
@@ -224,7 +232,7 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo, onToggle
             items: [
                 { name: 'E-Learning Solutions', icon: 'graduation', description: 'Interactive digital learning platforms for schools.', link: 'vrelearning' },
 
-                { name: 'Animal Surgery Simulation', icon: 'stethoscope', description: 'Risk-free veterinary surgical training in VR.', link: 'vranimalsurgery' }
+                { name: 'Animal Surgery Simulation', icon: 'paw', description: 'Risk-free veterinary surgical training in VR.', link: 'vranimalsurgery' }
             ]
         },
         {

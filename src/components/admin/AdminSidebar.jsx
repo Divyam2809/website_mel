@@ -89,6 +89,17 @@ const AdminSidebar = ({ stats = {} }) => {
                 <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
             </svg>
         ),
+        Footer: (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="15" width="20" height="5" rx="2" ry="2"></rect>
+                <path d="M2 15V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v9"></path>
+            </svg>
+        ),
+        Privacy: (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+        ),
         ChevronDown: (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M6 9l6 6 6-6"></path>
@@ -103,19 +114,23 @@ const AdminSidebar = ({ stats = {} }) => {
     let menuItems = [
         { name: 'Blog', path: '/admin/content/blog', icon: Icons.Blog },
         { name: 'News', path: '/admin/content/news', icon: Icons.News },
+        { name: 'Footer', path: '/admin/footer', icon: Icons.Footer },
+        { name: 'Privacy Policy', path: '/admin/content/privacyPolicy', icon: Icons.Privacy },
         { name: 'Awards', path: '/admin/content/awards', icon: Icons.Awards },
         { name: 'FAQs', path: '/admin/content/faqs', icon: Icons.FAQs },
         { name: 'Team Details', path: '/admin/content/teamdetails', icon: Icons.Team },
         { name: 'Case Study', path: '/admin/content/casestudy', icon: Icons.CaseStudy },
         { name: 'Testimonials', path: '/admin/content/testimonials', icon: Icons.Testimonials },
         { name: 'Timeline', path: '/admin/content/timeline', icon: Icons.Timeline },
+        { name: 'Industries', path: '/admin/content/industries', icon: Icons.Briefcase },
         {
             name: 'Careers',
             icon: Icons.Briefcase,
             children: [
                 { name: 'Job Openings', path: '/admin/content/jobs' },
                 { name: 'Job Applications', path: '/admin/content/jobApplications' },
-                { name: 'Employee Stories', path: '/admin/content/employeeStories' }
+                { name: 'Employee Stories', path: '/admin/content/employeeStories' },
+                { name: 'Photo Gallery', path: '/admin/content/careersGallery' }
             ]
         },
         { name: 'Leads', path: '/admin/content/demoQueries', icon: Icons.MessageSquare }
@@ -192,7 +207,7 @@ const AdminSidebar = ({ stats = {} }) => {
                                 </div>
                                 <div className={`sidebar-submenu ${expandedMenu[item.name] ? 'expanded' : ''}`}
                                     style={{
-                                        maxHeight: expandedMenu[item.name] ? '200px' : '0',
+                                        maxHeight: expandedMenu[item.name] ? '500px' : '0',
                                         overflow: 'hidden',
                                         transition: 'max-height 0.3s ease-in-out',
                                         opacity: expandedMenu[item.name] ? 1 : 0

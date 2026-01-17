@@ -806,7 +806,9 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                 onMouseLeave={(e) => {
                                     e.target.style.transform = 'translateY(0)';
                                     e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                                }}>
+                                }}
+                                onClick={onBookDemo}
+                            >
                                 {content.hero.btnBook}
                             </button>
                             <button

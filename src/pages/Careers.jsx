@@ -103,11 +103,12 @@ const gradientText = {
 
 
 
-export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBookDemo }) {
+export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBookDemo, onContactUs }) {
     const jobsRef = useRef(null);
     const containerRef = useRef(null);
     const [selectedJob, setSelectedJob] = useState(null);
     const [jobs, setJobs] = useState([]);
+    const [galleryItems, setGalleryItems] = useState([]); // Gallery state
     const [searchTerm, setSearchTerm] = useState(''); // New search state
     const [showContainerScrollTop, setShowContainerScrollTop] = useState(false);
     const [content, setContent] = useState(null);
@@ -158,6 +159,17 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
             })
             .catch(err => console.error('[Careers] Error fetching live data:', err))
             .finally(() => setIsLoading(false));
+
+        // Fetch Gallery Data
+        mockStorage.getCareersGallery().then(res => {
+            if (res.data) {
+                // Sort by sort_order if available
+                const sorted = res.data
+                    .filter(item => item.status === 'Published' || item.isVisible)
+                    .sort((a, b) => (a.sort_order || 99) - (b.sort_order || 99));
+                setGalleryItems(sorted);
+            }
+        });
 
         fetchJobs();
     }, []);
@@ -416,6 +428,89 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                 {/* --- Employee Testimonials --- */}
                 <EmployeeTestimonials isDarkTheme={isDarkTheme} />
 
+                {/* --- Photo Gallery (Life at Melzo) --- */}
+                {galleryItems.length > 0 && (
+                    <section style={{ padding: '8rem 5%', textAlign: 'center' }}>
+                        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+                            <div style={{ marginBottom: '4rem' }}>
+                                <h2 style={{
+                                    fontSize: '3rem',
+                                    fontWeight: 900,
+                                    marginBottom: '1rem',
+                                    color: isDarkTheme ? '#fff' : '#2D2D2D'
+                                }}>
+                                    Life at Melzo: A Glimpse Inside
+                                </h2>
+                                <p style={{
+                                    fontSize: '1.2rem',
+                                    opacity: 0.7,
+                                    maxWidth: '700px',
+                                    margin: '0 auto'
+                                }}>
+                                    Where innovation meets culture. See what it's like to be part of our journey.
+                                </p>
+                            </div>
+
+                            <div className="bento-grid">
+                                {galleryItems.map((item, index) => {
+                                    // Simple logic for Bento effect:
+                                    // Make the 1st, 6th, 11th items span 2 rows and 2 cols
+                                    // Make the 4th, 9th items span 2 columns
+                                    // Adjust widely for variation
+                                    const isBigSquare = (index % 10 === 0);
+                                    const isWide = (index % 10 === 5 || index % 10 === 9);
+
+                                    return (
+                                        <div key={index}
+                                            className="bento-item"
+                                            style={{
+                                                gridColumn: isBigSquare ? 'span 2' : (isWide ? 'span 2' : 'span 1'),
+                                                gridRow: isBigSquare ? 'span 2' : 'span 1',
+                                                position: 'relative',
+                                                borderRadius: '24px',
+                                                overflow: 'hidden',
+                                                height: '100%',
+                                                minHeight: '250px',
+                                                cursor: 'pointer'
+                                            }}
+                                        >
+                                            <div style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                backgroundImage: `url(${item.image})`,
+                                                backgroundSize: 'cover',
+                                                backgroundPosition: 'center',
+                                                transition: 'transform 0.5s ease',
+                                                filter: isDarkTheme ? 'brightness(0.9)' : 'brightness(1)'
+                                            }}
+                                                className="bento-bg"
+                                            />
+
+                                            {/* Hover Overlay */}
+                                            <div className="bento-overlay" style={{
+                                                position: 'absolute',
+                                                inset: 0,
+                                                background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent 60%)',
+                                                opacity: 0,
+                                                transition: 'opacity 0.3s ease',
+                                                display: 'flex',
+                                                alignItems: 'flex-end',
+                                                padding: '1.5rem',
+                                                textAlign: 'left'
+                                            }}>
+                                                <div>
+                                                    <h3 style={{ color: '#fff', margin: 0, fontSize: '1.1rem', fontWeight: 700 }}>{item.title}</h3>
+                                                    {item.caption && <p style={{ color: 'rgba(255,255,255,0.8)', margin: '0.25rem 0 0', fontSize: '0.9rem' }}>{item.caption}</p>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </section>
+                )}
+
 
                 {/* --- Open Positions --- */}
                 <section ref={jobsRef} style={{
@@ -546,7 +641,7 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                             <h3 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '0.5rem' }}>Don't see your role?</h3>
                             <p style={{ opacity: 0.7, marginBottom: '2rem' }}>We are always looking for exceptional talent. If you think you can make an impact, talk to us.</p>
                             <button
-                                onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}
+                                onClick={onContactUs}
                                 style={{
                                     padding: '1rem 3rem',
                                     borderRadius: '50px',
@@ -603,6 +698,38 @@ export default function Careers({ onNavigate, isDarkTheme, onToggleTheme, onBook
                         height: 500px;
                         background: radial-gradient(circle, #CC5500 0%, transparent 70%);
                         animation-delay: -10s;
+                    }
+
+                    /* --- Bento Grid Styles --- */
+                    .bento-grid {
+                        display: grid;
+                        grid-template-columns: repeat(4, 1fr);
+                        grid-auto-rows: 250px;
+                        gap: 1.5rem;
+                    }
+
+                    @media (max-width: 1024px) {
+                        .bento-grid {
+                            grid-template-columns: repeat(2, 1fr);
+                        }
+                    }
+
+                    @media (max-width: 600px) {
+                        .bento-grid {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 1.5rem;
+                        }
+                        .bento-item {
+                            height: 300px !important;
+                        }
+                    }
+
+                    .bento-item:hover .bento-bg {
+                        transform: scale(1.1);
+                    }
+                    .bento-item:hover .bento-overlay {
+                        opacity: 1 !important;
                     }
 
                     /* --- Hexagon Background Styles --- */

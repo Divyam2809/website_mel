@@ -141,6 +141,8 @@ export default function BookDemo({ isOpen, onClose, isDarkTheme }) {
                     ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
                     : '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
                 minHeight: isSubmitted ? '400px' : 'auto',
+                maxHeight: '90vh', // Limit height
+                overflowY: 'auto', // Enable scrolling
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: isSubmitted ? 'center' : 'flex-start',

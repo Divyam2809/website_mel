@@ -229,7 +229,7 @@ export default function PrivacyPolicy(props) {
                         <div style={{ textAlign: 'center', padding: '40px' }}>Loading policies...</div>
                     ) : (
                         sections.map((section) => (
-                            <div key={section._id} style={{
+                            <div key={section._id || section.id} style={{
                                 backgroundColor: bgCard,
                                 padding: '30px',
                                 borderRadius: '16px',

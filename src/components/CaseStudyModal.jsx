@@ -1,6 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default function CaseStudyModal({ study, onClose, isDarkTheme }) {
+    useEffect(() => {
+        if (study) {
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+        };
+    }, [study]);
+
     if (!study) return null;
 
     // Helper to render structured content blocks

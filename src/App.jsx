@@ -55,6 +55,7 @@ const UserManager = React.lazy(() => import('./components/admin/UserManager'));
 
 import Footer from './components/Footer';
 import BookDemo from './components/BookDemo';
+import ContactInfoModal from './components/ContactInfoModal';
 import Toast from './components/Toast';
 import ProductComparison from './components/ProductComparison';
 import VRIndustrial from './pages/VRIndustrial';
@@ -85,6 +86,7 @@ export default function App() {
     }, [isDarkTheme]);
 
     const [isDemoOpen, setIsDemoOpen] = useState(false);
+    const [isContactOpen, setIsContactOpen] = useState(false);
     const [isComparisonOpen, setIsComparisonOpen] = useState(false);
 
     const navigate = useNavigate();
@@ -171,6 +173,7 @@ export default function App() {
         onNavigate: handleNavigate, // Pass the adapter
         isDarkTheme,
         onBookDemo: () => setIsDemoOpen(true),
+        onContactUs: () => setIsContactOpen(true),
         onToggleTheme: () => setIsDarkTheme(!isDarkTheme),
         onCompareProducts: () => setIsComparisonOpen(true),
         showToast: { success, error, warning, info },
@@ -275,6 +278,13 @@ export default function App() {
             <BookDemo
                 isOpen={isDemoOpen}
                 onClose={() => setIsDemoOpen(false)}
+                isDarkTheme={isDarkTheme}
+            />
+
+            {/* Contact Info Modal */}
+            <ContactInfoModal
+                isOpen={isContactOpen}
+                onClose={() => setIsContactOpen(false)}
                 isDarkTheme={isDarkTheme}
             />
 

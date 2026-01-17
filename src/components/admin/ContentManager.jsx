@@ -29,7 +29,7 @@ const ContentManager = () => {
     const [stats, setStats] = useState({
         blogs: 0, news: 0, awards: 0, faqs: 0,
         teamdetails: 0, caseStudy: 0, testimonials: 0, timeline: 0,
-        jobs: 0, jobApplications: 0, employeeStories: 0, demoQueries: 0
+        jobs: 0, jobApplications: 0, employeeStories: 0, demoQueries: 0, privacyPolicy: 0, careersGallery: 0
     });
     const navigate = useNavigate();
     const user = JSON.parse(sessionStorage.getItem('user') || '{}');
@@ -38,7 +38,7 @@ const ContentManager = () => {
 
     // Role-based access control
     useEffect(() => {
-        if (isHR && !['jobs', 'jobApplications', 'employeeStories'].includes(moduleType)) {
+        if (isHR && !['jobs', 'jobApplications', 'employeeStories', 'careersGallery'].includes(moduleType)) {
             navigate('/admin/content/jobs');
         }
     }, [isHR, moduleType, navigate]);
@@ -290,7 +290,7 @@ const ContentManager = () => {
             delete: (id) => mockStorage.deleteJobApplication(id)
         },
         employeeStories: {
-            title: 'Employee Testimonials',
+            title: 'Employee Stories',
             fields: {
                 name: 'text',
                 status: 'select:Published,Draft',
@@ -323,6 +323,36 @@ const ContentManager = () => {
             update: (id, data) => mockStorage.updateDemoQuery(id, data),
             toggle: (id) => Promise.resolve(),
             delete: (id) => mockStorage.deleteDemoQuery(id)
+        },
+        privacyPolicy: {
+            title: 'Privacy Policy Sections',
+            fields: {
+                title: 'text',
+                icon: 'select:doc,gear,shield,users,mail',
+                sort_order: 'number',
+                content: 'json:blocks',
+                status: 'select:Published,Draft'
+            },
+            get: () => mockStorage.getPrivacyPolicy(),
+            save: (data) => mockStorage.savePrivacySection(data),
+            update: (id, data) => mockStorage.updatePrivacySection(id, data),
+            toggle: (id) => mockStorage.togglePrivacySectionVisibility(id),
+            delete: (id) => mockStorage.deletePrivacySection(id)
+        },
+        careersGallery: {
+            title: 'Life at Melzo Gallery',
+            fields: {
+                title: 'text',
+                status: 'select:Published,Draft',
+                image: 'file:image',
+                caption: 'textarea',
+                sort_order: 'number'
+            },
+            get: () => mockStorage.getCareersGallery(),
+            save: (data) => mockStorage.saveCareersGallery(data),
+            update: (id, data) => mockStorage.updateCareersGallery(id, data),
+            toggle: (id) => mockStorage.toggleCareersGalleryVisibility(id),
+            delete: (id) => mockStorage.deleteCareersGallery(id)
         }
     };
 
@@ -355,7 +385,7 @@ const ContentManager = () => {
 
     const loadStats = async () => {
         try {
-            const [blogs, news, awards, faqs, team, cases, testimonials, timeline, jobs, applications, stories, queries] = await Promise.all([
+            const [blogs, news, awards, faqs, team, cases, testimonials, timeline, jobs, applications, stories, queries, privacy, gallery] = await Promise.all([
                 blogService.getAll(),
                 newsService.getAll(),
                 awardsService.getAll(),
@@ -367,7 +397,9 @@ const ContentManager = () => {
                 mockStorage.getJobs(),
                 mockStorage.getJobApplications(),
                 employeeTestimonialService.getAll(),
-                mockStorage.getDemoQueries()
+                mockStorage.getDemoQueries(),
+                mockStorage.getPrivacyPolicy(),
+                mockStorage.getCareersGallery()
             ]);
 
             setStats({
@@ -382,7 +414,10 @@ const ContentManager = () => {
                 jobs: jobs.data.length,
                 jobApplications: applications.data.length,
                 employeeStories: stories.data.length,
-                demoQueries: queries.data.length
+                demoQueries: queries.data.length,
+                demoQueries: queries.data.length,
+                privacyPolicy: privacy.data.length,
+                careersGallery: gallery.data.length
             });
         } catch (error) {
             console.error('Error loading stats:', error);

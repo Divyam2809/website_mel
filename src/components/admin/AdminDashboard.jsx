@@ -18,7 +18,7 @@ const AdminDashboard = () => {
     const [stats, setStats] = useState({
         blogs: 0, news: 0, awards: 0, faqs: 0,
         teamdetails: 0, caseStudy: 0, testimonials: 0, timeline: 0,
-        jobs: 0, jobApplications: 0, employeeStories: 0, demoQueries: 0
+        jobs: 0, jobApplications: 0, employeeStories: 0, demoQueries: 0, careersGallery: 0
     });
     const [visitorStats, setVisitorStats] = useState([]);
     const [recentQueries, setRecentQueries] = useState([]);
@@ -84,7 +84,7 @@ const AdminDashboard = () => {
 
     const loadStats = async () => {
         try {
-            const [blogs, news, awards, faqs, team, cases, testimonials, timeline, jobs, applications, stories, queries] = await Promise.all([
+            const [blogs, news, awards, faqs, team, cases, testimonials, timeline, jobs, applications, stories, queries, gallery] = await Promise.all([
                 blogService.getAll(),
                 newsService.getAll(),
                 awardsService.getAll(),
@@ -96,7 +96,8 @@ const AdminDashboard = () => {
                 mockStorage.getJobs(),
                 mockStorage.getJobApplications(),
                 employeeTestimonialService.getAll(),
-                mockStorage.getDemoQueries()
+                mockStorage.getDemoQueries(),
+                mockStorage.getCareersGallery()
             ]);
 
             setStats({
@@ -111,7 +112,8 @@ const AdminDashboard = () => {
                 jobs: (jobs.data || []).length,
                 jobApplications: (applications.data || []).length,
                 employeeStories: (stories.data || []).length,
-                demoQueries: (queries.data || []).length
+                demoQueries: (queries.data || []).length,
+                careersGallery: (gallery.data || []).length
             });
         } catch (error) {
             console.error('Error loading stats:', error);
@@ -176,7 +178,8 @@ const AdminDashboard = () => {
         ...(isHR || user?.role === 'superadmin' ? [
             { name: 'Jobs', path: '/admin/content/jobs', count: stats.jobs || 0 },
             { name: 'Applications', path: '/admin/content/jobApplications', count: stats.jobApplications || 0 },
-            { name: 'Employee Stories', path: '/admin/content/employeeStories', count: stats.employeeStories || 0 }
+            { name: 'Employee Stories', path: '/admin/content/employeeStories', count: stats.employeeStories || 0 },
+            { name: 'Photo Gallery', path: '/admin/content/careersGallery', count: stats.careersGallery || 0 }
         ] : []),
         { name: 'Leads', path: '/admin/content/demoQueries', count: stats.demoQueries || 0 }
     ];

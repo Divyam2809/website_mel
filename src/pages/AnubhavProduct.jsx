@@ -805,7 +805,9 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                                 onMouseLeave={(e) => {
                                     e.target.style.transform = 'translateY(0)';
                                     e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                                }}>
+                                }}
+                                onClick={onBookDemo}
+                            >
                                 {content.hero.btnBook}
                             </button>
                             <button
@@ -1193,9 +1195,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                                 }}>
                                     {content.news.title}
                                 </h2>
-                                <p style={{ fontSize: '1.1rem', opacity: 0.7 }}>
-                                    Featured in leading publications
-                                </p>
+
                             </div>
                         </div>
 

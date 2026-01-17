@@ -30,6 +30,21 @@ export default function MelzoNews({ onNavigate, isDarkTheme, onBookDemo, onToggl
         fetchNews();
     }, []);
 
+    // Prevent background scrolling when modal is open
+    useEffect(() => {
+        if (selectedNews) {
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+        };
+    }, [selectedNews]);
+
     // ... Keep existing filter logic ...
     const filteredNews = newsItems.filter(item => {
         const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

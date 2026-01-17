@@ -14,7 +14,7 @@ import Testimonials from '../components/Testimonials';
 import GridBackground from '../components/GridBackground';
 import initialContent from '../data/homeContent.json';
 
-export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme, scrollToContact }) {
+export default function Home({ onNavigate, isDarkTheme, onBookDemo, onContactUs, onToggleTheme, scrollToContact }) {
     const [content, setContent] = useState(initialContent);
 
     useEffect(() => {
@@ -149,7 +149,7 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                                 {content.hero.primaryBtn}
                             </button>
                             <button
-                                onClick={scrollToContact}
+                                onClick={onContactUs}
                                 style={{
                                     background: 'transparent',
                                     color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',

@@ -71,9 +71,9 @@ export default function VRKala({ onNavigate, isDarkTheme, onBookDemo, onToggleTh
                             <button onClick={onBookDemo} className="vr-product-btn-primary">
                                 {content.hero.primaryBtn}
                             </button>
-                            <button className="vr-product-btn-secondary">
+                            {/* <button className="vr-product-btn-secondary">
                                 {content.hero.secondaryBtn}
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 </section>

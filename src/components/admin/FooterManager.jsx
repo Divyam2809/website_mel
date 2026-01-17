@@ -189,6 +189,15 @@ export default function FooterManager() {
                                 <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem', color: '#333' }}>Contact Information</h3>
                                 <div style={{ display: 'grid', gap: '15px' }}>
                                     <div>
+                                        <label style={{ display: 'block', marginBottom: '5px', fontSize: '0.9rem', color: '#666' }}>Email</label>
+                                        <input
+                                            type="text"
+                                            value={config.contact.email || ''}
+                                            onChange={(e) => updateField('contact', 'email', e.target.value)}
+                                            style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #e2e8f0' }}
+                                        />
+                                    </div>
+                                    <div>
                                         <label style={{ display: 'block', marginBottom: '5px', fontSize: '0.9rem', color: '#666' }}>Phone Number</label>
                                         <input
                                             type="text"

@@ -631,6 +631,11 @@ class MockStorageService {
             localStorage.setItem('industries', JSON.stringify(initialIndustries));
         }
 
+        // Initialize Careers Gallery
+        if (!localStorage.getItem('careersGallery')) {
+            localStorage.setItem('careersGallery', JSON.stringify([]));
+        }
+
         // --- MIGRATION: Auto-Generate Slugs for Legacy Data (From HEAD) ---
         const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials', 'jobs', 'employeeStories', 'jobApplications', 'industries'];
 
@@ -985,26 +990,76 @@ class MockStorageService {
     }
 
     // --- Industries ---
-    getIndustries() {
-        return new Promise((resolve) => {
-            resolve({ data: this._getAll('industries') });
-        });
+    async getIndustries() {
+        try {
+            const response = await fetch('/api/industries');
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to fetch industries:', error);
+        }
+        return { data: [] };
     }
 
-    saveIndustry(data) {
-        return this._create('industries', data);
+    async saveIndustry(data) {
+        try {
+            const response = await fetch('/api/industries', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to save industry:', error);
+            throw error;
+        }
     }
 
-    updateIndustry(id, data) {
-        return this._update('industries', id, data);
+    async updateIndustry(id, data) {
+        try {
+            const response = await fetch(`/api/industries/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to update industry:', error);
+            throw error;
+        }
     }
 
-    deleteIndustry(id) {
-        return this._delete('industries', id);
+    async deleteIndustry(id) {
+        try {
+            const response = await fetch(`/api/industries/${id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                return { message: 'Deleted successfully' };
+            }
+        } catch (error) {
+            console.error('Failed to delete industry:', error);
+            throw error;
+        }
     }
 
-    toggleIndustryVisibility(id) {
-        return this._toggleVisibility('industries', id);
+    async toggleIndustryVisibility(id) {
+        try {
+            const response = await fetch(`/api/industries/${id}/visibility`, {
+                method: 'PATCH'
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to toggle visibility:', error);
+            throw error;
+        }
     }
 
     // --- Demo Queries / Leads ---
@@ -1203,6 +1258,154 @@ class MockStorageService {
     async toggleEmployeeStoryVisibility(id) {
         try {
             const response = await fetch(`/api/employee-testimonials/${id}/visibility`, {
+                method: 'PATCH'
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to toggle visibility:', error);
+            throw error;
+        }
+    }
+
+    // --- Privacy Policy ---
+    async getPrivacyPolicy() {
+        try {
+            const response = await fetch('/api/privacy-policy');
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to fetch privacy policy:', error);
+        }
+        return { data: [] };
+    }
+
+    async savePrivacySection(data) {
+        try {
+            const response = await fetch('/api/privacy-policy', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to save privacy section:', error);
+            throw error;
+        }
+    }
+
+    async updatePrivacySection(id, data) {
+        try {
+            const response = await fetch(`/api/privacy-policy/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to update privacy section:', error);
+            throw error;
+        }
+    }
+
+    async deletePrivacySection(id) {
+        try {
+            const response = await fetch(`/api/privacy-policy/${id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                return { message: 'Deleted successfully' };
+            }
+        } catch (error) {
+            console.error('Failed to delete privacy section:', error);
+            throw error;
+        }
+    }
+
+    async togglePrivacySectionVisibility(id) {
+        try {
+            const response = await fetch(`/api/privacy-policy/${id}/visibility`, {
+                method: 'PATCH'
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to toggle visibility:', error);
+            throw error;
+        }
+    }
+
+    // --- Careers Gallery ---
+    // --- Careers Gallery ---
+    async getCareersGallery() {
+        try {
+            const response = await fetch('/api/careers-gallery');
+            if (response.ok) {
+                return await response.json();
+            }
+            return { data: [] }; // Fallback
+        } catch (error) {
+            console.error('Failed to fetch careers gallery:', error);
+            return { data: [] };
+        }
+    }
+
+    async saveCareersGallery(data) {
+        try {
+            const response = await fetch('/api/careers-gallery', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to save gallery item:', error);
+            throw error;
+        }
+    }
+
+    async updateCareersGallery(id, data) {
+        try {
+            const response = await fetch(`/api/careers-gallery/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to update gallery item:', error);
+            throw error;
+        }
+    }
+
+    async deleteCareersGallery(id) {
+        try {
+            const response = await fetch(`/api/careers-gallery/${id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                return { message: 'Deleted successfully' };
+            }
+        } catch (error) {
+            console.error('Failed to delete gallery item:', error);
+            throw error;
+        }
+    }
+
+    async toggleCareersGalleryVisibility(id) {
+        try {
+            const response = await fetch(`/api/careers-gallery/${id}/visibility`, {
                 method: 'PATCH'
             });
             if (response.ok) {

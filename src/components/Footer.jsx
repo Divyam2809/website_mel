@@ -177,6 +177,13 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                     <div>
                         <h4 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '1.2rem', color: textColor }}>Contact Us</h4>
 
+                        {config.contact.email && (
+                            <div style={{ marginBottom: '1rem' }}>
+                                <strong style={{ display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem', color: textColor }}>Email -</strong>
+                                <a href={`mailto:${config.contact.email}`} style={{ color: subTextColor, fontSize: '0.9rem', textDecoration: 'none' }}>{config.contact.email}</a>
+                            </div>
+                        )}
+
                         <div style={{ marginBottom: '1rem' }}>
                             <strong style={{ display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem', color: textColor }}>Phone Number -</strong>
                             <span style={{ color: subTextColor, fontSize: '0.9rem' }}>{config.contact.phone}</span>
