@@ -95,7 +95,6 @@ export default function App() {
     usePageTitle();
     useMetaDescription();
 
-
     // Initialize Google Analytics on Mount
     useEffect(() => {
         initGA();
