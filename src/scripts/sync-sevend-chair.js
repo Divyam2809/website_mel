@@ -66,9 +66,9 @@ export async function syncSevenDChairContent(shouldWrite = true) {
             else if (/[-—–]+\s*FEATURES\s*[-—–]+/i.test(line)) currentSection = 'features';
             else if (/[-—–]+\s*STATS\s*[-—–]+/i.test(line)) currentSection = 'stats';
             else if (/[-—–]+\s*NEWS\s*[-—–]+/i.test(line)) currentSection = 'news';
-            else if (/[-—–]+\s*WHY\s+CHOOSE\s*[-—–]+/i.test(line)) currentSection = 'whyChoose';
-            else if (/[-—–]+\s*COMPARE\s+5D\s*[-—–]+/i.test(line)) currentSection = 'compare5d';
-            else if (/[-—–]+\s*COMPARE\s+7D\s*[-—–]+/i.test(line)) currentSection = 'compare7d';
+            else if (/[-—–]+\s*WHY[\s-]+CHOOSE\s*[-—–]+/i.test(line)) currentSection = 'whyChoose';
+            else if (/[-—–]+\s*COMPARE[\s-]+5D\s*[-—–]+/i.test(line)) currentSection = 'compare5d';
+            else if (/[-—–]+\s*COMPARE[\s-]+7D\s*[-—–]+/i.test(line)) currentSection = 'compare7d';
             else if (line.includes(':') || line.includes('：')) { // Handle standard and full-width colon
                 let splitIndex = line.indexOf(':');
                 if (splitIndex === -1) splitIndex = line.indexOf('：');

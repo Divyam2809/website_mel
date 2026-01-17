@@ -550,9 +550,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
             .finally(() => setIsLoading(false));
     }, []);
 
-    if (isLoading) {
-        return <LoadingSpinner />;
-    }
+
 
     // const [mediaContent, setMediaContent] = useState({ videos: [], photos: [] }); // Removed dynamic state
 
@@ -571,6 +569,10 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
         { name: 'Yellow', image: '5d_chair/Yellow (Large).webp', color: '#FFEB3B' },
     ];
     const [selectedColorIndex, setSelectedColorIndex] = useState(0);
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
 
     const nextColor = () => {
         setSelectedColorIndex((prev) => (prev + 1) % colorOptions.length);
@@ -635,6 +637,30 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
             description: 'Access to advanced learning tools is no longer limited to urban centers. 5D labs are bringing world-class education to every corner of India.',
             image: '/assets/vr_elearning_hero.webp',
             link: '#'
+        }
+    ];
+
+    // Static data for 'Get To Know' section
+    const staticFeatures = [
+        {
+            title: "5D Labs Experiment",
+            description: "Experience next-generation curriculum-based 5D lab experiments with Melzo Anubhav's advanced virtual reality technology. Students can safely conduct enhanced physics experiments, complex chemical reactions, detailed biological dissections, and advanced engineering simulations in an ultra-immersive environment. Designed for premium educational institutions, universities, and advanced training centers, these ultra-realistic 5D simulations bring science to life with unprecedented detail. From exploring advanced quantum physics to dissecting virtual organisms with haptic feedback, every experience is hands-on and incredibly engaging. With enhanced motion effects, real-time interaction, and stunning 5D visuals, Melzo Anubhav 5D overcomes all limitations of traditional labs.",
+            image: "5d_chair/Person using VR headset_5d.webp"
+        },
+        {
+            title: "VR Built-In",
+            description: "Melzo Anubhav brings education to life through immersive Virtual Reality, allowing users to explore high-quality 3D simulations, lifelike virtual labs, and interactive content with unmatched clarity and depth. Students, educators, and professionals can experience hands-on training ,conduct virtual experiments, and engage in immersive storytelling—making complex concepts easier to grasp. With support for advanced VR headsets such as Meta Quest 2 and Meta Quest 3s, the experience is smooth, intuitive, and engaging. Melzo Anubhav redefines education by extending learning beyond books and screens into a truly experiential and impactful journey.",
+            image: "5d_chair/VR headset and controllers.webp"
+        },
+        {
+            title: "Virtual Tours",
+            description: "Step into history and exploration like never before with Melzo Anubhav 5D's ultra-immersive virtual tours. Experience the Apollo 11 Moon Landing with spatial audio, dive into underwater adventures with haptic feedback, witness African wildlife with scent simulation, and explore the beauty of Italy with temperature effects—all from your premium 5D seat. Powered by revolutionary 5D virtual reality and multi-sensory effects, Melzo Anubhav 5D lets you feel the atmosphere of historical events and walk through global landmarks as if you were truly there. Perfect for premium educational institutions, universities, and history enthusiasts, these photorealistic simulations make learning engaging and unforgettable. Melzo Anubhav 5D turns history into a living experience because the best way to learn it is to live it completely.",
+            image: "5d_chair/Virtual wildlife encounter with tiger_5d.webp"
+        },
+        {
+            title: "Premium Immersive",
+            description: "Melzo Anubhav 5D is meticulously designed to deliver both ultra-immersive education and superior luxury comfort. The chair features premium memory foam cushioning made with high-quality, genuine leather materials that offer an incredibly soft, supportive, and durable seating experience. This carefully selected premium upholstery provides a smooth finish and luxurious feel, ensuring users remain comfortable during extended interactive sessions. Its easy-to-clean and wear-resistant surface makes it ideal for continuous use in premium educational environments such as elite schools, universities, and advanced training centers. The ergonomic design supports proper posture during long VR sessions.",
+            image: "5d_chair/Close-up of premium 5d chair upholstery.webp"
         }
     ];
 
@@ -1006,7 +1032,8 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                         margin: '4rem auto',
                         padding: '0 2rem'
                     }}>
-                        {content.features.items.map((feature, index) => (
+                        {staticFeatures.map((feature, index) => (
+
                             <div key={index} style={{
                                 padding: '2rem 0',
                                 borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',

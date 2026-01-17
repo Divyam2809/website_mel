@@ -531,6 +531,31 @@ import initialContent from '../data/sevenDChairContent.json';
 
 // ... (existing imports)
 
+
+// Static data for 'Get To Know' section
+const staticFeatures = [
+    {
+        title: "7D Labs Experiment",
+        description: "Experience curriculum-based 7D lab experiments with Melzo Anubhav's virtual reality-powered labs like never before. Students can safely conduct physics experiments, chemical reactions, biological dissections, and engineering simulations in an immersive environment. Designed for schools, universities, and training centers, these lifelike 7D simulations bring science to life. From exploring Newton's Laws to dissecting virtual organisms, every experience is hands-on and engaging. With motion effects, real-time interaction, and stunning visuals, Melzo Anubhav overcomes the limitations of traditional labs.",
+        image: "/images/7d_chair/Person using VR headset.webp"
+    },
+    {
+        title: "VR Built-In",
+        description: "Melzo Anubhav brings education to life through immersive Virtual Reality, allowing users to explore high-quality 3D simulations, lifelike virtual labs, and interactive content with unmatched clarity and depth. Students, educators, and professionals can experience hands-on training, conduct virtual experiments, and engage in immersive storytelling—making complex concepts easier to grasp. With support for advanced VR headsets such as Meta Quest 2 and Meta Quest 3s, the experience is smooth, intuitive, and engaging. Melzo Anubhav redefines education by extending learning beyond books and screens into a truly experiential and impactful journey.",
+        image: "/images/7d_chair/VR headset and controllers.webp"
+    },
+    {
+        title: "Virtual Tours",
+        description: "Step into history and exploration like never before with Melzo Anubhav's interactive virtual tours. Experience the Apollo 11 Moon Landing, dive into an underwater adventure, witness African wildlife, and explore the beauty of Italy—all from your seat. Powered by 7D virtual reality and immersive effects, Melzo Anubhav lets you feel the atmosphere of historical events and walk through global landmarks as if you were truly there. Perfect for students, educators, and history enthusiasts, these realistic simulations make learning engaging and unforgettable. Melzo Anubhav turns history into an experience because the best way to learn it is to live it.",
+        image: "/images/7d_chair/Virtual wildlife encounter with tiger.webp"
+    },
+    {
+        title: "Immersive Ease",
+        description: "Melzo Anubhav is thoughtfully designed to deliver both immersive education and superior comfort. The chair features premium cushioning made with high-quality, leather-like materials that offer a soft, supportive, and durable seating experience. This carefully chosen upholstery provides a smooth finish and luxurious feel, ensuring users remain comfortable during extended interactive sessions. Its easy-to-clean and wear-resistant surface makes it ideal for continuous use in educational environments such as schools, labs, and training centers.",
+        image: "/images/7d_chair/Close-up of premium chair upholstery.webp"
+    }
+];
+
 export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const [content, setContent] = useState(initialContent);
     const [isLoading, setIsLoading] = useState(true);
@@ -916,7 +941,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                         margin: '4rem auto',
                         padding: '0 2rem'
                     }}>
-                        {content.features.items.map((feature, index) => (
+                        {staticFeatures.map((feature, index) => (
                             <div key={index} style={{
                                 padding: '2rem 0',
                                 borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',
