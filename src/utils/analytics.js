@@ -1,18 +1,24 @@
 import ReactGA from "react-ga4";
 
-const GA_MEASUREMENT_ID = ""; // TODO: Enter your Google Analytics Measurement ID here (e.g., G-XXXXXXXXXX)
+let isInitialized = false;
 
 export const initGA = () => {
-    if (GA_MEASUREMENT_ID) {
-        ReactGA.initialize(GA_MEASUREMENT_ID);
-        console.log("Google Analytics Initialized");
-    } else {
-        console.warn("Google Analytics Measurement ID is missing. Analytics will not be tracked.");
-    }
+    if (isInitialized) return;
+
+    // IMPORTANT: Check for environment variable and log appropriately
+    const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-XXXXXXXXXX'; // Fallback for dev
+
+    ReactGA.initialize(measurementId);
+    isInitialized = true;
+    console.log(`[Analytics] Initialized with ID: ${measurementId}`);
 };
 
 export const logPageView = () => {
-    if (GA_MEASUREMENT_ID) {
-        ReactGA.send({ hitType: "pageview", page: window.location.pathname });
-    }
+    if (!isInitialized) return;
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+};
+
+export const logEvent = (category, action, label) => {
+    if (!isInitialized) return;
+    ReactGA.event({ category, action, label });
 };
