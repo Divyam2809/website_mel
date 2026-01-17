@@ -8,6 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "sync-mela": "node src/scripts/sync-mela.js",
+    "sync-fived-chair": "node -e \"import('./src/scripts/sync-fived-chair.js').then(m => m.syncFiveDChairContent())\"",
+    "sync-sevend-chair": "node -e \"import('./src/scripts/sync-sevend-chair.js').then(m => m.syncSevenDChairContent())\"",
     "sync-vrlab": "node -e \"import('./src/scripts/sync-vrlab.js').then(m => m.syncVRLabContent())\"",
     "sync-vrkala": "node -e \"import('./src/scripts/sync-vrkala.js').then(m => m.syncVRKalaContent())\"",
     "sync-vr-elearning": "node -e \"import('./src/scripts/sync-vr-elearning.js').then(m => m.syncVRELearningContent())\"",

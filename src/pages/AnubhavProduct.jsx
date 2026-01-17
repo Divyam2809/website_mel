@@ -526,8 +526,31 @@ function FeatureItem({ feature, index, isDarkTheme }) {
     );
 }
 
+import LoadingSpinner from '../components/LoadingSpinner';
+import initialContent from '../data/sevenDChairContent.json';
+
+// ... (existing imports)
+
 export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
-    // const [mediaContent, setMediaContent] = useState({ videos: [], photos: [] }); // Removed dynamic state
+    const [content, setContent] = useState(initialContent);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        document.title = "Melzo Anubhav 7D - Interactive Learning Experience";
+
+        fetch('/api/sevend-chair-live')
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.hero) {
+                    setContent(data);
+                }
+            })
+            .catch(err => console.error('Error fetching 7D Chair data:', err))
+            .finally(() => setIsLoading(false));
+    }, []);
+
+
 
     // 3D Model Carousel State
     const [currentModelIndex, setCurrentModelIndex] = useState(0);
@@ -633,7 +656,6 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
         ]
     };
 
-    // Carousel navigation functions
     const nextModel = () => {
         setCurrentModelIndex((prev) => (prev + 1) % chairModels.length);
     };
@@ -641,6 +663,10 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
     const prevModel = () => {
         setCurrentModelIndex((prev) => (prev - 1 + chairModels.length) % chairModels.length);
     };
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
 
 
     return (
@@ -712,7 +738,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                             color: isDarkTheme ? '#FFFFFF' : '#000'
                         }}>
 
-                            India's <span style={{ color: '#FF9B50' }}>First</span> Interactive <span style={{ color: '#FF9B50' }}>7D</span> Lab
+                            {content.hero.titleLine1} <span style={{ color: '#FF9B50' }}>{content.hero.titleHighlight1}</span> {content.hero.titleLine2} <span style={{ color: '#FF9B50' }}>{content.hero.titleHighlight2}</span> {content.hero.titleLine3}
                         </h1>
 
                         <hr style={{
@@ -727,7 +753,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                             marginTop: '2.0rem',
                             lineHeight: '1.6'
                         }}>
-                            Experience the future of education
+                            {content.hero.description}
                         </p>
                         <div style={{
                             marginTop: '2rem',
@@ -755,7 +781,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                                     e.target.style.transform = 'translateY(0)';
                                     e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
                                 }}>
-                                Book A Demo
+                                {content.hero.btnBook}
                             </button>
                             <button
                                 onClick={() => onNavigate && onNavigate('guidelines')}
@@ -780,7 +806,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                                     e.target.style.color = isDarkTheme ? '#FFFFFF' : '#2D2D2D';
                                     e.target.style.transform = 'translateY(0)';
                                 }}>
-                                View Guidelines
+                                {content.hero.btnGuidelines}
                             </button>
                             <button
                                 onClick={() => onNavigate && onNavigate('fivedchair')}
@@ -890,233 +916,63 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                         margin: '4rem auto',
                         padding: '0 2rem'
                     }}>
-                        {/* Feature Block 1: 7D Labs Experiment */}
-                        <div style={{
-                            padding: '2rem 0',
-                            borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',
-                            transition: 'all 0.4s ease',
-                            cursor: 'default'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.borderTopColor = '#FF9B50';
-                                e.currentTarget.style.transform = 'translateX(10px)';
+                        {content.features.items.map((feature, index) => (
+                            <div key={index} style={{
+                                padding: '2rem 0',
+                                borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',
+                                transition: 'all 0.4s ease',
+                                cursor: 'default'
                             }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
-                                e.currentTarget.style.transform = 'translateX(0)';
-                            }}>
-                            <div style={{
-                                width: '100%',
-                                aspectRatio: '16/9',
-                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
-                                borderRadius: '12px',
-                                overflow: 'hidden',
-                                marginBottom: '1.5rem',
-                            }}>
-                                <img
-                                    src="/images/7d_chair/Person using VR headset.webp"
-                                    alt="7D Labs Experiment"
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover'
-                                    }}
-                                />
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.borderTopColor = '#FF9B50';
+                                    e.currentTarget.style.transform = 'translateX(10px)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
+                                    e.currentTarget.style.transform = 'translateX(0)';
+                                }}>
+                                <div style={{
+                                    width: '100%',
+                                    aspectRatio: '16/9',
+                                    backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
+                                    borderRadius: '12px',
+                                    overflow: 'hidden',
+                                    marginBottom: '1.5rem',
+                                }}>
+                                    <img
+                                        src={feature.image}
+                                        alt={feature.title}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover'
+                                        }}
+                                    />
+                                </div>
+                                <h2 style={{
+                                    fontSize: '1.75rem',
+                                    fontWeight: 900,
+                                    letterSpacing: '-1px',
+                                    color: isDarkTheme ? '#FFF' : '#000000',
+                                    marginBottom: '1.5rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem'
+                                }}>
+                                    <span style={{ color: '#FF9B50' }}>/</span>
+                                    {feature.title}
+                                </h2>
+
+                                <p style={{
+                                    fontSize: '0.95rem',
+                                    lineHeight: '1.8',
+                                    color: isDarkTheme ? '#AAA' : '#666',
+                                    maxWidth: '500px'
+                                }}>
+                                    {feature.description}
+                                </p>
                             </div>
-                            <h2 style={{
-                                fontSize: '1.75rem',
-                                fontWeight: 900,
-                                letterSpacing: '-1px',
-                                color: isDarkTheme ? '#FFF' : '#000000',
-                                marginBottom: '1.5rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '1rem'
-                            }}>
-                                <span style={{ color: '#FF9B50' }}>/</span>
-                                7D Labs Experiment
-                            </h2>
-
-                            <p style={{
-                                fontSize: '0.95rem',
-                                lineHeight: '1.8',
-                                color: isDarkTheme ? '#AAA' : '#666',
-                                maxWidth: '500px'
-                            }}>
-                                Experience curriculum-based 7D lab experiments with Melzo Anubhav's virtual reality-powered labs. Students can conduct physics experiments, chemical reactions, biological dissections, and engineering simulations in an immersive environment. Designed for schools, universities, and training centers, these lifelike 7D simulations bring science to life. From exploring Newton's Laws to dissecting virtual organisms, every experience is hands-on and engaging.
-                            </p>
-                        </div>
-
-                        {/* Feature Block 2: VR Built-In */}
-                        <div style={{
-                            padding: '2rem 0',
-                            borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',
-                            transition: 'all 0.4s ease',
-                            cursor: 'default'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.borderTopColor = '#FF9B50';
-                                e.currentTarget.style.transform = 'translateX(10px)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
-                                e.currentTarget.style.transform = 'translateX(0)';
-                            }}>
-                            <div style={{
-                                width: '100%',
-                                aspectRatio: '16/9',
-                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
-                                borderRadius: '12px',
-                                overflow: 'hidden',
-                                marginBottom: '1.5rem',
-                            }}>
-                                <img
-                                    src="/images/7d_chair/VR headset and controllers.webp"
-                                    alt="VR Built-In"
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover'
-                                    }}
-                                />
-                            </div>
-                            <h2 style={{
-                                fontSize: '1.75rem',
-                                fontWeight: 900,
-                                letterSpacing: '-1px',
-                                color: isDarkTheme ? '#FFF' : '#000000',
-                                marginBottom: '1.5rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '1rem'
-                            }}>
-                                <span style={{ color: '#FF9B50' }}>/</span>
-                                VR Built-In
-                            </h2>
-
-                            <p style={{
-                                fontSize: '0.95rem',
-                                lineHeight: '1.8',
-                                color: isDarkTheme ? '#AAA' : '#666',
-                                maxWidth: '500px'
-                            }}>
-                                Melzo Anubhav brings education to life through immersive Virtual Reality, allowing users to explore high-quality 3D simulations, lifelike virtual labs, and interactive content with unmatched clarity and depth. Students, educators, and professionals can experience hands-on training, conduct virtual experiments, and engage in immersive storytelling—making complex concepts easier to grasp. With support for advanced VR headsets such as Meta Quest 2 and Meta Quest 3s, the experience is smooth, intuitive, and engaging.
-                            </p>
-                        </div>
-
-                        {/* Feature Block 3: Virtual Tours */}
-                        <div style={{
-                            padding: '2rem 0',
-                            borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',
-                            transition: 'all 0.4s ease',
-                            cursor: 'default'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.borderTopColor = '#FF9B50';
-                                e.currentTarget.style.transform = 'translateX(10px)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
-                                e.currentTarget.style.transform = 'translateX(0)';
-                            }}>
-                            <div style={{
-                                width: '100%',
-                                aspectRatio: '16/9',
-                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
-                                borderRadius: '12px',
-                                overflow: 'hidden',
-                                marginBottom: '1.5rem',
-                            }}>
-                                <img
-                                    src="/images/7d_chair/Virtual wildlife encounter with tiger.webp"
-                                    alt="Virtual Tours"
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover'
-                                    }}
-                                />
-                            </div>
-                            <h2 style={{
-                                fontSize: '1.75rem',
-                                fontWeight: 900,
-                                letterSpacing: '-1px',
-                                color: isDarkTheme ? '#FFF' : '#000000',
-                                marginBottom: '1.5rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '1rem'
-                            }}>
-                                <span style={{ color: '#FF9B50' }}>/</span>
-                                Virtual Tours
-                            </h2>
-
-                            <p style={{
-                                fontSize: '0.95rem',
-                                lineHeight: '1.8',
-                                color: isDarkTheme ? '#AAA' : '#666',
-                                maxWidth: '500px'
-                            }}>
-                                Step into history and exploration like never before with Melzo Anubhav's interactive virtual tours. Experience the Apollo 11 Moon Landing, dive into an underwater adventure, witness African wildlife, and explore the beauty of Italy—all from your seat. Powered by 7D virtual reality and immersive effects, Melzo Anubhav lets you feel the atmosphere of historical events and walk through global landmarks as if you were truly there. Perfect for students, educators, and history enthusiasts.
-                            </p>
-                        </div>
-
-                        {/* Feature Block 4: Immersive Ease */}
-                        <div style={{
-                            padding: '2rem 0',
-                            borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',
-                            transition: 'all 0.4s ease',
-                            cursor: 'default'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.borderTopColor = '#FF9B50';
-                                e.currentTarget.style.transform = 'translateX(10px)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
-                                e.currentTarget.style.transform = 'translateX(0)';
-                            }}>
-                            <div style={{
-                                width: '100%',
-                                aspectRatio: '16/9',
-                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
-                                borderRadius: '12px',
-                                overflow: 'hidden',
-                                marginBottom: '1.5rem',
-                            }}>
-                                <img
-                                    src="/images/7d_chair/Close-up of premium chair upholstery.webp"
-                                    alt="Immersive Ease"
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover'
-                                    }}
-                                />
-                            </div>
-                            <h2 style={{
-                                fontSize: '1.75rem',
-                                fontWeight: 900,
-                                letterSpacing: '-1px',
-                                color: isDarkTheme ? '#FFF' : '#000000',
-                                marginBottom: '1.5rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '1rem'
-                            }}>
-                                <span style={{ color: '#FF9B50' }}>/</span>
-                                Immersive Ease
-                            </h2>
-
-                            <p style={{
-                                fontSize: '0.95rem',
-                                lineHeight: '1.8',
-                                color: isDarkTheme ? '#AAA' : '#666',
-                                maxWidth: '500px'
-                            }}>
-                                Melzo Anubhav is thoughtfully designed to deliver both immersive education and superior comfort. The chair features premium cushioning made with high-quality, leather-like materials that offer a soft, supportive, and durable seating experience. This carefully chosen upholstery provides a smooth finish and luxurious feel, ensuring users remain comfortable during extended interactive sessions. Its easy-to-clean and wear-resistant surface makes it ideal for continuous use in educational environments.
-                            </p>
-                        </div>
+                        ))}
                     </div>
                 </section>
 
@@ -1188,18 +1044,20 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                         position: 'relative',
                         zIndex: 1
                     }}>
+
+                        {/* Stats Grid */}
                         <div style={{
                             textAlign: 'center',
                             marginBottom: '4rem'
                         }}>
                             <h2 style={{
-                                fontSize: 'clamp(2rem, 4vw, 2.8rem)',
+                                fontSize: '2.5rem',
                                 fontWeight: 900,
                                 letterSpacing: '-1px',
-                                marginBottom: '1rem',
+                                marginBottom: '1.5rem',
                                 color: '#FF9B50'
                             }}>
-                                Proven Impact & Recognition
+                                {content.stats.title}
                             </h2>
                             <p style={{
                                 fontSize: '1.1rem',
@@ -1207,11 +1065,10 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                                 maxWidth: '600px',
                                 margin: '0 auto'
                             }}>
-                                Our commitment to excellence is reflected in our achievements and the success of our users
+                                {content.stats.description}
                             </p>
                         </div>
 
-                        {/* Stats Grid */}
                         <div style={{
                             display: 'grid',
                             gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
@@ -1219,140 +1076,243 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                             maxWidth: '1200px',
                             margin: '0 auto'
                         }}>
-                            {/* Stat 1: Publications */}
-                            <div style={{
-                                textAlign: 'center',
-                                padding: '3rem 2rem',
-                                borderRadius: '16px',
-                                backgroundColor: isDarkTheme ? '#262626' : '#ffffff',
-                                boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
-                                border: '2px solid transparent', // Added to prevent layout shift
-                                transition: 'all 0.4s ease',
-                                cursor: 'pointer',
-                                position: 'relative',
-                                overflow: 'hidden'
-                            }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-10px)';
-                                    e.currentTarget.style.borderColor = '#FF9B50'; // Turn border orange
-                                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(255, 155, 80, 0.25)'; // Orange shadow
+                            {content.stats.items.map((stat, index) => (
+                                <div key={index} style={{
+                                    textAlign: 'center',
+                                    padding: '3rem 2rem',
+                                    borderRadius: '16px',
+                                    backgroundColor: isDarkTheme ? '#262626' : '#ffffff',
+                                    boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+                                    border: '2px solid transparent', // Added to prevent layout shift
+                                    transition: 'all 0.4s ease',
+                                    cursor: 'pointer',
+                                    position: 'relative',
+                                    overflow: 'hidden'
                                 }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.borderColor = 'transparent'; // Reset border
-                                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.06)'; // Reset shadow
-                                }}>
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(-10px)';
+                                        e.currentTarget.style.borderColor = '#FF9B50'; // Turn border orange
+                                        e.currentTarget.style.boxShadow = '0 12px 40px rgba(255, 155, 80, 0.25)'; // Orange shadow
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        e.currentTarget.style.borderColor = 'transparent'; // Reset border
+                                        e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.06)'; // Reset shadow
+                                    }}>
 
-                                {/* Decorative corner accent */}
-                                <div style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    right: 0,
-                                    width: '80px',
-                                    height: '80px',
+                                    {/* Decorative corner accent */}
+                                    <div style={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        right: 0,
+                                        width: '80px',
+                                        height: '80px',
 
-                                    pointerEvents: 'none'
-                                }} />
+                                        pointerEvents: 'none'
+                                    }} />
 
-                                <div style={{
-                                    fontSize: '0.85rem',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '2px',
-                                    fontWeight: 600,
-                                    opacity: 0.6,
-                                    marginBottom: '1rem'
-                                }}>
-                                    COVERED IN
+                                    <div style={{
+                                        fontSize: '0.85rem',
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '2px',
+                                        fontWeight: 600,
+                                        opacity: 0.6,
+                                        marginBottom: '1rem'
+                                    }}>
+                                        {stat.sub}
+                                    </div>
+                                    <div style={{
+                                        fontSize: 'clamp(3.5rem, 8vw, 5rem)',
+                                        fontWeight: 900,
+                                        color: '#FF9B50',
+                                        letterSpacing: '-3px',
+                                        marginBottom: '0.5rem',
+                                        lineHeight: '1'
+                                    }}>
+                                        {stat.value}
+                                    </div>
+                                    <div style={{
+                                        fontSize: '1.1rem',
+                                        fontWeight: 600,
+                                        color: isDarkTheme ? '#E0E0E0' : '#2D2D2D',
+                                        lineHeight: '1.4'
+                                    }}>
+                                        {stat.label}
+                                    </div>
                                 </div>
-                                <div style={{
-                                    fontSize: 'clamp(3.5rem, 8vw, 5rem)',
-                                    fontWeight: 900,
-                                    color: '#FF9B50',
-                                    letterSpacing: '-3px',
-                                    marginBottom: '0.5rem',
-                                    lineHeight: '1'
-                                }}>
-                                    13+
-                                </div>
-                                <div style={{
-                                    fontSize: '1.1rem',
-                                    fontWeight: 600,
-                                    color: isDarkTheme ? '#E0E0E0' : '#2D2D2D',
-                                    lineHeight: '1.4'
-                                }}>
-                                    Renowned Publications
-                                </div>
-                            </div>
-
-                            {/* Stat 2: Learning Retention */}
-                            <div style={{
-                                textAlign: 'center',
-                                padding: '3rem 2rem',
-                                borderRadius: '16px',
-                                backgroundColor: isDarkTheme ? '#262626' : '#ffffff',
-                                boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
-                                border: '2px solid transparent', // Added to prevent layout shift
-                                transition: 'all 0.4s ease',
-                                cursor: 'pointer',
-                                position: 'relative',
-                                overflow: 'hidden'
-                            }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-10px)';
-                                    e.currentTarget.style.borderColor = '#FF9B50'; // Turn border orange
-                                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(255, 155, 80, 0.25)'; // Orange shadow
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.borderColor = 'transparent'; // Reset border
-                                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.06)'; // Reset shadow
-                                }}>
-
-                                <div style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    right: 0,
-                                    width: '80px',
-                                    height: '80px',
-
-                                    pointerEvents: 'none'
-                                }} />
-
-                                <div style={{
-                                    fontSize: '0.85rem',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '2px',
-                                    fontWeight: 600,
-                                    opacity: 0.6,
-                                    marginBottom: '1rem'
-                                }}>
-                                    UPTO
-                                </div>
-                                <div style={{
-                                    fontSize: 'clamp(3.5rem, 8vw, 5rem)',
-                                    fontWeight: 900,
-                                    color: '#FF9B50',
-                                    letterSpacing: '-3px',
-                                    marginBottom: '0.5rem',
-                                    lineHeight: '1'
-                                }}>
-                                    75%
-                                </div>
-                                <div style={{
-                                    fontSize: '1.1rem',
-                                    fontWeight: 600,
-                                    color: isDarkTheme ? '#E0E0E0' : '#2D2D2D',
-                                    lineHeight: '1.4'
-                                }}>
-                                    Increased Learning Retention
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </section>
 
 
-                {/* Choose Your Style Section */}
+                {/* News Section */}
+                <section style={{
+                    padding: '5rem 5%',
+                    backgroundColor: isDarkTheme ? '#1A1A1A' : '#fff'
+                }}>
+                    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'end',
+                            marginBottom: '3rem'
+                        }}>
+                            <div>
+                                <h2 style={{
+                                    fontSize: '2.5rem',
+                                    fontWeight: 900,
+                                    letterSpacing: '-1px',
+                                    color: '#FF9B50',
+                                    marginBottom: '0.5rem'
+                                }}>
+                                    {content.news.title}
+                                </h2>
+                                <p style={{ fontSize: '1.1rem', opacity: 0.7 }}>
+                                    Featured in leading publications
+                                </p>
+                            </div>
+                        </div>
+
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+                            gap: '2.5rem'
+                        }}>
+                            {content.news.items.slice(0, visibleArticles).map((article, index) => (
+                                <a
+                                    key={index}
+                                    href={article.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        borderRadius: '16px',
+                                        overflow: 'hidden',
+                                        backgroundColor: isDarkTheme ? '#262626' : '#fff',
+                                        boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+                                        textDecoration: 'none',
+                                        color: 'inherit',
+                                        transition: 'all 0.3s ease',
+                                        border: isDarkTheme ? '1px solid #333' : '1px solid #eaeaea'
+                                    }}
+                                    onMouseEnter={e => {
+                                        e.currentTarget.style.transform = 'translateY(-5px)';
+                                        e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.12)';
+                                    }}
+                                    onMouseLeave={e => {
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.06)';
+                                    }}
+                                >
+                                    <div style={{
+                                        height: '200px',
+                                        overflow: 'hidden',
+                                        position: 'relative'
+                                    }}>
+                                        <img
+                                            src={article.image}
+                                            alt={article.title}
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover',
+                                                transition: 'all 0.5s ease'
+                                            }}
+                                        />
+                                        <div style={{
+                                            position: 'absolute',
+                                            top: '1rem',
+                                            left: '1rem',
+                                            background: article.publicationColor,
+                                            color: '#fff',
+                                            padding: '0.25rem 0.75rem',
+                                            borderRadius: '20px',
+                                            fontSize: '0.75rem',
+                                            fontWeight: 700
+                                        }}>
+                                            {article.publication}
+                                        </div>
+                                    </div>
+                                    <div style={{ padding: '2rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                                        <div style={{ fontSize: '0.85rem', opacity: 0.6, marginBottom: '0.75rem' }}>
+                                            {article.date}
+                                        </div>
+                                        <h3 style={{
+                                            fontSize: '1.25rem',
+                                            fontWeight: 700,
+                                            marginBottom: '1rem',
+                                            lineHeight: '1.4',
+                                            display: '-webkit-box',
+                                            WebkitLineClamp: 2,
+                                            WebkitBoxOrient: 'vertical',
+                                            overflow: 'hidden'
+                                        }}>
+                                            {article.title}
+                                        </h3>
+                                        <p style={{
+                                            fontSize: '0.95rem',
+                                            opacity: 0.7,
+                                            lineHeight: '1.6',
+                                            marginBottom: '1.5rem',
+                                            display: '-webkit-box',
+                                            WebkitLineClamp: 3,
+                                            WebkitBoxOrient: 'vertical',
+                                            overflow: 'hidden',
+                                            flex: 1
+                                        }}>
+                                            {article.description}
+                                        </p>
+                                        <div style={{
+                                            fontSize: '0.9rem',
+                                            fontWeight: 600,
+                                            color: '#FF9B50',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '0.5rem'
+                                        }}>
+                                            Read Article
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                <polyline points="12 5 19 12 12 19"></polyline>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+
+                        {visibleArticles < content.news.items.length && (
+                            <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+                                <button
+                                    onClick={() => setVisibleArticles(prev => prev + 3)}
+                                    style={{
+                                        background: 'transparent',
+                                        border: `2px solid ${isDarkTheme ? '#fff' : '#333'}`,
+                                        color: isDarkTheme ? '#fff' : '#333',
+                                        padding: '0.75rem 2rem',
+                                        borderRadius: '30px',
+                                        fontSize: '1rem',
+                                        fontWeight: 600,
+                                        cursor: 'pointer',
+                                        transition: 'all 0.3s ease'
+                                    }}
+                                    onMouseEnter={e => {
+                                        e.target.style.background = isDarkTheme ? '#fff' : '#333';
+                                        e.target.style.color = isDarkTheme ? '#000' : '#fff';
+                                    }}
+                                    onMouseLeave={e => {
+                                        e.target.style.background = 'transparent';
+                                        e.target.style.color = isDarkTheme ? '#fff' : '#333';
+                                    }}
+                                >
+                                    See More Articles
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </section>
                 <section style={{
                     padding: '5rem 5%',
                     backgroundColor: isDarkTheme ? '#151515' : '#FAFAFA',
@@ -1507,7 +1467,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                             textAlign: 'center',
                             color: '#FF9B50'
                         }}>
-                            Why Choose Melzo Anubhav 7D Chair
+                            {content.whyChoose.title}
                         </h2>
 
                         <p style={{
@@ -1518,7 +1478,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                             maxWidth: '800px',
                             margin: '0 auto 4rem auto'
                         }}>
-                            Melzo Anubhav is <span style={{ color: '#FF9B50' }}>India's First</span> interactive education revolution powered by virtual reality! Experience premium features with our 7D offering.
+                            {content.whyChoose.description}
                         </p>
 
                         <div style={{
@@ -1527,14 +1487,7 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                             gap: '3rem',
                             rowGap: '4rem'
                         }}>
-                            {[
-                                { title: "Built for Institutions", desc: "Designed specifically for schools, universities, and training centers." },
-                                { title: "Immersive Learning", desc: "Blends cutting-edge motion effects with virtual reality simulations." },
-                                { title: "Hands-on Virtual Experiments", desc: "Enable lifelike science and technology experiments in a safe, interactive environment." },
-                                { title: "Historical Exploration", desc: "Let users journey through the pages of history like never before." },
-                                { title: "Multi-Dimensional Education", desc: "Brings science, technology, and history to life in an entirely new dimension." },
-                                { title: "Future-Ready Platform", desc: "The future of education isn't just coming—it's already here with Melzo Anubhav! Experience the future with our 7D premium features." }
-                            ].map((feature, index) => (
+                            {content.whyChoose.items.map((feature, index) => (
                                 <FeatureItem
                                     key={index}
                                     feature={feature}
@@ -1589,15 +1542,9 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                                     e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.08)';
                                 }}
                             >
-                                <h3 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '2rem', color: isDarkTheme ? '#fff' : '#000' }}>5D Chair</h3>
+                                <h3 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '2rem', color: isDarkTheme ? '#fff' : '#000' }}>{content.compare.fiveD.title}</h3>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                                    {[
-                                        { label: "5 degree of Immersion", value: "360° Rotation, Vibration, Mist, Fragrance, Air Blasts" },
-                                        { label: "VR Devices", value: "Meta Quest 2 and Meta Quest 3s" },
-                                        { label: "Content Subscription", value: "3 years (included in price)" },
-                                        { label: "Warranty", value: "3 years (chair), 1 year (electronics)" },
-                                        { label: "Color Options", value: "Available in 5 colors" },
-                                    ].map((item, idx) => (
+                                    {content.compare.fiveD.features.map((item, idx) => (
                                         <div key={idx}>
                                             <span style={{ fontWeight: 700, color: isDarkTheme ? '#eee' : '#333' }}>{item.label}: </span>
                                             <span style={{ color: isDarkTheme ? '#aaa' : '#555' }}>{item.value}</span>
@@ -1627,20 +1574,15 @@ export default function AnubhavProduct({ onNavigate, isDarkTheme, onBookDemo, on
                                     e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.08)';
                                 }}
                             >
-                                <h3 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '2rem', color: isDarkTheme ? '#fff' : '#000' }}>7D Chair</h3>
+                                <h3 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '2rem', color: isDarkTheme ? '#fff' : '#000' }}>{content.compare.sevenD.title}</h3>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                                     <div>
-                                        <span style={{ fontWeight: 700, color: isDarkTheme ? '#eee' : '#333' }}>7 degree of Immersion: </span>
+                                        <span style={{ fontWeight: 700, color: isDarkTheme ? '#eee' : '#333' }}>{content.compare.sevenD.immersiveLabel}: </span>
                                         <span style={{ color: isDarkTheme ? '#aaa' : '#555' }}>
-                                            360° Rotation, Vibration, <span style={{ color: '#FF9B50', fontWeight: 600 }}>Rocking, Recliner</span>, Mist, Air Blasts, Fragrance
+                                            {content.compare.sevenD.immersiveValue}
                                         </span>
                                     </div>
-                                    {[
-                                        { label: "VR Devices", value: "Meta Quest 2 and Meta Quest 3s" },
-                                        { label: "Content Subscription", value: "3 years (included in price)" },
-                                        { label: "Warranty", value: "3 years (chair), 1 year (electronics)" },
-                                        { label: "Color Options", value: "Available in 7 colors" },
-                                    ].map((item, idx) => (
+                                    {content.compare.sevenD.features.map((item, idx) => (
                                         <div key={idx}>
                                             <span style={{ fontWeight: 700, color: isDarkTheme ? '#eee' : '#333' }}>{item.label}: </span>
                                             <span style={{ color: isDarkTheme ? '#aaa' : '#555' }}>{item.value}</span>
