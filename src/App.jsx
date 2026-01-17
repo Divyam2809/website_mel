@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, Suspense } from 'react';
+import { initGA, logPageView } from './utils/analytics';
 
 // Lazy Load Pages for Performance Optimization
 const Home = React.lazy(() => import('./pages/Home'));
@@ -50,12 +51,14 @@ const GlobalMomentumManager = React.lazy(() => import('./components/admin/Global
 const JobManager = React.lazy(() => import('./components/admin/JobManager'));
 const JobApplications = React.lazy(() => import('./components/admin/JobApplications'));
 const LoginLogs = React.lazy(() => import('./components/admin/LoginLogs'));
+const UserManager = React.lazy(() => import('./components/admin/UserManager'));
 
 import Footer from './components/Footer';
 import BookDemo from './components/BookDemo';
 import Toast from './components/Toast';
 import ProductComparison from './components/ProductComparison';
 import VRIndustrial from './pages/VRIndustrial';
+import ErrorBoundary from './components/ErrorBoundary';
 
 import { Routes, Route, useNavigate, useLocation, Navigate, useParams } from 'react-router-dom';
 
@@ -93,10 +96,15 @@ export default function App() {
     useMetaDescription();
 
 
+    // Initialize Google Analytics on Mount
+    useEffect(() => {
+        initGA();
+    }, []);
 
-    // Scroll to top when path changes
+    // Scroll to top and Log Page View when path changes
     useEffect(() => {
         window.scrollTo(0, 0);
+        logPageView();
     }, [location.pathname]);
 
     // PREVENT SCROLL RESTORATION ON REFRESH
@@ -190,69 +198,72 @@ export default function App() {
             <div style={{ backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff', minHeight: '100vh', color: isDarkTheme ? '#FFFFFF' : '#2D2D2D', fontFamily: 'Inter, sans-serif', transition: 'all 0.3s ease' }}>
 
                 {/* Page Routing - Wrapped in Suspense */}
-                <Suspense fallback={<PageLoader />}>
-                    <Routes>
-                        <Route path="/" element={<Navigate to="/home" replace />} />
-                        <Route path="/home" element={<Home {...commonProps} />} />
-                        <Route path="/products" element={<Products {...commonProps} />} />
-                        <Route path="/industries" element={<Industries {...commonProps} />} />
-                        <Route path="/blog" element={<Blog {...commonProps} />} />
-                        <Route path="/blog/:slug" element={<BlogDetail {...commonProps} />} />
-                        <Route path="/casestudies" element={<CaseStudies {...commonProps} />} />
-                        <Route path="/faqs" element={<FAQs {...commonProps} />} />
-                        <Route path="/about" element={<About {...commonProps} />} />
-                        <Route path="/careers" element={<Careers {...commonProps} />} />
-                        <Route path="/guidelines" element={<Guidelines {...commonProps} />} />
-                        <Route path="/melzonews" element={<MelzoNews {...commonProps} />} />
-                        <Route path="/privacy-policy" element={<PrivacyPolicy {...commonProps} />} />
+                <ErrorBoundary>
+                    <Suspense fallback={<PageLoader />}>
+                        <Routes>
+                            <Route path="/" element={<Navigate to="/home" replace />} />
+                            <Route path="/home" element={<Home {...commonProps} />} />
+                            <Route path="/products" element={<Products {...commonProps} />} />
+                            <Route path="/industries" element={<Industries {...commonProps} />} />
+                            <Route path="/blog" element={<Blog {...commonProps} />} />
+                            <Route path="/blog/:slug" element={<BlogDetail {...commonProps} />} />
+                            <Route path="/casestudies" element={<CaseStudies {...commonProps} />} />
+                            <Route path="/faqs" element={<FAQs {...commonProps} />} />
+                            <Route path="/about" element={<About {...commonProps} />} />
+                            <Route path="/careers" element={<Careers {...commonProps} />} />
+                            <Route path="/guidelines" element={<Guidelines {...commonProps} />} />
+                            <Route path="/melzonews" element={<MelzoNews {...commonProps} />} />
+                            <Route path="/privacy-policy" element={<PrivacyPolicy {...commonProps} />} />
 
-                        {/* Product Pages Redesigned Route Structure */}
+                            {/* Product Pages Redesigned Route Structure */}
 
-                        {/* Specific Product Routes (Nested under /products/ for cleaner browsing) */}
-                        <Route path="/products/anubhav" element={<AnubhavProduct {...commonProps} />} />
-                        <Route path="/products/ninedchair" element={<NineDChair {...commonProps} />} />
-                        <Route path="/products/fivedchair" element={<FiveDChair {...commonProps} />} />
-                        <Route path="/products/vrlab" element={<VRLab {...commonProps} />} />
-                        <Route path="/products/vrelearning" element={<VRElearning {...commonProps} />} />
-                        <Route path="/products/vrerp" element={<VRERP {...commonProps} />} />
-                        <Route path="/products/vrindustrial" element={<VRIndustrial {...commonProps} />} />
-                        <Route path="/products/vranimalsurgery" element={<VRAnimalSurgery {...commonProps} />} />
-                        <Route path="/products/vrudyog" element={<VRUdyog {...commonProps} />} />
-                        <Route path="/products/vrrealestate" element={<VRRealEstate {...commonProps} />} />
-                        <Route path="/products/vrhospitality" element={<VRHospitality {...commonProps} />} />
-                        <Route path="/products/vrexhibition" element={<VRExhibition {...commonProps} />} />
-                        <Route path="/products/vrkala" element={<VRKala {...commonProps} />} />
-                        <Route path="/products/vrcrimescene" element={<VRCrimeScene {...commonProps} />} />
-                        <Route path="/products/dronesimulator" element={<DroneSimulator {...commonProps} />} />
-                        <Route path="/products/aircraftsimulator" element={<AircraftSimulator {...commonProps} />} />
-                        <Route path="/products/vrdefence" element={<VRDefence {...commonProps} />} />
-                        <Route path="/products/vrlivestream" element={<VRLiveStream {...commonProps} />} />
-                        <Route path="/products/vrtourism" element={<VRTourism {...commonProps} />} />
-                        <Route path="/products/virtualheritage" element={<VirtualHeritage {...commonProps} />} />
-                        <Route path="/products/cityguides" element={<CityGuides {...commonProps} />} />
-                        <Route path="/products/custom-solutions" element={<OthersCustom {...commonProps} />} />
+                            {/* Specific Product Routes (Nested under /products/ for cleaner browsing) */}
+                            <Route path="/products/anubhav" element={<AnubhavProduct {...commonProps} />} />
+                            <Route path="/products/ninedchair" element={<NineDChair {...commonProps} />} />
+                            <Route path="/products/fivedchair" element={<FiveDChair {...commonProps} />} />
+                            <Route path="/products/vrlab" element={<VRLab {...commonProps} />} />
+                            <Route path="/products/vrelearning" element={<VRElearning {...commonProps} />} />
+                            <Route path="/products/vrerp" element={<VRERP {...commonProps} />} />
+                            <Route path="/products/vrindustrial" element={<VRIndustrial {...commonProps} />} />
+                            <Route path="/products/vranimalsurgery" element={<VRAnimalSurgery {...commonProps} />} />
+                            <Route path="/products/vrudyog" element={<VRUdyog {...commonProps} />} />
+                            <Route path="/products/vrrealestate" element={<VRRealEstate {...commonProps} />} />
+                            <Route path="/products/vrhospitality" element={<VRHospitality {...commonProps} />} />
+                            <Route path="/products/vrexhibition" element={<VRExhibition {...commonProps} />} />
+                            <Route path="/products/vrkala" element={<VRKala {...commonProps} />} />
+                            <Route path="/products/vrcrimescene" element={<VRCrimeScene {...commonProps} />} />
+                            <Route path="/products/dronesimulator" element={<DroneSimulator {...commonProps} />} />
+                            <Route path="/products/aircraftsimulator" element={<AircraftSimulator {...commonProps} />} />
+                            <Route path="/products/vrdefence" element={<VRDefence {...commonProps} />} />
+                            <Route path="/products/vrlivestream" element={<VRLiveStream {...commonProps} />} />
+                            <Route path="/products/vrtourism" element={<VRTourism {...commonProps} />} />
+                            <Route path="/products/virtualheritage" element={<VirtualHeritage {...commonProps} />} />
+                            <Route path="/products/cityguides" element={<CityGuides {...commonProps} />} />
+                            <Route path="/products/custom-solutions" element={<OthersCustom {...commonProps} />} />
 
-                        {/* Dynamic Generic Product Route */}
-                        <Route path="/products/:productId" element={<GenericProductWrapper {...commonProps} />} />
+                            {/* Dynamic Generic Product Route */}
+                            <Route path="/products/:productId" element={<GenericProductWrapper {...commonProps} />} />
 
-                        {/* Admin Panel Routes */}
-                        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-                        <Route path="/admin/login" element={<AdminLogin />} />
-                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                        <Route path="/admin/content/jobs" element={<JobManager />} />
-                        <Route path="/admin/content/job-applications" element={<JobApplications />} />
-                        <Route path="/admin/content/:moduleType" element={<ContentManager />} />
-                        <Route path="/admin/footer" element={<FooterManager />} />
-                        <Route path="/admin/data-strip" element={<DataStripManager />} />
-                        <Route path="/admin/global-momentum" element={<GlobalMomentumManager />} />
-                        <Route path="/admin/logs" element={<LoginLogs />} />
-                        <Route path="/admin/editor" element={<BlogForm />} />
-                        <Route path="/admin/editor/:slug" element={<BlogForm />} />
+                            {/* Admin Panel Routes */}
+                            <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+                            <Route path="/admin/login" element={<AdminLogin />} />
+                            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                            <Route path="/admin/content/jobs" element={<JobManager />} />
+                            <Route path="/admin/content/job-applications" element={<JobApplications />} />
+                            <Route path="/admin/content/users" element={<UserManager />} />
+                            <Route path="/admin/content/:moduleType" element={<ContentManager />} />
+                            <Route path="/admin/footer" element={<FooterManager />} />
+                            <Route path="/admin/data-strip" element={<DataStripManager />} />
+                            <Route path="/admin/global-momentum" element={<GlobalMomentumManager />} />
+                            <Route path="/admin/logs" element={<LoginLogs />} />
+                            <Route path="/admin/editor" element={<BlogForm />} />
+                            <Route path="/admin/editor/:slug" element={<BlogForm />} />
 
-                        {/* Fallback - 404 Page */}
-                        <Route path="*" element={<NotFound {...commonProps} />} />
-                    </Routes>
-                </Suspense>
+                            {/* Fallback - 404 Page */}
+                            <Route path="*" element={<NotFound {...commonProps} />} />
+                        </Routes>
+                    </Suspense>
+                </ErrorBoundary>
 
                 {/* Common Footer for all pages - Hidden on Admin Routes */}
                 {!location.pathname.startsWith('/admin') && (

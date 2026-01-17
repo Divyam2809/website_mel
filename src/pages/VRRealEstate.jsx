@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../styles/VRProduct.css';
 import AppNav from '../components/AppNav';
 import GridBackground from '../components/GridBackground';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 
 const FEATURE_ICONS = [
@@ -127,7 +128,7 @@ export default function VRRealEstate({ onNavigate, isDarkTheme, onBookDemo, onTo
                             gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))',
                             gap: '4rem 3rem'
                         }}>
-                            {content.interactiveFeatures.features.map((item, idx) => (
+                            {content.interactiveFeatures?.features?.map((item, idx) => (
                                 <div key={idx} style={{
                                     display: 'flex',
                                     gap: '1.5rem',
@@ -193,7 +194,7 @@ export default function VRRealEstate({ onNavigate, isDarkTheme, onBookDemo, onTo
                 <section className="vr-product-section alt-bg">
                     <h2 className="vr-product-section-title">{content.stakeholders.title}</h2>
                     <div className="vr-product-feature-grid">
-                        {content.stakeholders.items.map((audience, idx) => (
+                        {content.stakeholders?.items?.map((audience, idx) => (
                             <div key={idx} className="vr-product-feature-card">
                                 <div className="vr-product-badge">{audience.focus}</div>
                                 <h3 className="vr-product-feature-title">{audience.audience}</h3>
@@ -207,7 +208,7 @@ export default function VRRealEstate({ onNavigate, isDarkTheme, onBookDemo, onTo
                     <h2>{content.salesGallery.title}</h2>
                     <p>{content.salesGallery.subtitle}</p>
                     <div className="vr-product-feature-grid" style={{ marginBottom: '4rem' }}>
-                        {content.salesGallery.items.map((item, idx) => (
+                        {content.salesGallery?.items?.map((item, idx) => (
                             <div key={idx} className="vr-product-feature-card">
                                 <div style={{ fontSize: '2rem', fontWeight: '900', color: '#FF9B50', fontFamily: 'monospace', marginBottom: '1rem' }}>{item.number}</div>
                                 <h4 className="vr-product-feature-title">{item.title}</h4>

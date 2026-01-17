@@ -110,3 +110,9 @@ dist
 # Agent Artifacts
 artifacts/
 .gemini/
+
+# Archives
+*.zip
+*.tar
+*.gz
+*.rar

@@ -214,7 +214,6 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo, onToggle
             items: [
 
                 { name: 'VR in Industrial Training (MELA)', icon: '/assets/mela.webp', isImage: true, description: 'Vocational training simulations for industry skills.', link: 'vrindustrial' },
-                { name: 'VR Lab (Complete Hardware Setup)', icon: 'server', description: 'Turnkey VR lab solution with headsets and PCs.', link: 'vrlab' },
                 { name: 'VR in Kalaa', icon: '/assets/kalaa.webp', isImage: true, description: 'Preserving and exploring art and culture in VR.', link: 'vrkala' }
             ]
         },
@@ -222,6 +221,7 @@ export default function Products({ onNavigate, isDarkTheme, onBookDemo, onToggle
             title: "Education & Training",
             id: "education",
             items: [
+                { name: 'VR Lab (Complete Hardware Setup)', icon: 'server', description: 'Turnkey VR lab solution with headsets and PCs.', link: 'vrlab' },
                 { name: 'E-Learning Solutions', icon: 'graduation', description: 'Interactive digital learning platforms for schools.', link: 'vrelearning' },
 
                 { name: 'Animal Surgery Simulation', icon: 'stethoscope', description: 'Risk-free veterinary surgical training in VR.', link: 'vranimalsurgery' }
