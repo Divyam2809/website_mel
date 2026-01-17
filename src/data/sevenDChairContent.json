@@ -1,0 +1,187 @@
+{
+    "hero": {
+        "badge": "India's First Interactive 7D Lab",
+        "titleLine1": "India's",
+        "titleHighlight1": "First",
+        "titleLine2": "Interactive",
+        "titleHighlight2": "7D",
+        "titleLine3": "Lab",
+        "description": "Experience the future of education",
+        "btnBook": "Book A Demo",
+        "btnGuidelines": "View Guidelines",
+        "btnFiveD": "Switch to 5D Lab"
+    },
+    "features": {
+        "title": "Core Offerings & Features",
+        "description": "Discover the future of immersive education with cutting-edge VR technology",
+        "items": [
+            {
+                "title": "7D Labs Experiment",
+                "description": "Experience curriculum-based 7D lab experiments with Melzo Anubhav's virtual reality-powered labs like never before. Students can safely conduct physics experiments, chemical reactions, biological dissections, and engineering simulations in an immersive environment. Designed for schools, universities, and training centers, these lifelike 7D simulations bring science to life. From exploring Newton's Laws to dissecting virtual organisms, every experience is hands-on and engaging. With motion effects, real-time interaction, and stunning visuals, Melzo Anubhav overcomes the limitations of traditional labs.",
+                "image": "/images/7d_chair/Person using VR headset.webp",
+                "size": "large"
+            },
+            {
+                "title": "VR Built-In",
+                "description": "Melzo Anubhav brings education to life through immersive Virtual Reality, allowing users to explore high-quality 3D simulations, lifelike virtual labs, and interactive content with unmatched clarity and depth. Students, educators, and professionals can experience hands-on training, conduct virtual experiments, and engage in immersive storytelling—making complex concepts easier to grasp. With support for advanced VR headsets such as Meta Quest 2 and Meta Quest 3s, the experience is smooth, intuitive, and engaging. Melzo Anubhav redefines education by extending learning beyond books and screens into a truly experiential and impactful journey.",
+                "image": "/images/7d_chair/VR headset and controllers.webp",
+                "size": "large"
+            },
+            {
+                "title": "Virtual Tours",
+                "description": "Step into history and exploration like never before with Melzo Anubhav's interactive virtual tours. Experience the Apollo 11 Moon Landing, dive into an underwater adventure, witness African wildlife, and explore the beauty of Italy—all from your seat. Powered by 7D virtual reality and immersive effects, Melzo Anubhav lets you feel the atmosphere of historical events and walk through global landmarks as if you were truly there. Perfect for students, educators, and history enthusiasts, these realistic simulations make learning engaging and unforgettable. Melzo Anubhav turns history into an experience because the best way to learn it is to live it.",
+                "image": "/images/7d_chair/Virtual wildlife encounter with tiger.webp",
+                "size": "large"
+            },
+            {
+                "title": "Immersive Ease",
+                "description": "Melzo Anubhav is thoughtfully designed to deliver both immersive education and superior comfort. The chair features premium cushioning made with high-quality, leather-like materials that offer a soft, supportive, and durable seating experience. This carefully chosen upholstery provides a smooth finish and luxurious feel, ensuring users remain comfortable during extended interactive sessions. Its easy-to-clean and wear-resistant surface makes it ideal for continuous use in educational environments such as schools, labs, and training centers.",
+                "image": "/images/7d_chair/Close-up of premium chair upholstery.webp",
+                "size": "large"
+            }
+        ]
+    },
+    "stats": {
+        "title": "Proven Impact & Recognition",
+        "description": "Our commitment to excellence is reflected in our achievements and the success of our users",
+        "items": [
+            {
+                "value": "13+",
+                "label": "Renowned Publications",
+                "sub": "COVERED IN"
+            },
+            {
+                "value": "75%",
+                "label": "Increased Learning Retention",
+                "sub": "UPTO"
+            }
+        ]
+    },
+    "news": {
+        "title": "In The Media",
+        "items": [
+            {
+                "publication": "Indian Express",
+                "date": "January 12, 2025",
+                "title": "In a first, 5D laboratory in Surat school to help students 'hear, visualise' curriculum",
+                "description": "On Friday, the Sarvoday trust-run school at Bhatar launched the Melzo Anubhav 5D lab, which the school authorities claimed, is the first initiative of its kind for students.",
+                "link": "#"
+            },
+            {
+                "publication": "News18 Gujarat",
+                "date": "January 14, 2025",
+                "title": "Surat student's turn! India's first 5D lab launched in this school",
+                "description": "IG Desai School in Surat has launched India's first 5D lab. This lab will help school students understand science and social science subjects easily and experience them in re...",
+                "link": "#"
+            },
+            {
+                "publication": "Divya Bhaskar",
+                "date": "January 2025",
+                "title": "IIT pass Gujarati created 5D lab for children",
+                "description": "Students can see the outside world from a small room with 5D virtual-sensory chair; Education with VR, AR, AI's vision",
+                "link": "#"
+            },
+            {
+                "publication": "Times of India",
+                "date": "January 25, 2025",
+                "title": "Anubhav VR Lab: Revolutionizing Classroom Learning",
+                "description": "Students can now explore complex scientific concepts through immersive VR experiences, making learning interactive and fun.",
+                "link": "#"
+            },
+            {
+                "publication": "Education World",
+                "date": "February 2, 2025",
+                "title": "Top EdTech Innovations of 2025: Melzo Anubhav Leads the Way",
+                "description": "Recognized for its impact on student engagement and retention, Melzo Anubhav is setting new standards in educational technology.",
+                "link": "#"
+            },
+            {
+                "publication": "Digital Learning",
+                "date": "February 10, 2025",
+                "title": "Bridging the Gap: How 5D Labs are Transforming Rural Education",
+                "description": "Access to advanced learning tools is no longer limited to urban centers. 5D labs are bringing world-class education to every corner of India.",
+                "link": "#"
+            }
+        ]
+    },
+    "whyChoose": {
+        "title": "Why Choose Melzo Anubhav 7D Chair",
+        "description": "Melzo Anubhav is India's First interactive education revolution powered by virtual reality! Experience premium features with our 7D offering.",
+        "items": [
+            {
+                "title": "Built for Institutions",
+                "desc": "Designed specifically for schools, universities, and training centers."
+            },
+            {
+                "title": "Immersive Learning",
+                "desc": "Blends cutting-edge motion effects with virtual reality simulations."
+            },
+            {
+                "title": "Hands-on Virtual Experiments",
+                "desc": "Enable lifelike science and technology experiments in a safe, interactive environment."
+            },
+            {
+                "title": "Historical Exploration",
+                "desc": "Let users journey through the pages of history like never before."
+            },
+            {
+                "title": "Multi-Dimensional Education",
+                "desc": "Brings science, technology, and history to life in an entirely new dimension."
+            },
+            {
+                "title": "Future-Ready Platform",
+                "desc": "The future of education isn't just coming—it's already here with Melzo Anubhav! Experience the future with our 7D premium features."
+            }
+        ]
+    },
+    "compare": {
+        "fiveD": {
+            "title": "5D Chair",
+            "features": [
+                {
+                    "label": "5 degree of Immersion",
+                    "value": "360° Rotation, Vibration, Mist, Fragrance, Air Blasts"
+                },
+                {
+                    "label": "VR Devices",
+                    "value": "Meta Quest 2 and Meta Quest 3s"
+                },
+                {
+                    "label": "Content Subscription",
+                    "value": "3 years (included in price)"
+                },
+                {
+                    "label": "Warranty",
+                    "value": "3 years (chair), 1 year (electronics)"
+                },
+                {
+                    "label": "Color Options",
+                    "value": "Available in 5 colors"
+                }
+            ]
+        },
+        "sevenD": {
+            "title": "7D Chair",
+            "immersiveLabel": "7 degree of Immersion",
+            "immersiveValue": "360° Rotation, Vibration, Rocking, Recliner, Mist, Air Blasts, Fragrance",
+            "features": [
+                {
+                    "label": "VR Devices",
+                    "value": "Meta Quest 2 and Meta Quest 3s"
+                },
+                {
+                    "label": "Content Subscription",
+                    "value": "3 years (included in price)"
+                },
+                {
+                    "label": "Warranty",
+                    "value": "3 years (chair), 1 year (electronics)"
+                },
+                {
+                    "label": "Color Options",
+                    "value": "Available in 7 colors"
+                }
+            ]
+        }
+    }
+}
