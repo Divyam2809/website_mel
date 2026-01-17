@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { validators, validateForm } from '../utils/validation';
-import LoadingSpinner from './LoadingSpinner';
+import mockStorage from '../services/mockStorage';
 
 export default function BookDemo({ isOpen, onClose, isDarkTheme }) {
     if (!isOpen) return null;
@@ -53,13 +53,30 @@ export default function BookDemo({ isOpen, onClose, isDarkTheme }) {
         setIsLoading(true);
 
         try {
-            // Simulate network delay
-            await new Promise(resolve => setTimeout(resolve, 1500));
 
-            // Here you would normally send data to your backend
-            console.log('Form submitted:', formData);
+            // Send data to backend
+            const response = await fetch('http://localhost:3000/api/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...formData,
+                    demo_date: formData.date // Map frontend 'date' to backend 'demo_date'
+                }),
+            });
 
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to submit form');
+            }
+
+            // Also keep local mock for fallback if you want, but primarily rely on backend success
+            // await mockStorage.saveDemoQuery(formData); 
+
+            console.log('Form submitted successfully to backend');
             setIsSubmitted(true);
+
         } catch (error) {
             setErrors({ submit: 'Something went wrong. Please try again.' });
         } finally {
@@ -124,6 +141,8 @@ export default function BookDemo({ isOpen, onClose, isDarkTheme }) {
                     ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
                     : '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
                 minHeight: isSubmitted ? '400px' : 'auto',
+                maxHeight: '90vh', // Limit height
+                overflowY: 'auto', // Enable scrolling
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: isSubmitted ? 'center' : 'flex-start',

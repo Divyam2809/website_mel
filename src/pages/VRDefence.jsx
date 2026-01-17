@@ -1,13 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/VRProduct.css';
 import AppNav from '../components/AppNav';
+import LoadingSpinner from '../components/LoadingSpinner';
+
 
 export default function VRDefence({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
+    const [content, setContent] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
+        document.title = "Melzo VR Defence - Tactical Combat Simulation";
         window.scrollTo(0, 0);
+        // Fetch LIVE data immediately on page load
+        fetch('/api/page-content/vrDefence_live')
+            .then(res => res.json())
+            .then(data => {
+                if (data && Object.keys(data.hero || {}).length > 0) {
+                    setContent(data);
+                }
+            })
+            .catch(err => console.error('[VRDefence] Error fetching live data:', err))
+            .finally(() => setIsLoading(false));
     }, []);
 
     const themeClass = isDarkTheme ? 'theme-dark' : 'theme-light';
+
+    if (isLoading || !content) {
+        return (
+            <>
+                <AppNav
+                    onNavigate={onNavigate}
+                    isDarkTheme={isDarkTheme}
+                    onToggleTheme={onToggleTheme}
+                    onBookDemo={onBookDemo}
+                    currentPage="vrdefence"
+                />
+                <div style={{
+                    height: '100vh',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: isDarkTheme ? '#0A0A0A' : '#fff'
+                }}>
+                    <LoadingSpinner />
+                </div>
+            </>
+        );
+    }
 
     return (
         <>
@@ -27,26 +66,22 @@ export default function VRDefence({ onNavigate, isDarkTheme, onBookDemo, onToggl
                     }}
                 >
                     <div className="vr-product-hero-content">
-                        <div className="vr-product-badge">Tactical Defense Solutions</div>
-                        <h1>Winning the Mission Before the First Boot Hits the Ground</h1>
-                        <p>Zero-risk tactical mastery for the modern operator. Rehearse complex maneuvers, master sophisticated weaponry, and synchronize squad dynamics in a hyper-realistic VR theater.</p>
+                        <div className="vr-product-badge">{content.hero.badge}</div>
+                        <h1>{content.hero.title}</h1>
+                        <p>{content.hero.subtitle}</p>
                         <div className="vr-product-hero-buttons">
-                            <button onClick={onBookDemo} className="vr-product-btn-primary">Request a Classified Demo</button>
-                            <button className="vr-product-btn-secondary">Consult with a Defense Specialist</button>
+                            <button onClick={onBookDemo} className="vr-product-btn-primary">{content.hero.primaryBtn}</button>
+                            {/* <button className="vr-product-btn-secondary">{content.hero.secondaryBtn}</button> */}
                         </div>
                     </div>
                 </section>
 
                 {/* The Tactical Suite */}
                 <section className="vr-product-section">
-                    <h2 className="vr-product-section-title">The Tactical Suite</h2>
-                    <p className="vr-product-section-subtitle">Elite-level simulation technology for modern warfare training</p>
+                    <h2 className="vr-product-section-title">{content.suite.title}</h2>
+                    <p className="vr-product-section-subtitle">{content.suite.subtitle}</p>
                     <div className="vr-product-feature-grid">
-                        {[
-                            { title: 'Mission-Specific Rehearsals', desc: 'Upload 1:1 geospatial data to recreate real-world terrain and urban environments for specific operations.', number: '01' },
-                            { title: 'Advanced Equipment Handling', desc: 'Virtual interaction with complex systems—from drone-interface HUDs to armored vehicle controls.', number: '02' },
-                            { title: 'Squad-Level Synchronization', desc: 'Multi-user environment where team members communicate and coordinate in real-time within the same simulation.', number: '03' }
-                        ].map((feature, idx) => (
+                        {content.suite.features.map((feature, idx) => (
                             <div key={idx} className="vr-product-feature-card">
                                 <div className="vr-product-feature-icon" style={{
                                     fontSize: '2rem',
@@ -64,14 +99,10 @@ export default function VRDefence({ onNavigate, isDarkTheme, onBookDemo, onToggl
                 {/* The Combat Pillars */}
                 <section className="vr-product-section alt-bg">
                     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-                        <h2 className="vr-product-section-title">The Combat Pillars</h2>
-                        <p className="vr-product-section-subtitle">Building operational excellence through immersive training</p>
+                        <h2 className="vr-product-section-title">{content.pillars.title}</h2>
+                        <p className="vr-product-section-subtitle">{content.pillars.subtitle}</p>
                         <div className="vr-product-benefits-list">
-                            {[
-                                { num: '01', title: 'Risk-Free Tactical Failure', desc: 'Allowing for \'After Action Reviews\' (AAR) where mistakes are analyzed in 3D to ensure they aren\'t repeated in theater.' },
-                                { num: '02', title: 'Physiological Conditioning', desc: 'Using motion and stress-induction scenarios to train operators to maintain focus under combat-induced pressure.' },
-                                { num: '03', title: 'Logistical Efficiency', desc: 'Reducing the \'cost-per-soldier\' for training by eliminating the need for live ammunition, fuel, and transport during foundational drills.' }
-                            ].map((pillar, idx) => (
+                            {content.pillars.items.map((pillar, idx) => (
                                 <div key={idx} className="vr-product-benefit-item">
                                     <div className="vr-product-benefit-icon" style={{ fontSize: '3rem', fontWeight: 900, color: 'var(--accent)', lineHeight: 1, minWidth: '80px' }}>{pillar.num}</div>
                                     <div>
@@ -86,14 +117,10 @@ export default function VRDefence({ onNavigate, isDarkTheme, onBookDemo, onToggl
 
                 {/* Target Audience Benefits */}
                 <section className="vr-product-section">
-                    <h2 className="vr-product-section-title">Who Benefits from VR Tactical Training</h2>
-                    <p className="vr-product-section-subtitle">Specialized solutions for defense and military organizations</p>
+                    <h2 className="vr-product-section-title">{content.stakeholders.title}</h2>
+                    <p className="vr-product-section-subtitle">{content.stakeholders.subtitle}</p>
                     <div className="vr-product-feature-grid">
-                        {[
-                            { audience: 'Military Academies & Bootcamps', focus: 'Standardized Training', benefit: 'Accelerating the learning curve for recruits in a standardized, safe environment with consistent quality.' },
-                            { audience: 'Special Operations Forces', focus: 'Black Site Rehearsal', benefit: 'High-precision tactical planning and mission rehearsal for classified operations in secure environments.' },
-                            { audience: 'Logistics & Support Units', focus: 'Equipment Mastery', benefit: 'Practicing the handling of hazardous materials or complex maintenance of frontline equipment safely.' }
-                        ].map((segment, idx) => (
+                        {content.stakeholders.items.map((segment, idx) => (
                             <div key={idx} className="vr-product-feature-card">
                                 <div className="vr-product-badge">{segment.focus}</div>
                                 <h3 className="vr-product-feature-title">{segment.audience}</h3>
@@ -106,15 +133,10 @@ export default function VRDefence({ onNavigate, isDarkTheme, onBookDemo, onToggl
                 {/* Combat Readiness Scorecard */}
                 <section className="vr-product-section alt-bg">
                     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-                        <h2 className="vr-product-section-title">Combat Readiness Scorecard</h2>
-                        <p className="vr-product-section-subtitle">Quantifiable metrics tracking operational readiness</p>
+                        <h2 className="vr-product-section-title">{content.scorecard.title}</h2>
+                        <p className="vr-product-section-subtitle">{content.scorecard.subtitle}</p>
                         <div className="vr-product-stats-grid">
-                            {[
-                                { metric: 'Situational Awareness', value: '96%', desc: 'Threat detection rate' },
-                                { metric: 'Target Accuracy', value: '94%', desc: 'Precision under stress' },
-                                { metric: 'Reaction Speed', value: '0.6s', desc: 'Response to contact' },
-                                { metric: 'Team Coordination', value: '98%', desc: 'Squad synchronization' }
-                            ].map((stat, idx) => (
+                            {content.scorecard.items.map((stat, idx) => (
                                 <div key={idx} className="vr-product-stat-card">
                                     <div className="vr-product-stat-value">{stat.value}</div>
                                     <div className="vr-product-stat-label">{stat.metric}</div>
@@ -127,15 +149,10 @@ export default function VRDefence({ onNavigate, isDarkTheme, onBookDemo, onToggl
 
                 {/* Security Features */}
                 <section className="vr-product-section">
-                    <h2 className="vr-product-section-title">Security & Data Protection</h2>
-                    <p className="vr-product-section-subtitle">Military-grade security for classified training operations</p>
+                    <h2 className="vr-product-section-title">{content.security.title}</h2>
+                    <p className="vr-product-section-subtitle">{content.security.subtitle}</p>
                     <div className="vr-product-feature-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
-                        {[
-                            { feature: 'Air-Gapped Systems', desc: 'Isolated networks for classified operations', number: '01' },
-                            { feature: 'Encrypted Data Storage', desc: 'Military-grade AES-256 encryption', number: '02' },
-                            { feature: 'Secure Authentication', desc: 'Multi-factor biometric access control', number: '03' },
-                            { feature: 'Audit Trail Logging', desc: 'Complete session recording and tracking', number: '04' }
-                        ].map((item, idx) => (
+                        {content.security.features.map((item, idx) => (
                             <div key={idx} className="vr-product-feature-card">
                                 <div className="vr-product-feature-icon" style={{
                                     fontSize: '2rem',
@@ -143,7 +160,7 @@ export default function VRDefence({ onNavigate, isDarkTheme, onBookDemo, onToggl
                                     color: '#FF9B50',
                                     fontFamily: 'monospace'
                                 }}>{item.number}</div>
-                                <h3 className="vr-product-feature-title">{item.feature}</h3>
+                                <h3 className="vr-product-feature-title">{item.title}</h3>
                                 <p className="vr-product-feature-desc">{item.desc}</p>
                             </div>
                         ))}
@@ -152,22 +169,17 @@ export default function VRDefence({ onNavigate, isDarkTheme, onBookDemo, onToggl
 
                 {/* Why Melzo Defense Section */}
                 <section className="vr-product-cta">
-                    <h2>Why Melzo Defense</h2>
-                    <p>Secure, air-gapped data capabilities combined with the Combat Readiness Scorecard that tracks situational awareness, accuracy, and reaction speed. Every training session provides quantifiable metrics for operational readiness assessment.</p>
+                    <h2>{content.whyMelzo.title}</h2>
+                    <p>{content.whyMelzo.subtitle}</p>
                     <div className="vr-product-stats-grid" style={{ marginBottom: '3rem' }}>
-                        {[
-                            { label: 'Training Cost Reduction', value: '80%' },
-                            { label: 'Operational Readiness', value: '99%' },
-                            { label: 'Mission Success Rate', value: '95%' },
-                            { label: 'Security Compliance', value: '100%' }
-                        ].map((stat, idx) => (
+                        {content.whyMelzo.stats.map((stat, idx) => (
                             <div key={idx} className="vr-product-stat-card" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.2)' }}>
                                 <div className="vr-product-stat-value" style={{ color: '#FFFFFF' }}>{stat.value}</div>
                                 <div className="vr-product-stat-label" style={{ color: '#FFFFFF' }}>{stat.label}</div>
                             </div>
                         ))}
                     </div>
-                    <button onClick={onBookDemo} className="vr-product-btn-secondary">Deploy Tactical Training →</button>
+                    <button onClick={onBookDemo} className="vr-product-btn-secondary">{content.whyMelzo.cta}</button>
                 </section>
             </div>
         </>

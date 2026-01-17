@@ -1,10 +1,12 @@
 import React, { Suspense, useRef, useState, useEffect } from 'react';
+import initialContent from '../data/fiveDChairContent.json';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stage, useGLTF, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import Guidelines from '../Guidelines';
 import GridBackground from '../components/GridBackground';
 import ExpandableText from '../components/ExpandableText';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 
 
@@ -529,10 +531,27 @@ function FeatureItem({ feature, index, isDarkTheme }) {
 }
 
 export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
+    const [content, setContent] = useState(initialContent);
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         window.scrollTo(0, 0);
         document.title = "Melzo 5D Chair - Interactive Learning Experience";
+
+        // Fetch Live Content
+        fetch('/api/fived-chair-live')
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.hero) {
+                    setContent(data);
+                }
+            })
+            .catch(err => console.error('Error fetching 5D Chair data:', err))
+            .finally(() => setIsLoading(false));
     }, []);
+
+
+
     // const [mediaContent, setMediaContent] = useState({ videos: [], photos: [] }); // Removed dynamic state
 
     // 3D Model Carousel State
@@ -550,6 +569,10 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
         { name: 'Yellow', image: '5d_chair/Yellow (Large).webp', color: '#FFEB3B' },
     ];
     const [selectedColorIndex, setSelectedColorIndex] = useState(0);
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
 
     const nextColor = () => {
         setSelectedColorIndex((prev) => (prev + 1) % colorOptions.length);
@@ -614,6 +637,30 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
             description: 'Access to advanced learning tools is no longer limited to urban centers. 5D labs are bringing world-class education to every corner of India.',
             image: '/assets/vr_elearning_hero.webp',
             link: '#'
+        }
+    ];
+
+    // Static data for 'Get To Know' section
+    const staticFeatures = [
+        {
+            title: "5D Labs Experiment",
+            description: "Experience next-generation curriculum-based 5D lab experiments with Melzo Anubhav's advanced virtual reality technology. Students can safely conduct enhanced physics experiments, complex chemical reactions, detailed biological dissections, and advanced engineering simulations in an ultra-immersive environment. Designed for premium educational institutions, universities, and advanced training centers, these ultra-realistic 5D simulations bring science to life with unprecedented detail. From exploring advanced quantum physics to dissecting virtual organisms with haptic feedback, every experience is hands-on and incredibly engaging. With enhanced motion effects, real-time interaction, and stunning 5D visuals, Melzo Anubhav 5D overcomes all limitations of traditional labs.",
+            image: "5d_chair/Person using VR headset_5d.webp"
+        },
+        {
+            title: "VR Built-In",
+            description: "Melzo Anubhav brings education to life through immersive Virtual Reality, allowing users to explore high-quality 3D simulations, lifelike virtual labs, and interactive content with unmatched clarity and depth. Students, educators, and professionals can experience hands-on training ,conduct virtual experiments, and engage in immersive storytelling—making complex concepts easier to grasp. With support for advanced VR headsets such as Meta Quest 2 and Meta Quest 3s, the experience is smooth, intuitive, and engaging. Melzo Anubhav redefines education by extending learning beyond books and screens into a truly experiential and impactful journey.",
+            image: "5d_chair/VR headset and controllers.webp"
+        },
+        {
+            title: "Virtual Tours",
+            description: "Step into history and exploration like never before with Melzo Anubhav 5D's ultra-immersive virtual tours. Experience the Apollo 11 Moon Landing with spatial audio, dive into underwater adventures with haptic feedback, witness African wildlife with scent simulation, and explore the beauty of Italy with temperature effects—all from your premium 5D seat. Powered by revolutionary 5D virtual reality and multi-sensory effects, Melzo Anubhav 5D lets you feel the atmosphere of historical events and walk through global landmarks as if you were truly there. Perfect for premium educational institutions, universities, and history enthusiasts, these photorealistic simulations make learning engaging and unforgettable. Melzo Anubhav 5D turns history into a living experience because the best way to learn it is to live it completely.",
+            image: "5d_chair/Virtual wildlife encounter with tiger_5d.webp"
+        },
+        {
+            title: "Premium Immersive",
+            description: "Melzo Anubhav 5D is meticulously designed to deliver both ultra-immersive education and superior luxury comfort. The chair features premium memory foam cushioning made with high-quality, genuine leather materials that offer an incredibly soft, supportive, and durable seating experience. This carefully selected premium upholstery provides a smooth finish and luxurious feel, ensuring users remain comfortable during extended interactive sessions. Its easy-to-clean and wear-resistant surface makes it ideal for continuous use in premium educational environments such as elite schools, universities, and advanced training centers. The ergonomic design supports proper posture during long VR sessions.",
+            image: "5d_chair/Close-up of premium 5d chair upholstery.webp"
         }
     ];
 
@@ -717,8 +764,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             letterSpacing: '-2px',
                             color: isDarkTheme ? '#FFFFFF' : '#000'
                         }}>
-
-                            India's <span style={{ color: '#FF9B50' }}>First</span> Interactive <span style={{ color: '#FF9B50' }}>5D</span> Lab
+                            {content.hero.titleLine1} <span style={{ color: '#FF9B50' }}>{content.hero.titleHighlight1}</span> {content.hero.titleLine2} <span style={{ color: '#FF9B50' }}>{content.hero.titleHighlight2}</span> {content.hero.titleLine3}
                         </h1>
 
                         <hr style={{
@@ -733,7 +779,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             marginTop: '2.0rem',
                             lineHeight: '1.6'
                         }}>
-                            Experience the future of education
+                            {content.hero.description}
                         </p>
                         <div style={{
                             marginTop: '2rem',
@@ -760,8 +806,10 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                 onMouseLeave={(e) => {
                                     e.target.style.transform = 'translateY(0)';
                                     e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                                }}>
-                                Book A Demo
+                                }}
+                                onClick={onBookDemo}
+                            >
+                                {content.hero.btnBook}
                             </button>
                             <button
                                 onClick={() => onNavigate && onNavigate('guidelines')}
@@ -786,7 +834,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                     e.target.style.color = isDarkTheme ? '#FFFFFF' : '#2D2D2D';
                                     e.target.style.transform = 'translateY(0)';
                                 }}>
-                                View Guidelines
+                                {content.hero.btnGuidelines}
                             </button>
                             <button
                                 onClick={() => onNavigate && onNavigate('anubhav')}
@@ -813,7 +861,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                     e.target.style.borderColor = isDarkTheme ? '#FFFFFF' : '#2D2D2D';
                                     e.target.style.transform = 'translateY(0)';
                                 }}>
-                                Switch to 7D Lab
+                                {content.hero.btnAnubhav}
                             </button>
                         </div>
                         <div style={{
@@ -986,217 +1034,60 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                         margin: '4rem auto',
                         padding: '0 2rem'
                     }}>
-                        {/* Feature Block 1: 7D Labs Experiment */}
-                        <div style={{
-                            padding: '2rem 0',
-                            borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',
-                            transition: 'all 0.4s ease',
-                            cursor: 'default'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.borderTopColor = '#FF9B50';
-                                e.currentTarget.style.transform = 'translateX(10px)';
+                        {staticFeatures.map((feature, index) => (
+
+                            <div key={index} style={{
+                                padding: '2rem 0',
+                                borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',
+                                transition: 'all 0.4s ease',
+                                cursor: 'default'
                             }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
-                                e.currentTarget.style.transform = 'translateX(0)';
-                            }}>
-                            <div style={{
-                                width: '100%',
-                                aspectRatio: '16/9',
-                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
-                                borderRadius: '12px',
-                                overflow: 'hidden',
-                                marginBottom: '1.5rem',
-                            }}>
-                                <img
-                                    src="/images/5d_chair/Person using VR headset_5d.webp"
-                                    alt="5D Labs Experiment"
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover'
-                                    }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.borderTopColor = '#FF9B50';
+                                    e.currentTarget.style.transform = 'translateX(10px)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
+                                    e.currentTarget.style.transform = 'translateX(0)';
+                                }}>
+                                <div style={{
+                                    width: '100%',
+                                    aspectRatio: '16/9',
+                                    backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
+                                    borderRadius: '12px',
+                                    overflow: 'hidden',
+                                    marginBottom: '1.5rem',
+                                }}>
+                                    <img
+                                        src={`/images/${feature.image || 'placeholder.webp'}`}
+                                        alt={feature.title}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover'
+                                        }}
+                                    />
+                                </div>
+                                <h2 style={{
+                                    fontSize: '1.75rem',
+                                    fontWeight: 900,
+                                    letterSpacing: '-1px',
+                                    color: isDarkTheme ? '#FFF' : '#000000',
+                                    marginBottom: '1.5rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem'
+                                }}>
+                                    <span style={{ color: '#FF9B50' }}>/</span>
+                                    {feature.title}
+                                </h2>
+
+                                <ExpandableText
+                                    isDarkTheme={isDarkTheme}
+                                    text={feature.description}
                                 />
                             </div>
-                            <h2 style={{
-                                fontSize: '1.75rem',
-                                fontWeight: 900,
-                                letterSpacing: '-1px',
-                                color: isDarkTheme ? '#FFF' : '#000000',
-                                marginBottom: '1.5rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '1rem'
-                            }}>
-                                <span style={{ color: '#FF9B50' }}>/</span>
-                                5D Labs Experiment
-                            </h2>
-
-                            <ExpandableText
-                                isDarkTheme={isDarkTheme}
-                                text="Experience next-generation curriculum-based 5D lab experiments with Melzo Anubhav's advanced virtual reality technology. Students can safely conduct enhanced physics experiments, complex chemical reactions, detailed biological dissections, and advanced engineering simulations in an ultra-immersive environment. Designed for premium educational institutions, universities, and advanced training centers, these ultra-realistic 5D simulations bring science to life with unprecedented detail. From exploring advanced quantum physics to dissecting virtual organisms with haptic feedback, every experience is hands-on and incredibly engaging. With enhanced motion effects, real-time interaction, and stunning 5D visuals, Melzo Anubhav 5D overcomes all limitations of traditional labs."
-                            />
-                        </div>
-
-                        {/* Feature Block 2: VR Built-In */}
-                        <div style={{
-                            padding: '2rem 0',
-                            borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',
-                            transition: 'all 0.4s ease',
-                            cursor: 'default'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.borderTopColor = '#FF9B50';
-                                e.currentTarget.style.transform = 'translateX(10px)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
-                                e.currentTarget.style.transform = 'translateX(0)';
-                            }}>
-                            <div style={{
-                                width: '100%',
-                                aspectRatio: '16/9',
-                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
-                                borderRadius: '12px',
-                                overflow: 'hidden',
-                                marginBottom: '1.5rem',
-                            }}>
-                                <img
-                                    src="/images/5d_chair/VR headset and controllers.webp"
-                                    alt="VR Built-In"
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover'
-                                    }}
-                                />
-                            </div>
-                            <h2 style={{
-                                fontSize: '1.75rem',
-                                fontWeight: 900,
-                                letterSpacing: '-1px',
-                                color: isDarkTheme ? '#FFF' : '#000000',
-                                marginBottom: '1.5rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '1rem'
-                            }}>
-                                <span style={{ color: '#FF9B50' }}>/</span>
-                                VR Built-In
-                            </h2>
-
-                            <ExpandableText
-                                isDarkTheme={isDarkTheme}
-                                text="Melzo Anubhav brings education to life through immersive Virtual Reality, allowing users to explore high-quality 3D simulations, lifelike virtual labs, and interactive content with unmatched clarity and depth. Students, educators, and professionals can experience hands-on training ,conduct virtual experiments, and engage in immersive storytelling—making complex concepts easier to grasp. With support for advanced VR headsets such as Meta Quest 2s and Meta Quest 3, the experience is smooth, intuitive, and engaging. Melzo Anubhav redefines education by extending learning beyond books and screens into a truly experiential and impactful journey."
-                            />
-                        </div>
-
-                        {/* Feature Block 3: Virtual Tours */}
-                        <div style={{
-                            padding: '2rem 0',
-                            borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',
-                            transition: 'all 0.4s ease',
-                            cursor: 'default'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.borderTopColor = '#FF9B50';
-                                e.currentTarget.style.transform = 'translateX(10px)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
-                                e.currentTarget.style.transform = 'translateX(0)';
-                            }}>
-                            <div style={{
-                                width: '100%',
-                                aspectRatio: '16/9',
-                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
-                                borderRadius: '12px',
-                                overflow: 'hidden',
-                                marginBottom: '1.5rem',
-                            }}>
-                                <img
-                                    src="/images/5d_chair/Virtual wildlife encounter with tiger_5d.webp"
-                                    alt="Virtual Tours"
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover'
-                                    }}
-                                />
-                            </div>
-                            <h2 style={{
-                                fontSize: '1.75rem',
-                                fontWeight: 900,
-                                letterSpacing: '-1px',
-                                color: isDarkTheme ? '#FFF' : '#000000',
-                                marginBottom: '1.5rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '1rem'
-                            }}>
-                                <span style={{ color: '#FF9B50' }}>/</span>
-                                Virtual Tours
-                            </h2>
-
-                            <ExpandableText
-                                isDarkTheme={isDarkTheme}
-                                text="Step into history and exploration like never before with Melzo Anubhav 5D's ultra-immersive virtual tours. Experience the Apollo 11 Moon Landing with spatial audio, dive into underwater adventures with haptic feedback, witness African wildlife with scent simulation, and explore the beauty of Italy with temperature effects—all from your premium 5D seat. Powered by revolutionary 5D virtual reality and multi-sensory effects, Melzo Anubhav 5D lets you feel the atmosphere of historical events and walk through global landmarks as if you were truly there. Perfect for premium educational institutions, universities, and history enthusiasts, these photorealistic simulations make learning engaging and unforgettable. Melzo Anubhav 5D turns history into a living experience because the best way to learn it is to live it completely."
-                            />
-                        </div>
-
-                        {/* Feature Block 4: Immersive Ease */}
-                        <div style={{
-                            padding: '2rem 0',
-                            borderTop: isDarkTheme ? '1px solid #333' : '1px solid #eee',
-                            transition: 'all 0.4s ease',
-                            cursor: 'default'
-                        }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.borderTopColor = '#FF9B50';
-                                e.currentTarget.style.transform = 'translateX(10px)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.borderTopColor = isDarkTheme ? '#333' : '#eee';
-                                e.currentTarget.style.transform = 'translateX(0)';
-                            }}>
-                            <div style={{
-                                width: '100%',
-                                aspectRatio: '16/9',
-                                backgroundColor: isDarkTheme ? '#2d2d2d' : '#f5f5f5',
-                                borderRadius: '12px',
-                                overflow: 'hidden',
-                                marginBottom: '1.5rem',
-                            }}>
-                                <img
-                                    src="/images/5d_chair/Close-up of premium 5d chair upholstery.webp"
-                                    alt="Immersive Ease"
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover'
-                                    }}
-                                />
-                            </div>
-                            <h2 style={{
-                                fontSize: '1.75rem',
-                                fontWeight: 900,
-                                letterSpacing: '-1px',
-                                color: isDarkTheme ? '#FFF' : '#000000',
-                                marginBottom: '1.5rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '1rem'
-                            }}>
-                                <span style={{ color: '#FF9B50' }}>/</span>
-                                Premium Immersive
-                            </h2>
-
-                            <ExpandableText
-                                isDarkTheme={isDarkTheme}
-                                text="Melzo Anubhav 5D is meticulously designed to deliver both ultra-immersive education and superior luxury comfort. The chair features premium memory foam cushioning made with high-quality, genuine leather materials that offer an incredibly soft, supportive, and durable seating experience. This carefully selected premium upholstery provides a smooth finish and luxurious feel, ensuring users remain comfortable during extended interactive sessions. Its easy-to-clean and wear-resistant surface makes it ideal for continuous use in premium educational environments such as elite schools, universities, and advanced training centers. The ergonomic design supports proper posture during long VR sessions."
-                            />
-                        </div>
+                        ))}
                     </div>
                 </section>
 
@@ -1291,7 +1182,6 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             </p>
                         </div>
 
-                        {/* Stats Grid */}
                         <div style={{
                             display: 'grid',
                             gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
@@ -1299,140 +1189,115 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             maxWidth: '1200px',
                             margin: '0 auto'
                         }}>
-                            {/* Stat 1: Publications */}
-                            <div style={{
-                                textAlign: 'center',
-                                padding: '3rem 2rem',
-                                borderRadius: '16px',
-                                backgroundColor: isDarkTheme ? '#262626' : '#ffffff',
-                                boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
-                                border: '2px solid transparent', // Added to prevent layout shift
-                                transition: 'all 0.4s ease',
-                                cursor: 'pointer',
-                                position: 'relative',
-                                overflow: 'hidden'
-                            }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-10px)';
-                                    e.currentTarget.style.borderColor = '#FF9B50'; // Turn border orange
-                                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(255, 155, 80, 0.25)'; // Orange shadow
+                            {content.stats.items.map((stat, idx) => (
+                                <div key={idx} style={{
+                                    textAlign: 'center',
+                                    padding: '3rem 2rem',
+                                    borderRadius: '16px',
+                                    backgroundColor: isDarkTheme ? '#262626' : '#ffffff',
+                                    boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+                                    border: '2px solid transparent', // Added to prevent layout shift
+                                    transition: 'all 0.4s ease',
+                                    cursor: 'pointer',
+                                    position: 'relative',
+                                    overflow: 'hidden'
                                 }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.borderColor = 'transparent'; // Reset border
-                                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.06)'; // Reset shadow
-                                }}>
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(-10px)';
+                                        e.currentTarget.style.borderColor = '#FF9B50'; // Turn border orange
+                                        e.currentTarget.style.boxShadow = '0 12px 40px rgba(255, 155, 80, 0.25)'; // Orange shadow
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        e.currentTarget.style.borderColor = 'transparent'; // Reset border
+                                        e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.06)'; // Reset shadow
+                                    }}>
 
-                                {/* Decorative corner accent */}
-                                <div style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    right: 0,
-                                    width: '80px',
-                                    height: '80px',
+                                    <div style={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        right: 0,
+                                        width: '80px',
+                                        height: '80px',
 
-                                    pointerEvents: 'none'
-                                }} />
+                                        pointerEvents: 'none'
+                                    }} />
 
-                                <div style={{
-                                    fontSize: '0.85rem',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '2px',
-                                    fontWeight: 600,
-                                    opacity: 0.6,
-                                    marginBottom: '1rem'
-                                }}>
-                                    COVERED IN
+                                    <div style={{
+                                        fontSize: '0.85rem',
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '2px',
+                                        fontWeight: 600,
+                                        opacity: 0.6,
+                                        marginBottom: '1rem'
+                                    }}>
+                                        {stat.sub}
+                                    </div>
+                                    <div style={{
+                                        fontSize: 'clamp(3.5rem, 8vw, 5rem)',
+                                        fontWeight: 900,
+                                        color: '#FF9B50',
+                                        letterSpacing: '-3px',
+                                        marginBottom: '0.5rem',
+                                        lineHeight: '1'
+                                    }}>
+                                        {stat.value}
+                                    </div>
+                                    <div style={{
+                                        fontSize: '1.1rem',
+                                        fontWeight: 600,
+                                        color: isDarkTheme ? '#E0E0E0' : '#2D2D2D',
+                                        lineHeight: '1.4'
+                                    }}>
+                                        {stat.label}
+                                    </div>
                                 </div>
-                                <div style={{
-                                    fontSize: 'clamp(3.5rem, 8vw, 5rem)',
-                                    fontWeight: 900,
-                                    color: '#FF9B50',
-                                    letterSpacing: '-3px',
-                                    marginBottom: '0.5rem',
-                                    lineHeight: '1'
-                                }}>
-                                    13+
-                                </div>
-                                <div style={{
-                                    fontSize: '1.1rem',
-                                    fontWeight: 600,
-                                    color: isDarkTheme ? '#E0E0E0' : '#2D2D2D',
-                                    lineHeight: '1.4'
-                                }}>
-                                    Renowned Publications
-                                </div>
-                            </div>
-
-                            {/* Stat 2: Learning Retention */}
-                            <div style={{
-                                textAlign: 'center',
-                                padding: '3rem 2rem',
-                                borderRadius: '16px',
-                                backgroundColor: isDarkTheme ? '#262626' : '#ffffff',
-                                boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
-                                border: '2px solid transparent', // Added to prevent layout shift
-                                transition: 'all 0.4s ease',
-                                cursor: 'pointer',
-                                position: 'relative',
-                                overflow: 'hidden'
-                            }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-10px)';
-                                    e.currentTarget.style.borderColor = '#FF9B50'; // Turn border orange
-                                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(255, 155, 80, 0.25)'; // Orange shadow
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.borderColor = 'transparent'; // Reset border
-                                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.06)'; // Reset shadow
-                                }}>
-
-                                <div style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    right: 0,
-                                    width: '80px',
-                                    height: '80px',
-
-                                    pointerEvents: 'none'
-                                }} />
-
-                                <div style={{
-                                    fontSize: '0.85rem',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '2px',
-                                    fontWeight: 600,
-                                    opacity: 0.6,
-                                    marginBottom: '1rem'
-                                }}>
-                                    UPTO
-                                </div>
-                                <div style={{
-                                    fontSize: 'clamp(3.5rem, 8vw, 5rem)',
-                                    fontWeight: 900,
-                                    color: '#FF9B50',
-                                    letterSpacing: '-3px',
-                                    marginBottom: '0.5rem',
-                                    lineHeight: '1'
-                                }}>
-                                    75%
-                                </div>
-                                <div style={{
-                                    fontSize: '1.1rem',
-                                    fontWeight: 600,
-                                    color: isDarkTheme ? '#E0E0E0' : '#2D2D2D',
-                                    lineHeight: '1.4'
-                                }}>
-                                    Increased Learning Retention
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </section>
 
 
 
+
+                {/* News In The Media Section */}
+                <section style={{ padding: '5rem 5%', backgroundColor: isDarkTheme ? '#202020' : '#F5F5F5' }}>
+                    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+                        <h2 style={{ fontSize: '2.5rem', fontWeight: 900, textAlign: 'center', marginBottom: '3rem', color: '#FF9B50' }}>{content.news.title}</h2>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+                            {content.news.items.slice(0, visibleArticles).map((article, idx) => (
+                                <div key={idx} style={{
+                                    backgroundColor: isDarkTheme ? '#262626' : '#fff',
+                                    padding: '2rem',
+                                    borderRadius: '16px',
+                                    boxShadow: '0 4px 20px rgba(0,0,0,0.06)'
+                                }}>
+                                    <div style={{ fontSize: '0.9rem', fontWeight: 600, color: '#FF9B50', marginBottom: '0.5rem' }}>{article.publication}</div>
+                                    <div style={{ fontSize: '0.85rem', color: isDarkTheme ? '#aaa' : '#666', marginBottom: '1rem' }}>{article.date}</div>
+                                    <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1rem', color: isDarkTheme ? '#fff' : '#000' }}>{article.title}</h3>
+                                    <p style={{ fontSize: '1rem', lineHeight: '1.6', color: isDarkTheme ? '#ddd' : '#444', marginBottom: '1.5rem' }}>{article.description}</p>
+                                    <a href={article.link} style={{ color: '#FF9B50', fontWeight: 600, textDecoration: 'none' }}>Read More →</a>
+                                </div>
+                            ))}
+                        </div>
+                        {content.news.items.length > visibleArticles && (
+                            <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+                                <button onClick={() => setVisibleArticles(prev => prev + 3)} style={{
+                                    background: 'transparent',
+                                    border: '2px solid #FF9B50',
+                                    color: isDarkTheme ? '#fff' : '#000',
+                                    padding: '0.8rem 2rem',
+                                    borderRadius: '30px',
+                                    fontWeight: 600,
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s'
+                                }}>
+                                    See More
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </section>
 
                 {/* Why Choose Anubhav 5D Chair Section */}
                 <section style={{
@@ -1468,14 +1333,7 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             gap: '3rem',
                             rowGap: '4rem'
                         }}>
-                            {[
-                                { title: "Built for Institutions", desc: "Designed specifically for schools, universities, and training centers." },
-                                { title: "Immersive Learning", desc: "Blends cutting-edge motion effects with virtual reality simulations." },
-                                { title: "Hands-on Virtual Experiments", desc: "Enable lifelike science and technology experiments in a safe, interactive environment." },
-                                { title: "Historical Exploration", desc: "Let users journey through the pages of history like never before." },
-                                { title: "Multi-Dimensional Education", desc: "Brings science, technology, and history to life in an entirely new dimension." },
-                                { title: "Future-Ready Platform", desc: "The future of education isn't just coming—it's already here with Melzo Anubhav! Experience the future with our 5D premium features." }
-                            ].map((feature, index) => (
+                            {content.whyChoose.items.map((feature, index) => (
                                 <FeatureItem
                                     key={index}
                                     feature={feature}
@@ -1530,15 +1388,9 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                     e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.08)';
                                 }}
                             >
-                                <h3 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '2rem', color: isDarkTheme ? '#fff' : '#000' }}>5D Chair</h3>
+                                <h3 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '2rem', color: isDarkTheme ? '#fff' : '#000' }}>{content.compare.fiveD.title}</h3>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                                    {[
-                                        { label: "5 degree of Immersion", value: "360° Rotation, Vibration, Mist, Fragrance, Air Blasts" },
-                                        { label: "VR Devices", value: "Meta Quest 2 and Meta Quest 3s" },
-                                        { label: "Content Subscription", value: "3 years (included in price)" },
-                                        { label: "Warranty", value: "3 years (chair), 1 year (electronics)" },
-                                        { label: "Color Options", value: "Available in 5 colors" },
-                                    ].map((item, idx) => (
+                                    {content.compare.fiveD.features.map((item, idx) => (
                                         <div key={idx}>
                                             <span style={{ fontWeight: 700, color: isDarkTheme ? '#eee' : '#333' }}>{item.label}: </span>
                                             <span style={{ color: isDarkTheme ? '#aaa' : '#555' }}>{item.value}</span>
@@ -1568,20 +1420,15 @@ export default function FiveDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                     e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.08)';
                                 }}
                             >
-                                <h3 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '2rem', color: isDarkTheme ? '#fff' : '#000' }}>7D Chair</h3>
+                                <h3 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '2rem', color: isDarkTheme ? '#fff' : '#000' }}>{content.compare.sevenD.title}</h3>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                                     <div>
-                                        <span style={{ fontWeight: 700, color: isDarkTheme ? '#eee' : '#333' }}>7 degree of Immersion: </span>
+                                        <span style={{ fontWeight: 700, color: isDarkTheme ? '#eee' : '#333' }}>{content.compare.sevenD.immersiveLabel} </span>
                                         <span style={{ color: isDarkTheme ? '#aaa' : '#555' }}>
-                                            360° Rotation, Vibration, <span style={{ color: '#FF4D4D', fontWeight: 600 }}>Rocking, Recliner</span>, Mist, Air Blasts, Fragrance
+                                            {content.compare.sevenD.immersiveValue}
                                         </span>
                                     </div>
-                                    {[
-                                        { label: "VR Devices", value: "Meta Quest 2 and Meta Quest 3s" },
-                                        { label: "Content Subscription", value: "3 years (included in price)" },
-                                        { label: "Warranty", value: "3 years (chair), 1 year (electronics)" },
-                                        { label: "Color Options", value: "Available in 7 colors" },
-                                    ].map((item, idx) => (
+                                    {content.compare.sevenD.features.map((item, idx) => (
                                         <div key={idx}>
                                             <span style={{ fontWeight: 700, color: isDarkTheme ? '#eee' : '#333' }}>{item.label}: </span>
                                             <span style={{ color: isDarkTheme ? '#aaa' : '#555' }}>{item.value}</span>

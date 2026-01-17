@@ -1,13 +1,51 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/VRLiveStream.css';
 import AppNav from '../components/AppNav';
+import LoadingSpinner from '../components/LoadingSpinner';
+
 
 export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
+    const [content, setContent] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         window.scrollTo(0, 0);
+        // Fetch LIVE data immediately on page load
+        fetch('/api/page-content/vrLiveStream_live')
+            .then(res => res.json())
+            .then(data => {
+                if (data && Object.keys(data.hero || {}).length > 0) {
+                    setContent(data);
+                }
+            })
+            .catch(err => console.error('[VRLiveStream] Error fetching live data:', err))
+            .finally(() => setIsLoading(false));
     }, []);
 
     const themeClass = isDarkTheme ? 'theme-dark' : 'theme-light';
+
+    if (isLoading || !content) {
+        return (
+            <>
+                <AppNav
+                    onNavigate={onNavigate}
+                    isDarkTheme={isDarkTheme}
+                    onToggleTheme={onToggleTheme}
+                    onBookDemo={onBookDemo}
+                    currentPage="vrlivestream"
+                />
+                <div style={{
+                    height: '100vh',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: isDarkTheme ? '#0A0A0A' : '#fff'
+                }}>
+                    <LoadingSpinner />
+                </div>
+            </>
+        );
+    }
 
     return (
         <>
@@ -28,24 +66,24 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                 >
                     <div className="vr-livestream-hero-content">
                         <div className="vr-livestream-badge">
-                            Live Stream Simulation
+                            {content.hero.badge}
                         </div>
                         <h1>
-                            Democratizing the VR Experience: Stream Beyond the Lab
+                            {content.hero.title}
                         </h1>
                         <p>
-                            Breaking the walls of the physical classroom. Broadcast your immersive VR sessions to a global audience with real-time interactivity and zero geographical limits.
+                            {content.hero.subtitle}
                         </p>
                         <div className="vr-livestream-hero-buttons">
                             <button
                                 onClick={onBookDemo}
                                 className="vr-livestream-btn-primary"
                             >
-                                Launch Your Global Stream
+                                {content.hero.primaryBtn}
                             </button>
-                            <button className="vr-livestream-btn-secondary">
-                                Watch a Live Demo
-                            </button>
+                            {/* <button className="vr-livestream-btn-secondary">
+                                {content.hero.secondaryBtn}
+                            </button> */}
                         </div>
                     </div>
                 </section>
@@ -54,30 +92,14 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                 {/* The Connectivity Trio */}
                 <section className="vr-livestream-section">
                     <h2 className="vr-livestream-section-title">
-                        The Connectivity Trio
+                        {content.trio.title}
                     </h2>
                     <p className="vr-livestream-section-subtitle">
-                        Revolutionary streaming technology for global VR experiences
+                        {content.trio.subtitle}
                     </p>
 
                     <div className="vr-livestream-feature-grid">
-                        {[
-                            {
-                                title: 'Low-Latency 360° Broadcasting',
-                                desc: 'Technology that allows viewers to look around the virtual environment in real-time without lag.',
-                                number: '01'
-                            },
-                            {
-                                title: 'Bi-Directional Interaction',
-                                desc: 'Remote participants can influence the VR environment, ask questions, or trigger events within the simulation.',
-                                number: '02'
-                            },
-                            {
-                                title: 'Universal Access',
-                                desc: 'Compatible with browsers, mobile devices, and standalone headsets—no high-end PC required for the audience.',
-                                number: '03'
-                            }
-                        ].map((feature, idx) => (
+                        {content.trio.features.map((feature, idx) => (
                             <div key={idx} className="vr-livestream-feature-card">
                                 <div className="vr-livestream-feature-icon" style={{
                                     fontSize: '2rem',
@@ -104,30 +126,14 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                 <section className="vr-livestream-section alt-bg">
                     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
                         <h2 className="vr-livestream-section-title">
-                            The Expansion Pillars
+                            {content.pillars.title}
                         </h2>
                         <p className="vr-livestream-section-subtitle">
-                            Scaling immersive experiences beyond physical boundaries
+                            {content.pillars.subtitle}
                         </p>
 
                         <div className="vr-livestream-pillar-list">
-                            {[
-                                {
-                                    num: '01',
-                                    title: 'The Infinite Classroom',
-                                    desc: 'Turning a 20-person physical VR lab into a 2,000-person global seminar.'
-                                },
-                                {
-                                    num: '02',
-                                    title: 'Hybrid Event Mastery',
-                                    desc: 'Host physical exhibitions while allowing virtual attendees to \'walk\' the floor and interact with speakers.'
-                                },
-                                {
-                                    num: '03',
-                                    title: 'Remote Expert Guidance',
-                                    desc: 'Allowing a specialist in one country to lead a hands-on technical training session for a team in another.'
-                                }
-                            ].map((pillar, idx) => (
+                            {content.pillars.items.map((pillar, idx) => (
                                 <div key={idx} className="vr-livestream-pillar-card">
                                     <div className="vr-livestream-pillar-number">
                                         {pillar.num}
@@ -151,30 +157,14 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                 {/* Target Audience Value Props */}
                 <section className="vr-livestream-section">
                     <h2 className="vr-livestream-section-title">
-                        Who Benefits from VR Live Streaming
+                        {content.audience.title}
                     </h2>
                     <p className="vr-livestream-section-subtitle">
-                        Transforming how organizations connect and educate globally
+                        {content.audience.subtitle}
                     </p>
 
                     <div className="vr-livestream-feature-grid">
-                        {[
-                            {
-                                audience: 'Higher Education & MOOCs',
-                                focus: 'Massive Scale',
-                                benefit: 'Scaling specialized labs to thousands of remote students simultaneously, democratizing access to premium education.'
-                            },
-                            {
-                                audience: 'Corporate HR & L&D',
-                                focus: 'Global Consistency',
-                                benefit: 'Consistent, high-impact \'Town Hall\' training for decentralized, global workforces with unified messaging.'
-                            },
-                            {
-                                audience: 'Event & Media Agencies',
-                                focus: 'Virtual Front-Row',
-                                benefit: 'Offering virtual front-row seats for product launches or cultural performances to unlimited audiences worldwide.'
-                            }
-                        ].map((segment, idx) => (
+                        {content.audience.items.map((segment, idx) => (
                             <div key={idx} className="vr-livestream-audience-card">
                                 <div className="vr-livestream-audience-badge">
                                     {segment.focus}
@@ -196,19 +186,14 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                 <section className="vr-livestream-section alt-bg">
                     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
                         <h2 className="vr-livestream-section-title">
-                            Global Reach, Local Impact
+                            {content.reach.title}
                         </h2>
                         <p className="vr-livestream-section-subtitle">
-                            Connect with audiences across continents in real-time
+                            {content.reach.subtitle}
                         </p>
 
                         <div className="vr-livestream-stats-grid">
-                            {[
-                                { region: 'North America', connections: '5,000+' },
-                                { region: 'Europe', connections: '3,500+' },
-                                { region: 'Asia Pacific', connections: '8,000+' },
-                                { region: 'Global Total', connections: '20K+' }
-                            ].map((stat, idx) => (
+                            {content.reach.stats.map((stat, idx) => (
                                 <div key={idx} className="vr-livestream-stat-card">
                                     <div className="vr-livestream-stat-value">
                                         {stat.connections}
@@ -225,19 +210,14 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                 {/* Engagement Comparison */}
                 <section className="vr-livestream-section">
                     <h2 className="vr-livestream-section-title">
-                        10x the Engagement
+                        {content.engagement.title}
                     </h2>
                     <p className="vr-livestream-section-subtitle">
-                        VR live streaming vs. traditional video conferencing
+                        {content.engagement.subtitle}
                     </p>
 
                     <div className="vr-livestream-comparison-grid">
-                        {[
-                            { metric: 'Attention Retention', vr: '92%', video: '35%' },
-                            { metric: 'Active Participation', vr: '85%', video: '20%' },
-                            { metric: 'Knowledge Retention', vr: '75%', video: '25%' },
-                            { metric: 'Session Completion', vr: '88%', video: '45%' }
-                        ].map((comparison, idx) => (
+                        {content.engagement.items.map((comparison, idx) => (
                             <div key={idx} className="vr-livestream-comparison-card">
                                 <h3 className="vr-livestream-comparison-metric">
                                     {comparison.metric}
@@ -272,19 +252,14 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                 <section className="vr-livestream-why-melzo">
                     <div className="vr-livestream-why-melzo-content">
                         <h2 className="vr-livestream-section-title">
-                            Why Melzo Live: Simplicity and Engagement
+                            {content.why.title}
                         </h2>
                         <p className="vr-livestream-why-melzo-text">
-                            Melzo removes the 'technical barrier' of VR, making it as easy to join an immersive 3D world as it is to join a standard video call, while maintaining 10x the engagement. No downloads, no complex setup—just click and immerse.
+                            {content.why.subtitle}
                         </p>
 
                         <div className="vr-livestream-why-melzo-stats">
-                            {[
-                                { label: 'Setup Time', value: '< 30s' },
-                                { label: 'Concurrent Viewers', value: '10K+' },
-                                { label: 'Platform Compatibility', value: '100%' },
-                                { label: 'Engagement Boost', value: '10x' }
-                            ].map((stat, idx) => (
+                            {content.why.stats.map((stat, idx) => (
                                 <div key={idx} className="vr-livestream-why-melzo-stat">
                                     <div className="vr-livestream-why-melzo-stat-value">
                                         {stat.value}
@@ -300,7 +275,7 @@ export default function VRLiveStream({ onNavigate, isDarkTheme, onBookDemo, onTo
                             onClick={onBookDemo}
                             className="vr-livestream-btn-primary"
                         >
-                            Start Broadcasting Today →
+                            {content.why.cta}
                         </button>
                     </div>
                 </section>

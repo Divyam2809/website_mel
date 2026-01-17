@@ -1,11 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/VRProduct.css';
 import AppNav from '../components/AppNav';
 import GridBackground from '../components/GridBackground';
+import LoadingSpinner from '../components/LoadingSpinner';
+
 
 export default function AircraftSimulator({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
-    useEffect(() => { window.scrollTo(0, 0); }, []);
+    const [content, setContent] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        // Fetch LIVE data immediately on page load
+        fetch('/api/page-content/aircraftSimulation_live')
+            .then(res => res.json())
+            .then(data => {
+                if (data && Object.keys(data.hero || {}).length > 0) {
+                    setContent(data);
+                }
+            })
+            .catch(err => console.error('[AircraftSimulator] Error fetching live data:', err))
+            .finally(() => setIsLoading(false));
+    }, []);
+
     const themeClass = isDarkTheme ? 'theme-dark' : 'theme-light';
+
+    if (isLoading || !content) {
+        return (
+            <>
+                <AppNav
+                    onNavigate={onNavigate}
+                    isDarkTheme={isDarkTheme}
+                    onToggleTheme={onToggleTheme}
+                    onBookDemo={onBookDemo}
+                    currentPage="aircraftsimulator"
+                />
+                <div style={{
+                    height: '100vh',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: isDarkTheme ? '#0A0A0A' : '#fff'
+                }}>
+                    <LoadingSpinner />
+                </div>
+            </>
+        );
+    }
 
     return (
         <>
@@ -20,25 +61,21 @@ export default function AircraftSimulator({ onNavigate, isDarkTheme, onBookDemo,
                 <section className="vr-product-hero" style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, ${isDarkTheme ? '0.75' : '0.6'}), rgba(0, 0, 0, ${isDarkTheme ? '0.75' : '0.6'})), url('/images/aircraft_simulator_hero.webp')` }}>
                     <GridBackground isDarkTheme={isDarkTheme} />
                     <div className="vr-product-hero-content">
-                        <div className="vr-product-badge">Professional Flight Training</div>
-                        <h1>Earn Your Wings in a World Without Gravity</h1>
-                        <p>Bridging the gap between theory and the cockpit. Master complex flight dynamics and emergency protocols in a hyper-realistic VR environment designed for the next generation of aviators.</p>
+                        <div className="vr-product-badge">{content.hero.badge}</div>
+                        <h1>{content.hero.title}</h1>
+                        <p>{content.hero.subtitle}</p>
                         <div className="vr-product-hero-buttons">
-                            <button onClick={onBookDemo} className="vr-product-btn-primary">Request a Simulator Walkthrough</button>
-                            <button className="vr-product-btn-secondary">Download Training Curriculum</button>
+                            <button onClick={onBookDemo} className="vr-product-btn-primary">{content.hero.primaryBtn}</button>
+                            {/* <button className="vr-product-btn-secondary">{content.hero.secondaryBtn}</button> */}
                         </div>
                     </div>
                 </section>
 
                 <section className="vr-product-section">
-                    <h2 className="vr-product-section-title">The Cockpit Trio</h2>
-                    <p className="vr-product-section-subtitle">Professional-grade simulation technology for authentic flight training</p>
+                    <h2 className="vr-product-section-title">{content.trio.title}</h2>
+                    <p className="vr-product-section-subtitle">{content.trio.subtitle}</p>
                     <div className="vr-product-feature-grid">
-                        {[
-                            { title: 'Full Cockpit Replication', desc: '1:1 mapping of dials, switches, and HUDs that respond to virtual touch with precision accuracy.', number: '01' },
-                            { title: 'Kinetic Motion Systems', desc: 'Hardware mimics G-force, turbulence, and landing impact to build physiological readiness.', number: '02' },
-                            { title: 'Variable Weather & Lighting', desc: 'Toggle zero-visibility, night flights, and extreme storm conditions at the click of a button.', number: '03' }
-                        ].map((feature, idx) => (
+                        {content.trio.features.map((feature, idx) => (
                             <div key={idx} className="vr-product-feature-card">
                                 <div className="vr-product-feature-icon" style={{
                                     fontSize: '2rem',
@@ -55,14 +92,10 @@ export default function AircraftSimulator({ onNavigate, isDarkTheme, onBookDemo,
 
                 <section className="vr-product-section alt-bg">
                     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-                        <h2 className="vr-product-section-title">The Aviation Pillars</h2>
-                        <p className="vr-product-section-subtitle">Building flight excellence through immersive training</p>
+                        <h2 className="vr-product-section-title">{content.pillars.title}</h2>
+                        <p className="vr-product-section-subtitle">{content.pillars.subtitle}</p>
                         <div className="vr-product-benefits-list">
-                            {[
-                                { num: '01', title: 'Drill-Down Emergency Training', desc: 'Practicing engine failures, hydraulic loss, and bird strikes in a repeatable, safe loop.' },
-                                { num: '02', title: 'Cost-Efficient Flight Hours', desc: 'Reducing the financial barrier to entry by replacing expensive fuel and maintenance hours with high-fidelity VR sessions.' },
-                                { num: '03', title: 'Procedural Mastery', desc: 'Ensuring \'Checklist Discipline\' is second nature before a student ever enters a physical aircraft.' }
-                            ].map((pillar, idx) => (
+                            {content.pillars.items.map((pillar, idx) => (
                                 <div key={idx} className="vr-product-benefit-item">
                                     <div className="vr-product-benefit-icon" style={{ fontSize: '3rem', fontWeight: 900, color: 'var(--accent)', lineHeight: 1, minWidth: '80px' }}>{pillar.num}</div>
                                     <div>
@@ -76,14 +109,10 @@ export default function AircraftSimulator({ onNavigate, isDarkTheme, onBookDemo,
                 </section>
 
                 <section className="vr-product-section">
-                    <h2 className="vr-product-section-title">Who Benefits from VR Flight Training</h2>
-                    <p className="vr-product-section-subtitle">Specialized solutions for aviation professionals and institutions</p>
+                    <h2 className="vr-product-section-title">{content.stakeholders.title}</h2>
+                    <p className="vr-product-section-subtitle">{content.stakeholders.subtitle}</p>
                     <div className="vr-product-feature-grid">
-                        {[
-                            { audience: 'Flight Schools & Academies', focus: 'Student Throughput', benefit: 'Increasing student throughput and improving safety records through consistent, repeatable training scenarios.' },
-                            { audience: 'Commercial Airlines', focus: 'Recurrent Training', benefit: 'Assessing pilot reflexes in rare, high-risk scenarios and maintaining proficiency without aircraft downtime.' },
-                            { audience: 'Defense & Government', focus: 'Mission Rehearsals', benefit: 'Mission-specific rehearsals and tactical navigation training in classified or sensitive scenarios.' }
-                        ].map((segment, idx) => (
+                        {content.stakeholders.items.map((segment, idx) => (
                             <div key={idx} className="vr-product-feature-card">
                                 <div className="vr-product-badge">{segment.focus}</div>
                                 <h3 className="vr-product-feature-title">{segment.audience}</h3>
@@ -95,15 +124,10 @@ export default function AircraftSimulator({ onNavigate, isDarkTheme, onBookDemo,
 
                 <section className="vr-product-section alt-bg">
                     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-                        <h2 className="vr-product-section-title">Data-Logged Competency Tracking</h2>
-                        <p className="vr-product-section-subtitle">Instructor dashboard providing scientific basis for flight readiness</p>
+                        <h2 className="vr-product-section-title">{content.metrics.title}</h2>
+                        <p className="vr-product-section-subtitle">{content.metrics.subtitle}</p>
                         <div className="vr-product-stats-grid">
-                            {[
-                                { metric: 'Response Time', value: '0.8s', desc: 'Average reaction to emergencies' },
-                                { metric: 'Path Deviation', value: '±2°', desc: 'Navigation accuracy' },
-                                { metric: 'Landing Accuracy', value: '98%', desc: 'Touchdown precision' },
-                                { metric: 'Checklist Compliance', value: '100%', desc: 'Procedural adherence' }
-                            ].map((stat, idx) => (
+                            {content.metrics.items.map((stat, idx) => (
                                 <div key={idx} className="vr-product-stat-card">
                                     <div className="vr-product-stat-value">{stat.value}</div>
                                     <div className="vr-product-stat-label">{stat.metric}</div>
@@ -115,22 +139,17 @@ export default function AircraftSimulator({ onNavigate, isDarkTheme, onBookDemo,
                 </section>
 
                 <section className="vr-product-cta">
-                    <h2>Why Melzo Aviation</h2>
-                    <p>The instructor dashboard tracks Response Time, Path Deviation, and Landing Accuracy, providing a scientific basis for flight readiness. Every maneuver is logged, analyzed, and available for comprehensive review—ensuring training meets the highest aviation standards.</p>
+                    <h2>{content.whyMelzo.title}</h2>
+                    <p>{content.whyMelzo.subtitle}</p>
                     <div className="vr-product-stats-grid" style={{ marginBottom: '3rem' }}>
-                        {[
-                            { label: 'Training Cost Reduction', value: '75%' },
-                            { label: 'Safety Incident Prevention', value: '95%' },
-                            { label: 'Certified Flight Hours', value: '500+' },
-                            { label: 'Pilot Readiness', value: '100%' }
-                        ].map((stat, idx) => (
+                        {content.whyMelzo.stats.map((stat, idx) => (
                             <div key={idx} className="vr-product-stat-card" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.2)' }}>
                                 <div className="vr-product-stat-value" style={{ color: '#FFFFFF' }}>{stat.value}</div>
                                 <div className="vr-product-stat-label" style={{ color: '#FFFFFF' }}>{stat.label}</div>
                             </div>
                         ))}
                     </div>
-                    <button onClick={onBookDemo} className="vr-product-btn-secondary">Begin Flight Training →</button>
+                    <button onClick={onBookDemo} className="vr-product-btn-secondary">{content.whyMelzo.cta}</button>
                 </section>
             </div>
         </>

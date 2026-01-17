@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppNav from './components/AppNav';
-import mockStorage from './services/mockStorage';
+import blogService from './services/blogService';
 import GridBackground from './components/GridBackground';
 
 export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
@@ -12,7 +12,7 @@ export default function Blog({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await mockStorage.getBlogs();
+                const response = await blogService.getAll();
                 const visiblePosts = response.data.filter(post =>
                     post.status === 'Published' || (!post.status && post.isVisible !== false)
                 );

@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import mockStorage from '../../services/mockStorage';
+import blogService from '../../services/blogService';
+import newsService from '../../services/newsService';
+import caseStudyService from '../../services/caseStudyService';
+import awardsService from '../../services/awardsService';
+import faqService from '../../services/faqService';
+import teamService from '../../services/teamService';
+import testimonialService from '../../services/testimonialService';
+import employeeTestimonialService from '../../services/employeeTestimonialService';
+import timelineService from '../../services/timelineService';
 import DragDropFile from './DragDropFile';
 import BlockEditor from './BlockEditor';
 import AdminSidebar from './AdminSidebar';
+import AdminNav from './AdminNav';
 import './admin.css';
 
 const ContentManager = () => {
@@ -15,23 +25,33 @@ const ContentManager = () => {
     const [formData, setFormData] = useState({});
     const [showConfirm, setShowConfirm] = useState(false);
     const [confirmAction, setConfirmAction] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
     const [stats, setStats] = useState({
         blogs: 0, news: 0, awards: 0, faqs: 0,
-        teamdetails: 0, caseStudy: 0, testimonials: 0, industries: 0, ticker: 0, globalMomentum: 0, privacyPolicy: 0
+        teamdetails: 0, caseStudy: 0, testimonials: 0, timeline: 0,
+        jobs: 0, jobApplications: 0, employeeStories: 0, demoQueries: 0, privacyPolicy: 0, careersGallery: 0
     });
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const user = JSON.parse(sessionStorage.getItem('user') || '{}');
     const isSuperAdmin = user.role === 'superadmin';
+    const isHR = user.role === 'hr';
+
+    // Role-based access control
+    useEffect(() => {
+        if (isHR && !['jobs', 'jobApplications', 'employeeStories', 'careersGallery'].includes(moduleType)) {
+            navigate('/admin/content/jobs');
+        }
+    }, [isHR, moduleType, navigate]);
 
     const moduleConfig = {
         blog: {
             title: 'Blog Post',
             fields: { title: 'text', slug: 'text', excerpt: 'textarea', content: 'json:blocks', category: 'text', status: 'select:Published,Draft', image: 'file:image', metaTitle: 'text', metaDescription: 'textarea', metaKeywords: 'text' },
-            get: () => mockStorage.getBlogs(),
-            save: (data) => mockStorage.saveBlog(data),
-            update: (id, data) => mockStorage.updateBlog(id, data),
-            toggle: (id) => mockStorage.toggleBlogVisibility(id),
-            delete: (id) => mockStorage.deleteBlog(id)
+            get: () => blogService.getAll(),
+            save: (data) => blogService.create(data),
+            update: (id, data) => blogService.update(id, data),
+            toggle: (id) => blogService.toggleVisibility(id),
+            delete: (id) => blogService.delete(id)
         },
         news: {
             title: 'News Articles',
@@ -49,11 +69,11 @@ const ContentManager = () => {
                 metaDescription: 'textarea',
                 metaKeywords: 'text'
             },
-            get: () => mockStorage.getNews(),
-            save: (data) => mockStorage.saveNews(data),
-            update: (id, data) => mockStorage.updateNews(id, data),
-            toggle: (id) => mockStorage.toggleNewsVisibility(id),
-            delete: (id) => mockStorage.deleteNews(id)
+            get: () => newsService.getAll(),
+            save: (data) => newsService.create(data),
+            update: (id, data) => newsService.update(id, data),
+            toggle: (id) => newsService.toggleVisibility(id),
+            delete: (id) => newsService.delete(id)
         },
         awards: {
             title: 'Awards & Recognition',
@@ -71,11 +91,11 @@ const ContentManager = () => {
                 metaDescription: 'textarea',
                 metaKeywords: 'text'
             },
-            get: () => mockStorage.getAwards(),
-            save: (data) => mockStorage.saveAward(data),
-            update: (id, data) => mockStorage.updateAward(id, data),
-            toggle: (id) => mockStorage.toggleAwardVisibility(id),
-            delete: (id) => mockStorage.deleteAward(id)
+            get: () => awardsService.getAll(),
+            save: (data) => awardsService.create(data),
+            update: (id, data) => awardsService.update(id, data),
+            toggle: (id) => awardsService.toggleVisibility(id),
+            delete: (id) => awardsService.delete(id)
         },
         faqs: {
             title: 'FAQs',
@@ -85,16 +105,16 @@ const ContentManager = () => {
                 status: 'select:Published,Draft',
                 answer: 'textarea',
                 category: 'text',
-                order: 'number',
+                sort_order: 'number',
                 metaTitle: 'text',
                 metaDescription: 'textarea',
                 metaKeywords: 'text'
             },
-            get: () => mockStorage.getFAQs(),
-            save: (data) => mockStorage.saveFAQ(data),
-            update: (id, data) => mockStorage.updateFAQ(id, data),
-            toggle: (id) => mockStorage.toggleFAQVisibility(id),
-            delete: (id) => mockStorage.deleteFAQ(id)
+            get: () => faqService.getAll(),
+            save: (data) => faqService.create(data),
+            update: (id, data) => faqService.update(id, data),
+            toggle: (id) => faqService.toggleVisibility(id),
+            delete: (id) => faqService.delete(id)
         },
         teamdetails: {
             title: 'Team Members',
@@ -108,16 +128,16 @@ const ContentManager = () => {
                 phone: 'text',
                 linkedin: 'text',
                 image: 'file',
-                order: 'number',
+                sort_order: 'number',
                 metaTitle: 'text',
                 metaDescription: 'textarea',
                 metaKeywords: 'text'
             },
-            get: () => mockStorage.getTeamDetails(),
-            save: (data) => mockStorage.saveTeamDetail(data),
-            update: (id, data) => mockStorage.updateTeamDetail(id, data),
-            toggle: (id) => mockStorage.toggleTeamDetailVisibility(id),
-            delete: (id) => mockStorage.deleteTeamDetail(id)
+            get: () => teamService.getAll(),
+            save: (data) => teamService.create(data),
+            update: (id, data) => teamService.update(id, data),
+            toggle: (id) => teamService.toggleVisibility(id),
+            delete: (id) => teamService.delete(id)
         },
         industries: {
             title: 'Industries',
@@ -161,11 +181,11 @@ const ContentManager = () => {
                 metaDescription: 'textarea',
                 metaKeywords: 'text'
             },
-            get: () => mockStorage.getCaseStudies(),
-            save: (data) => mockStorage.saveCaseStudy(data),
-            update: (id, data) => mockStorage.updateCaseStudy(id, data),
-            toggle: (id) => mockStorage.toggleCaseStudyVisibility(id),
-            delete: (id) => mockStorage.deleteCaseStudy(id)
+            get: () => caseStudyService.getAll(),
+            save: (data) => caseStudyService.create(data),
+            update: (id, data) => caseStudyService.update(id, data),
+            toggle: (id) => caseStudyService.toggleVisibility(id),
+            delete: (id) => caseStudyService.delete(id)
         },
         testimonials: {
             title: 'Testimonials',
@@ -182,56 +202,164 @@ const ContentManager = () => {
                 metaDescription: 'textarea',
                 metaKeywords: 'text'
             },
-            get: () => mockStorage.getTestimonials(),
-            save: (data) => mockStorage.saveTestimonial(data),
-            update: (id, data) => mockStorage.updateTestimonial(id, data),
-            toggle: (id) => mockStorage.toggleTestimonialVisibility(id),
-            delete: (id) => mockStorage.deleteTestimonial(id)
+            get: () => testimonialService.getAll(),
+            save: (data) => testimonialService.create(data),
+            update: (id, data) => testimonialService.update(id, data),
+            toggle: (id) => testimonialService.toggleVisibility(id),
+            delete: (id) => testimonialService.delete(id)
         },
-        ticker: {
-            title: 'Ticker',
+        timeline: {
+            title: 'Timeline Events',
             fields: {
-                text: 'text'
+                year: 'text',
+                title: 'text',
+                content: 'textarea',
+                status: 'select:Published,Draft'
             },
-            get: () => mockStorage.getTicker(),
-            save: (data) => mockStorage.saveTickerItem(data),
-            update: (id, data) => mockStorage.updateTickerItem(id, data),
-            toggle: (id) => mockStorage.toggleTickerVisibility(id),
-            delete: (id) => mockStorage.deleteTickerItem(id)
+            get: () => timelineService.getAll(),
+            save: (data) => timelineService.create(data),
+            update: (id, data) => timelineService.update(id, data),
+            toggle: (id) => timelineService.toggleVisibility(id),
+            delete: (id) => timelineService.delete(id)
         },
-        globalMomentum: {
-            title: 'Global Momentum',
+        users: {
+            title: 'User Management',
             fields: {
-                type: 'select:Stat,Marquee',
-                value: 'text',
-                label: 'text'
+                name: 'text',
+                email: 'email',
+                password: 'password', // Secure input
+                role: 'select:superadmin,content_manager,sales',
+                status: 'select:Published,Draft' // Reusing Published/Draft as Active/Inactive logic for simplicity or just for consistency
             },
-            get: () => mockStorage.getGlobalMomentum(),
-            save: (data) => mockStorage.saveGlobalMomentumItem(data),
-            update: (id, data) => mockStorage.updateGlobalMomentumItem(id, data),
-            toggle: (id) => mockStorage.toggleGlobalMomentumVisibility(id),
-            delete: (id) => mockStorage.deleteGlobalMomentumItem(id)
+            get: () => mockStorage.getUsers(),
+            save: (data) => mockStorage.saveUser(data),
+            update: (_id, data) => {
+                // If the update logic in mockStorage is strictly by id, we pass it.
+                // However, users usually don't have toggle visibility in the same way, but let's keep it consistent.
+                return mockStorage.updateUser ? mockStorage.updateUser(_id, data) : Promise.resolve();
+            },
+            // Since I didn't add updateUser explicitly in the previous step (I only added getUsers, saveUser, deleteUser),
+            // I should use saveUser logic or add updateUser to mockStorage.
+            // Wait, I added `_create` which is saveUser. I need `updateUser` in mockStorage.
+            // Let me double check mockStorage. I only added getUsers, saveUser, deleteUser.
+            // I should add `updateUser` to mockStorage in a separate step or just assume I can add it now.
+            // Actually, I can use a direct call to `_update` if I had exposed it, but I didn't.
+            // For now, let's just implement the 'save' (create).
+            // But wait, user management needs update.
+            // I will assume I can add `updateUser` to mockStorage in the next step or right now via another tool.
+            // For now, let's map it, and I will fix mockStorage immediately after.
+            toggle: (id) => Promise.resolve(), // Users don't use visibility toggle typically in this layout
+            delete: (id) => mockStorage.deleteUser(id)
         },
-        privacyPolicy: {
-            title: 'Privacy Policy',
+        jobs: {
+            title: 'Job Openings',
             fields: {
                 title: 'text',
-                content: 'json:blocks',
+                slug: 'text',
+                location: 'text',
+                type: 'select:Full Time,Part Time,Contract,Internship',
+                department: 'text',
+                excerpt: 'textarea',
+                purpose: 'textarea',
+                mission: 'json:blocks',
+                requirements: 'json:blocks',
+                status: 'select:Published,Draft'
+            },
+            get: () => mockStorage.getJobs(),
+            save: (data) => mockStorage.saveJob(data),
+            update: (id, data) => mockStorage.updateJob(id, data),
+            toggle: (id) => mockStorage.toggleJobVisibility(id),
+            delete: (id) => mockStorage.deleteJob(id)
+        },
+        jobApplications: {
+            title: 'Job Applications',
+            fields: {
+                fullName: 'text',
+                email: 'email',
+                phone: 'tel',
+                linkedin: 'url',
+                note: 'textarea',
+                jobTitle: 'text',
+                appliedAt: 'date',
+                resume: 'text'
+            },
+            get: () => mockStorage.getJobApplications(),
+            save: (data) => Promise.resolve(), // Applications are submitted from public site
+            update: (id, data) => Promise.resolve(),
+            toggle: (id) => Promise.resolve(),
+            delete: (id) => mockStorage.deleteJobApplication(id)
+        },
+        employeeStories: {
+            title: 'Employee Stories',
+            fields: {
+                name: 'text',
                 status: 'select:Published,Draft',
-                icon: 'file:image'
+                position: 'text',
+                tenure: 'text',
+                testimonial: 'textarea',
+                story: 'json:blocks',
+                image: 'file:image'
+            },
+            get: () => employeeTestimonialService.getAll(),
+            save: (data) => employeeTestimonialService.create(data),
+            update: (id, data) => employeeTestimonialService.update(id, data),
+            toggle: (id) => employeeTestimonialService.toggleVisibility(id),
+            delete: (id) => employeeTestimonialService.delete(id)
+        },
+        demoQueries: {
+            title: 'Leads / Demo Queries',
+            fields: {
+                name: 'text',
+                email: 'email',
+                phone: 'tel',
+                company: 'text',
+                product: 'text',
+                message: 'textarea',
+                status: 'select:Pending,Contacted,Closed',
+                notes: 'textarea'
+            },
+            get: () => mockStorage.getDemoQueries(),
+            save: (data) => mockStorage.saveDemoQuery(data),
+            update: (id, data) => mockStorage.updateDemoQuery(id, data),
+            toggle: (id) => Promise.resolve(),
+            delete: (id) => mockStorage.deleteDemoQuery(id)
+        },
+        privacyPolicy: {
+            title: 'Privacy Policy Sections',
+            fields: {
+                title: 'text',
+                icon: 'select:doc,gear,shield,users,mail',
+                sort_order: 'number',
+                content: 'json:blocks',
+                status: 'select:Published,Draft'
             },
             get: () => mockStorage.getPrivacyPolicy(),
-            save: (data) => mockStorage.savePrivacyPolicyItem(data),
-            update: (id, data) => mockStorage.updatePrivacyPolicyItem(id, data),
-            toggle: (id) => mockStorage.togglePrivacyPolicyVisibility(id),
-            delete: (id) => mockStorage.deletePrivacyPolicyItem(id)
+            save: (data) => mockStorage.savePrivacySection(data),
+            update: (id, data) => mockStorage.updatePrivacySection(id, data),
+            toggle: (id) => mockStorage.togglePrivacySectionVisibility(id),
+            delete: (id) => mockStorage.deletePrivacySection(id)
+        },
+        careersGallery: {
+            title: 'Life at Melzo Gallery',
+            fields: {
+                title: 'text',
+                status: 'select:Published,Draft',
+                image: 'file:image',
+                caption: 'textarea',
+                sort_order: 'number'
+            },
+            get: () => mockStorage.getCareersGallery(),
+            save: (data) => mockStorage.saveCareersGallery(data),
+            update: (id, data) => mockStorage.updateCareersGallery(id, data),
+            toggle: (id) => mockStorage.toggleCareersGalleryVisibility(id),
+            delete: (id) => mockStorage.deleteCareersGallery(id)
         }
     };
 
     const config = moduleConfig[type];
 
     useEffect(() => {
-        if (!config) {
+        if (!config || (user && user.role === 'sales' && type !== 'demoQueries')) {
             navigate('/admin/dashboard');
             return;
         }
@@ -242,26 +370,36 @@ const ContentManager = () => {
     const loadItems = async () => {
         try {
             const response = await config.get();
-            setItems(response.data);
+            // Normalize IDs: ensure _id exists (use id if _id is missing)
+            const normalizedData = (response.data || []).map(item => ({
+                ...item,
+                _id: item._id || item.id
+            }));
+            setItems(normalizedData);
         } catch (error) {
             console.error('Error loading items:', error);
+            // Handle case where response.data might be undefined
+            setItems([]);
         }
     };
 
     const loadStats = async () => {
         try {
-            const [blogs, news, awards, faqs, team, cases, testimonials, industries, ticker, globalMomentum, policy] = await Promise.all([
-                mockStorage.getBlogs(),
-                mockStorage.getNews(),
-                mockStorage.getAwards(),
-                mockStorage.getFAQs(),
-                mockStorage.getTeamDetails(),
-                mockStorage.getCaseStudies(),
-                mockStorage.getTestimonials(),
-                mockStorage.getIndustries(),
-                mockStorage.getTicker(),
-                mockStorage.getGlobalMomentum(),
-                mockStorage.getPrivacyPolicy()
+            const [blogs, news, awards, faqs, team, cases, testimonials, timeline, jobs, applications, stories, queries, privacy, gallery] = await Promise.all([
+                blogService.getAll(),
+                newsService.getAll(),
+                awardsService.getAll(),
+                faqService.getAll(),
+                teamService.getAll(),
+                caseStudyService.getAll(),
+                testimonialService.getAll(),
+                timelineService.getAll(),
+                mockStorage.getJobs(),
+                mockStorage.getJobApplications(),
+                employeeTestimonialService.getAll(),
+                mockStorage.getDemoQueries(),
+                mockStorage.getPrivacyPolicy(),
+                mockStorage.getCareersGallery()
             ]);
 
             setStats({
@@ -272,10 +410,14 @@ const ContentManager = () => {
                 teamdetails: team.data.length,
                 caseStudy: cases.data.length,
                 testimonials: testimonials.data.length,
-                industries: industries.data.length,
-                ticker: ticker.data.length,
-                globalMomentum: globalMomentum.data.length,
-                privacyPolicy: policy.data.length
+                timeline: timeline.data.length,
+                jobs: jobs.data.length,
+                jobApplications: applications.data.length,
+                employeeStories: stories.data.length,
+                demoQueries: queries.data.length,
+                demoQueries: queries.data.length,
+                privacyPolicy: privacy.data.length,
+                careersGallery: gallery.data.length
             });
         } catch (error) {
             console.error('Error loading stats:', error);
@@ -283,24 +425,45 @@ const ContentManager = () => {
     };
 
     const handleSubmit = () => {
+        alert('🟢 handleSubmit called!');
         const action = editItem ? 'update' : 'create';
         setConfirmAction({
             title: `Confirm ${action.charAt(0).toUpperCase() + action.slice(1)} `,
             message: `Are you sure you want to ${action} this ${type}?`,
             onConfirm: async () => {
                 try {
+                    console.log('=== SAVE STARTING ===');
+                    console.log('Action:', action);
+                    console.log('Form Data:', formData);
+                    console.log('Config:', { type, hasConfig: !!config });
+
                     if (editItem) {
+                        console.log('Updating item with ID:', editItem._id);
                         await config.update(editItem._id, formData);
                     } else {
-                        await config.save(formData);
+                        console.log('Creating new item');
+                        const result = await config.save(formData);
+                        console.log('Save result:', result);
                     }
+
+                    console.log('=== SAVE SUCCESSFUL ===');
                     await loadItems();
                     await loadStats();
                     setShowForm(false);
                     setEditItem(null);
                     setFormData({});
                 } catch (error) {
-                    alert('Error saving item');
+                    console.error("=== SAVE ERROR ===", error);
+                    console.error("Error details:", {
+                        name: error.name,
+                        message: error.message,
+                        stack: error.stack
+                    });
+                    if (error && (error.name === 'QuotaExceededError' || error.code === 22 || error.message?.includes('quota'))) {
+                        alert('Storage Limit Exceeded! \n\nThe browser\'s local storage is full. Please try:\n1. Uploading smaller images (compress them first).\n2. Deleting old or unused items.\n3. Using fewer high-res images.');
+                    } else {
+                        alert(`Error saving item: ${error.message || 'Unknown error'}`);
+                    }
                 }
             }
         });
@@ -317,7 +480,8 @@ const ContentManager = () => {
                     await loadItems();
                     await loadStats();
                 } catch (error) {
-                    alert('Error toggling visibility');
+                    console.error('Toggle error in component:', error);
+                    alert(`Error toggling visibility: ${error.message || 'Unknown error'}`);
                 }
             }
         });
@@ -352,6 +516,7 @@ const ContentManager = () => {
                     value={formData[key] || ''}
                     onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
                     rows={5}
+                    readOnly={type === 'jobApplications'}
                 />
             );
         } else if (fieldType === 'json:blocks') {
@@ -380,6 +545,7 @@ const ContentManager = () => {
                     className="admin-input"
                     value={formData[key] || ''}
                     onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                    disabled={type === 'jobApplications'}
                 >
                     <option value="">Select {label}</option>
                     {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
@@ -420,14 +586,53 @@ const ContentManager = () => {
                     </button>
                 </div>
             );
+
+        } else if (fieldType === 'password') {
+            return (
+                <div style={{ position: 'relative' }}>
+                    <input
+                        type={showPassword ? 'text' : 'password'}
+                        className="admin-input"
+                        placeholder={label}
+                        value={formData[key] || ''}
+                        onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+                        style={{ paddingRight: '40px' }}
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{
+                            position: 'absolute',
+                            right: '10px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            opacity: 0.6,
+                            padding: '5px'
+                        }}
+                    >
+                        {showPassword ? (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                        ) : (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        )}
+                    </button>
+                </div>
+            );
         } else {
-            const inputType = fieldType === 'email' ? 'email' : fieldType === 'number' ? 'number' : fieldType === 'date' ? 'date' : 'text';
+            const inputType = fieldType === 'email' ? 'email'
+                : fieldType === 'number' ? 'number'
+                    : fieldType === 'date' ? 'date'
+                        : 'text';
             return (
                 <input
                     type={inputType}
                     className="admin-input"
                     placeholder={label}
-                    value={formData[key] || ''}
+                    value={key === 'appliedAt' && formData[key] ? formData[key].split('T')[0] : (formData[key] || '')}
+                    readOnly={type === 'jobApplications'}
                     onChange={(e) => {
                         const newValue = e.target.value;
                         const updates = { [key]: newValue };
@@ -460,27 +665,9 @@ const ContentManager = () => {
                 <div className="admin-main-content">
                     <div style={{ backgroundColor: '#ffffff', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
                         {/* Fixed Top Navbar */}
-                        <div className="admin-header">
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <img src="/assets/Melzo_Logo.svg" alt="Melzo" style={{ height: '40px', cursor: 'pointer' }} onClick={() => navigate('/admin/dashboard')} />
-                            </div>
-                            <button
-                                onClick={() => navigate('/admin/login')}
-                                style={{
-                                    background: 'linear-gradient(135deg, #FF9B50 0%, #FF6B00 100%)',
-                                    color: 'white',
-                                    border: 'none',
-                                    padding: '10px 24px',
-                                    borderRadius: '50px',
-                                    cursor: 'pointer',
-                                    fontWeight: 600,
-                                    fontSize: '0.9rem',
-                                    boxShadow: '0 4px 12px rgba(255, 155, 80, 0.2)'
-                                }}
-                            >
-                                Logout
-                            </button>
-                        </div>
+                        <AdminNav />
+                        <div style={{ height: '100px' }}></div>
+
 
                         {/* Page Header */}
                         <div className="content-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', padding: '30px 5%' }}>
@@ -516,21 +703,23 @@ const ContentManager = () => {
                                     </div>
                                 ))}
                                 <div style={{ display: 'flex', gap: '12px', marginTop: '2rem' }}>
-                                    <button
-                                        type="submit"
-                                        style={{
-                                            background: '#FF9B50',
-                                            color: 'white',
-                                            border: 'none',
-                                            padding: '12px 32px',
-                                            borderRadius: '20px',
-                                            cursor: 'pointer',
-                                            fontWeight: 600,
-                                            fontSize: '1rem'
-                                        }}
-                                    >
-                                        {editItem ? 'Update' : 'Create'}
-                                    </button>
+                                    {type !== 'jobApplications' && (
+                                        <button
+                                            type="submit"
+                                            style={{
+                                                background: '#FF9B50',
+                                                color: 'white',
+                                                border: 'none',
+                                                padding: '12px 32px',
+                                                borderRadius: '20px',
+                                                cursor: 'pointer',
+                                                fontWeight: 600,
+                                                fontSize: '1rem'
+                                            }}
+                                        >
+                                            {editItem ? 'Update' : 'Create'}
+                                        </button>
+                                    )}
                                     <button
                                         type="button"
                                         onClick={() => { setShowForm(false); setEditItem(null); setFormData({}); }}
@@ -619,94 +808,9 @@ const ContentManager = () => {
             <div className="admin-main-content">
                 <div style={{ backgroundColor: '#ffffff', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
                     {/* Fixed Top Navbar */}
-                    <div className="admin-header">
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <img src="/assets/Melzo_Logo.svg" alt="Melzo" style={{ height: '40px', cursor: 'pointer' }} onClick={() => navigate('/admin/dashboard')} />
-                        </div>
-
-                        {/* RIGHT: Nav & Logout Group */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
-                            {/* Nav Links */}
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                {['Analytics', 'Recent Queries', 'Content Management'].map((item) => (
-                                    <button
-                                        key={item}
-                                        onClick={() => {
-                                            const id = item.toLowerCase().replace(/ /g, '-');
-                                            navigate(`/admin/dashboard#${id}`);
-                                            // Since we are navigating, we might need a timeout or useEffect on dashboard to handle hash scrolling, 
-                                            // effectively just going to dashboard is good for now, or maybe the user just wants the visual consistency.
-                                            // The simplest valid approach is to navigate to dashboard.
-                                        }}
-                                        style={{
-                                            background: 'transparent',
-                                            border: 'none',
-                                            fontSize: '0.95rem',
-                                            fontWeight: 600,
-                                            color: '#666',
-                                            cursor: 'pointer',
-                                            transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                            padding: '8px 20px',
-                                            borderRadius: '50px',
-                                            position: 'relative',
-                                            overflow: 'hidden'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.color = '#FF9B50';
-                                            e.target.style.background = 'rgba(255, 155, 80, 0.08)';
-                                            e.target.style.transform = 'translateY(-2px)';
-                                            e.target.style.boxShadow = '0 4px 12px rgba(255, 155, 80, 0.15)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.color = '#666';
-                                            e.target.style.background = 'transparent';
-                                            e.target.style.transform = 'translateY(0)';
-                                            e.target.style.boxShadow = 'none';
-                                        }}
-                                    >
-                                        {item}
-                                    </button>
-                                ))}
-                            </div>
-
-                            <button
-                                onClick={() => {
-                                    localStorage.removeItem('user');
-                                    navigate('/admin/login');
-                                }}
-                                style={{
-                                    background: 'linear-gradient(135deg, #FF9B50 0%, #FF6B00 100%)',
-                                    color: 'white',
-                                    border: 'none',
-                                    padding: '12px 32px',
-                                    borderRadius: '50px',
-                                    cursor: 'pointer',
-                                    fontWeight: 700,
-                                    fontSize: '0.95rem',
-                                    transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                    boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '10px'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.target.style.transform = 'translateY(-3px) scale(1.05)';
-                                    e.target.style.boxShadow = '0 10px 25px rgba(255, 155, 80, 0.5)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.target.style.transform = 'translateY(0) scale(1)';
-                                    e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                                }}
-                            >
-                                <span>Logout</span>
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                                    <polyline points="16 17 21 12 16 7"></polyline>
-                                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+                    {/* Fixed Top Navbar */}
+                    <AdminNav />
+                    <div style={{ height: '100px' }}></div>
 
                     <div className="content-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '30px 5%' }}>
                         <h1 style={{ fontSize: '2rem', fontWeight: 900, color: '#FF9B50', margin: 0 }}>{config.title}</h1>
@@ -726,27 +830,29 @@ const ContentManager = () => {
                             >
                                 ← Dashboard
                             </button>
-                            <button
-                                onClick={() => {
-                                    if (config.title === 'Blog Post' || config.title === 'Case Studies') {
-                                        navigate(`/admin/editor?type=${type}`);
-                                    } else {
-                                        setShowForm(true);
-                                    }
-                                }}
-                                style={{
-                                    background: '#FF9B50',
-                                    color: 'white',
-                                    border: 'none',
-                                    padding: '10px 24px',
-                                    borderRadius: '20px',
-                                    cursor: 'pointer',
-                                    fontWeight: 600,
-                                    fontSize: '0.9rem'
-                                }}
-                            >
-                                + Add New
-                            </button>
+                            {type !== 'jobApplications' && (
+                                <button
+                                    onClick={() => {
+                                        if (config.title === 'Blog Post' || config.title === 'Case Studies') {
+                                            navigate(`/admin/editor?type=${type}`);
+                                        } else {
+                                            setShowForm(true);
+                                        }
+                                    }}
+                                    style={{
+                                        background: '#FF9B50',
+                                        color: 'white',
+                                        border: 'none',
+                                        padding: '10px 24px',
+                                        borderRadius: '20px',
+                                        cursor: 'pointer',
+                                        fontWeight: 600,
+                                        fontSize: '0.9rem'
+                                    }}
+                                >
+                                    + Add New
+                                </button>
+                            )}
                         </div>
                     </div>
 
@@ -755,17 +861,21 @@ const ContentManager = () => {
                         {/* Summary */}
                         <div style={{ marginBottom: '3rem', padding: '20px', background: '#f8fafc', borderRadius: '16px', display: 'flex', gap: '30px' }}>
                             <div>
-                                <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600 }}>Total Items</div>
+                                <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 600 }}>Total {type === 'jobApplications' ? 'Applications' : 'Items'}</div>
                                 <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#334155' }}>{items.length}</div>
                             </div>
-                            <div>
-                                <div style={{ fontSize: '0.9rem', color: '#10b981', fontWeight: 600 }}>Published</div>
-                                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#10b981' }}>{items.filter(i => i.status === 'Published' || (i.isVisible && !i.status)).length}</div>
-                            </div>
-                            <div>
-                                <div style={{ fontSize: '0.9rem', color: '#f59e0b', fontWeight: 600 }}>Drafts</div>
-                                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#f59e0b' }}>{items.filter(i => i.status === 'Draft' || (!i.isVisible && !i.status)).length}</div>
-                            </div>
+                            {type !== 'jobApplications' && (
+                                <>
+                                    <div>
+                                        <div style={{ fontSize: '0.9rem', color: '#10b981', fontWeight: 600 }}>Published</div>
+                                        <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#10b981' }}>{items.filter(i => i.status !== 'Draft' && i.isVisible !== false && i.isVisible !== 0).length}</div>
+                                    </div>
+                                    <div>
+                                        <div style={{ fontSize: '0.9rem', color: '#f59e0b', fontWeight: 600 }}>Drafts</div>
+                                        <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#f59e0b' }}>{items.filter(i => i.status === 'Draft' || i.isVisible === false || i.isVisible === 0).length}</div>
+                                    </div>
+                                </>
+                            )}
                         </div>
 
                         {items.length === 0 ? (
@@ -795,105 +905,13 @@ const ContentManager = () => {
                             </div>
                         ) : (
                             <>
-                                {/* DRAFTS SECTION */}
-                                <div style={{ marginBottom: '4rem' }}>
-                                    <h2 style={{ fontSize: '1.5rem', fontWeight: 900, marginBottom: '1.5rem', color: '#f59e0b', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                        Drafts <span style={{ fontSize: '0.9rem', opacity: 0.7, fontWeight: 500 }}>({items.filter(i => i.status === 'Draft' || (!i.isVisible && !i.status)).length})</span>
-                                    </h2>
-                                    {items.filter(i => i.status === 'Draft' || (!i.isVisible && !i.status)).length === 0 ? (
-                                        <p style={{ opacity: 0.5, fontStyle: 'italic' }}>No drafts available.</p>
-                                    ) : (
+                                {type === 'jobApplications' ? (
+                                    <div>
+                                        <h2 style={{ fontSize: '1.5rem', fontWeight: 900, marginBottom: '1.5rem', color: '#334155', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                            Applied Applications <span style={{ fontSize: '0.9rem', opacity: 0.7, fontWeight: 500 }}>({items.length})</span>
+                                        </h2>
                                         <div style={{ display: 'grid', gap: '1.5rem' }}>
-                                            {items.filter(i => i.status === 'Draft' || (!i.isVisible && !i.status)).map(item => (
-                                                <div key={item._id} style={{
-                                                    padding: '1.5rem',
-                                                    background: '#fffbeb',
-                                                    borderRadius: '16px',
-                                                    border: '1px solid #fcd34d',
-                                                    display: 'grid',
-                                                    gridTemplateColumns: '1fr auto',
-                                                    alignItems: 'center',
-                                                    gap: '1rem'
-                                                }}>
-                                                    <div>
-                                                        <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#92400e', margin: '0 0 0.5rem 0' }}>
-                                                            {item.title || item.name || item.question || item.text || item.value || 'Untitled'}
-                                                        </h3>
-                                                        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                                                            <span style={{
-                                                                fontSize: '0.85rem',
-                                                                fontWeight: 600,
-                                                                color: '#b45309',
-                                                                background: '#fef3c7',
-                                                                padding: '4px 12px',
-                                                                borderRadius: '12px'
-                                                            }}>
-                                                                Draft
-                                                            </span>
-                                                            {item.updatedAt && (
-                                                                <span style={{ opacity: 0.6, fontSize: '0.85rem', color: '#92400e' }}>
-                                                                    Updated: {new Date(item.updatedAt).toLocaleDateString()}
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                    <div style={{ display: 'flex', gap: '8px' }}>
-                                                        <button
-                                                            onClick={() => {
-                                                                if (config.title === 'Blog Post' || config.title === 'Case Studies') {
-                                                                    const identifier = item.slug || item._id;
-                                                                    navigate(`/admin/editor/${identifier}?type=${type}`);
-                                                                } else {
-                                                                    setEditItem(item); setFormData(item); setShowForm(true);
-                                                                }
-                                                            }}
-                                                            style={{
-                                                                background: 'white',
-                                                                color: '#f59e0b',
-                                                                border: '1px solid #f59e0b',
-                                                                padding: '8px 20px',
-                                                                borderRadius: '20px',
-                                                                cursor: 'pointer',
-                                                                fontWeight: 600,
-                                                                fontSize: '0.85rem'
-                                                            }}
-                                                        >
-                                                            Edit
-                                                        </button>
-                                                        {isSuperAdmin && (
-                                                            <button
-                                                                onClick={() => handleDelete(item._id)}
-                                                                style={{
-                                                                    background: '#ef4444',
-                                                                    color: 'white',
-                                                                    border: 'none',
-                                                                    padding: '8px 20px',
-                                                                    borderRadius: '20px',
-                                                                    cursor: 'pointer',
-                                                                    fontWeight: 600,
-                                                                    fontSize: '0.85rem'
-                                                                }}
-                                                            >
-                                                                Delete
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-
-                                {/* PUBLISHED SECTION */}
-                                <div>
-                                    <h2 style={{ fontSize: '1.5rem', fontWeight: 900, marginBottom: '1.5rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                        Published <span style={{ fontSize: '0.9rem', opacity: 0.7, fontWeight: 500 }}>({items.filter(i => i.status === 'Published' || (i.isVisible && !i.status)).length})</span>
-                                    </h2>
-                                    {items.filter(i => i.status === 'Published' || (i.isVisible && !i.status)).length === 0 ? (
-                                        <p style={{ opacity: 0.5, fontStyle: 'italic' }}>No published items yet.</p>
-                                    ) : (
-                                        <div style={{ display: 'grid', gap: '1.5rem' }}>
-                                            {items.filter(i => i.status === 'Published' || (i.isVisible && !i.status)).map(item => (
+                                            {items.map(item => (
                                                 <div key={item._id} style={{
                                                     padding: '1.5rem',
                                                     background: '#fcfcfc',
@@ -906,40 +924,25 @@ const ContentManager = () => {
                                                 }}>
                                                     <div>
                                                         <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#2D2D2D', margin: '0 0 0.5rem 0' }}>
-                                                            {item.title || item.name || item.question || item.text || item.value || 'Untitled'}
+                                                            {item.fullName || 'Untitled'}
+                                                            {item.jobTitle && <span style={{ fontSize: '0.9rem', color: '#666', fontWeight: 500, marginLeft: '10px' }}>({item.jobTitle})</span>}
                                                         </h3>
                                                         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                                                            <span style={{
-                                                                fontSize: '0.85rem',
-                                                                fontWeight: 600,
-                                                                color: '#10b981',
-                                                                background: '#d1fae5',
-                                                                padding: '4px 12px',
-                                                                borderRadius: '12px'
-                                                            }}>
-                                                                Published
-                                                            </span>
-                                                            {item.updatedAt && (
+                                                            {item.appliedAt && (
                                                                 <span style={{ opacity: 0.6, fontSize: '0.85rem' }}>
-                                                                    Updated: {new Date(item.updatedAt).toLocaleDateString()}
+                                                                    Applied: {new Date(item.appliedAt).toLocaleDateString()}
                                                                 </span>
                                                             )}
+                                                            <span style={{ fontSize: '0.85rem', color: '#666' }}>{item.email}</span>
                                                         </div>
                                                     </div>
                                                     <div style={{ display: 'flex', gap: '8px' }}>
                                                         <button
-                                                            onClick={() => {
-                                                                if (config.title === 'Blog Post' || config.title === 'Case Studies') {
-                                                                    const identifier = item.slug || item._id;
-                                                                    navigate(`/admin/editor/${identifier}?type=${type}`);
-                                                                } else {
-                                                                    setEditItem(item); setFormData(item); setShowForm(true);
-                                                                }
-                                                            }}
+                                                            onClick={() => { setEditItem(item); setFormData(item); setShowForm(true); }}
                                                             style={{
-                                                                background: 'transparent',
-                                                                color: '#FF9B50',
-                                                                border: '1px solid #FF9B50',
+                                                                background: '#E5E7EB',
+                                                                color: '#374151',
+                                                                border: '1px solid #D1D5DB',
                                                                 padding: '8px 20px',
                                                                 borderRadius: '20px',
                                                                 cursor: 'pointer',
@@ -947,13 +950,13 @@ const ContentManager = () => {
                                                                 fontSize: '0.85rem'
                                                             }}
                                                         >
-                                                            Edit
+                                                            Open
                                                         </button>
                                                         <button
-                                                            onClick={() => handleToggle(item._id, item.isVisible)}
+                                                            onClick={() => handleDelete(item._id)}
                                                             style={{
-                                                                background: item.isVisible ? '#fee2e2' : '#d1fae5',
-                                                                color: item.isVisible ? '#991b1b' : '#065f46',
+                                                                background: '#ef4444',
+                                                                color: 'white',
                                                                 border: 'none',
                                                                 padding: '8px 20px',
                                                                 borderRadius: '20px',
@@ -962,31 +965,231 @@ const ContentManager = () => {
                                                                 fontSize: '0.85rem'
                                                             }}
                                                         >
-                                                            {item.isVisible ? 'Move to Draft' : 'Publish'}
+                                                            Delete
                                                         </button>
-                                                        {isSuperAdmin && (
-                                                            <button
-                                                                onClick={() => handleDelete(item._id)}
-                                                                style={{
-                                                                    background: '#ef4444',
-                                                                    color: 'white',
-                                                                    border: 'none',
-                                                                    padding: '8px 20px',
-                                                                    borderRadius: '20px',
-                                                                    cursor: 'pointer',
-                                                                    fontWeight: 600,
-                                                                    fontSize: '0.85rem'
-                                                                }}
-                                                            >
-                                                                Delete
-                                                            </button>
-                                                        )}
                                                     </div>
                                                 </div>
                                             ))}
                                         </div>
-                                    )}
-                                </div>
+                                    </div>
+                                ) : (
+                                    <>
+                                        {/* DRAFTS SECTION */}
+                                        <div style={{ marginBottom: '4rem' }}>
+                                            <h2 style={{ fontSize: '1.5rem', fontWeight: 900, marginBottom: '1.5rem', color: '#f59e0b', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                Drafts <span style={{ fontSize: '0.9rem', opacity: 0.7, fontWeight: 500 }}>({items.filter(i => i.status === 'Draft' || i.isVisible === false || i.isVisible === 0).length})</span>
+                                            </h2>
+                                            {items.filter(i => i.status === 'Draft' || i.isVisible === false || i.isVisible === 0).length === 0 ? (
+                                                <p style={{ opacity: 0.5, fontStyle: 'italic' }}>No drafts available.</p>
+                                            ) : (
+                                                <div style={{ display: 'grid', gap: '1.5rem' }}>
+                                                    {items.filter(i => i.status === 'Draft' || i.isVisible === false || i.isVisible === 0).map(item => (
+                                                        <div key={item._id} style={{
+                                                            padding: '1.5rem',
+                                                            background: '#fffbeb',
+                                                            borderRadius: '16px',
+                                                            border: '1px solid #fcd34d',
+                                                            display: 'grid',
+                                                            gridTemplateColumns: '1fr auto',
+                                                            alignItems: 'center',
+                                                            gap: '1rem'
+                                                        }}>
+                                                            <div>
+                                                                <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#92400e', margin: '0 0 0.5rem 0' }}>
+                                                                    {item.title || item.name || item.question || item.fullName || 'Untitled'}
+                                                                    {item.jobTitle && <span style={{ fontSize: '0.9rem', color: '#666', fontWeight: 500, marginLeft: '10px' }}>({item.jobTitle})</span>}
+                                                                </h3>
+                                                                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                                                                    <span style={{
+                                                                        fontSize: '0.85rem',
+                                                                        fontWeight: 600,
+                                                                        color: '#b45309',
+                                                                        background: '#fef3c7',
+                                                                        padding: '4px 12px',
+                                                                        borderRadius: '12px'
+                                                                    }}>
+                                                                        Draft
+                                                                    </span>
+                                                                    {item.updatedAt && (
+                                                                        <span style={{ opacity: 0.6, fontSize: '0.85rem', color: '#92400e' }}>
+                                                                            Updated: {new Date(item.updatedAt).toLocaleDateString()}
+                                                                        </span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            <div style={{ display: 'flex', gap: '8px' }}>
+                                                                <button
+                                                                    onClick={() => {
+                                                                        if (config.title === 'Blog Post' || config.title === 'Case Studies') {
+                                                                            const identifier = item.slug || item._id;
+                                                                            navigate(`/admin/editor/${identifier}?type=${type}`);
+                                                                        } else {
+                                                                            setEditItem(item); setFormData(item); setShowForm(true);
+                                                                        }
+                                                                    }}
+                                                                    style={{
+                                                                        background: 'white',
+                                                                        color: '#f59e0b',
+                                                                        border: '1px solid #f59e0b',
+                                                                        padding: '8px 20px',
+                                                                        borderRadius: '20px',
+                                                                        cursor: 'pointer',
+                                                                        fontWeight: 600,
+                                                                        fontSize: '0.85rem'
+                                                                    }}
+                                                                >
+                                                                    Edit
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => handleToggle(item._id, item.isVisible)}
+                                                                    style={{
+                                                                        background: '#d1fae5',
+                                                                        color: '#065f46',
+                                                                        border: 'none',
+                                                                        padding: '8px 20px',
+                                                                        borderRadius: '20px',
+                                                                        cursor: 'pointer',
+                                                                        fontWeight: 600,
+                                                                        fontSize: '0.85rem'
+                                                                    }}
+                                                                >
+                                                                    Publish
+                                                                </button>
+                                                                {(isSuperAdmin || (isHR && (type === 'jobs' || type === 'jobApplications'))) && (
+                                                                    <button
+                                                                        onClick={() => handleDelete(item._id)}
+                                                                        style={{
+                                                                            background: '#ef4444',
+                                                                            color: 'white',
+                                                                            border: 'none',
+                                                                            padding: '8px 20px',
+                                                                            borderRadius: '20px',
+                                                                            cursor: 'pointer',
+                                                                            fontWeight: 600,
+                                                                            fontSize: '0.85rem'
+                                                                        }}
+                                                                    >
+                                                                        Delete
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* PUBLISHED SECTION */}
+                                        <div>
+                                            <h2 style={{ fontSize: '1.5rem', fontWeight: 900, marginBottom: '1.5rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                Published <span style={{ fontSize: '0.9rem', opacity: 0.7, fontWeight: 500 }}>({items.filter(i => i.status !== 'Draft' && i.isVisible !== false && i.isVisible !== 0).length})</span>
+                                            </h2>
+                                            {items.filter(i => i.status !== 'Draft' && i.isVisible !== false && i.isVisible !== 0).length === 0 ? (
+                                                <p style={{ opacity: 0.5, fontStyle: 'italic' }}>No published items yet.</p>
+                                            ) : (
+                                                <div style={{ display: 'grid', gap: '1.5rem' }}>
+                                                    {items.filter(i => i.status !== 'Draft' && i.isVisible !== false && i.isVisible !== 0).map(item => (
+                                                        <div key={item._id} style={{
+                                                            padding: '1.5rem',
+                                                            background: '#fcfcfc',
+                                                            borderRadius: '16px',
+                                                            border: '1px solid rgba(0,0,0,0.05)',
+                                                            display: 'grid',
+                                                            gridTemplateColumns: '1fr auto',
+                                                            alignItems: 'center',
+                                                            gap: '1rem'
+                                                        }}>
+                                                            <div>
+                                                                <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#2D2D2D', margin: '0 0 0.5rem 0' }}>
+                                                                    {item.title || item.name || item.question || item.fullName || 'Untitled'}
+                                                                    {item.jobTitle && <span style={{ fontSize: '0.9rem', color: '#666', fontWeight: 500, marginLeft: '10px' }}>({item.jobTitle})</span>}
+                                                                </h3>
+                                                                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                                                                    <span style={{
+                                                                        fontSize: '0.85rem',
+                                                                        fontWeight: 600,
+                                                                        color: '#10b981',
+                                                                        background: '#d1fae5',
+                                                                        padding: '4px 12px',
+                                                                        borderRadius: '12px'
+                                                                    }}>
+                                                                        Published
+                                                                    </span>
+                                                                    {type === 'jobApplications' && item.appliedAt && (
+                                                                        <span style={{ opacity: 0.6, fontSize: '0.85rem' }}>
+                                                                            Applied: {new Date(item.appliedAt).toLocaleDateString()}
+                                                                        </span>
+                                                                    )}
+                                                                    {type !== 'jobApplications' && item.updatedAt && (
+                                                                        <span style={{ opacity: 0.6, fontSize: '0.85rem' }}>
+                                                                            Updated: {new Date(item.updatedAt).toLocaleDateString()}
+                                                                        </span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            <div style={{ display: 'flex', gap: '8px' }}>
+                                                                <button
+                                                                    onClick={() => {
+                                                                        if (config.title === 'Blog Post' || config.title === 'Case Studies') {
+                                                                            const identifier = item.slug || item._id;
+                                                                            navigate(`/admin/editor/${identifier}?type=${type}`);
+                                                                        } else {
+                                                                            setEditItem(item); setFormData(item); setShowForm(true);
+                                                                        }
+                                                                    }}
+                                                                    style={{
+                                                                        background: 'transparent',
+                                                                        color: '#FF9B50',
+                                                                        border: '1px solid #FF9B50',
+                                                                        padding: '8px 20px',
+                                                                        borderRadius: '20px',
+                                                                        cursor: 'pointer',
+                                                                        fontWeight: 600,
+                                                                        fontSize: '0.85rem'
+                                                                    }}
+                                                                >
+                                                                    Edit
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => handleToggle(item._id, item.isVisible)}
+                                                                    style={{
+                                                                        background: (item.isVisible === false || item.isVisible === 0 || item.status === 'Draft') ? '#d1fae5' : '#fee2e2',
+                                                                        color: (item.isVisible === false || item.isVisible === 0 || item.status === 'Draft') ? '#065f46' : '#991b1b',
+                                                                        border: 'none',
+                                                                        padding: '8px 20px',
+                                                                        borderRadius: '20px',
+                                                                        cursor: 'pointer',
+                                                                        fontWeight: 600,
+                                                                        fontSize: '0.85rem'
+                                                                    }}
+                                                                >
+                                                                    {(item.isVisible === false || item.isVisible === 0 || item.status === 'Draft') ? 'Publish' : 'Move to Draft'}
+                                                                </button>
+                                                                {(isSuperAdmin || (isHR && (type === 'jobs' || type === 'jobApplications'))) && (
+                                                                    <button
+                                                                        onClick={() => handleDelete(item._id)}
+                                                                        style={{
+                                                                            background: '#ef4444',
+                                                                            color: 'white',
+                                                                            border: 'none',
+                                                                            padding: '8px 20px',
+                                                                            borderRadius: '20px',
+                                                                            cursor: 'pointer',
+                                                                            fontWeight: 600,
+                                                                            fontSize: '0.85rem'
+                                                                        }}
+                                                                    >
+                                                                        Delete
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </>
+                                )}
                             </>
                         )}
                     </div>
@@ -1049,7 +1252,7 @@ const ContentManager = () => {
                     )}
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

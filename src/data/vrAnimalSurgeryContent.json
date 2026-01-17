@@ -1,0 +1,73 @@
+{
+    "hero": {
+        "badge": "VR Veterinary Training",
+        "title": "Master Veterinary Surgery Without Animal Subjects",
+        "subtitle": "Practice complex surgical procedures on realistic virtual animals, building expertise while upholding ethical standards.",
+        "primaryBtn": "Request Vet Training Demo",
+        "secondaryBtn": "View Procedure Library"
+    },
+    "surgicalSuite": {
+        "title": "The Surgical Suite",
+        "subtitle": "Comprehensive veterinary surgical training",
+        "features": [
+            {
+                "title": "Realistic Anatomy",
+                "desc": "Interact with anatomically accurate 3D models of various animal species with realistic tissue response.",
+                "number": "01"
+            },
+            {
+                "title": "Surgical Procedures",
+                "desc": "Practice spay/neuter, orthopedic repairs, soft tissue surgery, and emergency procedures.",
+                "number": "02"
+            },
+            {
+                "title": "Haptic Feedback",
+                "desc": "Feel realistic tissue resistance, tool feedback, and surgical sensations through advanced haptics.",
+                "number": "03"
+            }
+        ]
+    },
+    "benefits": {
+        "title": "Who Benefits",
+        "features": [
+            {
+                "audience": "Veterinary Schools",
+                "focus": "Ethical Training",
+                "benefit": "Provide hands-on surgical experience without using live animals, meeting modern ethical standards."
+            },
+            {
+                "audience": "Veterinary Clinics",
+                "focus": "Skill Development",
+                "benefit": "Train new vets and refresh experienced practitioners on advanced procedures."
+            },
+            {
+                "audience": "Research Institutions",
+                "focus": "Procedure Development",
+                "benefit": "Test and refine new surgical techniques in a risk-free virtual environment."
+            }
+        ]
+    },
+    "stats": {
+        "title": "Why Melzo Veterinary",
+        "subtitle": "Reduce training costs, eliminate ethical concerns, and improve surgical outcomes with unlimited practice opportunities.",
+        "cta": "Transform Vet Education →",
+        "items": [
+            {
+                "label": "Practice Repetitions",
+                "value": "Unlimited"
+            },
+            {
+                "label": "Animal Subjects Used",
+                "value": "Zero"
+            },
+            {
+                "label": "Surgical Proficiency",
+                "value": "95%"
+            },
+            {
+                "label": "Student Confidence",
+                "value": "100%"
+            }
+        ]
+    }
+}

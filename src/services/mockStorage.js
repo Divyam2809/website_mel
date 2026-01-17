@@ -483,114 +483,37 @@ const initialTeam = [
     { _id: 't5', name: 'GAYATRI BANSHIWAL', position: 'SR. HR Manager', image: '/team/gayatrimaam.webp', status: 'Published', slug: 'gayatri-banshiwal', isVisible: true }
 ];
 
-const initialTicker = [];
-
-const initialGlobalMomentum = [
-    // Marquee Words
-    { _id: 'gm1', type: 'Marquee', value: 'Innovation', isVisible: true, status: 'Published' },
-    { _id: 'gm2', type: 'Marquee', value: 'Impact', isVisible: true, status: 'Published' },
-    { _id: 'gm3', type: 'Marquee', value: 'Experience', isVisible: true, status: 'Published' },
-    { _id: 'gm4', type: 'Marquee', value: 'Scale', isVisible: true, status: 'Published' },
-    { _id: 'gm5', type: 'Marquee', value: 'Immersive', isVisible: true, status: 'Published' },
-    // Stats
-    { _id: 'gm6', type: 'Stat', value: '5+', label: 'Countries', isVisible: true, status: 'Published' },
-    { _id: 'gm7', type: 'Stat', value: '3000+', label: 'Schools', isVisible: true, status: 'Published' },
-    { _id: 'gm8', type: 'Stat', value: '50K+', label: 'Students', isVisible: true, status: 'Published' },
-    { _id: 'gm9', type: 'Stat', value: '1M+', label: 'Sessions', isVisible: true, status: 'Published' },
-    { _id: 'gm10', type: 'Stat', value: '120+', label: 'Partners', isVisible: true, status: 'Published' }
+const initialTimeline = [
+    { _id: 'tl1', year: '2017', title: 'Inception', content: 'Founded in 2017, ShilpMIS Technologies Private Limited began its journey as India\'s pioneer in immersive technology.', isVisible: true, status: 'Published' },
+    { _id: 'tl2', year: '2019', title: 'First Lab', content: 'Launched our first fully immersive VR lab in Gujarat.', isVisible: true, status: 'Published' },
+    { _id: 'tl3', year: '2021', title: 'Expansion', content: 'Expanded operations to cover Education, CSR, and Enterprise training.', isVisible: true, status: 'Published' },
+    { _id: 'tl4', year: '2023', title: 'Innovation', content: 'Developed proprietary VR hardware and software ecosystem.', isVisible: true, status: 'Published' },
+    { _id: 'tl5', year: '2024', title: 'Global Reach', content: 'Partnered with international institutions for content exchange.', isVisible: true, status: 'Published' },
+    { _id: 'tl6', year: 'Future', title: 'Next Gen', content: 'Building the metaverse of education.', isVisible: true, status: 'Published' }
 ];
 
-const initialPrivacyPolicy = [
+const initialDemoQueries = [
     {
-        _id: 'pp1',
-        title: '1. Information We Collect',
-        content: 'We may collect the following types of information:\n\n*   **Personal Information:** Name, email address, phone number, and other contact details when you book a demo or contact us.\n*   **Usage Data:** Information about how you use our website, products, and services.\n*   **Technical Data:** IP address, browser type, device information, and operating system.',
-        isVisible: true,
-        status: 'Published',
-        icon: 'doc'
-    },
-    {
-        _id: 'pp2',
-        title: '2. How We Use Your Information',
-        content: 'We use the information we collect for various purposes, including:\n\n*   To provide, maintain, and improve our services.\n*   To communicate with you about updates, offers, and promotions.\n*   To analyze usage patterns and improve user experience.\n*   To comply with legal obligations.',
-        isVisible: true,
-        status: 'Published',
-        icon: 'gear'
-    },
-    {
-        _id: 'pp3',
-        title: '3. Data Security',
-        content: 'We implement appropriate technical and organizational measures to protect your personal data against unauthorized or unlawful processing, accidental loss, destruction, or damage.',
-        isVisible: true,
-        status: 'Published',
-        icon: 'shield'
-    },
-    {
-        _id: 'pp4',
-        title: '4. Third-Party Services',
-        content: 'We may use third-party services (such as analytics providers) that collect, monitor, and analyze this type of information to increase our service\'s functionality. These third-party service providers have their own privacy policies addressing how they use such information.',
-        isVisible: true,
-        status: 'Published',
-        icon: 'users'
-    },
-    {
-        _id: 'pp5',
-        title: '5. Contact Us',
-        content: 'If you have any questions about this Privacy Policy, please contact us at: contact@melzo.com',
-        isVisible: true,
-        status: 'Published',
-        icon: 'mail'
+        _id: 'dq1',
+        name: 'Rahul Verma',
+        email: 'rahul.verma@example.com',
+        phone: '9876543210',
+        institute: 'Delhi Public School',
+        designation: 'Principal',
+        date: '2026-02-15',
+        message: 'Interested in VR labs for grades 9-12.',
+        agreeToTerms: true,
+        status: 'Pending',
+        createdAt: '2026-01-14T10:00:00.000Z',
+        isVisible: true
     }
 ];
-
-const initialFooterConfig = {
-    description: 'Melzo is an Indian EdTech company delivering immersive digital learning solutions for schools and institutions. Through VR Labs and Interactive Learning Platforms, Melzo helps educators simplify operations and enhance student understanding using modern technology.',
-    socialLinks: [
-        { name: 'linkedin', src: '/assets/linkedin.svg', link: 'https://www.linkedin.com/company/melzo/', isVisible: true },
-        { name: 'instagram', src: '/assets/insta.svg', link: 'https://www.instagram.com/melzoanubhav', isVisible: true },
-        { name: 'x', src: '/assets/x_logo.svg', link: 'https://x.com/Melzo_E_Learn', isVisible: true },
-        { name: 'gmail', src: '/assets/gmail.svg', link: 'mailto:contact@melzo.com', isVisible: true }
-    ],
-    columns: [
-        {
-            title: 'Explore Melzo Anubhav',
-            links: [
-                { label: 'About Us', id: 'about', type: 'internal', isVisible: true },
-                { label: 'Case Study', id: 'casestudies', type: 'internal', isVisible: true },
-                { label: 'Blog', id: 'blog', type: 'internal', isVisible: true },
-                { label: 'Melzo in News', id: 'melzonews', type: 'internal', isVisible: true }
-            ]
-        },
-        {
-            title: 'Policies',
-            links: [
-                { label: 'Terms of Services', link: '#', type: 'external', isVisible: true },
-                { label: 'Privacy Policy', link: '/privacy-policy', type: 'internal', isVisible: true },
-                { label: 'Health & Safety', link: '#', type: 'external', isVisible: true }
-            ]
-        },
-        {
-            title: 'Our Offerings',
-            links: [
-                { label: 'Hardware Solutions', link: '/products', type: 'product', isVisible: true },
-                { label: 'Software Solutions', link: '/products', type: 'product', isVisible: true },
-                { label: 'Education & Training', link: '/products', type: 'product', isVisible: true },
-                { label: 'Industrial & Enterprise', link: '/products', type: 'product', isVisible: true },
-                { label: 'Defence Simulation', link: '/products', type: 'product', isVisible: true },
-                { label: 'Tourism', link: '/products', type: 'product', isVisible: true },
-                { label: 'Emerging Applications', link: '/products', type: 'product', isVisible: true }
-            ]
-        }
-    ],
-    contact: {
-        phone: '+91 - 9687588818 / 9687488818',
-        address: 'Ship Maitri House, Bhatar Char Rasta, opp. Shiv Dham Temple, Surat, Gujarat 395017'
-    }
-};
 
 const ADMIN_USERS = [
     { email: 'superadmin@melzo.com', password: 'superadmin123', role: 'superadmin', name: 'Super Admin' },
-    { email: 'admin@melzo.com', password: 'admin123', role: 'admin', name: 'Admin' }
+    { email: 'contentmanager@melzo.com', password: 'contentmanager123', role: 'content_manager', name: 'Content Manager' },
+    { email: 'sales@melzo.com', password: 'sales123', role: 'sales', name: 'Sales Team' },
+    { email: 'hr@melzo.com', password: 'hr123', role: 'HR', name: 'HR Manager' }
 ];
 
 class MockStorageService {
@@ -598,10 +521,71 @@ class MockStorageService {
         this.init();
     }
 
+
+    updateUser(id, data) {
+        return this._update('users', id, data);
+    }
+
+    deleteUser(id) {
+        return this._delete('users', id);
+    }
+
+    async login(email, password) {
+        let username = email.split('@')[0];
+        // Mapping for SuperAdmin seeded in DB
+        if (email === 'superadmin@melzo.com' || email === 'admin@melzo.com') username = 'admin';
+
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (!response.ok) {
+                const err = await response.json();
+                throw { response: { data: { message: err.error || 'Login failed' } } };
+            }
+
+            const result = await response.json();
+            return { data: { ...result.user, token: result.token } };
+        } catch (e) {
+            console.error("Login error", e);
+            throw e;
+        }
+    }
+
+    async getLoginLogs() {
+        try {
+            const user = JSON.parse(sessionStorage.getItem('user'));
+            const response = await fetch('/api/auth/logs', {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to fetch logs:', error);
+        }
+        return [];
+    }
+
     init() {
-        // ... (Existing initialization code)
-        const existingBlogs = localStorage.getItem('blogs');
-        if (!existingBlogs || existingBlogs === '[]') {
+        if (!localStorage.getItem('users')) {
+            localStorage.setItem('users', JSON.stringify(ADMIN_USERS.map((u, i) => ({ ...u, _id: `u${i}`, isVisible: true, status: 'Published' }))));
+        }
+        if (!localStorage.getItem('jobs')) {
+            localStorage.setItem('jobs', JSON.stringify([]));
+        }
+        if (!localStorage.getItem('jobApplications')) {
+            localStorage.setItem('jobApplications', JSON.stringify([]));
+        }
+        if (!localStorage.getItem('employeeStories')) {
+            localStorage.setItem('employeeStories', JSON.stringify([]));
+        }
+        if (!localStorage.getItem('blogs')) {
             localStorage.setItem('blogs', JSON.stringify(initialBlogs));
         }
         if (!localStorage.getItem('caseFile')) {
@@ -628,59 +612,32 @@ class MockStorageService {
             localStorage.setItem('faqs', JSON.stringify(initialFAQs));
         }
 
-        // Initialize Team
+        // Initialize Team Details
         if (!localStorage.getItem('teamdetails')) {
             localStorage.setItem('teamdetails', JSON.stringify(initialTeam));
         }
 
-        // Initialize Industries
+        // Initialize Timeline
+        if (!localStorage.getItem('timeline')) {
+            localStorage.setItem('timeline', JSON.stringify(initialTimeline));
+        }
+
+        if (!localStorage.getItem('demoQueries')) {
+            localStorage.setItem('demoQueries', JSON.stringify(initialDemoQueries));
+        }
+
+        // Initialize Industries (From HEAD)
         if (!localStorage.getItem('industries')) {
             localStorage.setItem('industries', JSON.stringify(initialIndustries));
         }
 
-        // Initialize Ticker
-        if (!localStorage.getItem('ticker')) {
-            localStorage.setItem('ticker', JSON.stringify(initialTicker));
+        // Initialize Careers Gallery
+        if (!localStorage.getItem('careersGallery')) {
+            localStorage.setItem('careersGallery', JSON.stringify([]));
         }
 
-        // Initialize Global Momentum
-        if (!localStorage.getItem('globalMomentum')) {
-            localStorage.setItem('globalMomentum', JSON.stringify(initialGlobalMomentum));
-        }
-
-        // Initialize Privacy Policy
-        if (!localStorage.getItem('privacyPolicy')) {
-            localStorage.setItem('privacyPolicy', JSON.stringify(initialPrivacyPolicy));
-        }
-
-        // Initialize Footer Config
-        const savedFooter = localStorage.getItem('footerConfig');
-        if (!savedFooter) {
-            localStorage.setItem('footerConfig', JSON.stringify(initialFooterConfig));
-        } else {
-            // MIGRATION: Update Privacy Policy Link if it's the old default
-            const footerData = JSON.parse(savedFooter);
-            let footerChanged = false;
-            if (footerData.columns) {
-                footerData.columns.forEach(col => {
-                    if (col.title === 'Policies') {
-                        col.links.forEach(link => {
-                            if (link.label === 'Privacy Policy' && link.link === '#') {
-                                link.link = '/privacy-policy';
-                                link.type = 'internal';
-                                footerChanged = true;
-                            }
-                        });
-                    }
-                });
-            }
-            if (footerChanged) {
-                localStorage.setItem('footerConfig', JSON.stringify(footerData));
-            }
-        }
-
-        // --- MIGRATION: Auto-Generate Slugs for Legacy Data ---
-        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials'];
+        // --- MIGRATION: Auto-Generate Slugs for Legacy Data (From HEAD) ---
+        const collections = ['blogs', 'news', 'caseFile', 'awards', 'faqs', 'teamdetails', 'testimonials', 'jobs', 'employeeStories', 'jobApplications', 'industries'];
 
         collections.forEach(key => {
             const items = JSON.parse(localStorage.getItem(key) || '[]');
@@ -703,21 +660,66 @@ class MockStorageService {
                 console.log(`Migrated slugs for ${key}`);
             }
         });
-    }
 
-    // --- Auth ---
-    login(email, password) {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                const user = ADMIN_USERS.find(u => u.email === email && u.password === password);
-                if (user) {
-                    const userData = { email: user.email, role: user.role, name: user.name, token: `mock-token-${Date.now()}` };
-                    resolve({ data: userData });
-                } else {
-                    reject({ response: { data: { message: 'Invalid credentials' } } });
+        // --- MIGRATION: Fix Industries Images (From HEAD) ---
+        try {
+            const storedIndustries = JSON.parse(localStorage.getItem('industries') || '[]');
+            let indModified = false;
+            const imageMap = {
+                'education': '/images/education_modal_vr.webp',
+                'csr': '/images/csr-bg.webp',
+                'government': '/images/government-bg.webp',
+                'defence': '/images/defence-bg.webp'
+            };
+
+            storedIndustries.forEach(ind => {
+                const id = ind._id || ind.id;
+                if (imageMap[id] && ind.image !== imageMap[id]) {
+                    ind.image = imageMap[id];
+                    indModified = true;
                 }
-            }, 500);
+            });
+
+            if (indModified) {
+                localStorage.setItem('industries', JSON.stringify(storedIndustries));
+                console.log('Migrated industries images');
+            }
+        } catch (e) {
+            console.error('Error migrating industries images', e);
+        }
+
+        // --- MIGRATION: Update 'admin' role to 'content_manager' and Update Credentials ---
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        let usersModified = false;
+        users.forEach(u => {
+            // General role migration
+            if (u.role === 'admin') {
+                u.role = 'content_manager';
+                u.name = 'Content Manager';
+                usersModified = true;
+            }
+            // Specific email/password update for the default admin user
+            if (u.email === 'admin@melzo.com') {
+                u.email = 'contentmanager@melzo.com';
+                u.password = 'contentmanager123';
+                u.role = 'content_manager'; // Ensure role is updated
+                u.name = 'Content Manager';
+                usersModified = true;
+            }
         });
+
+        // Ensure HR and Sales users exist
+        ADMIN_USERS.forEach(adminUser => {
+            if (!users.find(u => u.email === adminUser.email)) {
+                users.push({ ...adminUser, _id: `u${users.length}`, isVisible: true, status: 'Published' });
+                usersModified = true;
+            }
+        });
+
+        if (usersModified) {
+            localStorage.setItem('users', JSON.stringify(users));
+            console.log('Migrated admin user to contentmanager credentials');
+        }
     }
 
     // Generic CRUD with Visibility
@@ -764,9 +766,14 @@ class MockStorageService {
             const items = this._getAll(key);
             const index = items.findIndex(i => i._id === id);
             if (index !== -1) {
-                items[index].isVisible = !items[index].isVisible;
-                // Sync status for consistency with Admin Panel filters
-                items[index].status = items[index].isVisible ? 'Published' : 'Draft';
+                const newVisibility = !items[index].isVisible;
+                items[index].isVisible = newVisibility;
+
+                // Sync status if it exists
+                if (items[index].status) {
+                    items[index].status = newVisibility ? 'Published' : 'Draft';
+                }
+
                 items[index].updatedAt = new Date().toISOString();
                 this._save(key, items);
                 resolve({ data: items[index] });
@@ -959,109 +966,458 @@ class MockStorageService {
         return this._toggleVisibility('testimonials', id);
     }
 
+    // --- Timeline ---
+    getTimeline() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('timeline') });
+        });
+    }
+
+    saveTimeline(data) {
+        return this._create('timeline', data);
+    }
+
+    updateTimeline(id, data) {
+        return this._update('timeline', id, data);
+    }
+
+    deleteTimeline(id) {
+        return this._delete('timeline', id);
+    }
+
+    toggleTimelineVisibility(id) {
+        return this._toggleVisibility('timeline', id);
+    }
+
     // --- Industries ---
-    getIndustries() {
+    async getIndustries() {
+        try {
+            const response = await fetch('/api/industries');
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to fetch industries:', error);
+        }
+        return { data: [] };
+    }
+
+    async saveIndustry(data) {
+        try {
+            const response = await fetch('/api/industries', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to save industry:', error);
+            throw error;
+        }
+    }
+
+    async updateIndustry(id, data) {
+        try {
+            const response = await fetch(`/api/industries/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to update industry:', error);
+            throw error;
+        }
+    }
+
+    async deleteIndustry(id) {
+        try {
+            const response = await fetch(`/api/industries/${id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                return { message: 'Deleted successfully' };
+            }
+        } catch (error) {
+            console.error('Failed to delete industry:', error);
+            throw error;
+        }
+    }
+
+    async toggleIndustryVisibility(id) {
+        try {
+            const response = await fetch(`/api/industries/${id}/visibility`, {
+                method: 'PATCH'
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to toggle visibility:', error);
+            throw error;
+        }
+    }
+
+    // --- Demo Queries / Leads ---
+    async getDemoQueries() {
+        try {
+            const response = await fetch('/api/messages');
+            if (response.ok) {
+                const result = await response.json();
+                // Map backend fields to frontend model
+                const mappedData = result.data.map(item => ({
+                    _id: item.id.toString(),
+                    ...item,
+                    date: item.demo_date,
+                    createdAt: item.created_at,
+                    status: 'Pending', // TODO: Backend should store status
+                    isVisible: true
+                }));
+                return { data: mappedData };
+            }
+        } catch (error) {
+            console.warn("Backend fetch failed, falling back to local storage", error);
+        }
+
+        // Fallback
         return new Promise((resolve) => {
-            resolve({ data: this._getAll('industries') });
+            resolve({ data: this._getAll('demoQueries').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) });
         });
     }
 
-    saveIndustry(data) {
-        return this._create('industries', data);
-    }
+    async saveDemoQuery(data) {
+        try {
+            const response = await fetch('/api/messages', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to save demo query:', error);
+            throw error;
+        }
 
-    updateIndustry(id, data) {
-        return this._update('industries', id, data);
-    }
-
-    deleteIndustry(id) {
-        return this._delete('industries', id);
-    }
-
-    toggleIndustryVisibility(id) {
-        return this._toggleVisibility('industries', id);
-    }
-
-    // --- Ticker ---
-    getTicker() {
-        return new Promise((resolve) => {
-            resolve({ data: this._getAll('ticker') });
+        // Fallback
+        return this._create('demoQueries', {
+            ...data,
+            status: 'Pending',
+            notes: ''
         });
     }
 
-    saveTickerItem(data) {
-        return this._create('ticker', data);
+    updateDemoQuery(id, data) {
+        // Backend currently doesn't support PATCH/PUT for messages. Stick to local or do nothing.
+        return this._update('demoQueries', id, data);
     }
 
-    updateTickerItem(id, data) {
-        return this._update('ticker', id, data);
-    }
-
-    deleteTickerItem(id) {
-        return this._delete('ticker', id);
-    }
-
-    toggleTickerVisibility(id) {
-        return this._toggleVisibility('ticker', id);
-    }
-
-    // --- Global Momentum ---
-    getGlobalMomentum() {
-        return Promise.resolve({ data: JSON.parse(localStorage.getItem('globalMomentum') || '[]') });
-    }
-
-    saveGlobalMomentumItem(item) {
-        return this._saveItem('globalMomentum', item);
-    }
-
-    updateGlobalMomentumItem(id, item) {
-        return this._updateItem('globalMomentum', id, item);
-    }
-
-    deleteGlobalMomentumItem(id) {
-        return this._deleteItem('globalMomentum', id);
-    }
-
-    toggleGlobalMomentumVisibility(id) {
-        return this._toggleVisibility('globalMomentum', id);
-    }
-
-    // --- Privacy Policy ---
-    getPrivacyPolicy() {
-        return Promise.resolve({ data: JSON.parse(localStorage.getItem('privacyPolicy') || '[]') });
-    }
-
-    savePrivacyPolicyItem(item) {
-        return this._saveItem('privacyPolicy', item);
-    }
-
-    updatePrivacyPolicyItem(id, item) {
-        return this._updateItem('privacyPolicy', id, item);
-    }
-
-    deletePrivacyPolicyItem(id) {
-        return this._deleteItem('privacyPolicy', id);
-    }
-
-    togglePrivacyPolicyVisibility(id) {
-        return this._toggleVisibility('privacyPolicy', id);
+    deleteDemoQuery(id) {
+        // Backend currently doesn't support DELETE for messages.
+        return this._delete('demoQueries', id);
     }
 
     // --- Footer Config ---
-    getFooterConfig() {
+    async getFooterConfig() {
+        try {
+            const response = await fetch('/api/footer');
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to fetch footer config from backend:', error);
+        }
+        return { data: null };
+    }
+
+    async saveFooterConfig(data) {
+        try {
+            const response = await fetch('/api/footer', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to save footer config to backend:', error);
+            throw error;
+        }
+    }
+
+    // --- Careers/Jobs ---
+    getJobs() {
         return new Promise((resolve) => {
-            const config = JSON.parse(localStorage.getItem('footerConfig') || '{}');
-            resolve({ data: config });
+            resolve({ data: this._getAll('jobs') });
         });
     }
 
-    saveFooterConfig(data) {
-        return new Promise((resolve) => {
-            localStorage.setItem('footerConfig', JSON.stringify(data));
-            resolve({ data });
+    saveJob(data) {
+        return this._create('jobs', {
+            ...data,
+            mission: data.mission || [],
+            requirements: data.requirements || []
         });
     }
+
+    updateJob(id, data) {
+        return this._update('jobs', id, data);
+    }
+
+    deleteJob(id) {
+        return this._delete('jobs', id);
+    }
+
+    toggleJobVisibility(id) {
+        return this._toggleVisibility('jobs', id);
+    }
+
+    // --- Job Applications ---
+    getJobApplications() {
+        return new Promise((resolve) => {
+            resolve({ data: this._getAll('jobApplications') });
+        });
+    }
+
+    saveJobApplication(data) {
+        return this._create('jobApplications', {
+            ...data,
+            appliedAt: data.appliedAt || new Date().toISOString()
+        });
+    }
+
+    deleteJobApplication(id) {
+        return this._delete('jobApplications', id);
+    }
+
+    // --- Employee Stories ---
+    async getEmployeeStories() {
+        try {
+            const response = await fetch('/api/employee-testimonials');
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to fetch employee stories:', error);
+        }
+        return { data: [] };
+    }
+
+    async saveEmployeeStory(data) {
+        try {
+            const response = await fetch('/api/employee-testimonials', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to save employee story:', error);
+            throw error;
+        }
+    }
+
+    async updateEmployeeStory(id, data) {
+        try {
+            const response = await fetch(`/api/employee-testimonials/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to update employee story:', error);
+            throw error;
+        }
+    }
+
+    async deleteEmployeeStory(id) {
+        try {
+            const response = await fetch(`/api/employee-testimonials/${id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                return { message: 'Deleted successfully' };
+            }
+        } catch (error) {
+            console.error('Failed to delete employee story:', error);
+            throw error;
+        }
+    }
+
+    async toggleEmployeeStoryVisibility(id) {
+        try {
+            const response = await fetch(`/api/employee-testimonials/${id}/visibility`, {
+                method: 'PATCH'
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to toggle visibility:', error);
+            throw error;
+        }
+    }
+
+    // --- Privacy Policy ---
+    async getPrivacyPolicy() {
+        try {
+            const response = await fetch('/api/privacy-policy');
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to fetch privacy policy:', error);
+        }
+        return { data: [] };
+    }
+
+    async savePrivacySection(data) {
+        try {
+            const response = await fetch('/api/privacy-policy', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to save privacy section:', error);
+            throw error;
+        }
+    }
+
+    async updatePrivacySection(id, data) {
+        try {
+            const response = await fetch(`/api/privacy-policy/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to update privacy section:', error);
+            throw error;
+        }
+    }
+
+    async deletePrivacySection(id) {
+        try {
+            const response = await fetch(`/api/privacy-policy/${id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                return { message: 'Deleted successfully' };
+            }
+        } catch (error) {
+            console.error('Failed to delete privacy section:', error);
+            throw error;
+        }
+    }
+
+    async togglePrivacySectionVisibility(id) {
+        try {
+            const response = await fetch(`/api/privacy-policy/${id}/visibility`, {
+                method: 'PATCH'
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to toggle visibility:', error);
+            throw error;
+        }
+    }
+
+    // --- Careers Gallery ---
+    // --- Careers Gallery ---
+    async getCareersGallery() {
+        try {
+            const response = await fetch('/api/careers-gallery');
+            if (response.ok) {
+                return await response.json();
+            }
+            return { data: [] }; // Fallback
+        } catch (error) {
+            console.error('Failed to fetch careers gallery:', error);
+            return { data: [] };
+        }
+    }
+
+    async saveCareersGallery(data) {
+        try {
+            const response = await fetch('/api/careers-gallery', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to save gallery item:', error);
+            throw error;
+        }
+    }
+
+    async updateCareersGallery(id, data) {
+        try {
+            const response = await fetch(`/api/careers-gallery/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to update gallery item:', error);
+            throw error;
+        }
+    }
+
+    async deleteCareersGallery(id) {
+        try {
+            const response = await fetch(`/api/careers-gallery/${id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                return { message: 'Deleted successfully' };
+            }
+        } catch (error) {
+            console.error('Failed to delete gallery item:', error);
+            throw error;
+        }
+    }
+
+    async toggleCareersGalleryVisibility(id) {
+        try {
+            const response = await fetch(`/api/careers-gallery/${id}/visibility`, {
+                method: 'PATCH'
+            });
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Failed to toggle visibility:', error);
+            throw error;
+        }
+    }
 }
+
 
 export const mockStorage = new MockStorageService();
 export default mockStorage;

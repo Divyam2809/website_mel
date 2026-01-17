@@ -12,8 +12,22 @@ import DataStrip from '../components/DataStrip';
 import CaseStudyHighlights from '../components/CaseStudyHighlights';
 import Testimonials from '../components/Testimonials';
 import GridBackground from '../components/GridBackground';
+import initialContent from '../data/homeContent.json';
 
-export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme, scrollToContact }) {
+export default function Home({ onNavigate, isDarkTheme, onBookDemo, onContactUs, onToggleTheme, scrollToContact }) {
+    const [content, setContent] = useState(initialContent);
+
+    useEffect(() => {
+        fetch('/api/page-content/home_live')
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.hero) {
+                    setContent(data);
+                }
+            })
+            .catch(err => console.error('Error fetching home data:', err));
+    }, []);
+
     return (
         <>
             <AppNav
@@ -88,8 +102,8 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                             marginBottom: '1.5rem',
                             lineHeight: '1.1'
                         }}>
-                            Virtual Reality Labs That Transform <br></br>
-                            <span style={{ color: '#ff770eff', fontSize: '3rem', letterSpacing: '2px' }}>Learning, Training, and Experience</span>
+                            {content.hero.titleLine1} <br></br>
+                            <span style={{ color: '#ff770eff', fontSize: '3rem', letterSpacing: '2px' }}>{content.hero.titleHighlight}</span>
                             {/* Welcome to <span style={{ color: '#ff770eff' }}>Melzo</span> */}
                         </h1>
                         <p style={{
@@ -100,7 +114,7 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                             lineHeight: '1.6'
                         }}>
                             {/* Pioneering the Future of Immersive Education & Interactive Learning Solutions */}
-                            Curriculum-aligned VR Labs, simulators, and immersive training systems for schools, institutions, industries, and government programs across India.
+                            {content.hero.description}
 
                         </p>
                         <div style={{
@@ -132,10 +146,10 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                                     e.target.style.transform = 'translateY(0)';
                                     e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
                                 }}>
-                                Explore Our Products
+                                {content.hero.primaryBtn}
                             </button>
                             <button
-                                onClick={scrollToContact}
+                                onClick={onContactUs}
                                 style={{
                                     background: 'transparent',
                                     color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
@@ -158,7 +172,7 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                                     e.target.style.color = isDarkTheme ? '#FFFFFF' : '#2D2D2D';
                                     e.target.style.transform = 'translateY(0)';
                                 }}>
-                                Contact Us
+                                {content.hero.secondaryBtn}
                             </button>
                         </div>
                     </div>
@@ -172,7 +186,7 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                 </section>
 
                 {/* Data Strip */}
-                <DataStrip />
+                <DataStrip section="home" />
 
                 {/* About Section */}
                 {/* <section style={{
@@ -272,7 +286,7 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                             color: isDarkTheme ? '#FFFFFF' : '#2D2D2D',
                             lineHeight: '1.2'
                         }}>
-                            Why Virtual Reality Works in <span style={{ color: '#FF9B50' }}>Classrooms & Training</span>
+                            {content.whyVr.titleLine1} <span style={{ color: '#FF9B50' }}>{content.whyVr.titleHighlight}</span>
                         </h2>
                         <p style={{
                             fontSize: '1.2rem',
@@ -283,7 +297,7 @@ export default function Home({ onNavigate, isDarkTheme, onBookDemo, onToggleThem
                             maxWidth: '900px',
                             margin: '0 auto'
                         }}>
-                            Virtual Reality enables learners to <strong style={{ color: '#FF9B50' }}>see, interact, and practice</strong> instead of only reading or listening. Melzo VR Labs are designed to support <strong>CBSE, ICSE, State Boards</strong>, vocational training, and enterprise skill development.
+                            {content.whyVr.description}
                         </p>
 
                         {/* Supported Boards/Systems */}

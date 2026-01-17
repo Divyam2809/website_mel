@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, Suspense } from 'react';
+import { initGA, logPageView } from './utils/analytics';
 
 // Lazy Load Pages for Performance Optimization
 const Home = React.lazy(() => import('./pages/Home'));
@@ -16,7 +17,6 @@ const FiveDChair = React.lazy(() => import('./pages/FiveDChair'));
 const VRLab = React.lazy(() => import('./pages/VRLab'));
 const VRElearning = React.lazy(() => import('./pages/VRElearning'));
 const VRERP = React.lazy(() => import('./pages/VRERP'));
-const VRIndustrial = React.lazy(() => import('./pages/VRIndustrial'));
 const VRAnimalSurgery = React.lazy(() => import('./pages/VRAnimalSurgery'));
 const VRUdyog = React.lazy(() => import('./pages/VRUdyog'));
 const VRRealEstate = React.lazy(() => import('./pages/VRRealEstate'));
@@ -31,23 +31,35 @@ const VRLiveStream = React.lazy(() => import('./pages/VRLiveStream'));
 const VRTourism = React.lazy(() => import('./pages/VRTourism'));
 const VirtualHeritage = React.lazy(() => import('./pages/VirtualHeritage'));
 const CityGuides = React.lazy(() => import('./pages/CityGuides'));
+const OthersCustom = React.lazy(() => import('./pages/OthersCustom'));
 const MelzoNews = React.lazy(() => import('./MelzoNews'));
 const BlogDetail = React.lazy(() => import('./pages/BlogDetail'));
-const PrivacyPolicy = React.lazy(() => import('./pages/PrivacyPolicy'));
+const Careers = React.lazy(() => import('./pages/Careers'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
+const PrivacyPolicy = React.lazy(() => import('./pages/PrivacyPolicy'));
 
 
+// Admin Panel Components
 // Admin Panel Components
 const AdminLogin = React.lazy(() => import('./components/admin/AdminLogin'));
 const AdminDashboard = React.lazy(() => import('./components/admin/AdminDashboard'));
 const ContentManager = React.lazy(() => import('./components/admin/ContentManager'));
 const BlogForm = React.lazy(() => import('./components/admin/BlogForm'));
 const FooterManager = React.lazy(() => import('./components/admin/FooterManager'));
+const DataStripManager = React.lazy(() => import('./components/admin/DataStripManager'));
+const GlobalMomentumManager = React.lazy(() => import('./components/admin/GlobalMomentumManager'));
+const JobManager = React.lazy(() => import('./components/admin/JobManager'));
+const JobApplications = React.lazy(() => import('./components/admin/JobApplications'));
+const LoginLogs = React.lazy(() => import('./components/admin/LoginLogs'));
+const UserManager = React.lazy(() => import('./components/admin/UserManager'));
 
 import Footer from './components/Footer';
 import BookDemo from './components/BookDemo';
+import ContactInfoModal from './components/ContactInfoModal';
 import Toast from './components/Toast';
 import ProductComparison from './components/ProductComparison';
+import VRIndustrial from './pages/VRIndustrial';
+import ErrorBoundary from './components/ErrorBoundary';
 
 import { Routes, Route, useNavigate, useLocation, Navigate, useParams } from 'react-router-dom';
 
@@ -62,8 +74,19 @@ const GenericProductWrapper = (props) => {
 };
 
 export default function App() {
-    const [isDarkTheme, setIsDarkTheme] = useState(false);
+    const [isDarkTheme, setIsDarkTheme] = useState(() => {
+        // Initialize from localStorage or default to false
+        const savedTheme = localStorage.getItem('isDarkTheme');
+        return savedTheme ? JSON.parse(savedTheme) : false;
+    });
+
+    // Update localStorage whenever theme changes
+    useEffect(() => {
+        localStorage.setItem('isDarkTheme', JSON.stringify(isDarkTheme));
+    }, [isDarkTheme]);
+
     const [isDemoOpen, setIsDemoOpen] = useState(false);
+    const [isContactOpen, setIsContactOpen] = useState(false);
     const [isComparisonOpen, setIsComparisonOpen] = useState(false);
 
     const navigate = useNavigate();
@@ -74,11 +97,15 @@ export default function App() {
     usePageTitle();
     useMetaDescription();
 
+    // Initialize Google Analytics on Mount
+    useEffect(() => {
+        initGA();
+    }, []);
 
-
-    // Scroll to top when path changes
+    // Scroll to top and Log Page View when path changes
     useEffect(() => {
         window.scrollTo(0, 0);
+        logPageView();
     }, [location.pathname]);
 
     // PREVENT SCROLL RESTORATION ON REFRESH
@@ -114,6 +141,7 @@ export default function App() {
             'casestudies',
             'faqs',
             'about',
+            'careers',
             'guidelines',
             'melzonews'
         ];
@@ -145,6 +173,7 @@ export default function App() {
         onNavigate: handleNavigate, // Pass the adapter
         isDarkTheme,
         onBookDemo: () => setIsDemoOpen(true),
+        onContactUs: () => setIsContactOpen(true),
         onToggleTheme: () => setIsDarkTheme(!isDarkTheme),
         onCompareProducts: () => setIsComparisonOpen(true),
         showToast: { success, error, warning, info },
@@ -171,62 +200,72 @@ export default function App() {
             <div style={{ backgroundColor: isDarkTheme ? '#1A1A1A' : '#ffffff', minHeight: '100vh', color: isDarkTheme ? '#FFFFFF' : '#2D2D2D', fontFamily: 'Inter, sans-serif', transition: 'all 0.3s ease' }}>
 
                 {/* Page Routing - Wrapped in Suspense */}
-                <Suspense fallback={<PageLoader />}>
-                    <Routes>
-                        <Route path="/" element={<Navigate to="/home" replace />} />
-                        <Route path="/home" element={<Home {...commonProps} />} />
-                        <Route path="/products" element={<Products {...commonProps} />} />
-                        <Route path="/industries" element={<Industries {...commonProps} />} />
-                        <Route path="/blog" element={<Blog {...commonProps} />} />
-                        <Route path="/blog/:slug" element={<BlogDetail {...commonProps} />} />
-                        <Route path="/casestudies" element={<CaseStudies {...commonProps} />} />
-                        <Route path="/faqs" element={<FAQs {...commonProps} />} />
-                        <Route path="/about" element={<About {...commonProps} />} />
-                        <Route path="/guidelines" element={<Guidelines {...commonProps} />} />
-                        <Route path="/melzonews" element={<MelzoNews {...commonProps} />} />
-                        <Route path="/privacy-policy" element={<PrivacyPolicy {...commonProps} />} />
+                <ErrorBoundary>
+                    <Suspense fallback={<PageLoader />}>
+                        <Routes>
+                            <Route path="/" element={<Navigate to="/home" replace />} />
+                            <Route path="/home" element={<Home {...commonProps} />} />
+                            <Route path="/products" element={<Products {...commonProps} />} />
+                            <Route path="/industries" element={<Industries {...commonProps} />} />
+                            <Route path="/blog" element={<Blog {...commonProps} />} />
+                            <Route path="/blog/:slug" element={<BlogDetail {...commonProps} />} />
+                            <Route path="/casestudies" element={<CaseStudies {...commonProps} />} />
+                            <Route path="/faqs" element={<FAQs {...commonProps} />} />
+                            <Route path="/about" element={<About {...commonProps} />} />
+                            <Route path="/careers" element={<Careers {...commonProps} />} />
+                            <Route path="/guidelines" element={<Guidelines {...commonProps} />} />
+                            <Route path="/melzonews" element={<MelzoNews {...commonProps} />} />
+                            <Route path="/privacy-policy" element={<PrivacyPolicy {...commonProps} />} />
 
-                        {/* Product Pages Redesigned Route Structure */}
+                            {/* Product Pages Redesigned Route Structure */}
 
-                        {/* Dynamic Generic Product Route */}
-                        <Route path="/products/:productId" element={<GenericProductWrapper {...commonProps} />} />
+                            {/* Specific Product Routes (Nested under /products/ for cleaner browsing) */}
+                            <Route path="/products/anubhav" element={<AnubhavProduct {...commonProps} />} />
+                            <Route path="/products/ninedchair" element={<NineDChair {...commonProps} />} />
+                            <Route path="/products/fivedchair" element={<FiveDChair {...commonProps} />} />
+                            <Route path="/products/vrlab" element={<VRLab {...commonProps} />} />
+                            <Route path="/products/vrelearning" element={<VRElearning {...commonProps} />} />
+                            <Route path="/products/vrerp" element={<VRERP {...commonProps} />} />
+                            <Route path="/products/vrindustrial" element={<VRIndustrial {...commonProps} />} />
+                            <Route path="/products/vranimalsurgery" element={<VRAnimalSurgery {...commonProps} />} />
+                            <Route path="/products/vrudyog" element={<VRUdyog {...commonProps} />} />
+                            <Route path="/products/vrrealestate" element={<VRRealEstate {...commonProps} />} />
+                            <Route path="/products/vrhospitality" element={<VRHospitality {...commonProps} />} />
+                            <Route path="/products/vrexhibition" element={<VRExhibition {...commonProps} />} />
+                            <Route path="/products/vrkala" element={<VRKala {...commonProps} />} />
+                            <Route path="/products/vrcrimescene" element={<VRCrimeScene {...commonProps} />} />
+                            <Route path="/products/dronesimulator" element={<DroneSimulator {...commonProps} />} />
+                            <Route path="/products/aircraftsimulator" element={<AircraftSimulator {...commonProps} />} />
+                            <Route path="/products/vrdefence" element={<VRDefence {...commonProps} />} />
+                            <Route path="/products/vrlivestream" element={<VRLiveStream {...commonProps} />} />
+                            <Route path="/products/vrtourism" element={<VRTourism {...commonProps} />} />
+                            <Route path="/products/virtualheritage" element={<VirtualHeritage {...commonProps} />} />
+                            <Route path="/products/cityguides" element={<CityGuides {...commonProps} />} />
+                            <Route path="/products/custom-solutions" element={<OthersCustom {...commonProps} />} />
 
-                        {/* Specific Product Routes (Nested under /products/ for cleaner browsing) */}
-                        <Route path="/products/anubhav" element={<AnubhavProduct {...commonProps} />} />
-                        <Route path="/products/ninedchair" element={<NineDChair {...commonProps} />} />
-                        <Route path="/products/fivedchair" element={<FiveDChair {...commonProps} />} />
-                        <Route path="/products/vrlab" element={<VRLab {...commonProps} />} />
-                        <Route path="/products/vrelearning" element={<VRElearning {...commonProps} />} />
-                        <Route path="/products/vrerp" element={<VRERP {...commonProps} />} />
-                        <Route path="/products/vrindustrial" element={<VRIndustrial {...commonProps} />} />
-                        <Route path="/products/vranimalsurgery" element={<VRAnimalSurgery {...commonProps} />} />
-                        <Route path="/products/vrudyog" element={<VRUdyog {...commonProps} />} />
-                        <Route path="/products/vrrealestate" element={<VRRealEstate {...commonProps} />} />
-                        <Route path="/products/vrhospitality" element={<VRHospitality {...commonProps} />} />
-                        <Route path="/products/vrexhibition" element={<VRExhibition {...commonProps} />} />
-                        <Route path="/products/vrkala" element={<VRKala {...commonProps} />} />
-                        <Route path="/products/vrcrimescene" element={<VRCrimeScene {...commonProps} />} />
-                        <Route path="/products/dronesimulator" element={<DroneSimulator {...commonProps} />} />
-                        <Route path="/products/aircraftsimulator" element={<AircraftSimulator {...commonProps} />} />
-                        <Route path="/products/vrdefence" element={<VRDefence {...commonProps} />} />
-                        <Route path="/products/vrlivestream" element={<VRLiveStream {...commonProps} />} />
-                        <Route path="/products/vrtourism" element={<VRTourism {...commonProps} />} />
-                        <Route path="/products/virtualheritage" element={<VirtualHeritage {...commonProps} />} />
-                        <Route path="/products/cityguides" element={<CityGuides {...commonProps} />} />
+                            {/* Dynamic Generic Product Route */}
+                            <Route path="/products/:productId" element={<GenericProductWrapper {...commonProps} />} />
 
-                        {/* Admin Panel Routes */}
-                        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-                        <Route path="/admin/login" element={<AdminLogin />} />
-                        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                        <Route path="/admin/content/:moduleType" element={<ContentManager />} />
-                        <Route path="/admin/footer" element={<FooterManager />} />
-                        <Route path="/admin/editor" element={<BlogForm />} />
-                        <Route path="/admin/editor/:slug" element={<BlogForm />} />
+                            {/* Admin Panel Routes */}
+                            <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+                            <Route path="/admin/login" element={<AdminLogin />} />
+                            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                            <Route path="/admin/content/jobs" element={<JobManager />} />
+                            <Route path="/admin/content/job-applications" element={<JobApplications />} />
+                            <Route path="/admin/content/users" element={<UserManager />} />
+                            <Route path="/admin/content/:moduleType" element={<ContentManager />} />
+                            <Route path="/admin/footer" element={<FooterManager />} />
+                            <Route path="/admin/data-strip" element={<DataStripManager />} />
+                            <Route path="/admin/global-momentum" element={<GlobalMomentumManager />} />
+                            <Route path="/admin/logs" element={<LoginLogs />} />
+                            <Route path="/admin/editor" element={<BlogForm />} />
+                            <Route path="/admin/editor/:slug" element={<BlogForm />} />
 
-                        {/* Fallback - 404 Page */}
-                        <Route path="*" element={<NotFound {...commonProps} />} />
-                    </Routes>
-                </Suspense>
+                            {/* Fallback - 404 Page */}
+                            <Route path="*" element={<NotFound {...commonProps} />} />
+                        </Routes>
+                    </Suspense>
+                </ErrorBoundary>
 
                 {/* Common Footer for all pages - Hidden on Admin Routes */}
                 {!location.pathname.startsWith('/admin') && (
@@ -239,6 +278,13 @@ export default function App() {
             <BookDemo
                 isOpen={isDemoOpen}
                 onClose={() => setIsDemoOpen(false)}
+                isDarkTheme={isDarkTheme}
+            />
+
+            {/* Contact Info Modal */}
+            <ContactInfoModal
+                isOpen={isContactOpen}
+                onClose={() => setIsContactOpen(false)}
                 isDarkTheme={isDarkTheme}
             />
 
@@ -300,27 +346,34 @@ function ScrollToTopButton({ isDarkTheme }) {
             {isVisible && (
                 <button
                     onClick={scrollToTop}
+                    title="Back to top"
                     style={{
                         position: 'fixed',
                         bottom: '30px',
                         right: '30px',
-                        backgroundColor: 'transparent',
+                        backgroundColor: isDarkTheme ? '#1A1A1A' : '#FFFFFF',
                         color: '#FF9B50',
                         width: '50px',
                         height: '50px',
                         borderRadius: '50%',
-                        border: '2px solid #FF9B50',
+                        border: `2px solid ${isDarkTheme ? '#FF9B50' : '#FF9B50'}`, // Updated border color
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         fontSize: '1.5rem',
-                        boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-                        zIndex: 1000,
-                        transition: 'transform 0.3s ease'
+                        boxShadow: isDarkTheme ? '0 8px 25px rgba(0,0,0,0.4)' : '0 8px 25px rgba(0,0,0,0.15)',
+                        zIndex: 10000,
+                        transition: 'all 0.3s ease'
                     }}
-                    onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
-                    onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.1) translateY(-5px)';
+                        e.currentTarget.style.boxShadow = isDarkTheme ? '0 12px 30px rgba(0,0,0,0.6)' : '0 12px 30px rgba(0,0,0,0.2)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1) translateY(0)';
+                        e.currentTarget.style.boxShadow = isDarkTheme ? '0 8px 25px rgba(0,0,0,0.4)' : '0 8px 25px rgba(0,0,0,0.15)';
+                    }}
                 >
                     ↑
                 </button>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import mockStorage from '../services/mockStorage';
+import footerService from '../services/footerService';
 
 export default function Footer({ isDarkTheme, onNavigate }) {
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function Footer({ isDarkTheme, onNavigate }) {
     useEffect(() => {
         const loadFooter = async () => {
             try {
-                const res = await mockStorage.getFooterConfig();
+                const res = await footerService.getFooterConfig();
                 if (res.data) setConfig(res.data);
             } catch (error) {
                 console.error("Failed to load footer config", error);
@@ -38,8 +38,7 @@ export default function Footer({ isDarkTheme, onNavigate }) {
             boxShadow: isDarkTheme
                 ? 'none'
                 : '0 -4px 20px rgba(0, 0, 0, 0.05)'
-        }}>
-
+        }} >
 
 
             <hr style={{ borderColor: borderColor, opacity: 0.3, marginBottom: '4rem', maxWidth: '1400px', margin: '0 auto 4rem auto' }} />
@@ -178,10 +177,18 @@ export default function Footer({ isDarkTheme, onNavigate }) {
                     <div>
                         <h4 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '1.2rem', color: textColor }}>Contact Us</h4>
 
+                        {config.contact.email && (
+                            <div style={{ marginBottom: '1rem' }}>
+                                <strong style={{ display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem', color: textColor }}>Email -</strong>
+                                <a href={`mailto:${config.contact.email}`} style={{ color: subTextColor, fontSize: '0.9rem', textDecoration: 'none' }}>{config.contact.email}</a>
+                            </div>
+                        )}
+
                         <div style={{ marginBottom: '1rem' }}>
                             <strong style={{ display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem', color: textColor }}>Phone Number -</strong>
                             <span style={{ color: subTextColor, fontSize: '0.9rem' }}>{config.contact.phone}</span>
                         </div>
+
 
                         <div>
                             <strong style={{ display: 'block', fontSize: '0.95rem', marginBottom: '0.2rem', color: textColor }}>Registered Office Address -</strong>

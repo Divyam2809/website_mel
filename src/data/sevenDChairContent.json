@@ -1,0 +1,115 @@
+{
+  "hero": {
+    "titleLine1": "India's",
+    "titleHighlight1": "First",
+    "titleLine2": "Interactive",
+    "titleHighlight2": "7D",
+    "titleLine3": "Lab",
+    "description": "Experience the future of education",
+    "btnBook": "Book A Demo",
+    "btnGuidelines": "View Guidelines",
+    "btnFiveD": "Switch to 5D Lab"
+  },
+  "features": {
+    "items": []
+  },
+  "stats": {
+    "items": [
+      {
+        "value": "13+",
+        "label": "Renowned Publications",
+        "sub": "COVERED IN"
+      },
+      {
+        "value": "75%",
+        "label": "Increased Learning Retention",
+        "sub": "UPTO"
+      }
+    ],
+    "title": "Proven Impact & Recognition",
+    "description": "Our commitment to excellence is reflected in our achievements and the success of our users"
+  },
+  "news": {
+    "items": []
+  },
+  "whyChoose": {
+    "items": [
+      {
+        "title": "Built for Institutions",
+        "desc": "Designed specifically for schools, universities, and training centers."
+      },
+      {
+        "title": "Immersive Learning",
+        "desc": "Blends cutting-edge motion effects with virtual reality simulations."
+      },
+      {
+        "title": "Hands-on Virtual Experiments",
+        "desc": "Enable lifelike science and technology experiments in a safe, interactive environment."
+      },
+      {
+        "title": "Historical Exploration",
+        "desc": "Let users journey through the pages of history like never before."
+      },
+      {
+        "title": "Multi-Dimensional Education",
+        "desc": "Brings science, technology, and history to life in an entirely new dimension."
+      },
+      {
+        "title": "Future-Ready Platform",
+        "desc": "The future of education isn't just coming—it's already here with Melzo Anubhav! Experience the future with our 7D premium features."
+      }
+    ],
+    "title": "Why Choose Melzo Anubhav 7D Chair",
+    "description": "Melzo Anubhav is India's First interactive education revolution powered by virtual reality! Experience premium features with our 7D offering."
+  },
+  "compare": {
+    "fiveD": {
+      "features": [
+        {
+          "label": "5 degree of Immersion",
+          "value": "360° Rotation, Vibration, Mist, Fragrance, Air Blasts"
+        },
+        {
+          "label": "VR Devices",
+          "value": "Meta Quest 2 and Meta Quest 3s"
+        },
+        {
+          "label": "Content Subscription",
+          "value": "3 years (included in price)"
+        },
+        {
+          "label": "Warranty",
+          "value": "3 years (chair), 1 year (electronics)"
+        },
+        {
+          "label": "Color Options",
+          "value": "Available in 5 colors"
+        }
+      ],
+      "title": "5D Chair"
+    },
+    "sevenD": {
+      "features": [
+        {
+          "label": "VR Devices",
+          "value": "Meta Quest 2 and Meta Quest 3s"
+        },
+        {
+          "label": "Content Subscription",
+          "value": "3 years (included in price)"
+        },
+        {
+          "label": "Warranty",
+          "value": "3 years (chair), 1 year (electronics)"
+        },
+        {
+          "label": "Color Options",
+          "value": "Available in 7 colors"
+        }
+      ],
+      "title": "7D Chair",
+      "immersiveLabel": "7 degree of Immersion",
+      "immersiveValue": "360° Rotation, Vibration, Rocking, Recliner, Mist, Air Blasts, Fragrance"
+    }
+  }
+}

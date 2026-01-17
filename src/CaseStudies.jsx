@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
 
 import AppNav from './components/AppNav';
-import mockStorage from './services/mockStorage';
+import caseStudyService from './services/caseStudyService';
+import CaseStudyModal from './components/CaseStudyModal';
 import './styles/Industries.css'; // Using the Industry Card styles
 
 export default function CaseStudies({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const [caseStudies, setCaseStudies] = useState([]);
+    const [selectedStudy, setSelectedStudy] = useState(null);
 
     useEffect(() => {
         const fetchCaseStudies = async () => {
             try {
-                const response = await mockStorage.getCaseStudies();
-                const visible = response.data.filter(s =>
-                    s.status === 'Published' || (!s.status && s.isVisible !== false)
-                ).map(s => ({
-                    ...s,
-                    summary: s.description || s.summary // Handle both fields
+                const response = await caseStudyService.getAll();
+                // Ensure IDs are consistent
+                const normalizedData = (response.data || []).map(item => ({
+                    ...item,
+                    _id: item._id || item.id,
+                    summary: item.description || item.summary // Handle both fields
                 }));
+                const visible = normalizedData.filter(s => s.isVisible);
                 setCaseStudies(visible);
             } catch (error) {
                 console.error("Failed to load case studies", error);
@@ -47,8 +50,12 @@ export default function CaseStudies({ onNavigate, isDarkTheme, onBookDemo, onTog
                                 borderRadius: '20px',
                                 border: isDarkTheme ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.12)',
                                 boxShadow: isDarkTheme ? '0 4px 20px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.08)',
-                                transition: 'all 0.3s ease'
+                                transition: 'all 0.3s ease',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                flexDirection: 'column'
                             }}
+                                onClick={() => setSelectedStudy(item)}
                                 onMouseEnter={(e) => {
                                     e.currentTarget.style.transform = 'translateY(-5px)';
                                     e.currentTarget.style.boxShadow = isDarkTheme ? '0 12px 30px rgba(0,0,0,0.5)' : '0 12px 30px rgba(0,0,0,0.15)';
@@ -60,13 +67,20 @@ export default function CaseStudies({ onNavigate, isDarkTheme, onBookDemo, onTog
                                     e.currentTarget.style.borderColor = isDarkTheme ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.12)';
                                 }}
                             >
-                                <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>{item.title}</h3>
-                                <p>{item.summary}</p>
+                                <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', fontWeight: 700 }}>{item.title}</h3>
+                                <p style={{ flex: 1, opacity: 0.8, lineHeight: 1.6 }}>{item.summary}</p>
+                                <div style={{ marginTop: '1.5rem', color: '#FF9B50', fontWeight: 600, fontSize: '0.9rem' }}>Read Success Story &rarr;</div>
                             </div>
                         ))}
                     </div>
                 </div>
             </div>
+
+            <CaseStudyModal
+                study={selectedStudy}
+                onClose={() => setSelectedStudy(null)}
+                isDarkTheme={isDarkTheme}
+            />
         </>
     );
 }

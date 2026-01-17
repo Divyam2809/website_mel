@@ -3,6 +3,9 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import BlockEditor from './BlockEditor';
 import DragDropFile from './DragDropFile';
 import AdminSidebar from './AdminSidebar';
+import AdminNav from './AdminNav';
+import blogService from '../../services/blogService';
+import caseStudyService from '../../services/caseStudyService';
 import mockStorage from '../../services/mockStorage';
 import './admin.css';
 
@@ -12,10 +15,18 @@ const BlogForm = () => {
     const initialType = searchParams.get('type') || 'blog';
 
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const user = JSON.parse(sessionStorage.getItem('user') || '{}');
     const isSuperAdmin = user.role === 'superadmin';
+    const isHR = user.role === 'hr';
     const [contentType, setContentType] = useState(initialType);
     const isEdit = !!slug;
+
+    // Role-based access control
+    useEffect(() => {
+        if (isHR) {
+            navigate('/admin/content/jobs');
+        }
+    }, [isHR, navigate]);
 
     const [formData, setFormData] = useState({
         title: '',
@@ -39,6 +50,7 @@ const BlogForm = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [loading, setLoading] = useState(false);
     const [stats, setStats] = useState({});
+    const [showConfirm, setShowConfirm] = useState(false);
 
     useEffect(() => {
         const loadStats = async () => {
@@ -77,12 +89,12 @@ const BlogForm = () => {
         try {
             let data;
             if (contentType === 'blog') {
-                const response = await mockStorage.getBlog(slug);
+                const response = await blogService.getById(slug);
                 data = response.data;
             } else {
-                const response = await mockStorage.getCaseStudies();
+                const response = await caseStudyService.getAll();
                 const allStudies = response.data;
-                data = allStudies.find(s => s._id === slug || s.slug === slug);
+                data = allStudies.find(s => s._id === slug || s.slug === slug || s.id === slug);
             }
 
             if (data) {
@@ -103,7 +115,13 @@ const BlogForm = () => {
                 }
             }
         } catch (error) {
-            console.error('Error fetching data', error);
+            console.error('Error fetching data:', error);
+            console.error('Slug:', slug);
+            console.error('Content Type:', contentType);
+            // Don't show alert for new posts
+            if (slug) {
+                alert(`Error loading ${contentType}: ${error.message}`);
+            }
         }
     };
 
@@ -117,8 +135,13 @@ const BlogForm = () => {
 
 
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
+        setShowConfirm(true);
+    };
+
+    const confirmPublish = async () => {
+        setShowConfirm(false);
         setLoading(true);
 
         const dataToSave = {
@@ -127,7 +150,8 @@ const BlogForm = () => {
             mediaUrl: formData.videoUrl,
             type: contentType === 'casestudy' ? (formData.videoUrl ? 'video' : 'image') : undefined,
             content: formData.content,
-            isVisible: formData.status === 'Published'
+            isVisible: formData.status === 'Published',
+            author: { name: formData.author } // Ensure author is saved as an object
         };
 
         if (typeof dataToSave.metaKeywords === 'string') {
@@ -136,17 +160,17 @@ const BlogForm = () => {
 
         try {
             if (isEdit) {
-                const idToUpdate = formData._id || slug;
+                const idToUpdate = formData._id || formData.id || slug;
                 if (contentType === 'blog') {
-                    await mockStorage.updateBlog(idToUpdate, dataToSave);
+                    await blogService.update(idToUpdate, dataToSave);
                 } else {
-                    await mockStorage.updateCaseStudy(idToUpdate, dataToSave);
+                    await caseStudyService.update(idToUpdate, dataToSave);
                 }
             } else {
                 if (contentType === 'blog') {
-                    await mockStorage.saveBlog(dataToSave);
+                    await blogService.create(dataToSave);
                 } else {
-                    await mockStorage.saveCaseStudy(dataToSave);
+                    await caseStudyService.create(dataToSave);
                 }
             }
             navigate(`/admin/content/${contentType}`);
@@ -155,7 +179,7 @@ const BlogForm = () => {
             if (error.name === 'QuotaExceededError' || (error.code === 22) || (error.number === -2147024882)) {
                 alert('Storage Full! The image you are trying to upload is likely too large. Please try a smaller image (under 500KB).');
             } else {
-                alert(`Error saving content: ${error.message || 'Unknown error'}`);
+                alert(`Error saving item: ${error.message || 'Unknown error'}`);
             }
         } finally {
             setLoading(false);
@@ -165,11 +189,11 @@ const BlogForm = () => {
     const handleDelete = async () => {
         if (!window.confirm('Are you sure you want to delete this content?')) return;
         try {
-            const idToDelete = formData._id || slug;
+            const idToDelete = formData._id || formData.id || slug;
             if (contentType === 'blog') {
-                await mockStorage.deleteBlog(idToDelete);
+                await blogService.delete(idToDelete);
             } else {
-                await mockStorage.deleteCaseStudy(idToDelete);
+                await caseStudyService.delete(idToDelete);
             }
             navigate(`/admin/content/${contentType}`);
         } catch (error) {
@@ -184,91 +208,8 @@ const BlogForm = () => {
                 <div style={{ backgroundColor: '#ffffff', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
                     {/* Header */}
                     {/* Header */}
-                    <div className="admin-header">
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <img src="/assets/Melzo_Logo.svg" alt="Melzo" style={{ height: '40px', cursor: 'pointer' }} onClick={() => navigate('/admin/dashboard')} />
-                        </div>
-
-                        {/* RIGHT: Nav & Logout Group */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
-                            {/* Nav Links */}
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                {['Analytics', 'Recent Queries', 'Content Management'].map((item) => (
-                                    <button
-                                        key={item}
-                                        onClick={() => {
-                                            const id = item.toLowerCase().replace(/ /g, '-');
-                                            navigate(`/admin/dashboard#${id}`);
-                                        }}
-                                        style={{
-                                            background: 'transparent',
-                                            border: 'none',
-                                            fontSize: '0.95rem',
-                                            fontWeight: 600,
-                                            color: '#666',
-                                            cursor: 'pointer',
-                                            transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                            padding: '8px 20px',
-                                            borderRadius: '50px',
-                                            position: 'relative',
-                                            overflow: 'hidden'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.color = '#FF9B50';
-                                            e.target.style.background = 'rgba(255, 155, 80, 0.08)';
-                                            e.target.style.transform = 'translateY(-2px)';
-                                            e.target.style.boxShadow = '0 4px 12px rgba(255, 155, 80, 0.15)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.color = '#666';
-                                            e.target.style.background = 'transparent';
-                                            e.target.style.transform = 'translateY(0)';
-                                            e.target.style.boxShadow = 'none';
-                                        }}
-                                    >
-                                        {item}
-                                    </button>
-                                ))}
-                            </div>
-
-                            <button
-                                onClick={() => {
-                                    localStorage.removeItem('user');
-                                    navigate('/admin/login');
-                                }}
-                                style={{
-                                    background: 'linear-gradient(135deg, #FF9B50 0%, #FF6B00 100%)',
-                                    color: 'white',
-                                    border: 'none',
-                                    padding: '12px 32px',
-                                    borderRadius: '50px',
-                                    cursor: 'pointer',
-                                    fontWeight: 700,
-                                    fontSize: '0.95rem',
-                                    transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                    boxShadow: '0 4px 15px rgba(255, 155, 80, 0.3)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '10px'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.target.style.transform = 'translateY(-3px) scale(1.05)';
-                                    e.target.style.boxShadow = '0 10px 25px rgba(255, 155, 80, 0.5)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.target.style.transform = 'translateY(0) scale(1)';
-                                    e.target.style.boxShadow = '0 4px 15px rgba(255, 155, 80, 0.3)';
-                                }}
-                            >
-                                <span>Logout</span>
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                                    <polyline points="16 17 21 12 16 7"></polyline>
-                                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+                    <AdminNav />
+                    <div style={{ height: '100px' }}></div>
 
                     {/* Sub Header for Navigation Back */}
                     <div style={{ padding: '0 5%', maxWidth: '1400px', margin: '20px auto 0' }}>
@@ -469,7 +410,69 @@ const BlogForm = () => {
                     </div>
                 </div>
 
+                {/* Confirmation Modal */}
+                {showConfirm && (
+                    <div style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 10000
+                    }} onClick={() => setShowConfirm(false)}>
+                        <div style={{
+                            background: 'white',
+                            borderRadius: '16px',
+                            padding: '2rem',
+                            maxWidth: '500px',
+                            width: '90%',
+                            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
+                        }} onClick={(e) => e.stopPropagation()}>
+                            <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#2D2D2D', margin: '0 0 1rem 0' }}>
+                                Confirm {isEdit ? 'Update' : 'Publish'}
+                            </h3>
+                            <p style={{ opacity: 0.8, margin: '0 0 1.5rem 0' }}>
+                                Are you sure you want to {isEdit ? 'update' : 'publish'} this {contentType === 'blog' ? 'blog post' : 'case study'}?
+                            </p>
+                            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+                                <button
+                                    onClick={() => setShowConfirm(false)}
+                                    style={{
+                                        background: 'transparent',
+                                        color: '#6b7280',
+                                        border: '1px solid #d1d5db',
+                                        padding: '10px 24px',
+                                        borderRadius: '20px',
+                                        cursor: 'pointer',
+                                        fontWeight: 600
+                                    }}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={confirmPublish}
+                                    style={{
+                                        background: '#FF9B50',
+                                        color: 'white',
+                                        border: 'none',
+                                        padding: '10px 24px',
+                                        borderRadius: '20px',
+                                        cursor: 'pointer',
+                                        fontWeight: 600
+                                    }}
+                                >
+                                    Confirm
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
+
         </div>
     );
 };

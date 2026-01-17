@@ -1,0 +1,94 @@
+{
+    "hero": {
+        "title": "History is No Longer a Spectator Sport",
+        "subtitle": "Melzo VR bridges the gap between centuries, allowing students and visitors to 'live' the art, music, and culture they used to only read about.",
+        "primaryBtn": "Bring Culture to Life",
+        "secondaryBtn": "Request a Curated Demo"
+    },
+    "immersionTrio": {
+        "title": "The Immersion Trio",
+        "subtitle": "Experience culture through three revolutionary dimensions",
+        "features": [
+            {
+                "title": "Virtual Time Travel",
+                "desc": "Walking through reconstructed historical sites with 360-degree historical accuracy.",
+                "number": "01"
+            },
+            {
+                "title": "Interactive Art & Music",
+                "desc": "Allowing users to 'conduct' a virtual symphony or 'paint' alongside digital masters to understand technique.",
+                "number": "02"
+            },
+            {
+                "title": "Global Heritage Access",
+                "desc": "Bringing the world's most remote or fragile cultural artifacts to local classrooms and museums.",
+                "number": "03"
+            }
+        ]
+    },
+    "impactPillars": {
+        "title": "The Impact Pillars",
+        "subtitle": "Transforming cultural education through immersive technology",
+        "pillars": [
+            {
+                "num": "01",
+                "title": "Deep Emotional Connection",
+                "desc": "Using first-person perspectives to build empathy and understanding of diverse cultural practices."
+            },
+            {
+                "num": "02",
+                "title": "Active Preservation",
+                "desc": "How VR creates a permanent, interactive digital record of history that cannot be damaged or lost."
+            },
+            {
+                "num": "03",
+                "title": "Multi-Sensory Learning",
+                "desc": "Combining sight, sound, and interaction to boost retention rates by up to 75% compared to traditional lectures."
+            }
+        ]
+    },
+    "benefits": {
+        "title": "Who Benefits from Cultural Immersion",
+        "subtitle": "Tailored solutions for every cultural institution",
+        "features": [
+            {
+                "audience": "Museums & Galleries",
+                "focus": "Living Exhibits",
+                "benefit": "Attracting younger demographics and increasing visitor dwell time with interactive experiences that make history come alive."
+            },
+            {
+                "audience": "K-12 & Higher Ed",
+                "focus": "Experiential Field Trips",
+                "benefit": "Enhancing Humanities and Arts curriculum with immersive experiences that cost zero in travel while delivering maximum educational impact."
+            },
+            {
+                "audience": "Cultural Centers",
+                "focus": "Heritage Preservation",
+                "benefit": "Community engagement and preserving local heritage for future generations through interactive digital archives."
+            }
+        ]
+    },
+    "stats": {
+        "title": "Why Melzo: Authenticity & Accessibility",
+        "subtitle": "Melzo partners with historians and artists to ensure simulations are accurate, while providing a 'plug-and-play' setup that requires no technical expertise from staff.",
+        "cta": "Experience Cultural Immersion →",
+        "items": [
+            {
+                "label": "Historical Accuracy",
+                "value": "100%"
+            },
+            {
+                "label": "Setup Time",
+                "value": "< 30 min"
+            },
+            {
+                "label": "Technical Expertise Required",
+                "value": "Zero"
+            },
+            {
+                "label": "Retention Improvement",
+                "value": "75%"
+            }
+        ]
+    }
+}

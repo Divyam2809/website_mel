@@ -95,9 +95,9 @@ textarea {
 .admin-sidebar {
     position: fixed;
     left: 0;
-    top: 70px;
+    top: 80px;
     width: 280px;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 80px);
     background: white;
     border-right: 1px solid #f3f4f6;
     z-index: 1000;
@@ -210,7 +210,7 @@ textarea {
     margin-left: 280px;
     width: calc(100% - 280px);
     min-height: 100vh;
-    padding-top: 70px;
+    padding-top: 80px;
     /* Space for fixed header */
 }
 
@@ -220,7 +220,7 @@ textarea {
     top: 0;
     left: 0;
     right: 0;
-    height: 70px;
+    height: 80px;
     background: white;
     display: flex;
     align-items: center;

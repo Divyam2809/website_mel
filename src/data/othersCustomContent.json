@@ -1,0 +1,143 @@
+{
+    "hero": {
+        "badge": "Others / Custom",
+        "title": "Custom VR/AR Solutions: Tailored to Your Vision",
+        "subtitle": "Have a unique requirement? We build custom Virtual Reality and Augmented Reality solutions tailored to your specific industry needs and use cases. From bespoke development to strategic consultation, we bring your vision to life.",
+        "primaryBtn": "Build Your Vision",
+        "secondaryBtn": "Watch Custom Case Studies"
+    },
+    "trio": {
+        "title": "Our Custom Development Process",
+        "subtitle": "How we turn your ideas into immersive realities",
+        "features": [
+            {
+                "number": "01",
+                "title": "Bespoke Development",
+                "desc": "Tailor-made VR/AR applications designed from the ground up to solve your specific business challenges."
+            },
+            {
+                "number": "02",
+                "title": "Consultation & Strategy",
+                "desc": "Expert guidance on how to leverage immersive technology to achieve your organizational goals."
+            },
+            {
+                "number": "03",
+                "title": "Cross-Platform Support",
+                "desc": "Ensuring your custom solution works seamlessly across headsets, mobile, and web platforms."
+            }
+        ]
+    },
+    "pillars": {
+        "title": "Why Choose Melzo for Custom Solutions",
+        "subtitle": "Expertise, innovation, and global scale",
+        "items": [
+            {
+                "num": "01",
+                "title": "Future-Proof Tech",
+                "desc": "We use the latest VR/AR frameworks to ensure your solution remains relevant for years to come."
+            },
+            {
+                "num": "02",
+                "title": "Rapid Prototyping",
+                "desc": "Go from concept to clickable prototype in weeks, not months, using our proprietary engine."
+            },
+            {
+                "num": "03",
+                "title": "Seamless Integration",
+                "desc": "We integrate VR/AR into your existing LMS, ERP, or web infrastructure with ease."
+            }
+        ]
+    },
+    "audience": {
+        "title": "Industry-Specific Custom Solutions",
+        "subtitle": "Transforming diverse sectors through tailored immersion",
+        "items": [
+            {
+                "audience": "Healthcare & Pharma",
+                "focus": "Precision Training",
+                "benefit": "Customized surgical simulations and patient education tools designed for strict regulatory environments."
+            },
+            {
+                "audience": "Manufacturing & R&D",
+                "focus": "Efficiency & Safety",
+                "benefit": "Digital twin visualizations and complex assembly training modules tailored to your specific machinery."
+            },
+            {
+                "audience": "Marketing & Retail",
+                "focus": "Brand Engagement",
+                "benefit": "Interactive brand experiences and virtual showrooms that drive customer loyalty and sales."
+            }
+        ]
+    },
+    "reach": {
+        "title": "Our Global Expertise",
+        "subtitle": "Delivering custom projects across continents",
+        "stats": [
+            {
+                "region": "Global Deployments",
+                "connections": "150+"
+            },
+            {
+                "region": "Happy Clients",
+                "connections": "85+"
+            },
+            {
+                "region": "Industry Awards",
+                "connections": "12"
+            },
+            {
+                "region": "R&D Hours",
+                "connections": "50K+"
+            }
+        ]
+    },
+    "engagement": {
+        "title": "The Impact of Custom Immersion",
+        "subtitle": "How tailored VR outperforms generic alternatives",
+        "items": [
+            {
+                "metric": "Process Efficiency",
+                "vr": "80%",
+                "video": "40%"
+            },
+            {
+                "metric": "User Adoption",
+                "vr": "95%",
+                "video": "60%"
+            },
+            {
+                "metric": "Error Reduction",
+                "vr": "70%",
+                "video": "30%"
+            },
+            {
+                "metric": "Recall Accuracy",
+                "vr": "90%",
+                "video": "50%"
+            }
+        ]
+    },
+    "why": {
+        "title": "Your Vision, Our Reality",
+        "subtitle": "Melzo combines deep technical expertise with a passion for innovation. We don't just build apps; we build experiences that matter. No matter how complex your vision, we have the tools and talent to make it happen.",
+        "cta": "Start Your Custom Journey →",
+        "stats": [
+            {
+                "label": "Full Integration",
+                "value": "100%"
+            },
+            {
+                "label": "Expert Support",
+                "value": "24/7"
+            },
+            {
+                "label": "Platform Reach",
+                "value": "Infinite"
+            },
+            {
+                "label": "Engagement Boost",
+                "value": "12x"
+            }
+        ]
+    }
+}

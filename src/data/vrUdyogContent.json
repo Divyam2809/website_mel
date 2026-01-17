@@ -1,0 +1,74 @@
+{
+    "hero": {
+        "badge": "VR Udyog - Industrial Training",
+        "title": "Master Industrial Skills Without the Risk",
+        "subtitle": "Comprehensive VR training for manufacturing, assembly, and industrial operations. Build expertise safely and efficiently.",
+        "primaryBtn": "Start Industrial Training",
+        "secondaryBtn": "View Training Catalog"
+    },
+    "industrialToolkit": {
+        "title": "The Industrial Toolkit",
+        "subtitle": "Advanced VR training for industrial operations",
+        "features": [
+            {
+                "title": "Equipment Operation",
+                "desc": "Train on heavy machinery, assembly lines, and specialized equipment without production downtime.",
+                "number": "01"
+            },
+            {
+                "title": "Safety Protocols",
+                "desc": "Practice lockout/tagout, confined space entry, and hazard identification in realistic scenarios.",
+                "number": "02"
+            },
+            {
+                "title": "Quality Control",
+                "desc": "Learn inspection procedures, defect identification, and quality assurance processes.",
+                "number": "03"
+            }
+        ]
+    },
+    "benefits": {
+        "title": "Who Benefits",
+        "subtitle": "Solutions for industrial training needs",
+        "features": [
+            {
+                "audience": "Manufacturing Plants",
+                "focus": "Operational Excellence",
+                "benefit": "Reduce training time and improve safety compliance with immersive equipment training."
+            },
+            {
+                "audience": "ITIs & Skill Centers",
+                "focus": "Practical Skills",
+                "benefit": "Provide hands-on training without expensive equipment or safety risks."
+            },
+            {
+                "audience": "Maintenance Teams",
+                "focus": "Technical Mastery",
+                "benefit": "Practice complex repairs and troubleshooting in a risk-free environment."
+            }
+        ]
+    },
+    "stats": {
+        "title": "Why Melzo Udyog",
+        "subtitle": "Reduce workplace accidents by 70% and training costs by 60% with our comprehensive industrial VR training platform.",
+        "cta": "Transform Your Training →",
+        "items": [
+            {
+                "label": "Accident Reduction",
+                "value": "70%"
+            },
+            {
+                "label": "Training Cost Savings",
+                "value": "60%"
+            },
+            {
+                "label": "Skill Proficiency",
+                "value": "90%"
+            },
+            {
+                "label": "Compliance Rate",
+                "value": "100%"
+            }
+        ]
+    }
+}

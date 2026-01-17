@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import mockStorage from '../services/mockStorage';
+import testimonialService from '../services/testimonialService';
 
 export default function Testimonials({ isDarkTheme }) {
     const [testimonials, setTestimonials] = useState([]);
@@ -7,10 +7,10 @@ export default function Testimonials({ isDarkTheme }) {
     useEffect(() => {
         const fetchTestimonials = async () => {
             try {
-                const response = await mockStorage.getTestimonials();
-                // Filter visible and take latest 3? Or just map them.
-                const visible = response.data.filter(t =>
-                    t.status === 'Published' || (!t.status && t.isVisible !== false)
+                const response = await testimonialService.getAll();
+                // Filter visible
+                const visible = (response.data || []).filter(t =>
+                    t.isVisible && t.status !== 'Draft'
                 );
                 setTestimonials(visible);
             } catch (error) {
@@ -51,7 +51,7 @@ export default function Testimonials({ isDarkTheme }) {
                 {/* Testimonial Cards */}
                 <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
                     gap: '2rem'
                 }}>
                     {testimonials.map((item, index) => (

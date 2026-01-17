@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AppNav from './components/AppNav';
-import mockStorage from './services/mockStorage';
+import newsService from './services/newsService';
 
 export default function MelzoNews({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const [selectedNews, setSelectedNews] = useState(null);
@@ -14,10 +14,13 @@ export default function MelzoNews({ onNavigate, isDarkTheme, onBookDemo, onToggl
     useEffect(() => {
         const fetchNews = async () => {
             try {
-                const response = await mockStorage.getNews();
-                const visibleNews = response.data.filter(item =>
-                    item.status === 'Published' || (!item.status && item.isVisible !== false)
-                );
+                const response = await newsService.getAll();
+                // Ensure IDs are consistent
+                const normalizedNews = (response.data || []).map(item => ({
+                    ...item,
+                    _id: item._id || item.id
+                }));
+                const visibleNews = normalizedNews.filter(item => item.isVisible);
                 setNewsItems(visibleNews);
             } catch (error) {
                 console.error("Failed to load news", error);
@@ -26,6 +29,21 @@ export default function MelzoNews({ onNavigate, isDarkTheme, onBookDemo, onToggl
 
         fetchNews();
     }, []);
+
+    // Prevent background scrolling when modal is open
+    useEffect(() => {
+        if (selectedNews) {
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+        };
+    }, [selectedNews]);
 
     // ... Keep existing filter logic ...
     const filteredNews = newsItems.filter(item => {

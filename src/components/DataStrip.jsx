@@ -1,18 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import mockStorage from '../services/mockStorage';
+import { useState, useEffect } from 'react';
+import dataStripService from '../services/dataStripService';
 
-export default function DataStrip() {
-    const [items, setItems] = useState([]);
+export default function DataStrip({ section = 'home' }) {
+    // Default fallback messages
+    const defaultMessages = {
+        home: [
+            "USED BY 120+ INSTITUTIONS ACROSS INDIA",
+            "COVERS K-12 TO HIGHER EDUCATION & INDUSTRIAL TRAINING",
+            "1,200+ STUDENTS IMPACTED PER LAB ANNUALLY",
+            "WORKS WITH CSR, GOVERNMENT & PRIVATE INSTITUTIONS"
+        ],
+        about: [
+            "INNOVATING LEARNING SINCE 2017",
+            "PIONEERS IN VIRTUAL REALITY EDUCATION",
+            "EMPOWERING 50K+ STUDENTS"
+        ]
+    };
+
+    const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        mockStorage.getTicker().then(res => {
-            if (res.data) setItems(res.data);
-        }).catch(err => console.error(err));
-    }, []);
+        const fetchConfig = async () => {
+            try {
+                const res = await dataStripService.getConfig();
+                const data = res.data?.data;
 
-    const visibleItems = items.filter(i => i.isVisible);
+                let targetMessages = [];
 
-    const displayItems = visibleItems;
+                if (Array.isArray(data)) {
+                    // Legacy: It's just a home array
+                    if (section === 'home') {
+                        targetMessages = data;
+                    }
+                } else if (data && typeof data === 'object') {
+                    // New Structure: { home: [], about: [] }
+                    const sectionData = data[section] || [];
+                    targetMessages = sectionData
+                        .filter(item => item.status === 'Published')
+                        .map(item => item.text);
+                }
+
+                // If nothing found or empty, use defaults
+                if (targetMessages.length > 0) {
+                    setMessages(targetMessages);
+                } else {
+                    setMessages(defaultMessages[section] || defaultMessages.home);
+                }
+
+            } catch (error) {
+                console.error("Failed to load Data Strip config", error);
+                setMessages(defaultMessages[section] || defaultMessages.home);
+            }
+        };
+        fetchConfig();
+    }, [section]);
 
     return (
         <section style={{
@@ -24,34 +65,34 @@ export default function DataStrip() {
         }}>
             <div style={{
                 display: 'flex',
-                animation: 'scroll 20s linear infinite',
+                animation: 'scroll 60s linear infinite',
                 whiteSpace: 'nowrap',
                 willChange: 'transform',
                 backfaceVisibility: 'hidden',
                 transform: 'translateZ(0)'
             }}>
                 {/* Duplicate content for seamless loop */}
-                {[1, 2, 3, 4, 5, 6].map((_, index) => (
-                    <div key={index} style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '3rem',
-                        paddingRight: '3rem'
-                    }}>
-                        {displayItems.map((item, idx) => (
-                            <React.Fragment key={idx}>
+                {[...Array(6)].map((_, i) => (
+                    <div key={i} style={{ display: 'flex' }}>
+                        {messages.map((msg, index) => (
+                            <div key={index} style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '3rem',
+                                paddingRight: '3rem'
+                            }}>
                                 <span style={{
                                     color: '#ffffff',
                                     fontSize: '0.9rem',
                                     fontWeight: 600,
                                     letterSpacing: '2px',
                                     fontFamily: 'Inter, sans-serif'
-                                }}>{item.text}</span>
+                                }}>{msg}</span>
                                 <span style={{
                                     color: '#FF9B50',
                                     fontSize: '0.5rem'
                                 }}>●</span>
-                            </React.Fragment>
+                            </div>
                         ))}
                     </div>
                 ))}
@@ -59,9 +100,10 @@ export default function DataStrip() {
             <style>{`
                 @keyframes scroll {
                     0% { transform: translate3d(0, 0, 0); }
-                    100% { transform: translate3d(-33.333%, 0, 0); }
+                    100% { transform: translate3d(-50%, 0, 0); }
                 }
             `}</style>
         </section>
     );
 }
+

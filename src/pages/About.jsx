@@ -5,73 +5,109 @@ import GridBackground from '../components/GridBackground';
 import AppNav from '../components/AppNav';
 
 import mockStorage from '../services/mockStorage';
+import awardsService from '../services/awardsService';
+import teamService from '../services/teamService';
+import timelineService from '../services/timelineService';
+import globalMomentumService from '../services/globalMomentumService';
 
 export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleTheme }) {
     const [isVisible, setIsVisible] = useState(false);
     const [awards, setAwards] = useState([]);
     const [team, setTeam] = useState([]);
-    const [globalStats, setGlobalStats] = useState([]);
+    const [timeline, setTimeline] = useState([]);
     const [globalMarquee, setGlobalMarquee] = useState([]);
+    const [globalStats, setGlobalStats] = useState([]);
+
+    const fetchData = async () => {
+        try {
+            // Fetch Global Momentum
+            const globalMomentumRes = await globalMomentumService.getConfig();
+
+            // Filter only published marquee items
+            if (globalMomentumRes.marqueeItems && globalMomentumRes.marqueeItems.length > 0) {
+                const firstItem = globalMomentumRes.marqueeItems[0];
+                if (typeof firstItem === 'object' && firstItem.text !== undefined) {
+                    // New format with status
+                    const publishedItems = globalMomentumRes.marqueeItems
+                        .filter(item => item.status === 'Published')
+                        .map(item => item.text);
+                    if (publishedItems.length > 0) {
+                        setGlobalMarquee(publishedItems);
+                    }
+                } else {
+                    // Legacy format: array of strings (all considered published)
+                    setGlobalMarquee(globalMomentumRes.marqueeItems);
+                }
+            }
+
+            // Filter only published stats
+            if (globalMomentumRes.stats && globalMomentumRes.stats.length > 0) {
+                const firstStat = globalMomentumRes.stats[0];
+                if (firstStat.status !== undefined) {
+                    // New format with status
+                    const publishedStats = globalMomentumRes.stats.filter(stat => stat.status === 'Published');
+                    if (publishedStats.length > 0) {
+                        setGlobalStats(publishedStats);
+                    }
+                } else {
+                    // Legacy format: objects without status (all considered published)
+                    setGlobalStats(globalMomentumRes.stats);
+                }
+            }
+
+            // Fetch Awards
+            const awardsRes = await awardsService.getAll();
+            const visibleAwards = (awardsRes.data || []).map(a => ({
+                ...a,
+                _id: a._id || a.id
+            })).filter(a => a.isVisible && a.status !== 'Draft').map(a => ({
+                ...a,
+                subtitle: a.organization,
+                status: a.awardLevel || 'Recognition',
+            }));
+            setAwards(visibleAwards);
+
+            // Fetch Team
+            const teamRes = await teamService.getAll();
+            const visibleTeam = (teamRes.data || []).map(t => ({
+                ...t,
+                _id: t._id || t.id
+            })).filter(t =>
+                t.isVisible && t.status !== 'Draft'
+            ).map(t => {
+                const nameParts = (t.name || '').split(' ');
+                const firstName = nameParts[0] || '';
+                const surname = nameParts.slice(1).join(' ') || '';
+                return {
+                    ...t,
+                    firstName: firstName.toUpperCase(),
+                    surname: surname.toUpperCase(),
+                    role: t.position,
+                    image: t.image
+                };
+            });
+            setTeam(visibleTeam);
+
+            // Fetch Timeline
+            const timelineRes = await timelineService.getAll();
+            const visibleTimeline = (timelineRes.data || []).filter(t =>
+                t.isVisible && t.status !== 'Draft'
+            );
+            setTimeline(visibleTimeline);
+
+        } catch (error) {
+            console.error("Failed to load About page data", error);
+        }
+    };
 
     useEffect(() => {
         setIsVisible(true);
-
-        const fetchData = async () => {
-            try {
-                // Fetch Awards
-                const awardsRes = await mockStorage.getAwards();
-                const visibleAwards = awardsRes.data.filter(a =>
-                    a.status === 'Published' || (!a.status && a.isVisible !== false)
-                ).map(a => ({
-                    ...a,
-                    subtitle: a.organization, // Map organization to subtitle
-                    status: a.awardLevel || 'Recognition', // Map awardLevel to display status
-                    // prize is already prize
-                }));
-                setAwards(visibleAwards);
-
-                // Fetch Team
-                const teamRes = await mockStorage.getTeamDetails();
-                const visibleTeam = teamRes.data.filter(t =>
-                    t.status === 'Published' || (!t.status && t.isVisible !== false)
-                ).map(t => {
-                    const nameParts = (t.name || '').split(' ');
-                    const firstName = nameParts[0] || '';
-                    const surname = nameParts.slice(1).join(' ') || '';
-                    return {
-                        ...t,
-                        firstName: firstName.toUpperCase(),
-                        surname: surname.toUpperCase(),
-                        role: t.position,
-                        image: t.image
-                    };
-                });
-                setTeam(visibleTeam);
-
-                // Fetch Global Momentum
-                const gmRes = await mockStorage.getGlobalMomentum();
-                const visibleGM = gmRes.data.filter(i =>
-                    i.status === 'Published' || (!i.status && i.isVisible !== false)
-                );
-
-                const stats = visibleGM
-                    .filter(i => i.type === 'Stat')
-                    .map(i => ({ num: i.value, label: i.label }));
-
-                // If no stats dynamic, use fallback? User wants dynamic control. 
-                // But let's stick to empty if empty to obey "add / visible invisible" request.
-                setGlobalStats(stats);
-
-                const marquee = visibleGM
-                    .filter(i => i.type === 'Marquee')
-                    .map(i => i.value);
-                setGlobalMarquee(marquee);
-
-            } catch (error) {
-                console.error("Failed to load About page data", error);
-            }
-        };
         fetchData();
+
+        // Refetch on window focus to ensure data freshness from Admin updates
+        const onFocus = () => fetchData();
+        window.addEventListener('focus', onFocus);
+        return () => window.removeEventListener('focus', onFocus);
     }, []);
 
     const fadeInUp = {
@@ -83,8 +119,6 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
     // Filter Logic for Render
     const ceo = team.find(m => m.role.toLowerCase().includes('ceo') || m.role.toLowerCase().includes('founder'));
     const otherTeam = team.filter(m => m !== ceo);
-
-
     return (
         <>
             <AppNav
@@ -167,10 +201,12 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                             ...fadeInUp,
                             transitionDelay: '0.3s'
                         }}>
-                            Melzo Anubhav is a product initiative by <strong style={{ color: '#FF9B50' }}>ShilpMIS Technologies Pvt. Ltd.</strong> We architect Virtual Reality systems that don't just teach, but immerse.
+                            Melzo is a product initiative by <strong style={{ color: '#FF9B50' }}>ShilpMIS Technologies Pvt. Ltd.</strong> We architect Virtual Reality systems that don't just teach, but immerse.
                         </p>
                     </div>
                 </section>
+
+
 
                 {/* Mission Vision Values - Minimal Text Layout */}
                 <section style={{ padding: '0 5% 8rem', position: 'relative', zIndex: 1 }}>
@@ -329,14 +365,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
 
                         <Timeline
                             isDarkTheme={isDarkTheme}
-                            items={[
-                                { year: '2017', title: 'Inception', content: 'Founded in 2017, ShilpMIS Technologies Private Limited began its journey as India\'s pioneer in immersive technology.' },
-                                { year: '2019', title: 'First Lab', content: 'Launched our first fully immersive VR lab in Gujarat.' },
-                                { year: '2021', title: 'Expansion', content: 'Expanded operations to cover Education, CSR, and Enterprise training.' },
-                                { year: '2023', title: 'Innovation', content: 'Developed proprietary VR hardware and software ecosystem.' },
-                                { year: '2024', title: 'Global Reach', content: 'Partnered with international institutions for content exchange.' },
-                                { year: 'Future', title: 'Next Gen', content: 'Building the metaverse of education.' }
-                            ]}
+                            items={timeline}
                         />
                     </div>
                 </section>
@@ -356,7 +385,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
 
                         <div style={{
                             display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
                             gap: '2rem'
                         }}>
                             {awards.map((award, index) => (
@@ -442,7 +471,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                 </section>
 
                 {/* Team - Duotone Reveal */}
-                <section style={{
+                {otherTeam.length > 0 && ceo && (<section style={{
                     padding: '8rem 0',
                     background: isDarkTheme ? '#000000' : '#FFFFFF',
                     overflow: 'hidden',
@@ -682,7 +711,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                         }
                     `}</style>
                     </div>
-                </section>
+                </section>)}
 
                 {/* Global Recognition - Infinite Flow Marquee */}
                 <div style={{ marginTop: '0', overflow: 'hidden', padding: '6rem 0', position: 'relative' }}>
@@ -712,7 +741,7 @@ export default function About({ onNavigate, isDarkTheme, onBookDemo, onToggleThe
                                     marginRight: '2rem',
                                     fontFamily: 'Outfit, sans-serif'
                                 }}>
-                                    {globalMarquee.join(' • ') + ' • '}
+                                    {globalMarquee.length > 0 ? globalMarquee.join(' • ') + ' • ' : ''}
                                 </span>
                             ))}
                         </div>
