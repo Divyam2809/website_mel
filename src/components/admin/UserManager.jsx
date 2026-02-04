@@ -29,7 +29,7 @@ export default function UserManager() {
         setLoading(true);
         try {
             const token = JSON.parse(sessionStorage.getItem('user'))?.token;
-            const res = await fetch('/api/auth/users', {
+            const res = await fetch(`${import.meta.env.VITE_SERVER_URL}api/auth/users`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -56,7 +56,7 @@ export default function UserManager() {
 
         try {
             const token = JSON.parse(sessionStorage.getItem('user'))?.token;
-            const res = await fetch('/api/auth/users', {
+            const res = await fetch(`${import.meta.env.VITE_SERVER_URL}api/auth/users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ export default function UserManager() {
 
         try {
             const token = JSON.parse(sessionStorage.getItem('user'))?.token;
-            const res = await fetch(`/api/auth/users/${userId}`, {
+            const res = await fetch(`${import.meta.env.VITE_SERVER_URL}api/auth/users/${userId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

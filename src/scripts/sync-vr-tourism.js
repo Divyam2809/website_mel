@@ -100,7 +100,7 @@ export async function syncVRTourismContent(shouldWrite = true) {
 
             // Push to Backend API
             try {
-                const apiRes = await fetch('http://localhost:3000/api/page-content/vrTourism_live', {
+                const apiRes = await fetch('http://192.168.29.253:3000/api/page-content/vrTourism_live', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)

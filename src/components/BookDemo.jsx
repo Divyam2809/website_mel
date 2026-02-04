@@ -55,7 +55,7 @@ export default function BookDemo({ isOpen, onClose, isDarkTheme }) {
         try {
 
             // Send data to backend
-            const response = await fetch('http://localhost:3000/api/messages', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/messages`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

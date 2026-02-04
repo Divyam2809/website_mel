@@ -345,9 +345,10 @@ export default defineConfig({
         }
     ],
     server: {
+        host: '192.168.29.253', // Expose to network
         proxy: {
             '/api': {
-                target: 'http://127.0.0.1:3000',
+                target: 'http://192.168.29.253:3000', // Backend IP
                 changeOrigin: true,
                 rewrite: (path) => path // keep /api prefix since backend uses it
             }

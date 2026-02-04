@@ -536,7 +536,7 @@ class MockStorageService {
         if (email === 'superadmin@melzo.com' || email === 'admin@melzo.com') username = 'admin';
 
         try {
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
@@ -558,7 +558,7 @@ class MockStorageService {
     async getLoginLogs() {
         try {
             const user = JSON.parse(sessionStorage.getItem('user'));
-            const response = await fetch('/api/auth/logs', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/auth/logs`, {
                 headers: {
                     'Authorization': `Bearer ${user.token}`
                 }
@@ -992,7 +992,7 @@ class MockStorageService {
     // --- Industries ---
     async getIndustries() {
         try {
-            const response = await fetch('/api/industries');
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/industries`);
             if (response.ok) {
                 return await response.json();
             }
@@ -1004,7 +1004,7 @@ class MockStorageService {
 
     async saveIndustry(data) {
         try {
-            const response = await fetch('/api/industries', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/industries`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -1020,7 +1020,7 @@ class MockStorageService {
 
     async updateIndustry(id, data) {
         try {
-            const response = await fetch(`/api/industries/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/industries/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -1036,7 +1036,7 @@ class MockStorageService {
 
     async deleteIndustry(id) {
         try {
-            const response = await fetch(`/api/industries/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/industries/${id}`, {
                 method: 'DELETE'
             });
             if (response.ok) {
@@ -1050,7 +1050,7 @@ class MockStorageService {
 
     async toggleIndustryVisibility(id) {
         try {
-            const response = await fetch(`/api/industries/${id}/visibility`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/industries/${id}/visibility`, {
                 method: 'PATCH'
             });
             if (response.ok) {
@@ -1065,7 +1065,7 @@ class MockStorageService {
     // --- Demo Queries / Leads ---
     async getDemoQueries() {
         try {
-            const response = await fetch('/api/messages');
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/messages`);
             if (response.ok) {
                 const result = await response.json();
                 // Map backend fields to frontend model
@@ -1091,7 +1091,7 @@ class MockStorageService {
 
     async saveDemoQuery(data) {
         try {
-            const response = await fetch('/api/messages', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/messages`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -1125,7 +1125,7 @@ class MockStorageService {
     // --- Footer Config ---
     async getFooterConfig() {
         try {
-            const response = await fetch('/api/footer');
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/footer`);
             if (response.ok) {
                 return await response.json();
             }
@@ -1137,7 +1137,7 @@ class MockStorageService {
 
     async saveFooterConfig(data) {
         try {
-            const response = await fetch('/api/footer', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/footer`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -1199,7 +1199,7 @@ class MockStorageService {
     // --- Employee Stories ---
     async getEmployeeStories() {
         try {
-            const response = await fetch('/api/employee-testimonials');
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/employee-testimonials`);
             if (response.ok) {
                 return await response.json();
             }
@@ -1211,7 +1211,7 @@ class MockStorageService {
 
     async saveEmployeeStory(data) {
         try {
-            const response = await fetch('/api/employee-testimonials', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/employee-testimonials`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -1227,7 +1227,7 @@ class MockStorageService {
 
     async updateEmployeeStory(id, data) {
         try {
-            const response = await fetch(`/api/employee-testimonials/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/employee-testimonials/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -1243,7 +1243,7 @@ class MockStorageService {
 
     async deleteEmployeeStory(id) {
         try {
-            const response = await fetch(`/api/employee-testimonials/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/employee-testimonials/${id}`, {
                 method: 'DELETE'
             });
             if (response.ok) {
@@ -1257,7 +1257,7 @@ class MockStorageService {
 
     async toggleEmployeeStoryVisibility(id) {
         try {
-            const response = await fetch(`/api/employee-testimonials/${id}/visibility`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/employee-testimonials/${id}/visibility`, {
                 method: 'PATCH'
             });
             if (response.ok) {
@@ -1272,7 +1272,7 @@ class MockStorageService {
     // --- Privacy Policy ---
     async getPrivacyPolicy() {
         try {
-            const response = await fetch('/api/privacy-policy');
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/privacy-policy`);
             if (response.ok) {
                 return await response.json();
             }
@@ -1284,7 +1284,7 @@ class MockStorageService {
 
     async savePrivacySection(data) {
         try {
-            const response = await fetch('/api/privacy-policy', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/privacy-policy`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -1300,7 +1300,7 @@ class MockStorageService {
 
     async updatePrivacySection(id, data) {
         try {
-            const response = await fetch(`/api/privacy-policy/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/privacy-policy/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -1316,7 +1316,7 @@ class MockStorageService {
 
     async deletePrivacySection(id) {
         try {
-            const response = await fetch(`/api/privacy-policy/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/privacy-policy/${id}`, {
                 method: 'DELETE'
             });
             if (response.ok) {
@@ -1330,7 +1330,7 @@ class MockStorageService {
 
     async togglePrivacySectionVisibility(id) {
         try {
-            const response = await fetch(`/api/privacy-policy/${id}/visibility`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/privacy-policy/${id}/visibility`, {
                 method: 'PATCH'
             });
             if (response.ok) {
@@ -1346,7 +1346,7 @@ class MockStorageService {
     // --- Careers Gallery ---
     async getCareersGallery() {
         try {
-            const response = await fetch('/api/careers-gallery');
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/careers-gallery`);
             if (response.ok) {
                 return await response.json();
             }
@@ -1359,7 +1359,7 @@ class MockStorageService {
 
     async saveCareersGallery(data) {
         try {
-            const response = await fetch('/api/careers-gallery', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/careers-gallery`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -1375,7 +1375,7 @@ class MockStorageService {
 
     async updateCareersGallery(id, data) {
         try {
-            const response = await fetch(`/api/careers-gallery/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/careers-gallery/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -1391,7 +1391,7 @@ class MockStorageService {
 
     async deleteCareersGallery(id) {
         try {
-            const response = await fetch(`/api/careers-gallery/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/careers-gallery/${id}`, {
                 method: 'DELETE'
             });
             if (response.ok) {
@@ -1405,7 +1405,7 @@ class MockStorageService {
 
     async toggleCareersGalleryVisibility(id) {
         try {
-            const response = await fetch(`/api/careers-gallery/${id}/visibility`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/careers-gallery/${id}/visibility`, {
                 method: 'PATCH'
             });
             if (response.ok) {

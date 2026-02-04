@@ -1,4 +1,4 @@
-const BASE_URL = '/api/employee-testimonials';
+const BASE_URL = import.meta.env.VITE_SERVER_URL + 'api/employee-testimonials';
 
 class EmployeeTestimonialService {
     async getAll() {

@@ -15,6 +15,8 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
     const [content, setContent] = useState(initialContent);
     const [isLoading, setIsLoading] = useState(true);
 
+    console.log('NineDChair props:', { onBookDemo, isDarkTheme });
+
     useEffect(() => {
         document.title = "Melzo VR Lab - Transforming Education";
 
@@ -161,25 +163,32 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             {content.hero.description}
                         </p>
                         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                            <button style={{
-                                background: theme.accent,
-                                color: '#fff',
-                                padding: '1rem 2.5rem',
-                                borderRadius: '50px',
-                                border: 'none',
-                                fontSize: '1rem',
-                                fontWeight: 700,
-                                cursor: 'pointer',
-                                boxShadow: '0 10px 30px rgba(255, 155, 80, 0.3)',
-                                transition: 'transform 0.2s'
-                            }}
-                                onClick={onBookDemo}
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    if (onBookDemo) onBookDemo();
+                                    else console.error('onBookDemo prop missing');
+                                }}
+                                style={{
+                                    background: theme.accent,
+                                    color: '#fff',
+                                    padding: '1rem 2.5rem',
+                                    borderRadius: '50px',
+                                    border: 'none',
+                                    fontSize: '1rem',
+                                    fontWeight: 700,
+                                    cursor: 'pointer',
+                                    boxShadow: '0 10px 30px rgba(255, 155, 80, 0.3)',
+                                    transition: 'transform 0.2s',
+                                    zIndex: 10,
+                                    position: 'relative'
+                                }}
                                 onMouseEnter={e => e.target.style.transform = 'scale(1.05)'}
                                 onMouseLeave={e => e.target.style.transform = 'scale(1)'}
                             >
                                 {content.hero.primaryBtn}
                             </button>
-                            <button style={{
+                            {/* <button style={{
                                 background: 'transparent',
                                 color: theme.text,
                                 padding: '1rem 2.5rem',
@@ -194,7 +203,7 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                                 onMouseLeave={e => e.target.style.borderColor = isDarkTheme ? '#333' : '#eee'}
                             >
                                 {content.hero.secondaryBtn}
-                            </button>
+                            </button> */}
                         </div>
                     </div>
 
@@ -242,14 +251,15 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             Drag to Rotate
                         </div>
                     </div>
-                </section>
+                </section >
 
 
                 {/* 2. The Hardware Trio */}
-                <section style={{
+                < section style={{
                     padding: '5rem 5%',
                     backgroundColor: theme.sectionBg
-                }}>
+                }
+                }>
                     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
                         <h2 style={{
                             fontSize: '2.5rem',
@@ -297,10 +307,10 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             ))}
                         </div>
                     </div>
-                </section>
+                </section >
 
                 {/* 3. Core Pillars */}
-                <section style={{
+                < section style={{
                     padding: '8rem 5%',
                     backgroundColor: theme.bg
                 }}>
@@ -342,10 +352,10 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             })}
                         </div>
                     </div>
-                </section>
+                </section >
 
                 {/* 4. Target Audience Segments */}
-                <section style={{
+                < section style={{
                     padding: '6rem 5%',
                     backgroundColor: isDarkTheme ? '#202020' : '#F5F5F5'
                 }}>
@@ -393,10 +403,10 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             ))}
                         </div>
                     </div>
-                </section>
+                </section >
 
                 {/* 5. The "Why Us" Section */}
-                <section style={{
+                < section style={{
                     padding: '8rem 5%',
                     background: theme.bg,
                     textAlign: 'center'
@@ -426,8 +436,8 @@ export default function NineDChair({ onNavigate, isDarkTheme, onBookDemo, onTogg
                             ))}
                         </div>
                     </div>
-                </section>
-            </div>
+                </section >
+            </div >
         </>
     );
 }

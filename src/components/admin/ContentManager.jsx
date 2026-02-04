@@ -415,7 +415,6 @@ const ContentManager = () => {
                 jobApplications: applications.data.length,
                 employeeStories: stories.data.length,
                 demoQueries: queries.data.length,
-                demoQueries: queries.data.length,
                 privacyPolicy: privacy.data.length,
                 careersGallery: gallery.data.length
             });

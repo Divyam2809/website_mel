@@ -96,7 +96,7 @@ export async function syncMelaContent(shouldWrite = true) {
 
             // Push to Backend API
             try {
-                const apiRes = await fetch('http://localhost:3000/api/page-content/vrIndustrial_live', {
+                const apiRes = await fetch('http://192.168.29.253:3000/api/page-content/vrIndustrial_live', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
